@@ -14,12 +14,12 @@
 </p>
 
 <p>
-  <a href="#-whats-inside">What's Inside</a> &nbsp;·&nbsp;
-  <a href="#-browse-by-category">Browse Categories</a> &nbsp;·&nbsp;
-  <a href="#-how-to-use">How to Use</a> &nbsp;·&nbsp;
-  <a href="#-credits--upstream-sources">Credits</a> &nbsp;·&nbsp;
-  <a href="#-contributing">Contributing</a> &nbsp;·&nbsp;
-  <a href="#-support">Support</a>
+  <a href="#whats-inside">What's Inside</a> &nbsp;·&nbsp;
+  <a href="#browse-by-category">Browse Categories</a> &nbsp;·&nbsp;
+  <a href="#how-to-use">How to Use</a> &nbsp;·&nbsp;
+  <a href="#credits--upstream-sources">Credits</a> &nbsp;·&nbsp;
+  <a href="#contributing">Contributing</a> &nbsp;·&nbsp;
+  <a href="#support">Support</a>
 </p>
 
 </div>
