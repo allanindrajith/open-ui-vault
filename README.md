@@ -1,5 +1,7 @@
 # Open UI & DESIGN.md Vault
 
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/allanidrajith)
+
 A categorized collection of **529** free HTML/CSS UI templates, AI website prompts, video background embeds, and `DESIGN.md` design-system specifications for AI coding agents and web builders.
 
 Curated and maintained by **Allan Indrajith** ([hello@itsallan.me](mailto:hello@itsallan.me)).
@@ -47,6 +49,12 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for full license texts, fon
 ## Contributing
 
 Want to add your own open-source HTML template, prompt, or `DESIGN.md`? Read [CONTRIBUTING.md](CONTRIBUTING.md) and open a Pull Request.
+
+## Support
+
+If this collection saves you time, you can support the project here:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/allanidrajith)
 
 ## License & Contact
 
