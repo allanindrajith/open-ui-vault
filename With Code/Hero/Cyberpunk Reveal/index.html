@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyberpunk Reveal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*{font-family:'JetBrains Mono',monospace}
+html,body{overflow-x:hidden}
+body{background:#fff;-webkit-font-smoothing:antialiased}
+button{border:0;background:none;cursor:pointer;color:inherit;font:inherit}
+.root{min-height:100vh;background:#fff;letter-spacing:-0.02em}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px}
+.pill{background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:9999px}
+.nav-drop{animation:navDrop .8s cubic-bezier(.22,1,.36,1) .1s both}
+.logo{width:22px;height:22px;fill:#fff;display:block}
+.desk{display:none;align-items:center;gap:4px;padding:8px 8px 8px 12px}
+.desk .lk{color:#d1d5db;font-size:14px;font-weight:500;padding:6px 12px;border-radius:9999px;transition:.15s}
+.desk .lk:hover{background:rgba(255,255,255,.1);color:#fff}
+.desk .lk.act{color:#fff}
+.cta{background:#fff;color:#111827;font-size:14px;font-weight:600;padding:6px 20px;border-radius:9999px;margin-left:4px}
+.cta:hover{background:#f3f4f6}
+.mob-logo{padding:10px}
+.mob-tog{padding:10px;color:#fff;display:flex}
+.mob-tog svg{display:block}
+.drop{display:none;position:fixed;top:0;left:0;right:0;z-index:40;padding:64px 20px 24px;background:#fff;box-shadow:0 10px 15px rgba(0,0,0,.15)}
+.drop.open{display:block}
+.drop a{display:block;width:100%;text-align:left;color:#1f2937;padding:12px 0;border-bottom:1px solid #f3f4f6;font-size:15px}
+.drop .dc{margin-top:16px;background:#111827;color:#fff;border-radius:9999px;padding:10px 24px;font-size:14px;font-weight:600}
+.mob-only{display:flex}
+@media(min-width:768px){
+  nav{justify-content:center}
+  .desk{display:flex}
+  .mob-only,.drop{display:none!important}
+}
+@media(min-width:640px){nav{padding:20px}}
+
+/* hero */
+.hero{position:relative;height:100vh;height:100dvh;overflow:hidden;background:#b02a0a}
+.grid{position:absolute;inset:0;z-index:0;width:100%;height:100%;opacity:.1}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+#base{z-index:10;animation:kenBurns 2.4s cubic-bezier(.22,1,.36,1) forwards}
+#reveal{z-index:30;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+#cv{display:none}
+.stats{display:none;position:absolute;top:0;bottom:0;right:0;z-index:50;pointer-events:none}
+.stats svg{height:100%;width:auto;display:block}
+@media(min-width:640px){.stats{display:block}}
+.txt{position:absolute;z-index:50;bottom:48px;left:20px;max-width:300px;color:#fff}
+@media(min-width:640px){.txt{bottom:64px;left:32px;max-width:448px}}
+@media(min-width:768px){.txt{bottom:96px;left:48px}}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;color:rgba(255,255,255,.9)}
+.eyebrow i{font-style:italic;font-weight:500}
+h1{font-weight:400;font-size:36px;line-height:1.05;letter-spacing:-0.08em;margin-top:12px;color:#fff}
+p.sub{margin-top:16px;font-size:14px;line-height:1.625;color:rgba(255,255,255,.9);letter-spacing:-0.02em}
+.btn{position:relative;overflow:hidden;display:inline-block;margin-top:24px;background:#fff;color:#111827;font-size:14px;font-weight:600;padding:12px 28px;border-radius:9999px;box-shadow:0 10px 15px -3px rgba(0,0,0,.2);transition:transform .2s}
+.btn:hover{transform:scale(1.04)}
+.btn:active{transform:scale(.95)}
+.btn span.t{position:relative}
+.btn .shine{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:translateX(-100%);transition:transform .7s}
+.btn:hover .shine{transform:translateX(100%)}
+@media(min-width:640px){
+  h1{font-size:48px}
+  p.sub{font-size:16px}
+  .eyebrow{font-size:12px}
+  .btn{padding:14px 32px}
+}
+@media(min-width:768px){h1{font-size:60px}}
+.rise{opacity:0;animation:rise .95s cubic-bezier(.22,1,.36,1) forwards}
+
+/* arcs */
+.arc-line{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 1.6s cubic-bezier(.65,0,.35,1) forwards}
+.arc-dot{transform-box:fill-box;transform-origin:center;opacity:0;animation:popIn .55s cubic-bezier(.34,1.56,.64,1) forwards}
+.arc-ring{transform-box:fill-box;transform-origin:center;opacity:0;animation:pulseRing 2.8s ease-in-out infinite}
+.arc-text{opacity:0;animation:fadeIn .7s ease forwards}
+
+@keyframes kenBurns{from{transform:scale(1.12)}to{transform:scale(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(26px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes navDrop{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes popIn{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.25)}100%{opacity:1;transform:scale(1)}}
+@keyframes pulseRing{0%{opacity:.35;transform:scale(1)}100%{opacity:0;transform:scale(1.45)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  .rise,.nav-drop,.arc-dot,.arc-text,#base{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+  .arc-line{animation:none!important;stroke-dashoffset:0!important}
+  .arc-ring{animation:none!important;opacity:0!important}
+}
+</style>
+</head>
+<body>
+<div class="root" style="font-family:'JetBrains Mono',monospace">
+<nav>
+  <div class="pill mob-only mob-logo nav-drop">
+    <svg class="logo" viewBox="0 0 256 256"><path d="M 256 64 L 256 128 L 192.5 128 L 160 95 L 128 64 L 96 95 L 63.5 128 L 64 128 L 128 192 L 128 256 L 64.5 256 L 32 223 L 0 192 L 0 64 L 64 0 L 192 0 Z M 256 192 L 256 256 L 192.5 256 L 160 223 L 128 192 L 128 128 L 192 128 Z"/></svg>
+  </div>
+  <div class="pill desk nav-drop">
+    <svg class="logo" viewBox="0 0 256 256" style="margin-right:4px"><path d="M 256 64 L 256 128 L 192.5 128 L 160 95 L 128 64 L 96 95 L 63.5 128 L 64 128 L 128 192 L 128 256 L 64.5 256 L 32 223 L 0 192 L 0 64 L 64 0 L 192 0 Z M 256 192 L 256 256 L 192.5 256 L 160 223 L 128 192 L 128 128 L 192 128 Z"/></svg>
+    <button class="lk act">Module</button>
+    <button class="lk">Case Records</button>
+    <button class="lk">Biotech</button>
+    <button class="lk">Tiers</button>
+    <button class="lk">Live Demo</button>
+    <button class="cta">Connect</button>
+  </div>
+  <button class="pill mob-only mob-tog nav-drop" id="tog" aria-label="Menu" style="z-index:50">
+    <svg id="icoMenu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    <svg id="icoX" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  </button>
+</nav>
+<div class="drop" id="drop">
+  <a>Module</a><a>Case Records</a><a>Biotech</a><a>Tiers</a><a>Live Demo</a>
+  <button class="dc">Connect</button>
+</div>
+
+<section class="hero" id="hero">
+  <svg class="grid" aria-hidden="true">
+    <defs><pattern id="gp" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M 48 0 L 0 0 0 48" fill="none" stroke="#64748b" stroke-width="0.6"/></pattern></defs>
+    <rect id="gr" x="-48" y="-48" width="calc(100% + 96px)" height="calc(100% + 96px)" fill="url(#gp)"/>
+  </svg>
+  <div class="bg" id="base" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_125121_afb71ce9-9c64-4c54-90b5-c89c0764c052.png&w=1920&q=85')"></div>
+  <div class="bg" id="reveal" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_135737_0da59642-725b-451a-997b-b0283d95a42a.png&w=1280&q=85')"></div>
+  <canvas id="cv"></canvas>
+
+  <div class="stats"><svg id="arcs" viewBox="0 0 380 700" preserveAspectRatio="xMaxYMid meet"></svg></div>
+
+  <div class="txt">
+    <p class="eyebrow rise" style="animation-delay:.15s">Gateway to your <i>augmented self</i></p>
+    <h1 class="rise" style="animation-delay:.3s">A window<br/>of coming<br/>enhancements</h1>
+    <p class="sub rise" style="animation-delay:.5s">A future where carbon fiber, titanium, and human instinct align. Not machine. Not human. Something wonderfully poised between.</p>
+    <button class="btn rise group" style="animation-delay:.7s"><span class="shine"></span><span class="t">Reserve Now</span></button>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+  // mobile menu
+  var tog=document.getElementById('tog'),drop=document.getElementById('drop'),im=document.getElementById('icoMenu'),ix=document.getElementById('icoX');
+  function setOpen(o){drop.classList.toggle('open',o);im.style.display=o?'none':'block';ix.style.display=o?'block':'none'}
+  tog.addEventListener('click',function(){setOpen(!drop.classList.contains('open'))});
+  drop.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setOpen(false)})});
+
+  // arcs
+  var NS='http://www.w3.org/2000/svg',cx=-110,cy=300;
+  var data=[
+    {r:330,a0:-92,a1:16,d:-46,n:'10',s:'+',l:'YEARS REAL'},
+    {r:395,a0:-56,a1:60,d:2,n:'40',s:'+',l:'USE FORMS'},
+    {r:460,a0:-14,a1:72,d:44,n:'95',s:'%',l:'REPEAT MEMBERS'}
+  ];
+  var svg=document.getElementById('arcs'),defs=document.createElementNS(NS,'defs');svg.appendChild(defs);
+  function pt(r,a){var t=a*Math.PI/180;return[cx+r*Math.cos(t),cy+r*Math.sin(t)]}
+  function el(n,at,p){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e}
+  data.forEach(function(o,i){
+    var p0=pt(o.r,o.a0),p1=pt(o.r,o.a1),len=o.r*(o.a1-o.a0)*Math.PI/180;
+    var gid='ag'+i;
+    var g=el('linearGradient',{id:gid,gradientUnits:'userSpaceOnUse',x1:p0[0],y1:p0[1],x2:p1[0],y2:p1[1]},defs);
+    [[0,0],[.22,.5],[.55,.5],[.85,.1],[1,0]].forEach(function(s){el('stop',{offset:s[0],'stop-color':'#fff','stop-opacity':s[1]},g)});
+    var ld=.4+i*.22,md=ld+.9;
+    var path=el('path',{d:'M '+p0[0]+' '+p0[1]+' A '+o.r+' '+o.r+' 0 0 1 '+p1[0]+' '+p1[1],fill:'none',stroke:'url(#'+gid+')','stroke-width':1.1,'class':'arc-line'});
+    path.style.setProperty('--len',len);path.style.animationDelay=ld+'s';
+    var d=pt(o.r,o.d);
+    var ring=el('circle',{cx:d[0],cy:d[1],r:7,fill:'none',stroke:'#fff','stroke-opacity':.35,'class':'arc-ring'});ring.style.animationDelay=(md+.3)+'s';
+    var dot=el('circle',{cx:d[0],cy:d[1],r:3.4,fill:'#fff','class':'arc-dot'});dot.style.animationDelay=md+'s';
+    var t=el('text',{x:d[0]+16,y:d[1]+4,fill:'#fff','font-size':32,'font-weight':500,'letter-spacing':-1,'class':'arc-text'});
+    t.style.animationDelay=(md+.15)+'s';t.appendChild(document.createTextNode(o.n));
+    var ts=el('tspan',{'font-size':19,dy:-10},t);ts.textContent=o.s;
+    var lb=el('text',{x:d[0]+18,y:d[1]+22,fill:'#fff','fill-opacity':.8,'font-size':8.5,'font-weight':600,'letter-spacing':2,'class':'arc-text'});
+    lb.style.animationDelay=(md+.3)+'s';lb.textContent=o.l;
+  });
+
+  // mouse effects
+  var hero=document.getElementById('hero'),reveal=document.getElementById('reveal'),gr=document.getElementById('gr'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+  var mx=-999,my=-999,sx=-999,sy=-999,nx=.5,ny=.5,gx=0,gy=0,R=260,last='';
+  function size(){cv.width=hero.clientWidth;cv.height=hero.clientHeight}
+  size();addEventListener('resize',size);
+  addEventListener('mousemove',function(e){var b=hero.getBoundingClientRect();mx=e.clientX-b.left;my=e.clientY-b.top;nx=e.clientX/innerWidth;ny=e.clientY/innerHeight});
+  document.addEventListener('mouseleave',function(){mx=-999;my=-999});
+  var raf;
+  function frame(){
+    sx+=(mx-sx)*.1;sy+=(my-sy)*.1;
+    gx+=((nx-.5)*16-gx)*.06;gy+=((ny-.5)*16-gy)*.06;
+    gr.setAttribute('transform','translate('+gx.toFixed(2)+' '+gy.toFixed(2)+')');
+    ctx.clearRect(0,0,cv.width,cv.height);
+    var g=ctx.createRadialGradient(sx,sy,0,sx,sy,R);
+    [[0,1],[.4,1],[.6,.75],[.75,.4],[.88,.12],[1,0]].forEach(function(s){g.addColorStop(s[0],'rgba(0,0,0,'+s[1]+')')});
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,R,0,Math.PI*2);ctx.fill();
+    var u='url('+cv.toDataURL()+')';
+    if(u!==last){reveal.style.webkitMaskImage=u;reveal.style.maskImage=u;last=u}
+    raf=requestAnimationFrame(frame);
+  }
+  frame();
+  addEventListener('pagehide',function(){cancelAnimationFrame(raf)});
+})();
+</script>
+</body>
+</html>

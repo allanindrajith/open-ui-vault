@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bespoke Architecture Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{font-family:'Geist',sans-serif;color:#171717;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+.page{min-height:100vh;background:#fff;overflow:hidden}
+:root{--e:cubic-bezier(0.16,1,0.3,1)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px}
+.spacer{width:28px}
+.burger{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:8px}
+.burger i{display:block;width:24px;height:1.5px;background:#171717;border-radius:9999px;transition:all .3s;margin:0 auto}
+.burger:hover i{width:20px}
+.pill{display:none;font-size:14px;font-weight:500;color:#fff;background:#171717;border-radius:9999px;padding:10px 20px;transition:background-color .15s}
+.pill:hover{background:#262626}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:60;transition:all .5s var(--e);opacity:0;pointer-events:none}
+.overlay.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;inset:0;background:#fff;z-index:70;padding:16px;opacity:0;transform:translateY(100%);pointer-events:none;transition:all .5s var(--e)}
+.drawer.open{opacity:1;transform:none;pointer-events:auto}
+.dh{display:flex;justify-content:space-between;align-items:center}
+.close{position:relative;width:40px;height:40px;border-radius:9999px;border:0;background:none;cursor:pointer}
+.close:hover{background:#f5f5f5}
+.close i{position:absolute;left:10px;top:50%;width:20px;height:1.5px;background:#171717;border-radius:9999px;transition:all .5s var(--e)}
+.close .a{transform:translateY(-3px) rotate(0)}.close .b{transform:translateY(3px) rotate(0)}
+.drawer.open .close .a{transform:rotate(45deg)}.drawer.open .close .b{transform:rotate(-45deg)}
+.links{padding:48px 8px 0}
+.links a{display:block;font-size:30px;line-height:36px;font-weight:500;padding:12px 0;opacity:0;transform:translateX(32px);transition:all .5s var(--e);transition-delay:0s}
+.links a:hover{color:#737373}
+.drawer.open .links a{opacity:1;transform:none;transition-delay:calc(150ms + var(--i)*60ms)}
+.dcta{padding:48px 8px 0}
+.dcta a{display:inline-block;font-size:14px;font-weight:500;color:#fff;background:#171717;border-radius:9999px;padding:12px 24px;opacity:0;transform:translateY(16px);transition:all .5s var(--e);transition-delay:0s}
+.dcta a:hover{background:#262626}
+.drawer.open .dcta a{opacity:1;transform:none;transition-delay:400ms}
+.hero{padding:96px 16px 4px;text-align:center}
+h1{font-size:36px;line-height:1.05;font-weight:600;letter-spacing:-.025em;max-width:48rem;margin:0 auto}
+.sub{margin:16px auto 0;font-size:16px;line-height:1.625;max-width:36rem}
+.mq{position:relative;padding:16px 0;overflow:hidden}
+.mask{position:absolute;left:0;right:0;height:80px;pointer-events:none;z-index:10}
+.mask svg{display:block;width:100%;height:100%}
+.mask.t{top:0}.mask.b{bottom:0}
+.track{display:flex;width:max-content;gap:12px;padding:16px 0;user-select:none;-webkit-user-select:none;cursor:grab;will-change:transform;touch-action:pan-y}
+.track.drag{cursor:grabbing}
+.slide{width:240px;height:320px;flex-shrink:0;border-radius:16px;overflow:hidden;background:#f0eeea}
+.slide img{width:100%;height:100%;object-fit:cover;pointer-events:none;display:block}
+.bottom{text-align:center;padding:8px 16px 48px;max-width:42rem;margin:0 auto}
+.bottom p{font-size:16px;line-height:1.625}
+.ctas{margin-top:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.ctas a{font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-color:#a3a3a3;transition:text-decoration-color .15s}
+.ctas a:hover{text-decoration-color:#171717}
+@media(min-width:640px){
+nav{padding:20px 24px}.pill{display:inline-block}.spacer{display:none}
+.drawer{inset:0 0 0 auto;width:100%;max-width:24rem;transform:translateX(100%)}
+.hero{padding:112px 24px 4px}h1{font-size:48px}.sub{margin-top:24px;font-size:18px}
+.mask{height:100px}.track{gap:16px}.slide{width:320px;height:512px}
+.bottom{padding:8px 24px 64px}.bottom p{font-size:18px}.ctas{margin-top:32px;flex-direction:row;gap:32px}}
+@media(min-width:768px){nav{padding:20px 40px}h1{font-size:72px}.sub{font-size:20px}.bottom p{font-size:20px}}
+@media(min-width:1024px){h1{font-size:5.5rem}}
+</style></head><body>
+<div class="page">
+<nav>
+<a href="#"><svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a"><path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z"/></svg></a>
+<button class="burger" id="open" aria-label="Open menu"><i></i><i></i></button>
+<a class="pill" href="#">Book a meeting</a><div class="spacer"></div>
+</nav>
+<div class="overlay" id="ov"></div>
+<aside class="drawer" id="dr">
+<div class="dh"><svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a"><path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z"/></svg>
+<button class="close" id="close" aria-label="Close menu"><i class="a"></i><i class="b"></i></button></div>
+<div class="links"><a href="#" style="--i:0">Work</a><a href="#" style="--i:1">Index</a><a href="#" style="--i:2">Events</a><a href="#" style="--i:3">Projects</a></div>
+<div class="dcta"><a href="#">Book a meeting</a></div>
+</aside>
+<section class="hero"><h1>Bespoke Architecture<br>Studio</h1><p class="sub">The building you deserve has never been built before.</p></section>
+<section class="mq">
+<div class="mask t"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path fill="#fff" d="M0 0H1440V50C1440 50 1200 100 720 100C240 100 0 50 0 50V0Z"/></svg></div>
+<div class="track" id="tr"></div>
+<div class="mask b"><svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path fill="#fff" d="M0 100H1440V50C1440 50 1200 0 720 0C240 0 0 50 0 50V100Z"/></svg></div>
+</section>
+<section class="bottom"><p>We design private residences and commercial spaces from a blank page. No templates, no repeated floorplans, no shortcuts.</p>
+<div class="ctas"><a href="#">Book a meeting</a><a href="#">See Projects</a></div></section>
+</div>
+<script>
+var ids=["hf_20260725_120544_94be5de4-0f4f-494c-bb78-c532290040a6","hf_20260725_120601_5c6e4705-b992-4227-9dff-9b000351c283","hf_20260725_120619_7bc65416-a3d7-4e8c-9929-743f233378fe","hf_20260725_120627_b40a97b0-c5fa-408c-a77e-dc8fa44f8584","hf_20260725_120635_515cde41-2dc6-48ce-a236-088a5bc74ca8","hf_20260725_120645_5a1170c6-145b-477b-abd2-f8620acccd8d"];
+var base="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/";
+var tr=document.getElementById('tr'),html='';
+ids.concat(ids).forEach(function(id){
+var raw=base+id+".png",px="https://images.higgs.ai/?default=1&output=webp&url="+encodeURIComponent(raw)+"&w=1920&q=85";
+html+='<div class="slide"><img src="'+px+'" onerror="if(!this.dataset.f){this.dataset.f=1;this.src=\''+raw+'\'}" alt="" loading="lazy" draggable="false"></div>';});
+tr.innerHTML=html;
+var off=0,vel=0,drag=false,sx=0,so=0,lx=0,lt=0,SPEED=.8;
+tr.addEventListener('pointerdown',function(e){drag=true;vel=0;tr.setPointerCapture(e.pointerId);sx=lx=e.clientX;so=off;lt=performance.now();tr.classList.add('drag')});
+tr.addEventListener('pointermove',function(e){if(!drag)return;var n=performance.now(),dt=Math.max(n-lt,1);vel=(e.clientX-lx)/dt*16;lx=e.clientX;lt=n;off=so+(e.clientX-sx)});
+function up(){drag=false;tr.classList.remove('drag')}
+tr.addEventListener('pointerup',up);tr.addEventListener('pointercancel',up);
+function tick(){var h=tr.scrollWidth/2;
+if(!drag){if(Math.abs(vel)>.1){off+=vel;vel*=.95}else{vel=0;off-=SPEED}}
+if(off<=-h)off+=h;if(off>0)off-=h;
+tr.style.transform='translate3d('+off+'px,0,0)';requestAnimationFrame(tick)}
+requestAnimationFrame(tick);
+var ov=document.getElementById('ov'),dr=document.getElementById('dr');
+function set(o){ov.classList.toggle('open',o);dr.classList.toggle('open',o);document.body.style.overflow=o?'hidden':''}
+document.getElementById('open').onclick=function(){set(true)};
+document.getElementById('close').onclick=function(){set(false)};
+ov.onclick=function(){set(false)};
+Array.prototype.forEach.call(document.querySelectorAll('.links a'),function(a){a.addEventListener('click',function(){set(false)})});
+</script></body></html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentinel AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:0 0% 10%;--foreground:0 0% 96%;--primary:119 99% 46%;--primary-foreground:0 0% 4%;
+  --muted-foreground:0 0% 60%;--nav-button:0 0% 18%;--hero-bg:0 0% 8%;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:hsl(var(--hero-bg));color:hsl(var(--foreground));font-family:"Sora",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@keyframes fade-up{0%{opacity:0;transform:translateY(20px);filter:blur(4px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+.fu{opacity:0;animation:fade-up .7s cubic-bezier(.16,1,.3,1) forwards}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:20px 32px}
+.logo{font-size:1.25rem;font-weight:600;letter-spacing:-.025em}
+.links{display:none;gap:32px}
+.links a{font-size:.875rem;color:hsl(var(--muted-foreground));text-decoration:none;text-transform:uppercase;letter-spacing:.1em;transition:color .15s}
+.links a:hover{color:hsl(var(--foreground))}
+.cta{display:none;height:44px;padding:0 24px;border:0;border-radius:8px;background:hsl(var(--nav-button));color:hsl(var(--foreground));font:500 .75rem "Sora",sans-serif;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;transition:all .15s;align-items:center}
+.cta:hover{background:hsl(var(--nav-button)/.8)}.cta:active{transform:scale(.97)}
+@media(min-width:768px){.links{display:flex}.cta{display:inline-flex}}
+@media(min-width:1024px){nav{padding:20px 64px}}
+section{position:relative;min-height:100vh;display:flex;align-items:flex-end;background:hsl(var(--hero-bg));overflow:hidden}
+.bg{position:absolute;inset:0}
+.bg spline-viewer{width:100%;height:100%;display:block}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.3);z-index:1;pointer-events:none}
+.content{position:relative;z-index:10;pointer-events:none;width:100%;max-width:90%;padding:128px 24px 40px}
+@media(min-width:640px){.content{max-width:28rem}}
+@media(min-width:768px){.content{padding-left:40px;padding-right:40px}}
+@media(min-width:1024px){.content{max-width:42rem}}
+h1{font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-.05em;text-transform:uppercase;margin-bottom:8px}
+h1 span{color:hsl(var(--primary))}
+.sub{color:rgba(245,245,245,.8);font-size:clamp(1.125rem,2.5vw,1.875rem);font-weight:300;margin-bottom:12px}
+.desc{color:hsl(var(--muted-foreground));font-size:clamp(.875rem,1.5vw,1.25rem);font-weight:300;margin-bottom:16px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;font-weight:700}
+.btns button{pointer-events:auto;cursor:pointer;border:0;border-radius:2px;font:700 .875rem "Sora",sans-serif;padding:12px 24px;transition:all .15s}
+.btns button:active{transform:scale(.97)}
+.b1{background:hsl(var(--primary));color:hsl(var(--primary-foreground))}.b1:hover{filter:brightness(1.1)}
+.b2{background:#fff;color:hsl(var(--background))}.b2:hover{filter:brightness(.9)}
+.trust{color:hsl(var(--muted-foreground)/.6);font-size:.75rem;font-weight:300;margin-top:16px}
+@media(min-width:768px){h1{margin-bottom:16px}.sub{margin-bottom:24px}.desc{margin-bottom:32px}.btns button{padding:16px 32px}.trust{margin-top:24px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">SENTINEL</div>
+  <div class="links"><a href="#services">Services</a><a href="#about-us">About Us</a><a href="#projects">Projects</a><a href="#team">Team</a><a href="#contacts">Contacts</a></div>
+  <button class="cta">Get Quote</button>
+</nav>
+<section>
+  <div class="bg"><spline-viewer url="https://prod.spline.design/Slk6b8kz3LRlKiyk/scene.splinecode" loading-anim-type="none"></spline-viewer></div>
+  <div class="ov"></div>
+  <div class="content">
+    <h1 class="fu" style="animation-delay:.2s">SENTINEL<span> AI</span></h1>
+    <p class="sub fu" style="animation-delay:.4s">We implement security correctly.</p>
+    <p class="desc fu" style="animation-delay:.55s">Enterprise security systems built in days. AI-powered surveillance deployed with zero-trust architecture. Smart access control set up for your entire facility. All of it done right, not just fast.</p>
+    <div class="btns fu" style="animation-delay:.7s"><button class="b1">Book a Call</button><button class="b2">Our Work</button></div>
+    <p class="trust fu" style="animation-delay:.85s">Trusted security partner. Columbus, OH. 12 systems deployed.</p>
+  </div>
+</section>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+</body>
+</html>

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feather Atlas — Featured birds</title>
+<meta name="description" content="Turn a kingfisher and a hoopoe in your hands. An interactive 3D field guide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<style>
+  :root {
+    --bg: #f6f1e7;
+    --panel: #fbf8f1;
+    --line: #e7e0d1;
+    --ink: #1b1a17;
+    --muted: #6d685d;
+    --sage: #4d5a3d;
+    --sage-ink: #ffffff;
+    --sage-tint: #e9ebdc;
+    --chip: #efeadd;
+    --shadow: 60, 48, 28;
+    --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+    --sans: "Nunito Sans", "Segoe UI", system-ui, sans-serif;
+    --ease: cubic-bezier(.22, .8, .24, 1);
+  }
+  .hero[data-light="dusk"] {
+    --bg: #14170f;
+    --panel: #1b1f15;
+    --line: #2d3324;
+    --ink: #f2ecdf;
+    --muted: #a8a392;
+    --sage: #a9b98a;
+    --sage-ink: #14170f;
+    --sage-tint: #283020;
+    --chip: #262b1d;
+    --shadow: 0, 0, 0;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    font-family: var(--sans);
+    color: var(--ink);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+  :focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; border-radius: 8px; }
+  svg { display: block; }
+  .ico { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* ---------- hero shell ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    background: var(--bg);
+    color: var(--ink);
+    display: grid;
+    grid-template-columns: 196px minmax(0, 1fr) clamp(300px, 27vw, 356px);
+    overflow: hidden;
+    transition: background-color .6s var(--ease), color .6s var(--ease);
+  }
+  #gl {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  /* ---------- sidebar ---------- */
+  .side {
+    display: flex; flex-direction: column;
+    padding: 22px 12px 18px 24px;
+    border-right: 1px solid var(--line);
+    min-height: 0;
+    transition: opacity .5s var(--ease), transform .5s var(--ease), border-color .6s;
+  }
+  .brand { font-family: var(--serif); font-size: 26px; letter-spacing: -.01em; white-space: nowrap; }
+  .nav { list-style: none; padding: 0; margin: 20px 0 12px; display: grid; gap: 2px; min-height: 0; overflow: hidden; }
+  .nav button {
+    width: 100%; display: flex; align-items: center; gap: 16px;
+    padding: 7px 10px; border-radius: 10px; text-align: left;
+    font-size: 14.5px; line-height: 1.15;
+    transition: background-color .25s;
+  }
+  .nav button:hover { background: var(--chip); }
+  .nav button[aria-current="page"] { background: var(--sage-tint); }
+  .nav small { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .feature {
+    margin-top: auto;
+    background: var(--sage-tint);
+    border-radius: 10px;
+    padding: 14px 14px 16px;
+    transition: background-color .6s;
+  }
+  .eyebrow { font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .feature img { display: block; width: 92px; height: 76px; object-fit: contain; margin: 4px auto 2px; }
+  .feature h3 { font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.15; }
+  .feature p { font-size: 12px; line-height: 1.4; color: var(--muted); margin-top: 6px; }
+  .feature a { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; font-size: 12px; color: var(--ink); text-underline-offset: 3px; }
+  .feature a .ico { width: 14px; height: 14px; }
+
+  /* ---------- centre column ---------- */
+  .main {
+    display: grid; grid-template-rows: auto minmax(0, 1fr);
+    padding: 48px 18px 14px 26px;
+    min-width: 0; min-height: 0;
+  }
+  .tabs { display: flex; gap: 10px; transition: opacity .5s var(--ease), transform .5s var(--ease); }
+  .tab {
+    width: 130px; padding: 8px 8px 11px;
+    display: grid; justify-items: center;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: background-color .35s, border-color .35s, transform .35s var(--ease);
+  }
+  .tab:hover { transform: translateY(-2px); }
+  .tab img { width: 58px; height: 52px; object-fit: contain; }
+  .tab b { font-family: var(--serif); font-weight: 400; font-size: 15.5px; margin-top: 2px; }
+  .tab i { font-family: var(--serif); font-size: 12.5px; color: var(--muted); }
+  .tab[aria-selected="true"] { background: var(--sage-tint); border-color: color-mix(in srgb, var(--sage) 45%, transparent); }
+
+  .stage {
+    position: relative; min-height: 0;
+    touch-action: none;
+    cursor: grab;
+    user-select: none; -webkit-user-select: none;
+    border-radius: 12px;
+  }
+  .stage.dragging { cursor: grabbing; }
+  .ground {
+    position: absolute; left: 50%; bottom: 15%;
+    width: min(62%, 460px); height: 44px;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgba(var(--shadow), .22), rgba(var(--shadow), 0));
+    pointer-events: none;
+    transition: opacity .5s, transform .7s var(--ease);
+  }
+  .stage.switching .ground { opacity: 0; transform: translateX(-50%) scaleX(.4); }
+
+  .rail {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    display: grid; gap: 9px; z-index: 6;
+  }
+  .rail button {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--panel); border: 1px solid var(--line);
+    transition: background-color .25s, color .25s, border-color .25s, transform .2s var(--ease);
+  }
+  .rail button .ico { width: 17px; height: 17px; }
+  .rail button:hover { border-color: var(--sage); }
+  .rail button:active { transform: scale(.92); }
+  .rail button.on { background: var(--sage); color: var(--sage-ink); border-color: var(--sage); }
+
+  .turn {
+    position: absolute; left: 50%; bottom: 46px; transform: translateX(-50%);
+    z-index: 6;
+    display: flex; align-items: center; gap: 2px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 6px;
+    font-size: 13px;
+  }
+  .turn button { height: 28px; min-width: 32px; padding: 0 8px; border-radius: 999px; display: grid; place-items: center; transition: background-color .2s; }
+  .turn button:hover { background: var(--chip); }
+  .turn .ico { width: 16px; height: 16px; }
+  .caption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    text-align: center; z-index: 6; pointer-events: none;
+    font-family: var(--serif); font-style: italic; font-size: clamp(16px, 1.55vw, 20px);
+  }
+  .hint {
+    position: absolute; right: 4px; top: 8px; z-index: 6; pointer-events: none;
+    font-size: 11.5px; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+    transition: opacity .6s;
+  }
+  .hint .ico { width: 15px; height: 15px; }
+  .hero.touched .hint { opacity: 0; }
+
+  .loader {
+    position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px;
+    font-size: 12.5px; color: var(--muted); pointer-events: none;
+    opacity: 0; transition: opacity .35s;
+  }
+  .loader.show { opacity: 1; }
+  .loader::before {
+    content: ""; width: 30px; height: 30px; border-radius: 50%;
+    border: 1.5px solid var(--line); border-top-color: var(--sage);
+    animation: spin 1s linear infinite;
+  }
+  .fallback {
+    position: absolute; inset: 6% 10% 16%; display: none;
+    background: center / contain no-repeat;
+  }
+  .stage.failed .fallback { display: block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- right column ---------- */
+  .info {
+    display: grid; grid-template-rows: auto minmax(0, 1fr);
+    gap: 16px; padding: 13px 26px 14px 0;
+    min-height: 0; min-width: 0;
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  .top { display: flex; align-items: center; gap: 10px; }
+  .search {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px;
+    height: 32px; padding: 0 12px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    color: var(--muted);
+  }
+  .search .ico { width: 15px; height: 15px; }
+  .search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 11.5px; color: var(--ink); }
+  .search input::placeholder { color: var(--muted); }
+  .search:focus-within { border-color: var(--sage); }
+  .iconbtn { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; flex: none; }
+  .iconbtn:hover { background: var(--chip); }
+  .avatar { background: var(--ink); color: var(--bg); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; }
+  .avatar .ico { width: 15px; height: 15px; stroke-width: 1.8; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 22px 20px 16px;
+    overflow-y: auto; overscroll-behavior: contain;
+    scrollbar-width: thin;
+    transition: background-color .6s, border-color .6s;
+  }
+  .detail { display: flex; flex-direction: column; min-height: 100%; }
+  .detail > * { animation: rise .6s var(--ease) both; animation-delay: calc(var(--i, 0) * 45ms); }
+  .detail.leaving > * { animation: sink .2s ease-in both; animation-delay: 0s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes sink { to { opacity: 0; transform: translateY(-6px); } }
+
+  .detail h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 4.2vw, 54px); line-height: 1; letter-spacing: -.025em; margin-top: 8px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tags span { font-size: 11.5px; padding: 6px 13px; border-radius: 999px; background: var(--chip); }
+  .lede { font-size: 13.5px; line-height: 1.55; margin-top: 16px; text-wrap: pretty; }
+  .detail h2 { font-family: var(--serif); font-weight: 400; font-size: 21px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .traits { margin-top: 10px; display: grid; gap: 9px; }
+  .traits div { display: grid; grid-template-columns: 22px 88px 1fr; gap: 16px; align-items: center; font-size: 13px; }
+  .traits dt { color: var(--muted); }
+  .habitat { display: flex; align-items: center; gap: 16px; margin-top: 12px; font-size: 13px; }
+  .closeup {
+    margin-top: auto; width: 100%; text-align: left;
+    display: grid; grid-template-columns: 76px 1fr 18px; gap: 14px; align-items: center;
+    padding: 10px; border: 1px solid var(--line); border-radius: 8px;
+    transition: border-color .25s, background-color .25s;
+  }
+  .closeup-wrap { margin-top: auto; padding-top: 16px; }
+  .closeup:hover, .closeup[aria-pressed="true"] { border-color: var(--sage); background: var(--sage-tint); }
+  .closeup .lens { width: 76px; height: 76px; border-radius: 50%; background-color: var(--chip); background-repeat: no-repeat; background-size: 520%; }
+  .closeup b { font-family: var(--serif); font-weight: 400; font-size: 18px; display: block; }
+  .closeup small { display: block; font-size: 11.5px; line-height: 1.4; color: var(--muted); margin-top: 3px; }
+  .closeup .ico { width: 18px; height: 18px; transition: transform .3s var(--ease); }
+  .closeup[aria-pressed="true"] .ico { transform: rotate(180deg); }
+
+  /* ---------- focus (expanded) view ---------- */
+  .hero.focus .side { opacity: 0; transform: translateX(-24px); pointer-events: none; }
+  .hero.focus .info { opacity: 0; transform: translateX(24px); pointer-events: none; }
+  .hero.focus .tabs { opacity: 0; transform: translateY(-16px); pointer-events: none; }
+
+  /* ---------- tablet ---------- */
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: minmax(0, 1fr) clamp(280px, 36vw, 340px); }
+    .side { display: none; }
+    .main { padding-left: 20px; }
+  }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 760px) {
+    .hero { display: flex; flex-direction: column; }
+    .info { display: contents; }
+    .top { order: 1; padding: 10px 14px 0; }
+    .top::before { content: "Feather Atlas"; font-family: var(--serif); font-size: 21px; margin-right: auto; white-space: nowrap; }
+    .search { flex: 0 0 32px; width: 32px; padding: 0; justify-content: center; border-radius: 50%; }
+    .search input { display: none; }
+    .main { order: 2; flex: 1; padding: 10px 14px 6px; }
+    .tabs { gap: 8px; }
+    .tab { width: auto; flex: 1; grid-template-columns: 44px 1fr; grid-template-rows: auto auto; column-gap: 8px; justify-items: start; align-items: center; padding: 6px 10px; }
+    .tab img { width: 44px; height: 40px; grid-row: 1 / 3; }
+    .tab b { align-self: end; margin: 0; font-size: 15px; }
+    .tab i { align-self: start; font-size: 12px; }
+    .rail { gap: 7px; }
+    .rail button { width: 34px; height: 34px; }
+    .turn { bottom: 30px; }
+    .caption { font-size: 15px; }
+    .hint { display: none; }
+    .ground { bottom: 17%; height: 30px; }
+    .card {
+      order: 3; position: relative; z-index: 7;
+      flex: 0 0 auto; max-height: 40dvh;
+      border-radius: 16px 16px 0 0; border-width: 1px 0 0;
+      padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+      transition: transform .5s var(--ease), background-color .6s;
+    }
+    .detail h1 { font-size: 34px; margin-top: 4px; }
+    .tags { margin-top: 10px; }
+    .lede { margin-top: 10px; font-size: 13px; }
+    .detail h2 { margin-top: 12px; padding-top: 10px; font-size: 19px; }
+    .hero.focus .card { transform: translateY(105%); }
+    .hero.focus .top { opacity: 0; pointer-events: none; }
+    .hero.focus .card { position: absolute; left: 0; right: 0; bottom: 0; }
+  }
+  @media (max-height: 620px) and (min-width: 761px) {
+    .main { padding-top: 16px; }
+    .side { padding-top: 14px; }
+    .nav { margin-top: 12px; }
+    .feature img, .feature p { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01s !important; animation-delay: 0s !important; transition-duration: .01s !important; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V20h-5.5v-5h-5v5H4z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.8 2.5 5.3 5.7.7-4.2 4 1.1 5.7-5.1-2.8-5.1 2.8L8 13.8l-4.2-4 5.7-.7z"/></symbol>
+  <symbol id="i-bird" viewBox="0 0 24 24"><path d="M20.5 4.5 17 5.6c-1.6-1.2-3.9-.6-4.8 1.3L6 17.5l-2.5 3 4-.8c4.600-.5 8.500-3.900 9.200-8.500l.5-3.300z"/><path d="M9.200 13.200 15.500 9M16.300 7.300h.01"/></symbol>
+  <symbol id="i-owl" viewBox="0 0 24 24"><path d="M7 4.500c1 .8 2.200 1.200 5 1.200s4-.4 5-1.200c.700 2 1 3.800 1 6.500 0 5.500-2.500 9-6 9s-6-3.500-6-9c0-2.700.3-4.500 1-6.500z"/><circle cx="9.600" cy="10" r="1.500"/><circle cx="14.400" cy="10" r="1.500"/><path d="m12 12.200-.8 1.600h1.600z"/></symbol>
+  <symbol id="i-hum" viewBox="0 0 24 24"><path d="M21 5.500 15.500 8c-1.300-1-3.200-.8-4.300.5L9.500 10.500 4 5c0 4.500 1.500 7.500 4.500 9.300L6 20.500c5-.5 9.500-4 10.500-9l.3-2.300z"/></symbol>
+  <symbol id="i-wader" viewBox="0 0 24 24"><path d="M19.500 4.500h-3.200c-1.500 0-2.600 1.200-2.600 2.600 0 2.400-1.200 3-3.700 3.900-2.800 1-4.500 2.700-4.500 5 3.500 1.200 8.500.5 10.300-3 1-2 .7-4.500.7-6.300z"/><path d="M10.500 16.500V21M13.500 15.800V21M9 21h6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M14 7l5 5-5 5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><circle cx="10.500" cy="10.500" r="6.500"/><path d="m15.500 15.500 4.500 4.500M10.500 8v5M8 10.500h5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><circle cx="10.500" cy="10.500" r="6.500"/><path d="m15.500 15.500 4.500 4.500M8 10.500h5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.500" cy="10.500" r="6.500"/><path d="m15.500 15.500 4.500 4.500"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.800"/><path d="M12 3v2.200M12 18.800V21M3 12h2.200M18.800 12H21M5.600 5.600l1.600 1.600M16.800 16.800l1.600 1.600M5.600 18.400l1.600-1.600M16.800 7.200l1.600-1.600"/></symbol>
+  <symbol id="i-ccw" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.300-5.200L5 9M5 4.500V9h4.500"/></symbol>
+  <symbol id="i-cw" viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.300-5.200L19 9M19 4.500V9h-4.500"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6.500 16.500V11a5.500 5.500 0 0 1 11 0v5.500l1.500 2H5zM10 20.500h4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.500"/><path d="M5.500 19.500c1.200-3 3.600-4.500 6.500-4.500s5.300 1.500 6.500 4.500"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8.500 12V5.500a1.500 1.500 0 0 1 3 0V11m0-1.500a1.500 1.500 0 0 1 3 0V11m0-.5a1.500 1.500 0 0 1 3 0v4.500c0 3.300-2.200 5.500-5.500 5.500-2.500 0-4-1-5.300-3.200L4.500 13.500c-.6-1.200 1-2.300 2-1.200l2 2.200"/></symbol>
+  <symbol id="t-ruler" viewBox="0 0 24 24"><path d="m3.500 15.500 12-12 5 5-12 12zM7.500 11.500l2 2M10.500 8.500l2 2M13.500 5.500l2 2"/></symbol>
+  <symbol id="t-speed" viewBox="0 0 24 24"><path d="M4 16a8.500 8.500 0 1 1 16 0M12 14l3.500-4.500"/><path d="M8 19h8"/></symbol>
+  <symbol id="t-wing" viewBox="0 0 24 24"><path d="M3 8c4-3 9-3 12 0 2-1.500 4-1.500 6 0-1 4-4 6.500-8 6.500-5 0-8.500-2.500-10-6.500zM8 11.500l3 3M12 10.500l2.500 3.500"/></symbol>
+  <symbol id="t-diet" viewBox="0 0 24 24"><path d="M3 12c3-4 7-5 11-3.500 2 .7 3.500 2 5 3.500-1.500 1.500-3 2.800-5 3.500C10 17 6 16 3 12zM19 12l2.500-2.500v5zM8 11.500h.01"/></symbol>
+  <symbol id="t-range" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M3.500 12h17M12 3.500c2.500 2.500 3.500 5.300 3.500 8.500s-1 6-3.500 8.500c-2.500-2.500-3.500-5.300-3.500-8.500s1-6 3.500-8.500z"/></symbol>
+  <symbol id="t-reed" viewBox="0 0 24 24"><path d="M12 21V6M12 6c-1.200-1.200-1.200-2.500 0-3.500 1.200 1 1.200 2.300 0 3.500zM8 21v-8c0-2-1-3.500-2.500-4.500M16 21v-8c0-2 1-3.500 2.500-4.500M4 21h16"/></symbol>
+</svg>
+
+<main class="hero" id="hero" data-light="day">
+  <canvas id="gl" aria-hidden="true"></canvas>
+
+  <aside class="side" aria-label="Atlas sections">
+    <div class="brand">Feather Atlas</div>
+    <ul class="nav">
+      <li><button><svg class="ico"><use href="#i-home"/></svg><span>Home</span></button></li>
+      <li><button aria-current="page"><svg class="ico"><use href="#i-star"/></svg><span>Featured</span></button></li>
+      <li><button><svg class="ico"><use href="#i-bird"/></svg><span>Songbirds<small>34 species</small></span></button></li>
+      <li><button><svg class="ico"><use href="#i-bird"/></svg><span>Kingfishers<small>8 species</small></span></button></li>
+      <li><button><svg class="ico"><use href="#i-owl"/></svg><span>Owls<small>11 species</small></span></button></li>
+      <li><button><svg class="ico"><use href="#i-hum"/></svg><span>Hummingbirds<small>15 species</small></span></button></li>
+      <li><button><svg class="ico"><use href="#i-hum"/></svg><span>Raptors<small>12 species</small></span></button></li>
+      <li><button><svg class="ico"><use href="#i-wader"/></svg><span>Waders<small>9 species</small></span></button></li>
+    </ul>
+    <div class="feature">
+      <div class="eyebrow">Featured species</div>
+      <img id="featImg" alt="">
+      <h3 id="featTitle"></h3>
+      <p id="featText"></p>
+      <a href="#detail">Learn more <svg class="ico"><use href="#i-arrow"/></svg></a>
+    </div>
+  </aside>
+
+  <section class="main">
+    <div class="tabs" role="tablist" aria-label="Featured birds" id="tabs"></div>
+
+    <div class="stage" id="stage" tabindex="0" aria-label="3D bird model. Drag to rotate, scroll or pinch to zoom, double-click to reset.">
+      <div class="ground"></div>
+      <div class="fallback" id="fallback"></div>
+      <div class="loader" id="loader">Preparing the specimen…</div>
+      <div class="hint"><svg class="ico"><use href="#i-hand"/></svg>Drag to turn · scroll to zoom</div>
+
+      <div class="rail" role="toolbar" aria-label="Viewer tools">
+        <button id="zoomIn" class="on" aria-label="Zoom in"><svg class="ico"><use href="#i-plus"/></svg></button>
+        <button id="zoomOut" aria-label="Zoom out"><svg class="ico"><use href="#i-search"/></svg></button>
+        <button id="expand" aria-label="Expand viewer" aria-pressed="false"><svg class="ico"><use href="#i-expand"/></svg></button>
+        <button id="light" aria-label="Switch to dusk lighting" aria-pressed="false"><svg class="ico"><use href="#i-sun"/></svg></button>
+      </div>
+
+      <div class="turn">
+        <button id="turnL" aria-label="Turn left"><svg class="ico"><use href="#i-ccw"/></svg></button>
+        <button id="turnFull" aria-label="Spin a full turn">360°</button>
+        <button id="turnR" aria-label="Turn right"><svg class="ico"><use href="#i-cw"/></svg></button>
+      </div>
+      <p class="caption" id="caption"></p>
+    </div>
+  </section>
+
+  <section class="info">
+    <div class="top">
+      <label class="search"><svg class="ico"><use href="#i-search"/></svg><input type="search" placeholder="Search species, habitats, or regions…" aria-label="Search species, habitats, or regions"></label>
+      <button class="iconbtn" aria-label="Notifications"><svg class="ico"><use href="#i-bell"/></svg></button>
+      <button class="iconbtn" aria-label="Account"><span class="avatar"><svg class="ico"><use href="#i-user"/></svg></span></button>
+    </div>
+    <div class="card"><article class="detail" id="detail" aria-live="polite"></article></div>
+  </section>
+</main>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+/* ------------------------------------------------------------------ data */
+const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/';
+const BIRDS = [
+  {
+    id: 'hoopoe',
+    name: 'Hoopoe', latin: 'Upupa epops', family: 'Upupidae',
+    image: CDN + 'hf_20261004_073256_21ed095c-d038-4ab5-87b7-b44e527ec449.png',
+    model: CDN + 'hf_20261004_073347_06b339a7-70bc-4ecd-9e72-1a4143264da9.glb',
+    yaw: 0.75, pitch: 0.12,
+    tags: ['Ground forager', 'Crested', 'Migrant'],
+    lede: 'Unmistakable in cinnamon, black and white, the hoopoe walks open ground probing for grubs with its long curved bill. It lifts its crest into a fan when it lands or takes fright, and flies on broad wings with a loose, butterfly-like beat.',
+    traits: [
+      ['t-ruler', 'Length', '25–29 cm'],
+      ['t-wing', 'Wingspan', '44–48 cm'],
+      ['t-diet', 'Diet', 'Insects, larvae and grubs'],
+      ['t-range', 'Range', 'Europe, Asia and Africa'],
+    ],
+    habitat: 'Orchards, vineyards and dry grassland.',
+    caption: 'A crown raised, and the orchard takes notice.',
+    closeup: 'Every crest feather ends in a black tip, so the raised fan reads like a row of signal flags.',
+    lens: '62% 22%',
+    feature: ['A crown of cinnamon.', 'Bold bars on broad wings. A call you hear before you see it.'],
+  },
+  {
+    id: 'kingfisher',
+    name: 'Kingfisher', latin: 'Alcedo atthis', family: 'Alcedinidae',
+    image: CDN + 'hf_20261004_073256_f9e3e60d-acdc-4925-b393-c4ce14b28711.png',
+    model: CDN + 'hf_20261004_073345_12721630-c589-442f-8884-e4a445cd8980.glb',
+    yaw: 0.75, pitch: 0.12,
+    tags: ['River bird', 'Diver', 'Iridescent'],
+    lede: 'A small, spectacular bird of rivers and lakes, the kingfisher is renowned for its dazzling plumage and astonishing hunting dives. A master of stealth and speed, it links healthy waterways with extraordinary beauty.',
+    traits: [
+      ['t-ruler', 'Length', '16–17 cm'],
+      ['t-speed', 'Dive speed', 'Up to 40 km/h'],
+      ['t-diet', 'Diet', 'Small fish and insects'],
+      ['t-range', 'Range', 'Europe and Asia'],
+    ],
+    habitat: 'Slow rivers, streams and lakes.',
+    caption: 'Blink, and the river keeps its secret.',
+    closeup: 'An intricate mosaic of structure and colour gives the kingfisher its unmistakable sheen.',
+    lens: '24% 30%',
+    feature: ['A flash of river blue.', 'Extraordinary colours. A remarkable life by the water.'],
+  },
+];
+
+/* ------------------------------------------------------------------- dom */
+const $ = (id) => document.getElementById(id);
+const hero = $('hero'), stage = $('stage'), canvas = $('gl'), loader = $('loader');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const use = (id) => `<svg class="ico"><use href="#${id}"/></svg>`;
+let active = 1;
+
+$('tabs').innerHTML = BIRDS.map((b, i) => `
+  <button class="tab" role="tab" id="tab-${b.id}" aria-selected="${i === active}" aria-controls="detail" tabindex="${i === active ? 0 : -1}" data-i="${i}">
+    <img src="${b.image}" alt="" loading="eager">
+    <b>${b.name}</b><i>${b.latin}</i>
+  </button>`).join('');
+const tabEls = [...document.querySelectorAll('.tab')];
+
+function detailHTML(b) {
+  const rows = [
+    `<div class="eyebrow">${b.family}</div>`,
+    `<h1>${b.name}</h1>`,
+    `<div class="tags">${b.tags.map((t) => `<span>${t}</span>`).join('')}</div>`,
+    `<p class="lede">${b.lede}</p>`,
+    `<h2>Key Traits</h2>`,
+    `<dl class="traits">${b.traits.map(([ic, k, v]) => `<div>${use(ic)}<dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`,
+    `<h2>Habitat</h2>`,
+    `<div class="habitat">${use('t-reed')}<span>${b.habitat}</span></div>`,
+    `<div class="closeup-wrap"><button class="closeup" id="closeup" aria-pressed="false">
+       <span class="lens" style="background-image:url('${b.image}');background-position:${b.lens}"></span>
+       <span><b>Close-up Detail</b><small>${b.closeup}</small></span>${use('i-chev')}
+     </button></div>`,
+  ];
+  return rows.map((r, i) => r.replace(/^<(\w+)/, `<$1 style="--i:${i}"`)).join('');
+}
+
+function paintInfo(i, instant) {
+  const b = BIRDS[i], d = $('detail');
+  const fill = () => {
+    d.classList.remove('leaving');
+    d.innerHTML = detailHTML(b);
+    d.parentElement.scrollTop = 0;
+    $('caption').textContent = b.caption;
+    $('featImg').src = b.image;
+    $('featTitle').textContent = b.feature[0];
+    $('featText').textContent = b.feature[1];
+    $('fallback').style.backgroundImage = `url('${b.image}')`;
+  };
+  if (instant) return fill();
+  d.classList.add('leaving');
+  setTimeout(fill, reduced ? 0 : 200);
+}
+
+/* ----------------------------------------------------------------- scene */
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.toneMappingExposure = 1.05;
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.95;
+
+const FOV = 26;
+const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
+const key = new THREE.DirectionalLight(0xfff4e2, 1.6); key.position.set(2.5, 4, 5);
+const rim = new THREE.DirectionalLight(0xbfd8ff, 0.5); rim.position.set(-4, 2, -3);
+scene.add(key, rim);
+
+const LIGHTS = {
+  day:  { env: 0.95, key: 1.6, rim: 0.5, keyColor: 0xfff4e2, exposure: 1.05 },
+  dusk: { env: 0.28, key: 2.6, rim: 1.9, keyColor: 0xffc98a, exposure: 1.0 },
+};
+let lightNow = { ...LIGHTS.day }, lightGoal = LIGHTS.day;
+const keyGoal = new THREE.Color(LIGHTS.day.keyColor);
+
+/* each bird: pivot (slide, scale, sway) > spin (free rotation from the hand) > model */
+const rigs = BIRDS.map((b) => {
+  const pivot = new THREE.Group(), spin = new THREE.Group();
+  pivot.add(spin); pivot.visible = false; scene.add(pivot);
+  const home = new THREE.Quaternion().setFromEuler(new THREE.Euler(b.pitch, b.yaw, 0, 'YXZ'));
+  spin.quaternion.copy(home);
+  return { pivot, spin, home, loaded: false, failed: false, promise: null, k: 0, x: 0, twist: 0 };
+});
+
+const gltf = new GLTFLoader();
+const draco = new DRACOLoader().setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+gltf.setDRACOLoader(draco).setMeshoptDecoder(MeshoptDecoder);
+
+function loadBird(i) {
+  const rig = rigs[i];
+  if (rig.promise) return rig.promise;
+  rig.promise = gltf.loadAsync(BIRDS[i].model).then((g) => {
+    const model = g.scene;
+    const box = new THREE.Box3().setFromObject(model);
+    const sphere = box.getBoundingSphere(new THREE.Sphere());
+    model.position.sub(sphere.center);
+    const holder = new THREE.Group();
+    holder.add(model);
+    holder.scale.setScalar(1 / sphere.radius);          // every bird has radius 1
+    const aniso = renderer.capabilities.getMaxAnisotropy();
+    model.traverse((o) => {
+      if (!o.isMesh) return;
+      o.frustumCulled = false;
+      for (const m of [].concat(o.material)) {
+        if (m.map) m.map.anisotropy = aniso;
+        m.envMapIntensity = 1;
+      }
+    });
+    rig.spin.add(holder);
+    rig.loaded = true;
+  }).catch((err) => { console.error('Model failed to load:', BIRDS[i].id, err); rig.failed = true; });
+  return rig.promise;
+}
+
+/* ---------------------------------------------------------------- layout */
+// The canvas spans the whole hero so the bird is never cropped by a panel;
+// the camera's principal point is shifted onto the stage centre instead.
+const view = { cx: 0, cy: 0, px: 200, W: 1, H: 1, first: true };
+const goal = { cx: 0, cy: 0, px: 200, sw: 600 };
+let zoom = 1, zoomGoal = 1;
+const ZMIN = 0.55, ZMAX = 3.4;
+
+function measure() {
+  const h = hero.getBoundingClientRect();
+  const s = hero.classList.contains('focus') ? h : stage.getBoundingClientRect();
+  view.W = h.width; view.H = h.height;
+  goal.cx = s.left - h.left + s.width / 2;
+  goal.cy = s.top - h.top + s.height * (hero.classList.contains('focus') ? 0.5 : 0.44);
+  goal.px = Math.min(s.width * 0.5, s.height * 0.6) * 1.16;
+  goal.sw = s.width;
+  renderer.setSize(view.W, view.H, false);
+  camera.aspect = view.W / view.H;
+  if (view.first) { Object.assign(view, { cx: goal.cx, cy: goal.cy, px: goal.px, first: false }); }
+}
+new ResizeObserver(measure).observe(hero);
+new ResizeObserver(measure).observe(stage);
+addEventListener('orientationchange', measure);
+
+/* ----------------------------------------------------------- interaction */
+const X = new THREE.Vector3(1, 0, 0), Y = new THREE.Vector3(0, 1, 0);
+const q = new THREE.Quaternion();
+const turnBy = (rig, ax, ay) => {
+  rig.spin.quaternion.premultiply(q.setFromAxisAngle(Y, ax));
+  rig.spin.quaternion.premultiply(q.setFromAxisAngle(X, ay));
+};
+const vel = { x: 0, y: 0 };
+let yawQueue = 0, homing = false, lastTouch = -1e9;
+const pointers = new Map();
+let pinch = 0;
+const touched = () => { lastTouch = performance.now(); homing = false; hero.classList.add('touched'); };
+
+stage.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('button')) return;
+  stage.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinch = Math.hypot(a.x - b.x, a.y - b.y); }
+  vel.x = vel.y = 0; yawQueue = 0;
+  stage.classList.add('dragging'); touched();
+});
+stage.addEventListener('pointermove', (e) => {
+  const p = pointers.get(e.pointerId);
+  if (!p) return;
+  const dx = e.clientX - p.x, dy = e.clientY - p.y;
+  p.x = e.clientX; p.y = e.clientY;
+  if (pointers.size === 2) {
+    const [a, b] = [...pointers.values()];
+    const d = Math.hypot(a.x - b.x, a.y - b.y);
+    if (pinch) setZoom(zoomGoal * d / pinch);
+    pinch = d;
+    return;
+  }
+  const k = Math.PI / Math.max(260, view.px * 1.6);   // about half a turn per bird-width
+  vel.x = dx * k; vel.y = dy * k;
+  turnBy(rigs[active], vel.x, vel.y);
+  touched();
+});
+const release = (e) => {
+  pointers.delete(e.pointerId); pinch = 0;
+  if (!pointers.size) stage.classList.remove('dragging');
+};
+stage.addEventListener('pointerup', release);
+stage.addEventListener('pointercancel', release);
+stage.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  setZoom(zoomGoal * Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0016)));
+  touched();
+}, { passive: false });
+stage.addEventListener('dblclick', (e) => { if (!e.target.closest('button')) reset(); });
+stage.addEventListener('keydown', (e) => {
+  const step = 0.18;
+  const map = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+  if (map[e.key]) { e.preventDefault(); turnBy(rigs[active], ...map[e.key]); touched(); }
+  if (e.key === '+' || e.key === '=') setZoom(zoomGoal * 1.2);
+  if (e.key === '-') setZoom(zoomGoal / 1.2);
+  if (e.key === '0') reset();
+});
+
+function setZoom(z) {
+  zoomGoal = Math.min(ZMAX, Math.max(ZMIN, z));
+  $('zoomIn').classList.toggle('on', zoomGoal >= 1);
+  $('zoomOut').classList.toggle('on', zoomGoal < 1);
+  const c = $('closeup'); if (c) c.setAttribute('aria-pressed', zoomGoal > 2.2);
+}
+function reset() { homing = true; vel.x = vel.y = 0; yawQueue = 0; setZoom(1); }
+
+$('zoomIn').onclick = () => { setZoom(zoomGoal * 1.35); touched(); };
+$('zoomOut').onclick = () => { setZoom(zoomGoal / 1.35); touched(); };
+$('turnL').onclick = () => { yawQueue -= Math.PI / 2; touched(); };
+$('turnR').onclick = () => { yawQueue += Math.PI / 2; touched(); };
+$('turnFull').onclick = () => { yawQueue += Math.PI * 2; touched(); };
+$('expand').onclick = () => setFocus(!hero.classList.contains('focus'));
+$('light').onclick = () => {
+  const dusk = hero.dataset.light !== 'dusk';
+  hero.dataset.light = dusk ? 'dusk' : 'day';
+  document.body.style.background = dusk ? '#14170f' : '';
+  lightGoal = LIGHTS[hero.dataset.light];
+  keyGoal.set(lightGoal.keyColor);
+  $('light').classList.toggle('on', dusk);
+  $('light').setAttribute('aria-pressed', dusk);
+  $('light').setAttribute('aria-label', dusk ? 'Switch to daylight' : 'Switch to dusk lighting');
+};
+function setFocus(on) {
+  hero.classList.toggle('focus', on);
+  $('expand').classList.toggle('on', on);
+  $('expand').setAttribute('aria-pressed', on);
+  $('expand').setAttribute('aria-label', on ? 'Close expanded viewer' : 'Expand viewer');
+  measure();
+}
+addEventListener('keydown', (e) => { if (e.key === 'Escape') setFocus(false); });
+$('detail').addEventListener('click', (e) => {
+  const c = e.target.closest('#closeup');
+  if (!c) return;
+  setZoom(zoomGoal > 2.2 ? 1 : 2.6); touched();
+});
+
+/* ------------------------------------------------------------ tab switch */
+const DUR = reduced ? 1 : 780;
+let anim = null;          // { from, to, dir, t0 }
+
+async function select(i) {
+  if (i === active) return;
+  const from = active, dir = Math.sign(i - from);
+  active = i;
+  tabEls.forEach((t, n) => { t.setAttribute('aria-selected', n === i); t.tabIndex = n === i ? 0 : -1; });
+  paintInfo(i);
+  stage.classList.remove('failed');
+  stage.classList.add('switching');
+  vel.x = vel.y = 0; yawQueue = 0; setZoom(1);
+  anim = { from, to: -1, dir, t0: performance.now() };      // old bird leaves at once
+  const rig = rigs[i];
+  if (!rig.loaded && !rig.failed) { loader.classList.add('show'); await loadBird(i); }
+  if (active !== i) return;                                 // user moved on meanwhile
+  loader.classList.remove('show');
+  if (rig.failed) { stage.classList.add('failed'); stage.classList.remove('switching'); return; }
+  rig.spin.quaternion.copy(rig.home);
+  const now = performance.now();
+  anim = { from: anim ? anim.from : -1, to: i, dir, t0: anim ? anim.t0 : now, t1: now };
+  stage.classList.remove('switching');
+}
+tabEls.forEach((t) => {
+  t.addEventListener('click', () => select(+t.dataset.i));
+  t.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const n = (+t.dataset.i + (e.key === 'ArrowRight' ? 1 : -1) + BIRDS.length) % BIRDS.length;
+    tabEls[n].focus(); select(n);
+  });
+});
+
+/* ------------------------------------------------------------------ loop */
+const inCubic = (t) => t * t * t;
+const outCubic = (t) => 1 - Math.pow(1 - t, 3);
+const outBack = (t) => 1 + 2.2 * Math.pow(t - 1, 3) + 1.2 * Math.pow(t - 1, 2);
+const clamp01 = (t) => Math.min(1, Math.max(0, t));
+let last = performance.now();
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const f = (rate) => 1 - Math.exp(-dt * rate);
+
+  // camera follows the stage
+  view.cx += (goal.cx - view.cx) * f(7);
+  view.cy += (goal.cy - view.cy) * f(7);
+  view.px += (goal.px - view.px) * f(7);
+  zoom += (zoomGoal - zoom) * f(6);
+  camera.position.z = view.H / (2 * Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * view.px * zoom);
+  camera.setViewOffset(view.W, view.H, view.W / 2 - view.cx, view.H / 2 - view.cy, view.W, view.H);
+
+  // lights
+  for (const k of ['env', 'key', 'rim', 'exposure']) lightNow[k] += (lightGoal[k] - lightNow[k]) * f(4);
+  scene.environmentIntensity = lightNow.env; key.intensity = lightNow.key; rim.intensity = lightNow.rim;
+  renderer.toneMappingExposure = lightNow.exposure; key.color.lerp(keyGoal, f(4));
+
+  // transition
+  const slide = (goal.sw * 0.95) / view.px;        // world units ≈ one stage width
+  rigs.forEach((r) => { r.k = 0; r.x = 0; r.twist = 0; });
+  rigs[active].k = anim ? 0 : 1;
+  if (anim) {
+    if (anim.from >= 0) {
+      const t = clamp01((now - anim.t0) / (DUR * 0.6)), e = inCubic(t);
+      Object.assign(rigs[anim.from], { k: 1 - e, x: -anim.dir * e * slide, twist: -anim.dir * e * 1.4 });
+      if (t >= 1) anim.from = -1;
+    }
+    if (anim.to >= 0) {
+      const t = clamp01((now - anim.t1) / DUR), e = outCubic(t);
+      Object.assign(rigs[anim.to], { k: Math.max(0.0001, outBack(t)) * (0.25 + 0.75 * e), x: anim.dir * (1 - e) * slide, twist: anim.dir * (1 - e) * 1.6 });
+      if (t >= 1 && anim.from < 0) anim = null;
+    }
+  }
+
+  // hand, inertia, queued turns, homing
+  const rig = rigs[active];
+  if (!pointers.size) {
+    if (Math.abs(vel.x) + Math.abs(vel.y) > 1e-4) {
+      turnBy(rig, vel.x, vel.y);
+      const d = Math.exp(-dt * 4.5); vel.x *= d; vel.y *= d;
+    }
+    if (Math.abs(yawQueue) > 1e-3) {
+      const step = yawQueue * f(4.2);
+      turnBy(rig, step, 0); yawQueue -= step;
+    }
+    if (homing) {
+      rig.spin.quaternion.slerp(rig.home, f(6));
+      if (rig.spin.quaternion.angleTo(rig.home) < 0.002) homing = false;
+    }
+  }
+
+  // idle life: a slow sway and hover, eased back in after the hand lets go
+  const idle = reduced ? 0 : clamp01((now - lastTouch - 1800) / 1500);
+  const s = now / 1000;
+  rigs.forEach((r, i) => {
+    r.pivot.visible = r.loaded && r.k > 0.0005;
+    if (!r.pivot.visible) return;
+    r.pivot.scale.setScalar(r.k);
+    r.pivot.position.set(r.x, (reduced ? 0 : Math.sin(s * 1.3 + i) * 0.028), 0);
+    r.pivot.rotation.set(Math.sin(s * 0.9) * 0.03 * idle, r.twist + Math.sin(s * 0.55) * 0.16 * idle, 0);
+  });
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+
+/* ------------------------------------------------------------------ boot */
+paintInfo(active, true);
+measure();
+loader.classList.add('show');
+requestAnimationFrame(frame);
+loadBird(active).then(() => {
+  loader.classList.remove('show');
+  if (rigs[active].failed) { stage.classList.add('failed'); }
+  else anim = { from: -1, to: active, dir: 1, t0: performance.now(), t1: performance.now() };
+  BIRDS.forEach((_, i) => loadBird(i));                     // warm the other bird
+});
+</script>
+</body>
+</html>

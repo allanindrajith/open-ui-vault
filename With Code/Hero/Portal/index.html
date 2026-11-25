@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block}
+#bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:radial-gradient(ellipse at 60% 30%,#2a3a4a 0%,#0b0f14 60%,#000 100%)}
+.blur-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);-webkit-mask-image:linear-gradient(to top,black 0%,transparent 45%);mask-image:linear-gradient(to top,black 0%,transparent 45%)}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@keyframes blurFadeUp{from{opacity:0;filter:blur(20px);transform:translateY(40px)}to{opacity:1;filter:blur(0);transform:translateY(0)}}
+.au{opacity:0;animation:blurFadeUp 1s ease-out forwards}
+.page{position:relative;z-index:10;height:100vh;height:100dvh;display:flex;flex-direction:column}
+nav{position:relative;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 16px}
+.logo{font-weight:700;letter-spacing:.2em;font-size:18px;height:32px;display:flex;align-items:center}
+.links{display:none;gap:32px;font-size:14px}
+.links a{transition:color .2s}.links a:hover{color:#d1d5db}
+.right{display:flex;align-items:center;gap:12px}
+.pill{border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.search{display:none;padding:8px 16px;font-size:14px}
+.circle{width:40px;height:40px;border-radius:9999px;display:none;align-items:center;justify-content:center}
+#burger{display:flex;position:relative}
+#burger svg{position:absolute;transition:all .5s ease-out}
+#burger .x{opacity:0;transform:rotate(-180deg) scale(.5)}
+#burger.open .m{opacity:0;transform:rotate(180deg) scale(.5)}
+#burger.open .x{opacity:1;transform:rotate(0) scale(1)}
+#mm{position:absolute;top:72px;left:0;right:0;z-index:40;background:rgba(17,24,39,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid #1f2937;border-bottom:1px solid #1f2937;box-shadow:0 25px 50px -12px rgba(0,0,0,.5);padding:16px;transition:all .5s ease-out;transform:translateY(0);opacity:1}
+#mm.closed{transform:translateY(-16px);opacity:0;pointer-events:none}
+#mm a{display:block;padding:12px;border-radius:8px;transition:transform .5s ease-out,opacity .5s ease-out,background .2s;transform:translateX(0);opacity:1}
+#mm.closed a{transform:translateX(-16px);opacity:0}
+#mm a:hover{background:rgba(31,41,55,.5)}
+.mbtns{display:flex;gap:12px;margin-top:12px;padding-top:16px;border-top:1px solid #1f2937}
+.mbtns .pill{padding:8px 16px;font-size:14px}
+.mbtns .circle{display:flex}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 32px;position:relative;z-index:10}
+.row{display:flex;flex-direction:column;align-items:flex-start;gap:32px}
+.left{flex:1;min-width:0}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;font-size:12px}
+.meta span{display:inline-flex;align-items:center;gap:6px}
+.meta .fm{font-weight:500}
+h1{font-size:30px;line-height:1.1;font-weight:400;letter-spacing:-.04em;margin-bottom:16px}
+.desc{font-size:16px;line-height:1.5;color:#9ca3af;margin-bottom:24px;max-width:42rem}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{border-radius:9999px;font-weight:500;padding:10px 24px;display:inline-flex;align-items:center;gap:8px;font-size:16px}
+.white{background:#fff;color:#000;transition:background .2s}.white:hover{background:#e5e7eb}
+.arrows{display:flex;gap:12px}
+.arrows .pill{padding:10px 16px;font-size:16px}
+@media(min-width:640px){
+nav{padding:16px 24px}.search{display:inline-flex}.circle.u{display:flex}
+.hero{padding:0 24px 32px}.meta{gap:24px;font-size:14px}h1{font-size:48px}.desc{font-size:18px}
+.btn{padding:12px 32px}.arrows .pill{padding:12px 24px}.ctas{gap:16px}
+.mbtns{display:none}.sm5{width:20px;height:20px}
+}
+@media(min-width:768px){
+nav{padding:24px 48px}.logo{font-size:22px;height:40px}.search{padding:8px 24px}
+.hero{padding:0 48px 64px}.meta{margin-bottom:32px}h1{font-size:60px;margin-bottom:24px}.desc{font-size:20px;margin-bottom:48px}
+.row{flex-direction:row;align-items:flex-end}
+#mm{top:88px}
+}
+@media(min-width:1024px){
+h1{font-size:72px}.links{display:flex}#burger{display:none}#mm{display:none}
+}
+@media(max-width:1023px){.right{gap:12px}}
+@media(max-width:639px){.desc{margin-bottom:24px}}
+</style>
+</head>
+<body>
+<video id="bg" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_094145_4a271a6c-3869-4f1c-8aa7-aeb0cb227994.mp4"></video>
+<div class="blur-overlay"></div>
+<div class="page">
+<nav>
+  <div class="logo au" style="animation-delay:0ms">CINEMATIC</div>
+  <div class="links">
+    <a class="au" href="#" style="animation-delay:100ms">Movies</a>
+    <a class="au" href="#" style="animation-delay:150ms">TV Series</a>
+    <a class="au" href="#" style="animation-delay:200ms">Editor's Pick</a>
+    <a class="au" href="#" style="animation-delay:250ms">Interviews</a>
+    <a class="au" href="#" style="animation-delay:300ms">User Reviews</a>
+  </div>
+  <div class="right">
+    <button class="pill liquid-glass search au" style="animation-delay:350ms">Search
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+    <button class="circle u liquid-glass au" style="animation-delay:400ms" aria-label="Profile">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+    <button id="burger" class="circle liquid-glass au" style="animation-delay:350ms" aria-label="Menu">
+      <svg class="m" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="mm" class="closed">
+    <a href="#" style="transition-delay:0ms">Movies</a>
+    <a href="#" style="transition-delay:50ms">TV Series</a>
+    <a href="#" style="transition-delay:100ms">Editor's Pick</a>
+    <a href="#" style="transition-delay:150ms">Interviews</a>
+    <a href="#" style="transition-delay:200ms">User Reviews</a>
+    <div class="mbtns">
+      <button class="pill liquid-glass">Search <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <button class="circle liquid-glass" aria-label="Profile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="row">
+    <div class="left">
+      <div class="meta au" style="animation-delay:300ms">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><span class="fm">8.7/10 IMDB</span></span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>132 min</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>April, 2025</span>
+      </div>
+      <h1 class="au" style="animation-delay:400ms">Step Through. Work Smarter.</h1>
+      <p class="desc au" style="animation-delay:500ms">A voyage through forgotten realms, where past and future intertwine.</p>
+      <div class="ctas">
+        <button class="btn white au" style="animation-delay:600ms">Watch Now <svg width="18" height="18" viewBox="0 0 24 24" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"><path d="M6 3l14 9-14 9z"/></svg></button>
+        <button class="btn liquid-glass au" style="animation-delay:700ms">Learn More</button>
+      </div>
+    </div>
+    <div class="arrows">
+      <button class="pill liquid-glass au" style="animation-delay:800ms"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Previous</button>
+      <button class="pill liquid-glass au" style="animation-delay:900ms">Next<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+  </div>
+</section>
+</div>
+<script>
+var b=document.getElementById('burger'),m=document.getElementById('mm');
+b.addEventListener('click',function(){var o=b.classList.toggle('open');m.classList.toggle('closed',!o)});
+var v=document.getElementById('bg');v.play&&v.play().catch(function(){});
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LŪMEN // ÍNDEX</title>
+<link href="https://db.onlinewebfonts.com/c/ca3d10781128664daddf89bf2e2d1305?family=Graphik+LCG+Regular+Regular" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;overflow-x:hidden}
+body{font-family:'Manrope',sans-serif}
+.g{font-family:'Graphik LCG Regular Regular','Graphik LCG','Helvetica Neue',Arial,sans-serif}
+.m{font-family:'Manrope',sans-serif}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes drawLine{from{opacity:0;stroke-dashoffset:100}to{opacity:1;stroke-dashoffset:0}}
+@keyframes gridReveal{from{opacity:0;transform:scaleY(0)}to{opacity:1;transform:scaleY(1)}}
+@keyframes gridRevealH{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
+.anim-fade-up{opacity:0;animation:fadeUp .9s cubic-bezier(.16,1,.3,1) forwards}
+.anim-fade-in{opacity:0;animation:fadeIn .8s cubic-bezier(.16,1,.3,1) forwards}
+.anim-slide-left{opacity:0;animation:slideInLeft .8s cubic-bezier(.16,1,.3,1) forwards}
+.anim-slide-right{opacity:0;animation:slideInRight .8s cubic-bezier(.16,1,.3,1) forwards}
+.anim-scale-in{opacity:0;animation:scaleIn .7s cubic-bezier(.16,1,.3,1) forwards}
+.anim-grid-v{opacity:0;transform-origin:top;animation:gridReveal 1.2s cubic-bezier(.16,1,.3,1) forwards}
+.anim-grid-h{opacity:0;transform-origin:left;animation:gridRevealH 1.2s cubic-bezier(.16,1,.3,1) forwards}
+
+section{position:relative;width:100%;height:100vh;overflow:hidden;background:#000}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.content{position:relative;z-index:10;width:100%;height:100%}
+nav{position:absolute;top:0;left:0;width:100%;display:flex;align-items:center;padding:20px}
+.left{display:flex;align-items:center;gap:40px}
+.logo{color:#fff;font-size:18px;line-height:21px;white-space:nowrap}
+.links{display:none;align-items:center;gap:40px}
+.ni{display:flex;align-items:center;gap:3px}
+.ni .n{color:rgba(175,221,255,.8);font-size:13px;line-height:15.6px}
+.ni .l{color:#fff;font-size:13px;line-height:15.6px;cursor:pointer;transition:color .2s}
+.ni .l:hover{color:#AFDDFF}
+.right{display:none;align-items:center;gap:12px;margin-left:auto}
+.t13{font-size:13px;line-height:15.6px;color:#fff}
+.chip{background:#AFDDFF;border-radius:3px;padding:2px 5px;color:#000;font-size:13px;line-height:15.6px}
+.ham{margin-left:auto;position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;opacity:0;animation:fadeIn .8s cubic-bezier(.16,1,.3,1) 400ms forwards}
+.ham span{position:absolute;transition:all .3s cubic-bezier(.76,0,.24,1);display:flex}
+.ham svg,.close svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.i-menu{opacity:1;transform:rotate(0) scale(1)}
+.i-x{opacity:0;transform:rotate(-90deg) scale(.5)}
+.open .i-menu{opacity:0;transform:rotate(90deg) scale(.5)}
+.open .i-x{opacity:1;transform:none}
+.wal{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+#menu{position:fixed;inset:0;z-index:50;visibility:hidden;transition:all .5s cubic-bezier(.76,0,.24,1)}
+#menu.on{visibility:visible}
+.bd{position:absolute;inset:0;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;transition:opacity .5s cubic-bezier(.76,0,.24,1)}
+.on .bd{opacity:1}
+.panel{position:relative;height:100%;display:flex;flex-direction:column;padding:96px 20px 40px;opacity:0;transform:translateY(-16px);transition:all .5s cubic-bezier(.76,0,.24,1)}
+.on .panel{opacity:1;transform:none}
+.close{position:absolute;top:20px;right:20px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer}
+.mlist{display:flex;flex-direction:column;gap:32px}
+.mrow{display:flex;align-items:center;gap:12px;opacity:0;transform:translateX(-24px);transition:all .5s cubic-bezier(.76,0,.24,1) 0ms}
+.on .mrow{opacity:1;transform:none}
+.mrow .n{color:rgba(175,221,255,.8);font-size:14px;line-height:1}
+.mrow .l{color:#fff;font-size:28px;line-height:1.2;letter-spacing:-.025em}
+.mw{margin-top:auto;padding-top:40px;border-top:1px solid rgba(255,255,255,.1);opacity:0;transform:translateY(16px);transition:all .5s cubic-bezier(.76,0,.24,1) 0ms}
+.on .mw{opacity:1;transform:none;transition-delay:450ms}
+.mw .r1{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mw .r2{display:flex;align-items:center;gap:8px}
+h1{position:absolute;font-weight:400;color:#fff;line-height:1em;font-size:32px;top:140px;left:20px;max-width:300px}
+.vl{position:absolute;top:0;height:100%;width:1px;background:rgba(255,255,255,.04)}
+.hl{position:absolute;left:0;width:100%;height:1px;background:rgba(255,255,255,.04)}
+.plus{position:absolute}
+.plus i{position:absolute;background:rgba(255,255,255,.7);transform:translate(-50%,-50%)}
+.plus .h{width:10px;height:1px}.plus .v{width:1px;height:10px}
+.nodes{position:absolute;inset:0;pointer-events:none;display:none}
+.sq{position:absolute;width:80px;height:80px;border:1px solid rgba(255,255,255,.8)}
+.lab{position:absolute}
+.lab .a{display:block;color:#fff;font-size:13px;line-height:15.6px;white-space:nowrap}
+.lab p{color:rgba(255,255,255,.5);font-size:11px;line-height:14px;margin-top:4px}
+.cl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.bottom{position:absolute;bottom:20px;left:20px;right:20px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:20px}
+.cta{background:#AFDDFF;padding:10px 16px;display:flex;align-items:center;gap:10px;border:0;cursor:pointer;transition:background-color .2s}
+.cta:hover{background:#c8e8ff}
+.cta .s{color:#000;font-size:16px;line-height:1}
+.cta .t{color:#000;font-size:12px;line-height:15.6px;text-transform:uppercase;letter-spacing:.025em}
+.card{position:relative;max-width:280px;display:none}
+.badge{display:inline-block;background:#AFDDFF;color:#000;font-size:13px;line-height:15.6px;padding:2px 6px;margin-bottom:10px}
+.cb{position:relative;padding:20px}
+.cb svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cb p{position:relative;color:#fff;font-size:13px;line-height:18px;margin-bottom:18px}
+.cb a{position:relative;display:block;color:#AFDDFF;font-size:13px;line-height:15.6px;cursor:pointer}
+.cb a:hover{text-decoration:underline}
+@media(min-width:640px){h1{font-size:48px;top:160px;max-width:420px}.card{display:block}}
+@media(min-width:768px){
+nav{padding:27px 35px}.logo{font-size:21px}
+h1{font-size:68px;top:178px;left:35px;max-width:554px}
+.nodes{display:block}
+.bottom{bottom:35px;left:35px;right:35px;flex-direction:row;align-items:flex-end;gap:0}
+.cta{padding:12px 20px}.cta .t{font-size:13px}
+}
+@media(min-width:1024px){
+.links{display:flex}.right{display:flex}.ham{display:none}#menu{display:none}
+.sq{width:100px;height:100px}
+}
+</style>
+</head>
+<body>
+<section>
+<video class="anim-fade-in" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_115057_94c3699b-0fd1-4124-bcf3-3626bb8c1f77.mp4" autoplay muted loop playsinline></video>
+<div class="content">
+<nav id="nav">
+  <div class="left">
+    <div class="logo g anim-fade-up" style="animation-delay:200ms">LŪMEN // ÍNDEX</div>
+    <div class="links">
+      <div class="ni anim-fade-up" style="animation-delay:350ms"><span class="n m">01.</span><span class="l m">ECOSYSTEM</span></div>
+      <div class="ni anim-fade-up" style="animation-delay:450ms"><span class="n m">02.</span><span class="l m">LIQUIDITY_POOLS</span></div>
+      <div class="ni anim-fade-up" style="animation-delay:550ms"><span class="n m">03.</span><span class="l m">LUMEN_INDEX</span></div>
+      <div class="ni anim-fade-up" style="animation-delay:650ms"><span class="n m">04.</span><span class="l m">GOVERNANCE</span></div>
+    </div>
+  </div>
+  <div class="right anim-slide-right" style="animation-delay:600ms">
+    <svg class="wal" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+    <span class="m t13">0x71...f4e2</span>
+    <span class="m t13" style="color:#AFDDFF">[ CONNECTED ]</span>
+    <span class="m t13" style="margin-left:20px">STATUS:</span>
+    <span class="m chip">PRIME_MEMBER</span>
+  </div>
+  <button class="ham" id="ham" aria-label="Toggle menu">
+    <span class="i-menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+    <span class="i-x"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+  </button>
+</nav>
+
+<div id="menu">
+  <div class="bd" id="bd"></div>
+  <div class="panel">
+    <button class="close" id="close" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="mlist">
+      <div class="mrow"><span class="n m">01.</span><span class="l m">ECOSYSTEM</span></div>
+      <div class="mrow"><span class="n m">02.</span><span class="l m">LIQUIDITY_POOLS</span></div>
+      <div class="mrow"><span class="n m">03.</span><span class="l m">LUMEN_INDEX</span></div>
+      <div class="mrow"><span class="n m">04.</span><span class="l m">GOVERNANCE</span></div>
+    </div>
+    <div class="mw">
+      <div class="r1">
+        <svg class="wal" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+        <span class="m t13">0x71...f4e2</span><span class="m t13" style="color:#AFDDFF">[ CONNECTED ]</span>
+      </div>
+      <div class="r2"><span class="m t13">STATUS:</span><span class="m chip">PRIME_MEMBER</span></div>
+    </div>
+  </div>
+</div>
+
+<h1 class="g anim-fade-up" style="animation-delay:400ms">Liquid Assets. Luminous Returns.</h1>
+
+<div id="grid"></div>
+
+<div class="nodes">
+  <div class="lab anim-slide-left" style="top:11%;left:26%;animation-delay:1100ms"><span class="a m">[ CORE_ENTITY ]</span><p class="m" style="max-width:160px">Neural node processing real-time data streams.</p></div>
+  <div class="lab anim-slide-left" style="top:76%;left:3%;animation-delay:1400ms"><span class="a m">[ LUMINOUS_INSIGHT ]</span><p class="m" style="max-width:160px">Deep-learning engine synthesizing raw inputs.</p></div>
+  <div class="lab anim-slide-right" style="top:50%;left:78%;animation-delay:1700ms"><span class="a m">[ CONNECTIVITY ]</span><p class="m" style="max-width:180px">Latency-free transmission across distributed networks.</p></div>
+  <div class="sq anim-scale-in" style="top:27%;left:60%;animation-delay:1500ms"></div>
+  <div class="sq anim-scale-in" style="top:58%;left:32%;animation-delay:1800ms"></div>
+  <div class="sq anim-scale-in" style="top:63%;left:50%;animation-delay:2100ms"></div>
+  <div id="lines"></div>
+</div>
+
+<div class="bottom">
+  <button class="cta anim-fade-up" style="animation-delay:900ms"><span class="s">&#10022;</span><span class="t m">Explore Private Banking</span></button>
+  <div class="card anim-slide-right" style="animation-delay:1100ms">
+    <span class="badge m">NOT A BANK — AN ECOSYSTEM</span>
+    <div class="cb">
+      <svg viewBox="0 0 280 168" preserveAspectRatio="none"><polygon points="0.5,0.5 279.5,0.5 279.5,167.5 30,167.5 0.5,137.5" fill="none" stroke="#AFDDFF" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>
+      <p class="m">Maps the complexity of modern finance with a partner that brings clarity and organic growth to your portfolio.</p>
+      <a class="m">VIEW_TRANSPARENCY_REPORT</a>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+<script>
+(function(){
+  var vp=['12.6%','37.5%','61.9%','86.2%'],hp=['32.7%','71.4%'],h='';
+  vp.forEach(function(l,i){h+='<div class="vl anim-grid-v" style="left:'+l+';animation-delay:'+(600+i*100)+'ms"></div>'});
+  hp.forEach(function(t,i){h+='<div class="hl anim-grid-h" style="top:'+t+';animation-delay:'+(800+i*150)+'ms"></div>'});
+  hp.forEach(function(t,hi){vp.forEach(function(l,vi){h+='<div class="plus anim-scale-in" style="top:'+t+';left:'+l+';animation-delay:'+(1000+(hi*4+vi)*80)+'ms"><i class="h"></i><i class="v"></i></div>'})});
+  document.getElementById('grid').innerHTML=h;
+  var L=[[38,14,52,14,1200],[52,14,60,27,1400],[32,58,20,74,1500],[20,74,6,74,1700],[78,53,63,53,1800],[63,53,50,63,2000]],s='';
+  L.forEach(function(a){s+='<svg class="cl anim-fade-in" style="animation-delay:'+a[4]+'ms"><line x1="'+a[0]+'%" y1="'+a[1]+'%" x2="'+a[2]+'%" y2="'+a[3]+'%" stroke="rgba(255,255,255,0.25)" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>'});
+  document.getElementById('lines').innerHTML=s;
+  var menu=document.getElementById('menu'),ham=document.getElementById('ham'),rows=document.querySelectorAll('.mrow');
+  function set(o){
+    menu.classList.toggle('on',o);ham.classList.toggle('open',o);
+    rows.forEach(function(r,i){r.style.transitionDelay=o?(150+i*75)+'ms':'0ms'});
+  }
+  ham.onclick=function(){set(!menu.classList.contains('on'))};
+  document.getElementById('close').onclick=document.getElementById('bd').onclick=function(){set(false)};
+})();
+</script>
+</body>
+</html>

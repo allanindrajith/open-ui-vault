@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Digital Epoch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{background:#f9fafb;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:16px;min-height:100vh}
+.wrap{max-width:1400px;margin:0 auto}
+.hero{position:relative;width:100%;border-radius:48px;background:#fff;border:1px solid rgba(226,232,240,.5);box-shadow:0 40px 100px -20px rgba(0,0,0,.03);overflow:hidden;height:600px;display:flex;flex-direction:column}
+.bg{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;user-select:none;background:linear-gradient(135deg,#fff 0%,#eef4ff 50%,#dfe9fb 100%)}
+.bg video{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform 1s}
+.content{position:relative;z-index:20;flex:1;padding:48px 32px 0;display:flex;flex-direction:column;align-items:flex-start;animation:up .9s cubic-bezier(.22,1,.36,1) both}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+h1{font-family:'Outfit',sans-serif;font-weight:500;font-size:42px;line-height:1.1;letter-spacing:-.03em;color:#0a1b33}
+.sub{margin-top:20px;max-width:440px;font-size:14px;line-height:1.6;color:#64748b}
+.cta{margin-top:28px;background:#0a152d;color:#fff;border:0;border-radius:999px;padding:12px 26px;font:600 13px Inter,sans-serif;cursor:pointer;transition:transform .2s}
+.cta:hover{transform:scale(1.05)}.cta:active{transform:scale(.97)}
+.navwrap{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:30;animation:upn .9s .35s cubic-bezier(.22,1,.36,1) both}
+@keyframes upn{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
+nav{display:flex;align-items:center;background:rgba(255,255,255,.9);backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px);padding:6px;border-radius:999px;box-shadow:0 12px 40px rgba(0,0,0,.08);border:1px solid rgba(226,232,240,.4);white-space:nowrap}
+.logo{width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid #f1f5f9;box-shadow:0 1px 2px rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;color:#0a1b33;font-size:14px;margin-right:4px}
+.nb{background:none;border:0;font:600 12px Inter,sans-serif;color:#64748b;padding:8px 16px;cursor:pointer;transition:color .2s}
+.nb:hover{color:#0a1b33}
+.git{display:flex;align-items:center;gap:4px;background:#fff;padding:8px 20px;border-radius:999px;font:600 12px Inter,sans-serif;color:#0a1b33;border:1px solid rgba(226,232,240,.6);box-shadow:0 1px 2px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-left:4px}
+.git:hover{border-color:#cbd5e1}
+.git svg{width:14px;height:14px}
+.marq{margin-top:40px;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent)}
+.track{display:flex;gap:16px;width:max-content;animation:scroll 30s linear infinite;padding:4px 0}
+.marq:hover .track{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.card{position:relative;height:96px;width:160px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:999px;background:#fff;border:1px solid rgba(226,232,240,.6);box-shadow:0 1px 2px rgba(0,0,0,.05);transition:all .3s;overflow:hidden}
+.card:hover{border-color:#cbd5e1}
+.card .g{position:absolute;inset:0;opacity:0;transform:scale(1.5);transition:all .5s}
+.card:hover .g{opacity:1;transform:scale(1)}
+.card img{position:relative;height:32px;max-width:96px;object-fit:contain;transition:filter .3s}
+.card:hover img{filter:brightness(0) invert(1)}
+.card .t{position:relative;font:600 14px Inter,sans-serif;color:#0a1b33;transition:color .3s}
+.card:hover .t{color:#fff}
+@media(min-width:768px){
+ body{padding:24px}
+ .content{padding:64px 64px 0}
+ h1{font-size:56px}
+ .sub{font-size:15px}
+}
+@media(max-width:480px){
+ body{padding:12px}
+ .hero{border-radius:32px}
+ .content{padding:40px 24px 0}
+ h1{font-size:33px}
+ .navwrap{bottom:24px;max-width:calc(100% - 24px)}
+ .nb{padding:8px 10px}.git{padding:8px 14px}
+}
+@media(prefers-reduced-motion:reduce){.track{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+ <div class="bg"><video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260505_101331_74f9b798-3f00-4e86-8a01-377aa16ffeaa.mp4"></video></div>
+ <div class="content">
+  <h1>Foundation of the<br>new digital epoch</h1>
+  <p class="sub">Designing products, powering ecosystems and laying the foundation of a decentralized web for enterprises, builders and communities alike.</p>
+  <button class="cta">Contact Us</button>
+ </div>
+ <div class="navwrap"><nav>
+  <div class="logo">✦</div>
+  <button class="nb">Products</button>
+  <button class="nb">Docs</button>
+  <button class="git">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+ </nav></div>
+</section>
+<div class="marq"><div class="track" id="track"></div></div>
+</div>
+<script>
+const logos=[
+["Procure","procure.svg","#3b82f6,#1d4ed8"],
+["Shopify","shopify.svg","#facc15,#ca8a04"],
+["Blender","blender.svg","#60a5fa,#2563eb"],
+["Figma","figma.svg","#a855f7,#6d28d9"],
+["Spotify","spotify.svg","#f472b6,#e11d48"],
+["Lottielab","lottielab.svg","#facc15,#22c55e"],
+["Google Cloud","google-cloud.svg","#7dd3fc,#38bdf8"],
+["Bing","bing.svg","#22d3ee,#0d9488"]];
+const tr=document.getElementById('track');
+for(let i=0;i<2;i++)logos.forEach(([alt,f,g])=>{
+ const d=document.createElement('div');d.className='card';
+ d.innerHTML='<div class="g" style="background:linear-gradient(135deg,'+g+')"></div>';
+ const im=new Image();im.src='https://svgl.app/library/'+f;im.alt=alt;
+ im.onerror=()=>{const s=document.createElement('span');s.className='t';s.textContent=alt;im.replaceWith(s)};
+ d.appendChild(im);tr.appendChild(d);
+});
+</script>
+</body>
+</html>

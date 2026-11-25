@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foldcraft</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            geist: ['Geist', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      font-family: 'Geist', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="relative h-screen w-full overflow-hidden bg-black font-geist">
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline class="absolute inset-0 h-full w-full object-cover" style="object-position: 70% center;">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_204221_5339e40b-e73d-4ab0-9c65-79c18c66fd50.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Navbar -->
+    <nav class="relative z-30 flex items-center justify-between px-6 py-5 md:px-12 lg:px-16">
+      <div class="flex items-center gap-8">
+        <span class="text-lg font-semibold tracking-tight text-white sm:text-xl">Foldcraft</span>
+        <div class="hidden items-center gap-6 md:flex">
+          <a href="#" class="text-sm text-white/80 transition-colors hover:text-white">Home</a>
+          <a href="#" class="text-sm text-white/80 transition-colors hover:text-white">Projects</a>
+          <a href="#" class="text-sm text-white/80 transition-colors hover:text-white">Studio</a>
+          <a href="#" class="text-sm text-white/80 transition-colors hover:text-white">Reach Us</a>
+        </div>
+      </div>
+      <button class="hidden rounded-lg bg-white px-5 py-2 text-sm font-medium text-black transition-transform hover:scale-105 md:block">
+        Let's Talk
+      </button>
+      <!-- Mobile Menu Toggle -->
+      <button id="menuToggle" class="relative z-50 flex h-10 w-10 items-center justify-center text-white transition-transform duration-300 active:scale-90 md:hidden">
+        <svg id="menuIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute transition-all duration-300">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+        <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute transition-all duration-300 -rotate-90 opacity-0 scale-75">
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="absolute inset-x-0 top-0 z-20 bg-black/[0.98] backdrop-blur-xl transition-all duration-500 pointer-events-none h-0 opacity-0 md:hidden" style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);">
+      <div id="mobileMenuInner" class="flex h-full flex-col justify-center px-8 transition-all duration-500 -translate-y-8 opacity-0" style="transition-delay: 100ms;">
+        <div class="flex flex-col gap-6">
+          <a href="#" class="mobile-link text-3xl font-medium text-white/90 transition-colors hover:text-white">Home</a>
+          <a href="#" class="mobile-link text-3xl font-medium text-white/90 transition-colors hover:text-white">Projects</a>
+          <a href="#" class="mobile-link text-3xl font-medium text-white/90 transition-colors hover:text-white">Studio</a>
+          <a href="#" class="mobile-link text-3xl font-medium text-white/90 transition-colors hover:text-white">Reach Us</a>
+          <button class="mobile-link mt-6 w-fit rounded-full bg-white px-8 py-3.5 text-base font-medium text-black transition-transform hover:scale-105">
+            Let's Talk
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 flex flex-col justify-between px-6 pb-10 pt-12 sm:pb-12 sm:pt-16 md:px-12 md:pb-16 md:pt-20 lg:px-16" style="height: calc(100vh - 80px);">
+      <!-- Top: Badge + Heading -->
+      <div class="max-w-3xl">
+        <div class="mb-4 inline-flex items-center gap-2 py-1.5 sm:mb-6" style="animation: fadeSlideUp 0.8s ease 0.2s both;">
+          <span class="text-xs text-white/90 sm:text-sm">Brand &amp; Visual Storytelling</span>
+        </div>
+        <h1 class="text-3xl font-medium leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl" style="animation: fadeSlideUp 0.8s ease 0.4s both;">
+          Shaping visual<br />
+          narratives,<br />
+          one pixel at a time.
+        </h1>
+      </div>
+
+      <!-- Bottom: Sub text + Button -->
+      <div>
+        <p class="mb-5 max-w-sm text-sm leading-relaxed text-white/60 sm:mb-6 sm:max-w-lg sm:text-base md:text-lg" style="animation: fadeSlideUp 0.8s ease 0.7s both;">
+          Turning vision into reality through craft, motion, and an endless pursuit of beauty.
+        </p>
+        <button class="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-black transition-transform hover:scale-105 sm:px-6 sm:py-3" style="animation: fadeSlideUp 0.8s ease 0.9s both;">
+          Explore Work
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuInner = document.getElementById('mobileMenuInner');
+    const menuIcon = document.getElementById('menuIcon');
+    const closeIcon = document.getElementById('closeIcon');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    let isOpen = false;
+
+    function toggleMenu() {
+      isOpen = !isOpen;
+      if (isOpen) {
+        mobileMenu.classList.remove('pointer-events-none', 'h-0', 'opacity-0');
+        mobileMenu.classList.add('h-screen', 'opacity-100');
+        mobileMenuInner.classList.remove('-translate-y-8', 'opacity-0');
+        mobileMenuInner.classList.add('translate-y-0', 'opacity-100');
+        menuIcon.classList.add('rotate-90', 'opacity-0', 'scale-75');
+        menuIcon.classList.remove('rotate-0', 'opacity-100', 'scale-100');
+        closeIcon.classList.remove('-rotate-90', 'opacity-0', 'scale-75');
+        closeIcon.classList.add('rotate-0', 'opacity-100', 'scale-100');
+      } else {
+        mobileMenu.classList.add('pointer-events-none', 'h-0', 'opacity-0');
+        mobileMenu.classList.remove('h-screen', 'opacity-100');
+        mobileMenuInner.classList.add('-translate-y-8', 'opacity-0');
+        mobileMenuInner.classList.remove('translate-y-0', 'opacity-100');
+        menuIcon.classList.remove('rotate-90', 'opacity-0', 'scale-75');
+        menuIcon.classList.add('rotate-0', 'opacity-100', 'scale-100');
+        closeIcon.classList.add('-rotate-90', 'opacity-0', 'scale-75');
+        closeIcon.classList.remove('rotate-0', 'opacity-100', 'scale-100');
+      }
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', () => { if (isOpen) toggleMenu(); }));
+  </script>
+</body>
+</html>

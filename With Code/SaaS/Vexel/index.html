@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vexel — Your next customer starts with a hello.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#01061a">
+<style>
+@font-face{font-family:"Google Sans";font-weight:400;font-display:block;src:local("Google Sans"),local("GoogleSans-Regular"),url(assets/google-sans-400.woff2) format("woff2")}
+@font-face{font-family:"Google Sans";font-weight:500;font-display:block;src:local("Google Sans Medium"),local("GoogleSans-Medium"),url(assets/google-sans-500.woff2) format("woff2")}
+:root{
+ --ink:#fff;--nav:rgba(238,242,255,.9);--sub:rgba(226,233,255,.74);--link:rgba(212,236,255,.77);--hair:rgba(255,255,255,.19);
+ --u:min(100vh/800,max(100vw/1280,min(100vw/640,.75px)));
+}
+@supports (height:1dvh){:root{--u:min(100dvh/800,max(100vw/1280,min(100vw/640,.75px)))}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:linear-gradient(90deg,#00061a 0%,#01071b 22%,#01071a 45%,#010718 62%,#010614 80%,#020511 100%);background-color:#01061a;color:var(--ink);
+ font-family:"Google Sans","Product Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;font-kerning:normal;
+ display:flex;flex-direction:column;align-items:center;height:100vh;height:100dvh}
+a{color:inherit;text-decoration:none}
+a:focus{outline:none}
+a:focus-visible{outline:2px solid #7fd4ff;outline-offset:4px}
+.masthead{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding-top:calc(env(safe-area-inset-top) + 40.5*var(--u));flex:none}
+.logo{display:block;margin-left:calc(-.5*var(--u))}
+.logo svg{display:block;height:max(calc(23.5*var(--u)),17px);width:auto;fill:#fff}
+.hair{width:max(calc(284*var(--u)),252px);height:1px;background:var(--hair);margin-top:calc(24*var(--u));transform-origin:center}
+nav{width:max(calc(284*var(--u)),252px);display:flex;justify-content:space-between;margin-top:calc(17.4*var(--u));padding:0 calc(8.9*var(--u))}
+nav a{font-size:max(calc(15*var(--u)),13px);letter-spacing:-.033em;color:var(--nav);transition:color .2s}
+nav a:hover{color:#fff}
+.gap{flex:82.98 1 0;min-height:max(calc(24*var(--u)),0px)}
+.copy{display:flex;flex-direction:column;align-items:center;text-align:center;flex:none;padding:0 24px;position:relative;z-index:2}
+h1{font-weight:400;font-size:max(calc(68*var(--u)),34px);line-height:.9559;letter-spacing:-.0279em;white-space:nowrap}
+h1 .l{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+h1 .li{display:block}
+h1 .l:nth-child(2){letter-spacing:-.0294em}
+h1 .l:nth-child(2) .li{transform:translateX(calc(2.6*var(--u)))}
+.sub{font-size:max(calc(21*var(--u)),15px);letter-spacing:-.005em;margin-top:calc(18.98*var(--u));color:var(--sub);text-wrap:balance}
+.btn{display:flex;align-items:center;justify-content:center;width:max(calc(216*var(--u)),196px);height:max(calc(46*var(--u)),44px);border-radius:max(calc(4.5*var(--u)),4px);background:#fff;color:#0a0a0a;font-weight:500;font-size:max(calc(17*var(--u)),15px);letter-spacing:-.0265em;margin-top:calc(25.64*var(--u));transition:background .2s,box-shadow .2s}
+.btn:hover{background:#e8eef7;box-shadow:0 0 0 calc(4*var(--u)) rgba(120,200,255,.12)}
+.btn:focus-visible{outline-offset:3px}
+.disc{display:inline-flex;align-items:center;gap:.4em;font-size:max(calc(14.8*var(--u)),13px);letter-spacing:-.051em;margin-top:calc(20.55*var(--u));color:var(--link)}
+.disc svg{width:.68em;height:.85em;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.disc:hover svg{transform:translateY(.12em)}
+.field{flex:318.68 1 0;min-height:calc(160*var(--u));width:100%;position:relative;overflow:visible;container-type:size;margin-top:0;z-index:1}
+.field video{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:auto;max-width:none;pointer-events:none;
+ height:max(60vw,105vh);
+ height:max(calc(100cqw*971/1619),calc((100cqh + 36.4*var(--u))/.49537 + 1px));
+ -webkit-mask-image:linear-gradient(#0000,#000 4%);mask-image:linear-gradient(#0000,#000 4%)}
+/* tablet */
+@media (min-width:600px) and (max-width:1099.98px) and (min-height:541px){
+ :root{--u:min(100dvh/800,1px,max(100vw/1280,100dvh/1190,.86px))}
+ .field{max-height:48%}
+ nav a{padding:14px 8px;margin:-14px -8px}
+ .disc{padding:12px 10px;margin-left:-10px;margin-right:-10px;margin-top:calc(20.55*var(--u) - 12px);margin-bottom:-12px}
+}
+@media (max-width:599.98px) and (orientation:portrait){
+ :root{--u:min(100svh/800,max(100vw/1280,min(100vw/640,.75px)))}
+ .copy{padding:0 24px}
+ h1{font-size:max(26px,min(calc(68*var(--u)),calc((100vw - 48px)/8.235)))}
+ .sub{font-size:min(calc(21*var(--u)),3.345vw);font-size:max(16px,min(calc(21*var(--u)),3.345vw));line-height:1.25;overflow-wrap:break-word}
+ .hair,nav{width:min(max(calc(284*var(--u)),252px),calc(100vw - 32px))}
+ .field{max-height:48%}
+ nav a{padding:14px 8px;margin:-14px -8px}
+ .disc{padding:12px 10px;margin-top:calc(20.55*var(--u) - 12px);margin-bottom:-12px}
+}
+@media (orientation:landscape) and (max-height:539.98px){
+ .logo svg{height:13px}
+ .hair,nav{width:210px}
+ nav a{font-size:11px}
+ h1{font-size:28px}
+ .sub{font-size:12px}
+ .btn{width:150px;height:34px;font-size:12.5px}
+ .disc{font-size:11px}
+ .gap{min-height:calc(14*var(--u))}
+ .field{min-height:calc(120*var(--u))}
+}
+@media (orientation:landscape) and (max-height:539.98px) and (pointer:coarse){
+ nav a{padding:14px 8px;margin:-14px -8px}
+ .disc{padding:12px 10px;margin:calc(20.55*var(--u) - 12px) 0 -12px}
+}
+@media (max-width:359px){
+ h1{white-space:normal;font-size:30px}
+ h1 .l{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.intro .logo,.intro nav a,.intro .sub,.intro .btn,.intro .disc{opacity:0}
+.intro .hair{transform:scaleX(0)}
+.intro h1 .l{clip-path:inset(-20% -10% 0 -10%)}
+.intro h1 .li{transform:translateY(104%)}
+.intro .l:nth-child(2) .li{transform:translate(calc(2.6*var(--u)),104%)}
+</style>
+</head>
+<body>
+<header class="masthead">
+ <a class="logo" href="#" aria-label="Vexel home"><svg viewBox="588 40.5 103.5 23.5" aria-hidden="true"><path d="M588.6 40.8H594.9L601.4 56.6L606.5 40.8H612.6L604.2 63.5H597.8Z"/><path d="M612.8 40.8H630.5V45.2H619.2V49.8H628.3V54.4H619.2V58.9H631.5V63.5H612.8Z"/><path d="M631.3 40.8H637.9L642.5 47.4L646.5 40.8H653.1L646.4 52L653.6 63.5H647.1L642.5 56.4L638.3 63.5H631.4L638.8 52Z"/><path d="M653.6 40.8H669.6V63.5H653.6V58.9H664.3V54.4H657V49.8H664.3V45.2H653.6Z"/><path d="M672.4 40.8H677.6V58.9H690.5V63.5H672.4Z"/></svg></a>
+ <div class="hair"></div>
+ <nav><a href="#platform">Platform</a><a href="#company">Company</a><a href="#contact">Contact</a></nav>
+</header>
+<div class="gap"></div>
+<main class="copy">
+ <h1><span class="l"><span class="li">Your next customer</span></span><span class="l"><span class="li">starts with a hello.</span></span></h1>
+ <p class="sub">Make&nbsp;the&nbsp;first&nbsp;move. We’ll&nbsp;help&nbsp;with&nbsp;what&nbsp;follows.</p>
+ <a class="btn" href="#contact">Start a conversation</a>
+ <a class="disc" href="#platform"><span>Discover the platform</span><svg viewBox="0 0 11 12.6" aria-hidden="true"><path d="M5.5 .4V12M1 7.5L5.5 12L10 7.5"/></svg></a>
+</main>
+<div class="field"><video autoplay muted loop playsinline aria-hidden="true" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261005_182549_18378239-da8f-48a7-9666-d6e0a6a88561.mp4"></video></div>
+<script>
+(function(){
+ var root=document.documentElement;
+ if(!Element.prototype.animate||!window.matchMedia||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ root.classList.add('intro');
+ var started=false;
+ setTimeout(function(){if(!started)root.classList.remove('intro')},3500);
+ var video=document.querySelector('.field video');
+ var logo=document.querySelector('.logo');
+ var p=[document.fonts?document.fonts.ready:Promise.resolve(),new Promise(function(r){if(video.readyState>=2)r();else video.addEventListener('loadeddata',r,{once:true})})];
+ var go=false;function start(){if(go)return;go=true;run()}
+ Promise.all(p).then(start);setTimeout(start,900);
+ function run(){
+  started=true;
+  var k=Math.min(1,Math.max(.65,logo.getBoundingClientRect().height/23.5));
+  var Q='cubic-bezier(0.22, 1, 0.36, 1)',E='cubic-bezier(0.16, 1, 0.3, 1)';
+  var anims=[];
+  function a(el,kf,o){o.fill='both';anims.push(el.animate(kf,o))}
+  var q=function(s){return document.querySelector(s)};
+  a(logo,[{opacity:0,transform:'translateY('+(-6*k)+'px)'},{opacity:1,transform:'none'}],{delay:60,duration:900,easing:Q});
+  a(q('.hair'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{delay:180,duration:1000,easing:'cubic-bezier(0.7, 0, 0.2, 1)'});
+  var nl=document.querySelectorAll('nav a');
+  nl.forEach(function(el,i){a(el,[{opacity:0,transform:'translateY('+(-4*k)+'px)'},{opacity:1,transform:'none'}],{delay:i==1?420:490,duration:700,easing:Q})});
+  document.querySelectorAll('h1 .li').forEach(function(el,i){
+   var x=i?'translateX(calc(2.6 * var(--u)))':'';
+   a(el,[{transform:'translateY(104%) '+x},{transform:x||'none'}],{delay:i?290:200,duration:1100,easing:E});
+  });
+  a(q('.sub'),[{opacity:0,transform:'translateY('+10*k+'px)'},{opacity:1,transform:'none'}],{delay:700,duration:850,easing:Q});
+  a(q('.btn'),[{opacity:0,transform:'translateY('+12*k+'px) scale(.975)'},{opacity:1,transform:'none'}],{delay:860,duration:900,easing:'cubic-bezier(0.16, 1, 0.3, 1)'});
+  a(q('.disc'),[{opacity:0,transform:'translateY('+6*k+'px)'},{opacity:1,transform:'none'}],{delay:1040,duration:700,easing:Q});
+  a(q('.disc svg'),[{transform:'translateY('+(-5*k)+'px)'},{transform:'none'}],{delay:1120,duration:820,easing:E});
+  Promise.all(anims.map(function(x){return x.finished})).then(function(){
+   root.classList.remove('intro');
+   anims.forEach(function(x){x.cancel()});
+   if(!document.hasFocus()||!document.body.contains(document.activeElement)||document.activeElement===document.body){
+    document.body.style.display='none';void document.body.offsetHeight;document.body.style.display='';
+   }
+   root.setAttribute('data-intro','done');
+  }).catch(function(){root.classList.remove('intro')});
+ }
+})();
+</script>
+</body>
+</html>

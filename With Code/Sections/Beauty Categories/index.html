@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Categories</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:#fff;color:#fff;overflow-x:hidden}
+section{width:100%;background:#fff;color:#fff;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.grid{display:grid;grid-template-columns:1fr;opacity:0;transform:translateY(3rem);transition:opacity 1s ease-out,transform 1s ease-out}
+.grid.visible{opacity:1;transform:translateY(0)}
+.card{position:relative;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:1.5rem;min-height:400px;overflow:hidden;background:#3a2a2a}
+.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.card:hover video{transform:scale(1.05)}
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.1);transition:background-color .5s cubic-bezier(.4,0,.2,1)}
+.card:hover .ov{background:rgba(0,0,0,.2)}
+h2{position:relative;z-index:10;margin:0;font-size:3rem;line-height:1;font-weight:500;writing-mode:vertical-lr;transform:rotate(180deg);transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.card:hover h2{transform:rotate(180deg) translateY(.5rem)}
+.btn-primary{position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease;z-index:10;margin-top:auto;padding:.75rem 2rem;background:#fff;color:#000;border:0;border-radius:9999px;font:inherit;font-size:.875rem;line-height:1.25rem;cursor:pointer}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 0%,rgba(0,0,0,.05) 50%,transparent 100%);transform:translateX(-100%);transition:transform .5s ease}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.btn-primary:hover::before{transform:translateX(100%)}
+.btn-primary:active{transform:translateY(0);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+@media(min-width:640px){.card{padding:2rem;min-height:500px}h2{font-size:3.75rem}}
+@media(min-width:768px){.grid{grid-template-columns:repeat(3,1fr)}.card{padding:3rem;min-height:750px}h2{font-size:4.5rem}}
+@media(min-width:1024px){h2{font-size:6rem}}
+</style>
+</head>
+<body>
+<section>
+  <div class="grid" id="grid"></div>
+</section>
+<script>
+var cats=[
+["face","https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203023_87a26602-2898-4acc-a396-c7a2b5ad84fd.mp4"],
+["beauty tools","https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203415_b86e3f19-2aec-46cd-9a86-b64c40118e38.mp4"],
+["body","https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_203051_85fee398-ea01-4aa0-972b-137a74213be5.mp4"]];
+var grid=document.getElementById('grid');
+cats.forEach(function(c,i){
+  var d=document.createElement('div');d.className='card';d.style.transitionDelay=(i*150)+'ms';
+  var v=document.createElement('video');v.autoplay=true;v.loop=true;v.muted=true;v.defaultMuted=true;v.playsInline=true;
+  v.setAttribute('muted','');v.setAttribute('playsinline','');v.src=c[1];
+  var o=document.createElement('div');o.className='ov';
+  var h=document.createElement('h2');h.textContent=c[0];
+  var b=document.createElement('button');b.className='btn-primary';b.textContent='shop '+c[0];
+  d.append(v,o,h,b);grid.appendChild(d);
+  var p=v.play();if(p&&p.catch)p.catch(function(){});
+});
+function show(){grid.classList.add('visible')}
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){show();io.unobserve(e.target)}})},{threshold:0.1});
+  io.observe(grid);
+}else show();
+</script>
+</body>
+</html>

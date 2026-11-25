@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drift. Calm ADHD-friendly planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+.cta .m{display:block}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip;background:#2a1a10;color:#000}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* HERO */
+.hero{position:relative;height:100vh;height:100svh;overflow:hidden;margin-bottom:-25px;background:#5a3a24}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .ov{position:absolute;inset:0;background:rgba(0,0,0,.2)}
+.nav{position:absolute;top:24px;left:50%;transform:translateX(-50%);z-index:50}
+.pill{display:flex;align-items:center;gap:16px;background:#fff;border-radius:9999px;padding:10px 20px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+.brand{font-size:18px;font-weight:700;letter-spacing:-.025em;color:#000}
+.burger{position:relative;width:20px;height:20px}
+.burger span{position:absolute;left:2px;width:16px;height:2px;background:#000;border-radius:2px;transition:transform .3s cubic-bezier(.77,0,.175,1),top .3s cubic-bezier(.77,0,.175,1)}
+.burger span:nth-child(1){top:6px}
+.burger span:nth-child(2){top:12px}
+.burger.open span:nth-child(1){top:9px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){top:9px;transform:rotate(-45deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:50%;width:200px;margin-left:-100px;background:#fff;border-radius:16px;padding:8px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);opacity:0;transform:translateY(-8px) scale(.95);pointer-events:none;transition:all .2s ease-out}
+.dd.open{opacity:1;transform:none;pointer-events:auto}
+.dd a{display:block;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500;color:#000}
+.dd a:hover{background:#f3f3f3}
+.hc{position:relative;z-index:10;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:0 24px 48px;text-align:center}
+h1{font-weight:400;color:#fff;line-height:1.1;letter-spacing:-.025em;font-size:48px}
+h1 em{font-family:'Instrument Serif',serif;font-style:italic}
+.sub{color:rgba(255,255,255,.8);font-size:14px;font-weight:500;max-width:420px;margin:24px auto 0;line-height:1.5}
+.cta{display:flex;align-items:center;margin-top:32px;background:rgba(0,0,0,.25);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:12px;padding:4px 4px 4px 24px;gap:16px}
+.cta p{color:#fff;font-size:14px;font-weight:500;text-align:left}
+.cta .d{display:none}
+.btn-w{background:#fff;color:#000;font-size:14px;font-weight:500;padding:10px 20px;border-radius:12px;white-space:nowrap}
+.btn-w:hover{background:rgba(255,255,255,.9)}
+@media(min-width:640px){h1{font-size:72px}.cta .d{display:block}.cta .m{display:none}.cta{padding-left:24px}}
+@media(max-width:639px){.cta{padding-left:16px;gap:12px}.cta p{font-size:13px}}
+@media(min-width:768px){h1{font-size:96px}.sub{font-size:16px}.hc{padding-bottom:64px}}
+
+/* ABOUT */
+.about{position:relative;z-index:10;background:#F6E4CF;border-radius:25px 25px 0 0;padding:80px 24px;color:#321C04}
+@media(min-width:768px){.about{padding:128px 24px}}
+.top{max-width:768px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:32px}
+.top p{max-width:512px;text-align:center;font-size:16px;line-height:1.625}
+@media(min-width:768px){.top p{font-size:18px}}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.pb{display:inline-flex;align-items:center;gap:12px;border-radius:9999px;padding:6px 24px 6px 6px;text-transform:uppercase;letter-spacing:.025em;font-weight:500;font-size:14px;transition:background .2s}
+.pb .c{width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#321C04}
+.pb.dk{background:#321C04;color:#FFF9F2}.pb.dk:hover{background:#1F1003}
+.pb.mt{background:#D9C4AA;color:#321C04}.pb.mt:hover{background:#CEBA9E}
+.div{display:flex;align-items:center;gap:8px;margin:64px 0}
+.div i{width:8px;height:8px;border-radius:50%;background:#D9C4AA;display:block}
+.div b{flex:1;height:2px;background:#D9C4AA;display:block}
+.bot{max-width:1152px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.lab{display:flex;flex-direction:column;gap:16px;flex:none}
+.lab span{font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;line-height:1.5}
+.big{font-size:24px;line-height:1.3;font-weight:400}
+@media(min-width:640px){.big{font-size:30px}}
+@media(min-width:768px){.big{font-size:36px}.bot{flex-direction:row;gap:64px}.lab{width:180px}}
+@media(min-width:1024px){.big{font-size:42px}}
+
+/* FEATURES */
+.feat{position:relative;padding:80px 20px;isolation:isolate}
+.fbg{position:fixed;inset:0;z-index:-10;background:#3b2a1e url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260709_082449_46df5cc4-ad98-4541-9236-a2659c1478a4.png&w=1920&q=85") center/cover no-repeat}
+.fgrid{max-width:1400px;margin:0 auto;display:block}
+.fl h2{color:#fff;font-weight:400;font-size:24px;line-height:1.2;margin-bottom:40px}
+.nl,.fcta{display:none}
+.cards{display:flex;flex-direction:column;gap:24px}
+.card{background:rgba(0,0,0,.2);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border-radius:24px;padding:24px;opacity:0;transform:translateX(64px);transition:opacity .7s ease-out,transform .7s ease-out}
+.card.in{opacity:1;transform:none}
+.card h3{color:#fff;font-size:20px;font-weight:500;margin:20px 0}
+.vid{aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:rgba(0,0,0,.3);margin-bottom:20px}
+.vid video{width:100%;height:100%;object-fit:cover;display:block}
+.card p{color:rgba(255,255,255,.6);font-weight:500;font-size:14px;line-height:1.625}
+@media(min-width:640px){.fl h2{font-size:30px}}
+@media(min-width:768px){.feat{padding:160px 40px}.card{padding:40px}.card h3{font-size:24px}.card p{font-size:16px}}
+@media(min-width:1024px){
+ .feat{padding:192px 64px}
+ .fgrid{display:grid;grid-template-columns:400px 1fr;gap:96px}
+ .fl{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:128px 0}
+ .fl h2{font-size:46px;margin:0}
+ .nl{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+ .nl button{background:rgba(0,0,0,.2);color:rgba(255,255,255,.4);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:500;text-align:left;transition:color .3s}
+ .nl button.on{color:#fff}
+ .fcta{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+ .fcta p{color:#fff;font-size:14px;font-weight:500}
+ .cards{gap:40vh}
+}
+@media(min-width:1280px){.fgrid{grid-template-columns:460px 1fr;gap:192px}}
+</style>
+</head>
+<body>
+<section class="hero" id="top">
+  <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260711_090308_1dd0cea7-f9ba-4db4-8147-c7d746061c9e.mp4"></video>
+  <div class="ov"></div>
+  <nav class="nav">
+    <div class="pill"><span class="brand">Drift.</span>
+      <button class="burger" id="bg" aria-label="Menu" aria-expanded="false"><span></span><span></span></button></div>
+    <div class="dd" id="dd"><a href="#features">Features</a><a href="#features">Drift AI</a><a href="#features">FAQ</a></div>
+  </nav>
+  <div class="hc">
+    <h1>Own your time<br>without <em>the stress</em></h1>
+    <p class="sub">Drift is a calm, ADHD-friendly planner that turns scattered ideas into a clear path</p>
+    <div class="cta">
+      <p class="d">No noise. No complicated systems. Just your day, gently sorted.</p>
+      <p class="m">No noise. Just your day, gently sorted.</p>
+      <button class="btn-w">Start for free</button>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="top">
+    <p>We craft tools that move with your rhythm, not over it. Designed for ease, presence, and flow.</p>
+    <div class="btns">
+      <a class="pb dk" href="#"><span class="c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>Say hello</a>
+      <a class="pb mt" href="#"><span class="c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg></span>Stay informed</a>
+    </div>
+  </div>
+  <div class="div"><i></i><b></b><i></i></div>
+  <div class="bot">
+    <div class="lab">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 256 256" fill="none"><path d="M 256 256 L 178 256 C 150.386 256 128 233.614 128 206 L 128 256 L 0 256 L 0 192 C 0 156.654 28.654 128 64 128 C 99.346 128 128 156.654 128 192 L 128 128 L 256 128 Z M 78 0 C 105.614 0 128 22.386 128 50 L 128 0 L 256 0 L 256 64 C 256 99.346 227.346 128 192 128 C 156.654 128 128 99.346 128 64 L 128 128 L 0 128 L 0 0 Z" fill="#321C04"/></svg>
+      <span>Calm<br>Amplified</span>
+    </div>
+    <p class="big">We make AI tools and assistants. But, most importantly, we help you remember what gentle productivity looks like when software moves with you, not over you. We create systems that carry the cognitive weight, so you can attend to what truly counts.</p>
+  </div>
+</section>
+
+<section class="feat" id="features">
+  <div class="fbg"></div>
+  <div class="fgrid">
+    <div class="fl">
+      <h2>Software that flows with your mind, not over it</h2>
+      <div class="nl" id="nl"></div>
+      <div class="fcta"><p>No noise. No complicated systems. Just your day, gently sorted.</p><button class="btn-w">Start for free</button></div>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var bg=document.getElementById('bg'),dd=document.getElementById('dd');
+  bg.addEventListener('click',function(){var o=bg.classList.toggle('open');dd.classList.toggle('open',o);bg.setAttribute('aria-expanded',o)});
+  dd.addEventListener('click',function(){bg.classList.remove('open');dd.classList.remove('open')});
+  var logo='<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 256 256" fill="none"><path d="M 256 256 L 178 256 C 150.386 256 128 233.614 128 206 L 128 256 L 0 256 L 0 192 C 0 156.654 28.654 128 64 128 C 99.346 128 128 156.654 128 192 L 128 128 L 256 128 Z M 78 0 C 105.614 0 128 22.386 128 50 L 128 0 L 256 0 L 256 64 C 256 99.346 227.346 128 192 128 C 156.654 128 128 99.346 128 64 L 128 128 L 0 128 L 0 0 Z" fill="rgba(255,255,255,0.8)"/></svg>';
+  var F=[
+   ["Built for ease, not urgency","Drift strips away the noise that makes organizing feel draining. Every surface is made to be soft, quiet, and intuitive so you can move forward, not get stuck decoding.","https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_102608_5fa1187d-9ac6-44fb-82ab-54376200abc0.mp4"],
+   ["The gentlest way to start","Beginning your day should feel natural, not daunting. Drift eases you into motion with subtle cues and a quiet view of what deserves your energy right now.","https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260625_174131_395bc785-bb21-4e65-abf6-27c56f0764b6.mp4"],
+   ["Deep, undivided focus","No interruptions, no clutter. Drift holds you in the present task with a stripped-back layout that softens all else until you are truly ready to shift.","https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260525_052706_d2e390fd-1846-4fe7-a4d8-8d2f1c875358.mp4"]];
+  var cards=document.getElementById('cards'),nl=document.getElementById('nl');
+  F.forEach(function(f,i){
+    var c=document.createElement('div');c.className='card';c.id='card'+i;
+    c.innerHTML=logo+'<h3>'+f[0]+'</h3><div class="vid"><video autoplay muted loop playsinline src="'+f[2]+'"></video></div><p>'+f[1]+'</p>';
+    cards.appendChild(c);
+    var b=document.createElement('button');b.textContent=f[0];if(!i)b.className='on';
+    b.addEventListener('click',function(){c.scrollIntoView({behavior:'smooth',block:'center'})});
+    nl.appendChild(b);
+  });
+  var cs=[].slice.call(document.querySelectorAll('.card')),bs=[].slice.call(nl.children);
+  if('IntersectionObserver' in window){
+    var rev=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');rev.unobserve(e.target)}})},{threshold:.15});
+    var act=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=cs.indexOf(e.target);bs.forEach(function(b,j){b.classList.toggle('on',i===j)})}})},{threshold:.6});
+    cs.forEach(function(c){rev.observe(c);act.observe(c)});
+  }else cs.forEach(function(c){c.classList.add('in')});
+})();
+</script>
+</body>
+</html>

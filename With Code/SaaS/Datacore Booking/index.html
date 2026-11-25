@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datacore Booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600&family=Inter:wght@400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{background:#2b2344;font-family:'Inter',sans-serif;color:#fff}
+.hero{position:relative;min-height:100vh;overflow:hidden;background:#2b2344}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+nav{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:16px 24px}
+.left{display:flex;align-items:center;gap:30px}
+.logo svg{display:block;width:36px;height:36px}
+.links{display:none;align-items:center;gap:30px}
+.links a{font-family:'Manrope',sans-serif;font-weight:500;font-size:14px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:4px;transition:opacity .2s}
+.links a:hover{opacity:.8}
+.actions{display:none;gap:12px}
+.btn-si,.btn-gs{font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;border-radius:8px;padding:8px 16px;cursor:pointer;transition:filter .2s}
+.btn-si{background:#fff;border:1px solid #d4d4d4;color:#171717}
+.btn-gs{background:#7b39fc;border:1px solid #7b39fc;color:#fafafa;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.btn-si:hover,.btn-gs:hover{filter:brightness(1.1)}
+.burger{background:none;border:0;color:#fff;cursor:pointer;display:block}
+.menu{position:fixed;inset:0;background:#000;z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.menu.open{display:flex}
+.menu a{font-family:'Manrope',sans-serif;font-weight:500;font-size:22px;color:#fff;text-decoration:none}
+.menu .close{position:absolute;top:16px;right:24px;background:none;border:0;color:#fff;cursor:pointer}
+.content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:128px;padding:0 24px 80px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 8px 0 6px;border-radius:10px;background:rgba(85,80,110,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(164,132,215,.5);font-family:'Cabin',sans-serif;font-weight:500;font-size:14px;color:#fff}
+.pill b{background:#7b39fc;border-radius:6px;padding:3px 8px;font-weight:500}
+h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:48px;line-height:1.1;margin-top:24px;max-width:900px}
+h1 em{font-style:italic;padding:0 .12em}
+.sub{font-family:'Inter',sans-serif;font-size:18px;color:rgba(255,255,255,.7);max-width:662px;margin-top:24px;line-height:1.55}
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:32px}
+.cta button{font-family:'Cabin',sans-serif;font-weight:500;font-size:16px;border:0;border-radius:10px;padding:14px 28px;cursor:pointer;transition:filter .2s}
+.c1{background:#7b39fc;color:#fff}
+.c2{background:#2b2344;color:#f6f7f9}
+.cta button:hover{filter:brightness(1.2)}
+@media(min-width:768px){
+ nav{padding:16px 120px}
+ .links,.actions{display:flex}
+ .burger{display:none}
+ h1{font-size:96px}
+}
+@media(min-width:768px) and (max-width:1100px){nav{padding:16px 40px}h1{font-size:72px}}
+</style>
+</head>
+<body>
+<section class="hero">
+<video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260210_031346_d87182fb-b0af-4273-84d1-c6fd17d6bf0f.mp4"></video>
+<nav>
+ <div class="left">
+  <a class="logo" href="#" aria-label="Datacore"><svg viewBox="0 0 36 36" fill="#fff"><path d="M3 10 L18 3 L33 10 L18 17 Z"/><path d="M3 17 L18 24 L33 17 L33 21 L18 28 L3 21 Z" opacity=".85"/><path d="M3 28 L18 35 L33 28 L33 32 L18 36 L3 32 Z" opacity=".6"/></svg></a>
+  <div class="links">
+   <a href="#">Home</a>
+   <a href="#">Services <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a>
+   <a href="#">Reviews</a>
+   <a href="#">Contact us</a>
+  </div>
+ </div>
+ <div class="actions"><button class="btn-si">Sign In</button><button class="btn-gs">Get Started</button></div>
+ <button class="burger" id="open" aria-label="Open menu"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+</nav>
+<div class="menu" id="menu">
+ <button class="close" id="close" aria-label="Close menu"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+ <a href="#">Home</a><a href="#">Services</a><a href="#">Reviews</a><a href="#">Contact us</a>
+</div>
+<div class="content">
+ <div class="pill"><b>New</b><span>Say Hello to Datacore v3.2</span></div>
+ <h1>Book your perfect stay instantly <em>and</em> hassle-free</h1>
+ <p class="sub">Discover handpicked hotels, resorts, and stays across your favorite destinations. Enjoy exclusive deals, fast booking, and 24/7 support.</p>
+ <div class="cta"><button class="c1">Book a Free Demo</button><button class="c2">Get Started Now</button></div>
+</div>
+</section>
+<script>
+var m=document.getElementById('menu');
+document.getElementById('open').onclick=function(){m.classList.add('open')};
+document.getElementById('close').onclick=function(){m.classList.remove('open')};
+m.querySelectorAll('a').forEach(function(a){a.onclick=function(){m.classList.remove('open')}});
+</script>
+</body>
+</html>

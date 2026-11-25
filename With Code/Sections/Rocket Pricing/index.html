@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rocket Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:#000000;
+  --foreground:hsl(0 0% 98%);
+  --fg:250,250,250;
+  --surface:rgba(255,255,255,0.10);
+  --surface-hover:rgba(255,255,255,0.16);
+  --border:rgba(255,255,255,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--background);color:var(--foreground);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+section{position:relative;width:100%;background:var(--background);padding:48px 0}
+@media(min-width:640px){section{padding:64px 0}}
+.wrap{margin:0 auto;max-width:1080px;padding:0 16px}
+@media(min-width:640px){.wrap{padding:0 24px}}
+.head{margin-bottom:56px;display:flex;flex-direction:column;align-items:flex-start;gap:40px}
+@media(min-width:1024px){.head{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.head .l{max-width:42rem}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:var(--surface);border:1px solid rgba(255,255,255,.1);padding:4px 12px;font-size:12px;line-height:16px;color:rgba(var(--fg),.8);backdrop-filter:blur(8px);margin-bottom:24px}
+.pill i{width:6px;height:6px;border-radius:50%;background:rgba(var(--fg),.7)}
+h2{font-size:30px;font-weight:400;letter-spacing:-.02em;line-height:1.05;color:var(--foreground)}
+@media(min-width:640px){h2{font-size:36px}}
+h2 br{display:none}
+@media(min-width:640px){h2 br{display:inline}}
+.head p{max-width:24rem;font-size:14px;line-height:1.5;color:rgba(var(--fg),.6)}
+@media(min-width:640px){.head p{font-size:16px}}
+.grid{margin:0 auto;display:grid;max-width:48rem;grid-template-columns:1fr;gap:24px}
+@media(min-width:768px){.grid{grid-template-columns:1fr 1fr}}
+/* fade up */
+.fu{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.22,1,.36,1) var(--d,0s),transform .6s cubic-bezier(.22,1,.36,1) var(--d,0s)}
+.fu.in{opacity:1;transform:none}
+/* spotlight */
+.spot{--spot-x:-9999px;--spot-y:-9999px;--size:460px;--intensity:.5;position:relative;height:100%;padding:8px;border-radius:16px}
+@media(min-width:640px){.spot{padding:12px}}
+.spot::before,.spot::after{content:"";position:absolute;inset:0;border-radius:16px;padding:1px;pointer-events:none;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude}
+.spot::before{border:1px solid rgba(255,255,255,.1);background:none;padding:0;-webkit-mask:none;mask:none}
+.spot::after{background:radial-gradient(circle var(--size) at var(--spot-x) var(--spot-y),rgba(255,255,255,var(--intensity)),transparent 60%)}
+.card{position:relative;display:flex;height:100%;flex-direction:column;border-radius:16px;border:1px solid rgba(255,255,255,.1);padding:28px}
+@media(min-width:640px){.card{padding:32px}}
+.badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);border-radius:999px;border:1px solid rgba(255,255,255,.15);background:#fff;padding:4px 12px;font-size:12px;line-height:16px;font-weight:500;color:#000;white-space:nowrap}
+.eyebrow{font-size:11px;line-height:16px;text-transform:uppercase;letter-spacing:.2em;color:rgba(var(--fg),.6)}
+.div{margin-top:12px;border-top:1px solid rgba(255,255,255,.1)}
+.price{margin-top:40px;display:flex;align-items:baseline;gap:8px}
+.price b{font-size:2.75rem;line-height:1;font-weight:400;letter-spacing:-.025em}
+.price s{font-size:18px;color:rgba(var(--fg),.4)}
+.desc{margin-top:16px;font-size:14px;line-height:1.625;color:rgba(var(--fg),.6)}
+.btnw{margin-top:28px}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 16px;font-size:14px;line-height:1;border-radius:999px;text-decoration:none;font-family:inherit;overflow:hidden;transition:background .2s}
+.btn .t{display:block;position:relative;height:1em;overflow:hidden}
+.btn .t span{display:block;height:1em;line-height:1;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.btn:hover .t span{transform:translateY(-100%)}
+.btn.p{background:rgba(255,255,255,.8);color:#000}
+.btn.p:hover{background:#fff}
+.btn.s{background:var(--surface);border:1px solid var(--border);color:var(--foreground);backdrop-filter:blur(2.5px);font-weight:500}
+.btn.s:hover{background:var(--surface-hover)}
+ul{margin-top:28px;display:flex;flex:1;flex-direction:column;gap:8px;list-style:none}
+li{display:flex;align-items:center;gap:12px;padding:16px 0;font-size:14px;line-height:20px;color:rgba(var(--fg),.85)}
+li+li{border-top:1px solid rgba(255,255,255,.1)}
+li.off{color:rgba(var(--fg),.4)}
+.ic{display:flex;flex:none;width:20px;height:20px;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+li.off .ic{border-color:rgba(255,255,255,.1);background:transparent}
+.ic svg{width:12px;height:12px;fill:none;stroke:var(--foreground);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+li.off .ic svg{stroke:rgba(var(--fg),.5)}
+@media(prefers-reduced-motion:reduce){.fu{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<section id="pricing">
+  <div class="wrap">
+    <div class="head">
+      <div class="l">
+        <div class="fu" style="--d:0s"><span class="pill"><i></i>Pricing</span></div>
+        <div class="fu" style="--d:.1s"><h2>Clear pricing plans<br> that scale with you.</h2></div>
+      </div>
+      <div class="fu" style="--d:.2s"><p>One-time payment. Lifetime access. Pick the plan that fits how far you want to go.</p></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+<script>
+const CHECK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const CLOSE='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const plans=[
+ {name:"Course",price:"159",originalPrice:"497",description:"Once. Lifetime. 68% off.",bg:"#161616",features:[
+  ["All courses and videos",1],["All modules. Lifetime access.",1],["AI Builder",1],["Unlimited Templates",0],["Unlimited Motion Videos",0]]},
+ {name:"Course + Lovable Templates",price:"239",originalPrice:"697",description:"Once. Lifetime. Best deal.",bg:"#252525",featured:true,badge:"Best Value",features:[
+  ["All courses and videos",1],["All modules. Lifetime access.",1],["AI Builder",1],["Unlimited Templates",1],["Unlimited Motion Videos",1]]}
+];
+const btn=(f)=>`<a class="btn ${f?'p':'s'}" href="/auth?mode=signup"><span class="t"><span>Get Started</span><span>Get Started</span></span></a>`;
+const fu=(d,h)=>`<div class="fu" style="--d:${d}s">${h}</div>`;
+document.getElementById('grid').innerHTML=plans.map(p=>`
+<div class="spot">
+ <div class="card" style="background-color:${p.bg}">
+  ${p.badge?`<div class="badge">${p.badge}</div>`:''}
+  ${fu(0,`<div class="eyebrow">${p.name}</div>`)}
+  <div class="div"></div>
+  ${fu(.1,`<div class="price"><b>$${p.price}</b><s>$${p.originalPrice}</s></div>`)}
+  ${fu(.2,`<p class="desc">${p.description}</p>`)}
+  ${fu(.3,`<div class="btnw">${btn(p.featured)}</div>`)}
+  ${fu(.4,`<ul>${p.features.map(f=>`<li class="${f[1]?'':'off'}"><span class="ic">${f[1]?CHECK:CLOSE}</span>${f[0]}</li>`).join('')}</ul>`)}
+ </div>
+</div>`).join('');
+document.querySelectorAll('.spot').forEach(el=>{
+  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();el.style.setProperty('--spot-x',(e.clientX-r.left)+'px');el.style.setProperty('--spot-y',(e.clientY-r.top)+'px')});
+  el.addEventListener('pointerleave',()=>{el.style.setProperty('--spot-x','-9999px');el.style.setProperty('--spot-y','-9999px')});
+});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.3});
+document.querySelectorAll('.fu').forEach(n=>io.observe(n));
+</script>
+</body>
+</html>

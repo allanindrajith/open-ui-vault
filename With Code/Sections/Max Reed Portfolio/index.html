@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Max Reed Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0a0a0a;color:#fff}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden}
+.section{display:flex;flex-direction:column;gap:20px;padding:24px 16px;min-height:100vh;background:#0a0a0a}
+.header{display:flex;flex-direction:column;align-items:flex-start;gap:16px;justify-content:space-between}
+.hwrap{max-width:48rem}
+h1{font-weight:400;letter-spacing:-0.025em;line-height:1.15;font-size:28px}
+.hwrap p{margin-top:12px;font-size:14px;line-height:1.6;color:rgba(255,255,255,.6);max-width:48rem}
+.cta{border:0;color:#fff;font:inherit;font-size:14px;font-weight:500;border-radius:9999px;padding:10px 20px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.grid{display:grid;grid-template-columns:1fr;gap:16px;flex:1;min-height:0}
+.col{display:flex;flex-direction:column;gap:16px;min-height:0;min-width:0}
+.card{position:relative;overflow:hidden;border-radius:16px;background:#000;min-width:0}
+.card.teal{background:#324444;padding:20px}
+.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.inner{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:20px}
+.card.teal .inner{padding:0}
+.label{display:flex;align-items:center;justify-content:center;gap:10px;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:rgba(255,255,255,.7);position:relative;z-index:1}
+.label.start{justify-content:flex-start}
+.ic{width:12px;height:12px;flex-shrink:0}
+.ic,.tile svg{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.c1{min-height:520px}
+.c1 .inner{justify-content:space-between}
+.timeline{display:grid;grid-template-columns:auto auto 1fr auto;column-gap:12px;row-gap:12px;align-items:center;font-size:13px}
+.timeline .y{color:#fff;white-space:nowrap}
+.timeline .sp{color:rgba(255,255,255,.6)}
+.timeline .r{color:#fff;white-space:nowrap}
+.timeline .co{color:rgba(255,255,255,.6);text-align:right;white-space:nowrap}
+.quote{margin-top:16px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85);position:relative;z-index:1}
+.who{margin-top:16px;font-size:13px;position:relative;z-index:1;color:rgba(255,255,255,.6)}
+.who b{color:#fff;font-weight:600}
+.big{min-height:240px}
+.big .inner{align-items:center;justify-content:center;text-align:center}
+.big .num{font-size:48px;font-weight:300;letter-spacing:-0.025em;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));line-height:1}
+.big .cap{position:absolute;left:0;right:0;bottom:20px;text-align:center;color:rgba(255,255,255,.85);font-size:14px;z-index:1}
+.daily{min-height:300px}
+.daily .inner{justify-content:space-between;padding:20px 0}
+.daily .label{padding:0 20px}
+.rows{display:flex;flex-direction:column;gap:12px}
+.mq{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;gap:12px;width:max-content}
+.track .set{display:flex;gap:12px;padding-right:12px}
+.mq .l{animation:marquee-left 22s linear infinite}
+.mq .r{animation:marquee-right 26s linear infinite}
+.tile{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.tile svg{width:24px;height:24px;position:relative;z-index:1}
+.reach{display:flex;flex-direction:column;gap:14px}
+.reach .arrow{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#fff;z-index:2;text-decoration:none}
+.reach .arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.reach .v{font-size:20px;font-weight:300;letter-spacing:-0.01em;position:relative;z-index:1}
+.reach .v + .v{margin-top:-4px}
+
+.liquid-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@keyframes marquee-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes marquee-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.noise-overlay::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.55;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");background-size:240px 240px}
+
+@media(min-width:640px){
+ .section{padding:32px 24px;gap:24px}
+ h1{font-size:30px}
+ .cta{padding:12px 24px}
+ .header{flex-direction:row;align-items:flex-start}
+ .quote{font-size:13.5px}
+ .big .num{font-size:60px}
+}
+@media(min-width:768px){
+ .section{padding:40px;gap:24px}
+ h1{font-size:36px}
+ .hwrap p{font-size:15px}
+ .grid{grid-template-columns:1fr 1fr;gap:20px}
+ .col{gap:20px}
+ .card.teal{padding:24px}
+ .c1{grid-row:span 2}
+ .tile{width:64px;height:64px}
+ .big .num{font-size:72px}
+}
+@media(min-width:1024px){
+ .section{padding:40px 56px;height:100vh;min-height:0}
+ h1{font-size:44px}
+ .grid{grid-template-columns:repeat(3,1fr)}
+ .c1{grid-row:auto;min-height:0}
+ .c2{display:grid;grid-template-rows:auto 1fr}
+ .big{min-height:0}
+ .daily{min-height:0;flex:1}
+ .big .num{font-size:88px}
+}
+@media(max-width:767px){.card.teal{padding:20px}}
+@media(prefers-reduced-motion:reduce){.mq .track{animation-duration:80s}}
+</style>
+</head>
+<body>
+<section class="section">
+  <div class="header">
+    <div class="hwrap">
+      <h1>Hi, I'm Max Reed!</h1>
+      <p>A London-based independent creator shaping sharp visual systems, web-ready products, and story-first campaigns. With a decade of craft behind me, I help ideas move with focus and intention.</p>
+    </div>
+    <button class="cta liquid-glass">Let's Team Up Today</button>
+  </div>
+
+  <div class="grid">
+    <div class="col">
+      <div class="card c1" style="flex:1">
+        <video src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260507_150203_44a5bd32-516a-47ce-a077-8acbf9aa8991.mp4" autoplay loop muted playsinline></video>
+        <div class="inner">
+          <div class="label"><i data-i="sparkle"></i>Background<i data-i="sparkle"></i></div>
+          <div class="timeline">
+            <span class="y">2023-Now</span><i data-i="sparkle" class="sp"></i><span class="r">Freelance Creative</span><span class="co">Solo Studio</span>
+            <span class="y">2020-2023</span><i data-i="sparkle" class="sp"></i><span class="r">Head of Brand Design</span><span class="co">Rove Studio</span>
+            <span class="y">2017-2020</span><i data-i="sparkle" class="sp"></i><span class="r">Visual Stylist</span><span class="co">Ember Works</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col c2">
+      <div class="card teal noise-overlay">
+        <div class="label start"><i data-i="sparkle"></i>Client Voice<i data-i="sparkle"></i></div>
+        <p class="quote">"Max reshaped our image with a degree of finesse and vision that surpassed what we'd hoped for. The process felt graceful, and the outcomes speak for themselves."</p>
+        <p class="who"><b>Elena Brooks</b>, Creative Director — Halcyon</p>
+      </div>
+      <div class="card big" style="flex:1">
+        <video src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260507_154543_d5b83fc1-9cea-44f3-b5e8-8f325935211a.mp4" autoplay loop muted playsinline></video>
+        <div class="inner"><div class="num">10M+</div></div>
+        <div class="cap">Raised for startups</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card daily" style="flex:1">
+        <video src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260507_153148_d7a3e1dd-e5d0-4ce6-8306-00d7522ecc44.mp4" autoplay loop muted playsinline></video>
+        <div class="inner">
+          <div class="label"><i data-i="sparkle"></i>Daily Software<i data-i="sparkle"></i></div>
+          <div class="rows" id="rows"></div>
+        </div>
+      </div>
+      <div class="card teal noise-overlay reach">
+        <a class="arrow liquid-glass" href="mailto:hi@maxreed.com" aria-label="Email Max"><svg viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+        <div class="label start"><i data-i="sparkle"></i>Reach Me<i data-i="sparkle"></i></div>
+        <div class="v">hi@maxreed.com</div>
+        <div class="v">+44 207 81 63</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+var P={
+sparkle:'<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>',
+figma:'<path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/>',
+framer:'<path d="M5 16V9h14V2H5l14 14h-7m-7 0 7 7v-7m-7 0h7"/>',
+palette:'<circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>',
+pentool:'<path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/>',
+layers:'<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>',
+type:'<path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/>',
+aperture:'<circle cx="12" cy="12" r="10"/><path d="m14.31 8 5.74 9.94"/><path d="M9.69 8h11.48"/><path d="m7.38 12 5.74-9.94"/><path d="M9.69 16 3.95 6.06"/><path d="M14.31 16H2.83"/><path d="m16.62 12-5.74 9.94"/>',
+chrome:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M21.17 8H12"/><path d="M3.95 6.06 8.54 14"/><path d="M10.88 21.94 15.46 14"/>',
+camera:'<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',
+brush:'<path d="m11 10 3 3"/><path d="M6.5 21A3.5 3.5 0 1 0 3 17.5a2.62 2.62 0 0 1-.708 1.792A1 1 0 0 0 3 21z"/><path d="M9.969 17.6 21.37 6.13a1.21 1.21 0 0 0-1.5-1.5L8.4 14.03"/>',
+box:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+wand2:'<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/>'
+};
+function svg(n,cls){return '<svg viewBox="0 0 24 24" aria-hidden="true"'+(cls?' class="'+cls+'"':'')+'>'+P[n]+'</svg>';}
+document.querySelectorAll('i[data-i]').forEach(function(el){
+  var cls=el.className?el.className+' ic':'ic';
+  var t=document.createElement('span');t.innerHTML=svg(el.dataset.i,cls);
+  el.replaceWith(t.firstChild);
+});
+function row(icons,dir){
+  var set='<div class="set">'+icons.map(function(n){return '<div class="tile liquid-glass">'+svg(n)+'</div>';}).join('')+'</div>';
+  return '<div class="mq"><div class="track '+dir+'">'+set+set+'</div></div>';
+}
+document.getElementById('rows').innerHTML=
+  row(['figma','framer','palette','pentool','layers','type','aperture','chrome'],'l')+
+  row(['camera','brush','box','wand2','figma','framer','type','layers'],'r');
+})();
+</script>
+</body>
+</html>

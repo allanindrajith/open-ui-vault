@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VortxLab Creations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:#000;overflow-x:hidden}
+button{font:inherit;border:0;cursor:pointer;background:none}
+.btn-cut{clip-path:polygon(12px 0%,calc(100% - 12px) 0%,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0% calc(100% - 12px),0% 12px)}
+.btn-cut-border{position:relative;background:#fff;clip-path:polygon(12px 0%,calc(100% - 12px) 0%,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0% calc(100% - 12px),0% 12px)}
+.btn-cut-border::before{content:"";position:absolute;inset:1px;background:#000;z-index:0;clip-path:polygon(11px 0%,calc(100% - 11px) 0%,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0% calc(100% - 11px),0% 11px);transition:background .2s}
+.btn-cut-border:hover::before{background:#1a1a1a}
+.btn-cut-border>*{position:relative;z-index:1}
+.btn-cut-sm{clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.anim-stagger{opacity:0;animation:fadeUp .8s cubic-bezier(.16,1,.3,1) forwards}
+.anim-fade{opacity:0;animation:fadeIn 1s cubic-bezier(.16,1,.3,1) forwards}
+
+.root{height:100vh;height:100dvh;width:100%;background:#000;padding:12px}
+.card{width:100%;height:100%;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;position:relative;background:#000}
+.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation-delay:.2s}
+nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:24px 24px 0}
+.logo{display:flex;flex-direction:column;align-items:center}
+.logo svg{width:56px;height:56px;display:block}
+.logo span{color:#fff;font-size:10px;letter-spacing:.4em;margin-top:4px;font-weight:300;padding-left:.4em}
+.navbtns{display:flex;align-items:center;gap:12px}
+.navbtns button{display:none;padding:10px 20px;font-size:14px;line-height:20px}
+.nb1{color:#fff}
+.nb1:hover{background:rgba(255,255,255,.1)}
+.nb2{background:#fff;color:#000}
+.nb2:hover{background:rgba(255,255,255,.9)}
+main{position:relative;z-index:10;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between;padding:0 24px 32px}
+.top{flex:1;display:flex;align-items:center;position:relative}
+.left{display:none;flex-direction:column;gap:24px;position:absolute;left:0;top:18%}
+.left p{color:rgba(255,255,255,.8);font-size:16px;line-height:1.625;max-width:220px}
+.deco{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.circles{display:flex;align-items:center;gap:4px}
+.circles i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.4)}
+.deco .row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.deco .row span:first-child{color:rgba(255,255,255,.7);font-size:12px;line-height:16px}
+.deco .row span:last-child{color:rgba(255,255,255,.5);font-size:12px}
+.center{width:100%;text-align:center}
+h1{color:#fff;font-weight:400;font-size:30px;line-height:1.1;letter-spacing:-.04em;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+.bottom{display:grid;grid-template-columns:1fr;gap:24px;align-items:center;margin-top:32px}
+.c1{display:flex;align-items:center;justify-content:center}
+.c1 p{color:#fff;font-size:14px;line-height:1.625;max-width:260px;text-align:center}
+.c2{display:flex;flex-direction:column;align-items:center;gap:32px}
+.c2>span{color:#fff;font-size:24px;line-height:32px;font-weight:500}
+.c2 button{width:100%;max-width:280px;padding:14px 0;background:#fff;display:flex;align-items:center;justify-content:center;gap:8px;color:#000;transition:background-color .2s}
+.c2 button:hover{background:rgba(255,255,255,.9)}
+.c2 button span{font-size:14px;font-weight:500;line-height:20px}
+.c2 button svg{width:16px;height:16px;transition:transform .2s}
+.c2 button:hover svg{transform:translateX(4px)}
+.c3{display:flex;align-items:center;justify-content:center;gap:12px}
+.c3 a{width:40px;height:40px;background:#fff;display:flex;align-items:center;justify-content:center;color:#000;transition:background-color .2s;cursor:pointer}
+.c3 a:hover{background:rgba(255,255,255,.9)}
+.c3 svg{width:16px;height:16px;fill:currentColor}
+@media(min-width:640px){h1{font-size:36px}}
+@media(min-width:768px){
+.root{padding:16px}
+nav{padding:32px 40px 0}
+.logo svg{width:64px;height:64px}
+.logo span{font-size:12px}
+.navbtns button{display:block}
+main{padding:0 40px 40px}
+h1{font-size:48px}
+.bottom{grid-template-columns:repeat(3,1fr)}
+.c1{justify-content:flex-end}
+.c1 p{text-align:left;margin-left:auto}
+.c2{gap:96px}
+.c2>span{font-size:30px;line-height:36px}
+.c3{justify-content:flex-end}
+}
+@media(min-width:1024px){.left{display:flex}h1{font-size:60px}}
+@media(min-width:1280px){h1{font-size:72px}}
+@media(max-height:700px) and (max-width:767px){.c2{gap:16px}.bottom{gap:14px;margin-top:12px}}
+</style>
+</head>
+<body>
+<div class="root">
+ <div class="card">
+  <video class="anim-fade" autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260717_120352_eb988725-1351-43b3-8095-16e4a1005e3d.mp4"></video>
+  <nav>
+   <div class="logo anim-stagger" style="animation-delay:.1s">
+    <svg viewBox="0 0 256 256" fill="#fff" aria-label="Vortx logo">
+     <path id="q" d="M0 0H116A116 116 0 0 1 0 116Z"/><use href="#q" transform="translate(256 0) scale(-1 1)"/><use href="#q" transform="translate(256 256) scale(-1 -1)"/><use href="#q" transform="translate(0 256) scale(1 -1)"/>
+    </svg>
+    <span>V O R T X</span>
+   </div>
+   <div class="navbtns anim-stagger" style="animation-delay:.2s">
+    <button class="nb1 btn-cut-border"><span>Neural Synergy</span></button>
+    <button class="nb2 btn-cut">Cyber Synthesis</button>
+   </div>
+  </nav>
+  <main>
+   <div class="top">
+    <div class="left anim-stagger" style="animation-delay:.4s">
+     <p>Come with us<br>exploring the<br>horizon</p>
+     <div class="deco">
+      <div class="circles"><i></i><i></i></div>
+      <div class="row"><span>Perpetual<br>Immersion</span><span>01</span></div>
+     </div>
+    </div>
+    <div class="center anim-stagger" style="animation-delay:.5s">
+     <h1>Forging Tomorrow<br>Virtual Horizon<br>VortxLab Creations</h1>
+    </div>
+   </div>
+   <div class="bottom">
+    <div class="c1 anim-stagger" style="animation-delay:.7s"><p>We push past conventions, reshaping the virtual terrain with next-level technologies.</p></div>
+    <div class="c2 anim-stagger" style="animation-delay:.85s">
+     <span>Net Dynamics</span>
+     <button class="btn-cut"><span>Discover Now</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    </div>
+    <div class="c3 anim-stagger" style="animation-delay:1s">
+     <a class="btn-cut-sm" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+     <a class="btn-cut-sm" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+     <a class="btn-cut-sm" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
+   </div>
+  </main>
+ </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LGPSM — Future Forward Fashion</title>
+<meta name="description" content="Pure white minimal futuristic fashion website interface.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Michroma&family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pad-x:clamp(1.25rem,4.5vw,5rem);--pad-y:clamp(1rem,3vh,4rem);--header-pt:clamp(1.25rem,2.5vh,2.5rem);
+  --gap-nav:clamp(1rem,2.2vw,2.25rem);--logo:clamp(1.35rem,1.2vw + .9rem,2.1rem);--logo-deg:clamp(.65rem,.4vw + .45rem,.9rem);
+  --nav:clamp(.65rem,.35vw + .5rem,.875rem);--headline:clamp(2.15rem,4.5vw + .75rem,5.25rem);
+  --body:clamp(.7rem,.35vw + .55rem,.9rem);--micro:clamp(.55rem,.25vw + .45rem,.7rem);
+  --btn-px:clamp(1.15rem,1.4vw,1.75rem);--btn-py:clamp(.6rem,.9vh,.85rem);--btn-gap:clamp(.75rem,1vw,1.1rem);
+  --feature-pad:clamp(1rem,1.5vw,1.75rem);--feature-min:clamp(13rem,18vw,20rem);--globe:clamp(2.25rem,2.5vw + 1rem,3.25rem);
+  --checker-w:clamp(2.75rem,4.5vw,6.5rem);--checker-h:clamp(1.35rem,2.2vw,3rem);--corner:clamp(.65rem,.4vw + .4rem,.95rem);
+  --icon:clamp(1rem,.6vw + .7rem,1.35rem);--drawer-pad:clamp(1.25rem,2.5vw,2.25rem);--drawer-max:clamp(18rem,28vw,28rem);
+  --section-gap:clamp(.75rem,1.5vh,1.5rem);--main-py:clamp(1.25rem,4vh,4rem);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff;color:#000}
+body{font-family:'Plus Jakarta Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:#000;color:#fff}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-transform:inherit;letter-spacing:inherit}
+.orb{font-family:'Orbitron',sans-serif}
+.root{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+/* background */
+.bg{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg .l{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.bg svg{position:absolute;inset:0;width:100%;height:100%;opacity:.10}
+@media(min-width:1024px){.bg{display:block}}
+/* header */
+header{position:relative;z-index:20;display:flex;justify-content:space-between;align-items:center;padding-inline:var(--pad-x);padding-top:var(--header-pt);padding-bottom:var(--section-gap)}
+.logo{font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:.15em;font-size:var(--logo);display:flex;align-items:flex-start;line-height:1;text-transform:none}
+.logo:hover{opacity:.8}
+.logo small{font-size:var(--logo-deg);margin-top:-2px;margin-left:2px;letter-spacing:0}
+nav{display:flex;align-items:center;gap:var(--gap-nav);font-weight:500;text-transform:uppercase;letter-spacing:.2em;font-size:var(--nav)}
+nav button:hover{opacity:.5}
+nav .div{width:1px;height:1em;background:#d1d5db}
+.cart{position:relative;display:flex}
+.cart svg{width:var(--icon);height:var(--icon)}
+.badge{position:absolute;top:-.5rem;right:-.6rem;background:#000;color:#fff;border-radius:50%;min-width:1rem;height:1rem;font-size:.6rem;letter-spacing:0;display:none;align-items:center;justify-content:center}
+@media(max-width:560px){nav .hide-s{display:none}nav .div{display:none}nav{letter-spacing:.14em}}
+@media(max-width:400px){nav{gap:.8rem;font-size:.6rem}}
+/* main */
+main{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:2.5rem;padding-inline:var(--pad-x);padding-block:var(--main-py)}
+@media(min-width:1024px){main{flex-direction:row}.left{align-self:center}}
+.left{align-self:flex-start;display:flex;flex-direction:column;align-items:flex-start;gap:clamp(.8rem,1.8vh,1.6rem)}
+.cn{width:var(--corner);height:var(--corner);fill:none;stroke:#000;stroke-width:1.5;display:block;overflow:visible}
+h1{font-family:'Orbitron',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.08em;line-height:1.05;font-size:var(--headline)}
+h1 span{display:block;white-space:nowrap}
+h1 .chk{display:inline-block;width:var(--checker-w);height:var(--checker-h);margin-left:.35em;transform:translateY(2px);vertical-align:baseline}
+.cta{display:inline-flex;align-items:center;gap:var(--btn-gap);border:1px solid #9ca3af;border-radius:6px;text-transform:uppercase;letter-spacing:.18em;font-size:var(--body);padding:var(--btn-py) var(--btn-px);font-weight:500;transition:.2s;margin-top:.4rem}
+.cta svg{width:1.1em;height:1.1em;transition:transform .2s}
+.cta:hover{background:#000;color:#fff;border-color:#000}
+.cta:hover svg{transform:translate(2px,-2px)}
+.feat{position:relative;align-self:flex-start;min-width:var(--feature-min);padding:var(--feature-pad);display:flex;flex-direction:column;gap:.9rem}
+@media(min-width:1024px){.feat{align-self:flex-end}}
+.feat .cn{position:absolute}
+.feat .tl{top:0;left:0}.feat .tr{top:0;right:0}.feat .bl{bottom:0;left:0}.feat .br{bottom:0;right:0}
+.globe{width:var(--globe);height:var(--globe);fill:none;stroke:#000;stroke-width:1.2}
+.tag{font-weight:600;text-transform:uppercase;letter-spacing:.18em;font-size:var(--body);line-height:1.5}
+.mob{display:block;position:relative;z-index:10;padding-inline:var(--pad-x);padding-bottom:var(--pad-y)}
+.mob div{aspect-ratio:4/5;border:1px solid #e5e7eb;background:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260802_074534_f0d9d476-3f86-4c67-9b12-dfc63d99da41.png&w=1920&q=85") center/cover no-repeat #ececee}
+@media(min-width:640px){.mob div{aspect-ratio:16/9}}
+@media(min-width:1024px){.mob{display:none}}
+/* drawer */
+.back{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.2);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .3s}
+.back.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:var(--drawer-max);z-index:50;background:#fff;border-left:1px solid #e5e7eb;padding:var(--drawer-pad);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.drawer.open{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.dh h2{font-family:'Orbitron',sans-serif;font-weight:700;text-transform:uppercase;font-size:1.15rem;letter-spacing:.08em}
+.dh button svg{width:1.3rem;height:1.3rem}
+.dh button:hover{opacity:.5}
+.sub{font-size:var(--micro);text-transform:uppercase;letter-spacing:.2em;color:#6b7280;padding-bottom:1rem;border-bottom:1px solid #e5e7eb}
+.dbody{flex:1;overflow-y:auto;padding-top:.5rem}
+.row{padding:1rem 0;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.row .t{font-size:var(--micro);color:#6b7280;letter-spacing:.18em;text-transform:uppercase}
+.row .n{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin:.2rem 0}
+.row .p{font-size:.8rem;color:#4b5563}
+.row .d{font-size:.78rem;color:#6b7280;line-height:1.5;margin-top:.3rem}
+.sbtn{border:1px solid #9ca3af;border-radius:6px;padding:.45rem .9rem;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;transition:.2s;flex-shrink:0}
+.sbtn:hover{background:#000;color:#fff;border-color:#000}
+.empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:#6b7280;font-size:.85rem}
+.empty svg{width:2.2rem;height:2.2rem}
+.foot{font-size:var(--micro);color:#9ca3af;text-align:center;text-transform:uppercase;letter-spacing:.18em;padding-top:1rem}
+.checkout{width:100%;background:#000;color:#fff;display:flex;justify-content:center;align-items:center;gap:.5rem;padding:.9rem;text-transform:uppercase;letter-spacing:.18em;font-size:.78rem;font-weight:600;border-radius:6px;margin-top:1rem}
+.checkout:hover{background:#222}
+.checkout svg{width:1rem;height:1rem}
+.toast{position:fixed;top:1rem;right:1rem;z-index:60;background:#000;color:#fff;padding:.8rem 1.1rem;border-radius:6px;font-size:.78rem;display:flex;gap:.6rem;align-items:center;max-width:calc(100vw - 2rem);transform:translateY(-150%);transition:transform .3s}
+.toast.show{transform:none}
+.toast svg{width:1rem;height:1rem;stroke:#34d399;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="root">
+  <div class="bg" id="bg" aria-hidden="true">
+    <div class="l" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260802_074534_f0d9d476-3f86-4c67-9b12-dfc63d99da41.png&w=1920&q=85')"></div>
+    <div class="l" id="rev" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260802_075145_1b557479-775b-43af-8270-f45d79d97d5a.png&w=1920&q=85');-webkit-mask-size:100% 100%;mask-size:100% 100%"></div>
+    <svg><defs><pattern id="gp" width="48" height="48" patternUnits="userSpaceOnUse" x="0" y="0"><path id="gpp" d="M48 0 L0 0 0 48" fill="none" stroke="#64748b" stroke-width="0.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#gp)"/></svg>
+  </div>
+
+  <header>
+    <button class="logo" id="logo" aria-label="LGPSM">LGPSM<small>˚</small></button>
+    <nav>
+      <button data-open="shop">Shop</button>
+      <button data-open="collections">Collections</button>
+      <button data-open="journal">Journal</button>
+      <span class="div"></span>
+      <button class="cart" data-open="cart" aria-label="Shopping bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="badge" id="badge">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="left">
+      <svg class="cn" viewBox="0 0 12 12"><path d="M0 11.5V0.5H11.5"/></svg>
+      <h1>
+        <span>Future</span>
+        <span>Forward</span>
+        <span>Fashion<svg class="chk" viewBox="0 0 36 18" fill="#000"><g id="chkg"></g></svg></span>
+      </h1>
+      <svg class="cn" viewBox="0 0 12 12"><path d="M0 0.5V11.5H11.5"/></svg>
+      <button class="cta" data-open="shop">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></button>
+    </div>
+    <div class="feat">
+      <svg class="cn tl" viewBox="0 0 12 12"><path d="M0 11.5V0.5H11.5"/></svg>
+      <svg class="cn tr" viewBox="0 0 12 12"><path d="M0.5 0.5H11.5V11.5"/></svg>
+      <svg class="cn bl" viewBox="0 0 12 12"><path d="M0 0.5V11.5H11.5"/></svg>
+      <svg class="cn br" viewBox="0 0 12 12"><path d="M0.5 11.5H11.5V0.5"/></svg>
+      <svg class="globe" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28"/><line x1="4" y1="32" x2="60" y2="32"/><ellipse cx="32" cy="20" rx="24" ry="6"/><ellipse cx="32" cy="44" rx="24" ry="6"/><line x1="32" y1="4" x2="32" y2="60"/><ellipse cx="32" cy="32" rx="12" ry="28"/><ellipse cx="32" cy="32" rx="22" ry="28"/></svg>
+      <p class="tag">Beyond trends.<br>Built for tomorrow.</p>
+    </div>
+  </main>
+
+  <div class="mob"><div role="img" aria-label="LGPSM"></div></div>
+</div>
+
+<div class="back" id="back"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script>
+(function(){
+  // checkerboard
+  var g='';for(var r=0;r<4;r++){var off=r%2===1?0:2.25;for(var c=0;c<(off?3:3);c++){g+='<rect x="'+(off+c*4.6+ (r%2?0:0))+'" y="'+(r*4.6)+'" width="3.8" height="3.8"/>'}}
+  document.getElementById('chkg').innerHTML=g;
+
+  var BASE='https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260802_074534_f0d9d476-3f86-4c67-9b12-dfc63d99da41.png&w=1920&q=85';
+  var X='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+  var BAG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
+  var CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+  var shop=[['CYBER-TEX OVERCOAT',850,'LIMITED EDITION'],['GEO-MESH TECH HOODIE',320,'NEW DROP'],['ORBITAL TAPERED TROUSERS',290,'IN STOCK'],['MODULAR ALL-WEATHER VEST',410,'PRE-ORDER']];
+  var cols=[['SERIES 01','SYNTHETIC HORIZONS','Ultra-durable weather-sealed fabrics with minimalist silhouette architecture.'],['SERIES 02','KINETIC FORM','Ergonomic streetwear designed for maximum mobility and temperature equilibrium.'],['SERIES 03','MONOCHROME ZERO','Pure black and white structural tailoring crafted from 100% recycled polymers.']];
+  var jr=[['AUG 2026','THE ARCHITECTURE OF NEXT-GEN TEXTILES','4 MIN READ'],['JUL 2026','CIRCULAR DESIGN IN HIGH-END APPAREL','6 MIN READ'],['JUN 2026','MINIMALISM AS A FUNCTIONAL STATEMENT','3 MIN READ']];
+  var cart=[],cur=null,drawer=document.getElementById('drawer'),back=document.getElementById('back');
+
+  function render(){
+    var t,s,b='',f='<div class="foot">LGPSM © 2026 — FUTURE FORWARD FASHION</div>';
+    if(cur==='shop'){t='Catalog';s='Featured Garments';
+      shop.forEach(function(i,k){b+='<div class="row"><div><div class="t">'+i[2]+'</div><div class="n">'+i[0]+'</div><div class="p">$'+i[1]+'</div></div><button class="sbtn" data-add="'+k+'">Add</button></div>'});}
+    else if(cur==='collections'){t='Archive 2026';s='Season Lineup';
+      cols.forEach(function(i){b+='<div class="row"><div><div class="t">'+i[0]+'</div><div class="n">'+i[1]+'</div><div class="d">'+i[2]+'</div></div></div>'});}
+    else if(cur==='journal'){t='Editorial';s='Latest Dispatches';
+      jr.forEach(function(i){b+='<div class="row"><div><div class="t">'+i[0]+'</div><div class="n">'+i[1]+'</div><div class="p">'+i[2]+'</div></div></div>'});}
+    else{t='Shopping Bag';s=cart.length+(cart.length===1?' Item':' Items');
+      if(!cart.length)b='<div class="empty">'+BAG+'<span>Your shopping bag is empty.</span></div>';
+      else{cart.forEach(function(i,k){b+='<div class="row"><div><div class="n">'+i[0]+'</div><div class="p">$'+i[1]+'</div></div><button class="sbtn" data-rm="'+k+'">Remove</button></div>'});
+        f='<button class="checkout" id="co">Checkout Now '+CHEV+'</button>'+f;}}
+    drawer.innerHTML='<div class="dh"><h2>'+t+'</h2><button id="cl" aria-label="Close">'+X+'</button></div><div class="sub">'+s+'</div><div class="dbody">'+b+'</div>'+f;
+  }
+  function open(n){cur=n;render();drawer.classList.add('open');back.classList.add('open');drawer.setAttribute('aria-hidden','false')}
+  function close(){drawer.classList.remove('open');back.classList.remove('open');drawer.setAttribute('aria-hidden','true');cur=null}
+  var tt;function toast(m){var e=document.getElementById('toast');document.getElementById('tmsg').textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){e.classList.remove('show')},3000)}
+  function badge(){var b=document.getElementById('badge');b.textContent=cart.length;b.style.display=cart.length?'flex':'none'}
+
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('[data-open],[data-add],[data-rm],#cl,#co,#logo,#back');if(!el)return;
+    if(el.dataset.open)open(el.dataset.open);
+    else if(el.dataset.add!==undefined){var i=shop[+el.dataset.add];cart.push([i[0],i[1]]);badge();toast('Added "'+i[0]+'" to your shopping bag.')}
+    else if(el.dataset.rm!==undefined){cart.splice(+el.dataset.rm,1);badge();render()}
+    else if(el.id==='co'){toast('Order submitted successfully!');cart=[];badge();close()}
+    else close();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  // reveal effect
+  var rev=document.getElementById('rev'),gp=document.getElementById('gp'),gpp=document.getElementById('gpp'),bg=document.getElementById('bg');
+  var cv=document.createElement('canvas'),ctx=cv.getContext('2d');
+  var mouse={x:innerWidth/2,y:innerHeight/2},sm={x:mouse.x,y:mouse.y},go=0,gx=0,gy=0,cell=48;
+  function size(){cv.width=innerWidth;cv.height=innerHeight;cell=Math.round(Math.min(64,Math.max(36,innerWidth*0.028)));
+    gp.setAttribute('width',cell);gp.setAttribute('height',cell);gpp.setAttribute('d','M '+cell+' 0 L 0 0 0 '+cell)}
+  size();addEventListener('resize',size);
+  addEventListener('mousemove',function(e){mouse.x=e.clientX;mouse.y=e.clientY});
+  function frame(){
+    requestAnimationFrame(frame);
+    if(innerWidth<1024)return;
+    sm.x+=(mouse.x-sm.x)*0.1;sm.y+=(mouse.y-sm.y)*0.1;
+    var R=Math.round(Math.min(420,Math.max(160,innerWidth*0.16)));
+    ctx.clearRect(0,0,cv.width,cv.height);
+    var g=ctx.createRadialGradient(sm.x,sm.y,0,sm.x,sm.y,R);
+    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(0.4,'rgba(255,255,255,1)');g.addColorStop(0.6,'rgba(255,255,255,0.75)');
+    g.addColorStop(0.75,'rgba(255,255,255,0.4)');g.addColorStop(0.88,'rgba(255,255,255,0.12)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,cv.width,cv.height);
+    var u='url('+cv.toDataURL()+')';rev.style.webkitMaskImage=u;rev.style.maskImage=u;
+    var cx=sm.x/innerWidth-0.5,cy=sm.y/innerHeight-0.5;
+    gx+=(cx*16-gx)*0.06;gy+=(cy*16-gy)*0.06;
+    gp.setAttribute('x',gx);gp.setAttribute('y',gy);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>

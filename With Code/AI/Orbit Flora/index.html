@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" class="anim">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#161616">
+<title>Orbit — Secure system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo&family=Tinos&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#fff;--surface:#161616;--orb-reveal:cubic-bezier(.16,1,.3,1);--orb-soft:cubic-bezier(.25,.8,.28,1)}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#161616}
+body{font-family:"Orbit Sans","Arimo",Arial,Helvetica,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:inherit;text-decoration:none}
+ul{list-style:none;margin:0;padding:0}
+.viewport{position:fixed;inset:0;background:#161616}
+.stage{position:absolute;inset:0;contain:strict;isolation:isolate;overflow:hidden}
+.brand{position:absolute;z-index:4;top:2.141745dvh;left:3.854167vw;display:block;width:clamp(34px,min(3.4375vw,5.2dvh),66px)}
+.brand-mark{display:block;width:100%;height:auto;stroke:#fff;stroke-width:5px;stroke-linecap:square;fill:none}
+.primary-nav{position:absolute;inset:0;z-index:4;pointer-events:none;font-size:clamp(13px,min(1.302083vw,2.05dvh),25px)}
+.primary-nav li{position:absolute;top:3.426791dvh;transform-origin:left center;white-space:nowrap}
+.primary-nav a{pointer-events:auto;color:#fff}
+.primary-nav li:nth-child(1){left:10.104167vw;transform:scaleX(1.165)}
+.primary-nav li:nth-child(2){left:17.526042vw;transform:scaleX(1.052)}
+.primary-nav li:nth-child(3){left:27.578125vw;transform:scaleX(1.126)}
+.primary-nav li:nth-child(4){left:36.171875vw;transform:scaleX(1.168)}
+.pill{position:absolute;z-index:4;top:2.336449dvh;right:7.5vw;height:clamp(34px,4.439252dvh,57px);display:flex;align-items:center;padding:0 1.15em;background:#fff;color:#161616;border-radius:999px;letter-spacing:.026923em;font-size:clamp(13px,min(1.302083vw,2.05dvh),25px);white-space:nowrap}
+.orbit-word{position:absolute;z-index:1;margin:0;top:11.565421dvh;left:4.348958vw;font-family:"Orbit Display","Tinos","Times New Roman",Times,serif;font-weight:400;font-size:min(27.8125vw,55dvh);letter-spacing:.033708em;line-height:1;white-space:nowrap}
+.orbit-word__mask{display:block}
+.orbit-word__inner{display:inline-block}
+.orbit-word__white{color:#fff}
+.orbit-word__o{display:inline-block;transform:scaleX(1.0866);margin-right:.042135em}
+.orbit-word__pink{background:linear-gradient(180deg,#ffc5dc 0%,#fd86db 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.flower{position:absolute;z-index:2;top:14.749065dvh;left:49.121328vw;height:106.109034dvh;transform:translateX(-50%);pointer-events:none}
+.flower__sizer{display:block;visibility:hidden;height:100%;width:auto}
+.flower__layer{position:absolute;inset:0}
+.flower__layer img{width:100%;height:100%;object-fit:cover;display:block}
+.flower__layer--top{-webkit-mask-image:linear-gradient(#0000,#0000);mask-image:linear-gradient(#0000,#0000)}
+.support-copy{position:absolute;z-index:3;bottom:4.361371dvh;color:#f7f7f7;font-size:clamp(14px,min(1.40625vw,2.102804dvh),27px);line-height:1.2;white-space:nowrap}
+.support-copy--l{left:3.177083vw}
+.support-copy--r{left:78.28125vw}
+.support-copy__inner{display:block;transform-origin:left bottom}
+.support-copy--l .support-copy__inner{transform:scaleX(1.073)}
+.support-copy--r .support-copy__inner{transform:scaleX(1.058)}
+.burger,.scrim,.sheet{display:none}
+
+/* entrance */
+@keyframes orb-word{from{transform:translateY(118%)}to{transform:none}}
+@keyframes orb-subject{from{opacity:0;transform:translateX(-50%) translateY(3.4dvh)}to{opacity:1;transform:translateX(-50%)}}
+@keyframes orb-corner{from{opacity:0;transform:translateY(1.2dvh)}to{opacity:1;transform:none}}
+@keyframes orb-quiet{from{opacity:0;transform:translateY(.8dvh)}to{opacity:1;transform:none}}
+@keyframes orb-dim{from{opacity:0}to{opacity:1}}
+.anim .brand{animation:orb-quiet 620ms var(--orb-soft) 100ms both}
+.anim .primary-nav a{animation:orb-dim 550ms var(--orb-soft) both}
+.anim .primary-nav li:nth-child(1) a{animation-delay:180ms}
+.anim .primary-nav li:nth-child(2) a{animation-delay:225ms}
+.anim .primary-nav li:nth-child(3) a{animation-delay:270ms}
+.anim .primary-nav li:nth-child(4) a{animation-delay:315ms}
+.anim .pill{animation:orb-quiet 620ms var(--orb-soft) 340ms both}
+.anim .orbit-word__mask{overflow:hidden;padding:.1em .1em .05em;margin:-.1em -.1em -.05em}
+.anim .orbit-word__inner{animation:orb-word 1150ms var(--orb-reveal) 300ms both}
+.anim .flower{animation:orb-subject 1150ms var(--orb-reveal) 660ms both}
+.anim .support-copy__inner{animation:orb-corner 720ms var(--orb-soft) 980ms both}
+.anim .support-copy--l .support-copy__inner{animation-name:orb-corner}
+@media (prefers-reduced-motion:reduce){
+  .anim .brand,.anim .primary-nav a,.anim .pill,.anim .orbit-word__inner,.anim .flower,.anim .support-copy__inner{animation:none}
+  .anim .flower{animation:none}
+  .stage{animation:orb-dim 280ms linear both}
+}
+
+@media (max-width:1200px),(max-aspect-ratio:4/5){
+  .orbit-word{left:0;width:100%;text-align:center}
+}
+@media (max-width:900px),(max-aspect-ratio:4/5){
+  .primary-nav,.pill{display:none}
+  .burger{display:flex;position:absolute;z-index:12;top:max(14px,env(safe-area-inset-top));right:16px;width:44px;height:44px;border:0;border-radius:50%;background:#fff;align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer;padding:0}
+  .burger span{display:block;width:18px;height:2px;background:#161616;transition:transform .3s var(--orb-soft),opacity .2s}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .scrim{display:block;position:absolute;inset:0;z-index:9;border:0;padding:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s}
+  .sheet{display:block;position:absolute;z-index:10;top:68px;left:16px;right:16px;padding:20px 24px;border-radius:22px;background:rgba(40,40,40,.72);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);opacity:0;transform:translateY(-10px);visibility:hidden;transition:opacity .3s,transform .3s var(--orb-soft),visibility .3s}
+  .sheet a{display:block;padding:12px 0;font-size:22px}
+  .menu-open .scrim{opacity:1;pointer-events:auto}
+  .menu-open .sheet{opacity:1;transform:none;visibility:visible}
+  .anim .burger{animation:orb-dim 500ms var(--orb-soft) 150ms both}
+  .brand{left:16px;top:20px;width:34px}
+}
+@media (max-aspect-ratio:4/5){
+  .flower{height:min(55dvh,110vw);top:auto;bottom:0;left:50%}
+  .orbit-word{font-size:min(27.5vw,18dvh);top:14dvh}
+  .support-copy{white-space:normal;max-width:44vw;font-size:14px}
+  .support-copy--l{left:16px;bottom:3dvh}
+  .support-copy--r{left:auto;right:16px;bottom:3dvh;text-align:right}
+  .support-copy--r .support-copy__inner,.support-copy--l .support-copy__inner{transform:none}
+}
+</style>
+</head>
+<body>
+<main class="viewport">
+<section class="stage" id="stage">
+  <a class="brand" href="#home" aria-label="Orbit home"><svg class="brand-mark" viewBox="0 0 66 62" aria-hidden="true"><path d="M33 1V61M3 31H63M11.8 9.8L54.2 52.2M54.2 9.8L11.8 52.2"/></svg></a>
+  <nav class="primary-nav" aria-label="Primary"><ul>
+    <li><a href="#home">Home</a></li><li><a href="#resources">Resources</a></li><li><a href="#benefits">Benefits</a></li><li><a href="#contact">Contact</a></li>
+  </ul></nav>
+  <a class="pill" href="#contact">Secure system</a>
+
+  <h1 class="orbit-word" id="orbit-title" aria-label="Orbit"><span class="orbit-word__mask"><span class="orbit-word__inner"><span class="orbit-word__white"><span class="orbit-word__o">O</span>R</span><span class="orbit-word__pink">BIT</span></span></span></h1>
+
+  <div class="flower">
+    <img class="flower__sizer" src="https://images.higgs.ai/?default=1&amp;output=webp&amp;url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260808_192942_e1086505-d7da-433b-a59b-8220f4e6c808.png&amp;w=1280&amp;q=85" alt="" aria-hidden="true">
+    <div class="flower__layer flower__layer--bg"><img src="https://images.higgs.ai/?default=1&amp;output=webp&amp;url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260808_192942_e1086505-d7da-433b-a59b-8220f4e6c808.png&amp;w=1280&amp;q=85" alt="Pixel-art pink and violet lily"></div>
+    <div class="flower__layer flower__layer--top" aria-hidden="true"><img src="https://images.higgs.ai/?default=1&amp;output=webp&amp;url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260808_151324_bf318a5f-5525-4fc7-aab5-e9a341018828.png&amp;w=1280&amp;q=85" alt=""></div>
+  </div>
+
+  <p class="support-copy support-copy--l" style="margin:0"><span class="support-copy__inner">Every workflow,<br>intelligently connected.</span></p>
+  <p class="support-copy support-copy--r" style="margin:0"><span class="support-copy__inner">Less manual work.<br>More meaningful output.</span></p>
+
+  <button class="scrim" id="scrim" tabindex="-1" aria-label="Close menu"></button>
+  <div class="sheet" id="sheet" role="dialog" aria-label="Menu" inert>
+    <a href="#home">Home</a><a href="#resources">Resources</a><a href="#benefits">Benefits</a><a href="#contact">Contact</a>
+  </div>
+  <button class="burger" id="burger" aria-expanded="false" aria-controls="sheet" aria-label="Open menu"><span></span><span></span><span></span></button>
+</section>
+</main>
+<script>
+(function(){
+  var root=document.documentElement,stage=document.getElementById('stage');
+  // entrance cleanup
+  var cleaned=false;function clean(){if(cleaned)return;cleaned=true;root.classList.remove('anim')}
+  setTimeout(clean,6000);
+  var last=document.querySelector('.support-copy--r .support-copy__inner');
+  last.addEventListener('animationend',function(){setTimeout(clean,60)});
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)setTimeout(clean,300);
+
+  // mobile menu
+  var burger=document.getElementById('burger'),sheet=document.getElementById('sheet'),scrim=document.getElementById('scrim');
+  function setMenu(o){root.classList.toggle('menu-open',o);burger.setAttribute('aria-expanded',o);if(o)sheet.removeAttribute('inert');else sheet.setAttribute('inert','');if(o)sheet.querySelector('a').focus()}
+  burger.addEventListener('click',function(){setMenu(burger.getAttribute('aria-expanded')!=='true')});
+  scrim.addEventListener('click',function(){setMenu(false);burger.focus()});
+  sheet.addEventListener('click',function(e){if(e.target.tagName==='A')setMenu(false)});
+  document.addEventListener('keydown',function(e){
+    if(burger.getAttribute('aria-expanded')!=='true')return;
+    if(e.key==='Escape'){setMenu(false);burger.focus()}
+    if(e.key==='Tab'){var f=[].slice.call(sheet.querySelectorAll('a')).concat([burger]);var i=f.indexOf(document.activeElement);
+      e.preventDefault();i=e.shiftKey?(i<=0?f.length-1:i-1):(i+1)%f.length;f[i].focus()}
+  });
+
+  // morph trail
+  var MAXP=60,HEAD=140,AMP=44,NPTS=24,FADE=0.92,SAMPLE=8;
+  var flower=document.querySelector('.flower');
+  var trail=[],headR=0,hovering=false,time=0,mouse=null,lastS=null;
+  function Layer(el,invert){this.el=el;this.invert=invert;this.c=document.createElement('canvas');this.c.style.display='none';this.ctx=this.c.getContext('2d');flower.appendChild(this.c)}
+  Layer.prototype.size=function(w,h){if(this.c.width!==w||this.c.height!==h){this.c.width=w;this.c.height=h}};
+  var bg=new Layer(document.querySelector('.flower__layer--bg'),false);
+  var top_=new Layer(document.querySelector('.flower__layer--top'),true);
+  function blob(ctx,cx,cy,r,t,seed){
+    if(r<2)return;var pts=[];
+    for(var i=0;i<NPTS;i++){var a=i/NPTS*Math.PI*2;
+      var n1=Math.sin(a*3+t*1.4+seed)*0.45,n2=Math.sin(a*5-t*0.9+seed*2.3)*0.3,n3=Math.cos(a*2+t*1.8+seed*0.7)*0.25;
+      var rr=r+(n1+n2+n3)*AMP*(r/HEAD);pts.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr])}
+    ctx.beginPath();
+    var m0=[(pts[NPTS-1][0]+pts[0][0])/2,(pts[NPTS-1][1]+pts[0][1])/2];ctx.moveTo(m0[0],m0[1]);
+    for(var j=0;j<NPTS;j++){var p=pts[j],q=pts[(j+1)%NPTS];ctx.quadraticCurveTo(p[0],p[1],(p[0]+q[0])/2,(p[1]+q[1])/2)}
+    ctx.closePath();ctx.fill();
+  }
+  function render(L,w,h){
+    var ctx=L.ctx;L.size(w,h);ctx.globalCompositeOperation='source-over';ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';
+    if(!L.invert){ctx.fillRect(0,0,w,h);ctx.globalCompositeOperation='destination-out'}
+    for(var i=0;i<trail.length;i++){var p=trail[i];ctx.globalAlpha=p.alpha;blob(ctx,p.x,p.y,p.r,time,p.seed)}
+    ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
+    var u='url('+L.c.toDataURL()+')';var s=L.el.style;
+    s.webkitMaskImage=s.maskImage=u;s.webkitMaskSize=s.maskSize='100% 100%';s.webkitMaskRepeat=s.maskRepeat='no-repeat';
+  }
+  function clear(L){var s=L.el.style;s.webkitMaskImage=s.maskImage='';if(L.invert){s.webkitMaskImage=s.maskImage='linear-gradient(#0000,#0000)'}}
+  var wasActive=false;
+  function setMouse(e){
+    var r=flower.getBoundingClientRect();if(!r.width)return;
+    var w=Math.min(r.width,1280),sc=w/r.width;
+    mouse={x:(e.clientX-r.left)*sc,y:(e.clientY-r.top)*sc,sc:sc,w:Math.round(w),h:Math.round(r.height*sc)};
+  }
+  stage.addEventListener('mousemove',function(e){hovering=true;setMouse(e)});
+  stage.addEventListener('mouseenter',function(e){hovering=true;setMouse(e)});
+  stage.addEventListener('mouseleave',function(){hovering=false});
+  function frame(){
+    var tr=hovering?HEAD:0;headR+=(tr-headR)*(hovering?0.14:0.04);
+    var r=flower.getBoundingClientRect(),sc=Math.min(r.width,1280)/(r.width||1);
+    if(hovering&&mouse&&headR>5){
+      if(!lastS||Math.hypot(mouse.x-lastS.x,mouse.y-lastS.y)>SAMPLE){
+        trail.push({x:mouse.x,y:mouse.y,r:headR*sc,alpha:1,seed:Math.random()*100});if(trail.length>MAXP)trail.shift();lastS={x:mouse.x,y:mouse.y}}
+    }
+    for(var i=trail.length-1;i>=0;i--){var p=trail[i];p.alpha*=FADE;p.r*=0.995;if(p.alpha<0.01)trail.splice(i,1)}
+    time+=0.016;
+    if(trail.length&&r.width){
+      var w=Math.round(r.width*sc),h=Math.round(r.height*sc);
+      render(bg,w,h);render(top_,w,h);wasActive=true;
+    }else if(wasActive){clear(bg);clear(top_);wasActive=false;lastS=null}
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

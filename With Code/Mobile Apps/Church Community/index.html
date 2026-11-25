@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Christ Family Church</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#5A4C41;font-family:Manrope,sans-serif;min-height:100%}
+body{overflow-x:auto}
+.stage{display:flex;align-items:center;justify-content:center;gap:48px;padding:40px;min-height:100vh;min-width:max-content;margin:0 auto}
+.slot{position:relative;flex:none}
+.phone{width:379px;height:816px;background:#000;border:2px solid #2a2a2a;border-radius:50px;box-shadow:0 12px 24px rgba(0,0,0,.3);position:relative;overflow:hidden;opacity:0;animation:fi .6s forwards;transform-origin:0 0}
+@keyframes fi{to{opacity:1}}
+.slot:nth-child(2){animation-delay:.15s}
+.art{position:absolute;left:0;top:0;width:375px;height:812px;overflow:hidden;border-radius:48px;background:rgb(29,25,26);color:#fff}
+.island{position:absolute;left:124.5px;top:11px;width:126px;height:36px;background:#000;border-radius:18px;z-index:60}
+.home{position:absolute;left:120.5px;bottom:8px;width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);z-index:60}
+.abs{position:absolute}
+.hdr{position:absolute;left:0;right:0;top:48px;padding:0 19px;display:flex;align-items:center;justify-content:space-between;z-index:20}
+.brand{display:flex;align-items:center;gap:10px;font-size:17px;line-height:20px;font-weight:400;color:#fff}
+.brand img{width:46px;height:46px}
+.burger{width:28px;height:28px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;gap:6px}
+.burger i{display:block;height:1.5px;background:#F1E5C6;width:22px}.burger i:last-child{width:14px}
+.chars span{opacity:0}.chars span.on{opacity:1}
+.rot{position:absolute;left:-44px;top:115px;transform:translateX(-60px) rotate(-90deg);transform-origin:0 0;display:none}
+.side{position:absolute;left:14px;top:400px;font-size:14px;letter-spacing:1.2px;color:rgba(255,255,255,.5);transform:rotate(-90deg);transform-origin:0 0;white-space:nowrap;display:flex;gap:18px}
+.side b{font-weight:500}.side em{font-style:normal;font-weight:400;color:rgba(255,255,255,.3)}
+.q{font-size:20px;line-height:27px;color:rgba(255,255,255,.77);font-weight:400}
+.card1{position:absolute;left:0;right:0;bottom:0;height:245px;background:#fff;border-radius:0}
+.card1 h2{position:absolute;left:19px;top:30px;width:300px;font-size:36px;line-height:38px;font-weight:500;letter-spacing:-.5px;color:#1a1a1a}
+.card1 .d{position:absolute;left:19px;top:127px;font-size:17px;color:#888}
+.card1 .l{position:absolute;left:19px;top:182px;font-size:17px;color:#1a1a1a;display:flex;gap:8px;align-items:center}
+.card1 .l img{width:14px;height:14px}
+.card1 .star{position:absolute;right:15px;bottom:28px;width:48px;height:48px}
+.h2{position:absolute;left:19px;top:520px;width:340px;font-size:52px;line-height:52px;font-weight:300;letter-spacing:-2.5px;color:#F1E5C6}
+.sub{position:absolute;left:19px;top:652px;width:300px;font-size:21px;line-height:27px;color:rgba(255,255,255,.6)}
+.cta{position:absolute;left:19px;right:19px;bottom:32px;height:52px;background:#F1E5C6;color:#1d191a;font-size:21px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px;border:0;font-family:inherit;cursor:pointer}
+.cta img{width:16px;height:16px}
+.body3{position:absolute;left:0;right:0;top:343px;bottom:0;background:#fff}
+.band{position:absolute;left:0;right:0;top:0;height:220px;background:rgb(29,25,26)}
+.up{position:absolute;left:19px;top:32px;font-size:38px;font-weight:400;letter-spacing:-.8px;color:#fff}
+.ev{position:absolute;left:19px;right:19px;display:flex;gap:18px;align-items:center;height:90px}
+.dc{width:68px;height:90px;flex:none;background:#F1E5C6;color:#1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dc.w{background:#fff}.dc b{font-size:34px;font-weight:500;line-height:38px}.dc span{font-size:18px}
+.ev h3{font-size:21px;line-height:26px;font-weight:400;color:#1a1a1a}
+.ev p{font-size:17px;color:#999;margin-top:6px}
+.ev.first h3{color:#fff}
+.play{position:absolute;left:155px;top:175px;width:65px;height:65px;border-radius:50%;background:#F1E5C6;display:flex;align-items:center;justify-content:center}
+.play img{width:22px;height:22px}
+.menu{position:absolute;inset:0;background:rgb(29,25,26);z-index:100;display:none}
+.menu.open{display:block;animation:fi .2s}
+.xbtn{width:28px;height:28px;border:0;background:none;position:relative;cursor:pointer}
+.xbtn i{position:absolute;left:3px;top:13px;width:22px;height:1.5px;background:#F1E5C6;transform:rotate(45deg)}.xbtn i+i{transform:rotate(-45deg)}
+.links{position:absolute;left:19px;top:190px;display:flex;flex-direction:column;gap:22px}
+.links a{font-size:36px;font-weight:300;letter-spacing:-.8px;color:#fff;text-decoration:none;line-height:42px}
+.menu .cta{bottom:36px}
+@media(max-width:899px){
+ body{overflow-x:hidden}
+ .stage{flex-direction:column;gap:32px;padding:20px;min-width:0;min-height:0}
+}
+</style></head><body>
+<div class="stage" id="stage">
+
+<div class="slot"><div class="phone"><div class="art" id="s1">
+ <div class="island"></div>
+ <div class="hdr"><div class="brand"><img src="https://framerusercontent.com/images/Fr3jIzrNgNkSo8ZgFFTkpS308.png" alt=""><span class="chars" data-t>Christ Family<br>Church</span></div><button class="burger" aria-label="Menu"><i></i><i></i><i></i></button></div>
+ <div class="side"><b class="chars" data-t>Anna Miller</b><em class="chars" data-t>Community Member</em></div>
+ <img class="abs" style="left:125px;top:120px;width:240px;height:300px;object-fit:cover" src="https://framerusercontent.com/images/7nIpqB1Y0QYgLe70j5NmdtK5Rk.png" alt="">
+ <img class="abs" style="left:19px;top:395px;width:28px;height:24px" src="https://framerusercontent.com/images/DmIPflrtvNHr7mnr6k3K5Ayn8w.png" alt="">
+ <div class="abs q chars" data-t style="left:19px;top:440px;width:336px">We want to be a family where people can connect and benefit from friendships in Christ.</div>
+ <div class="card1"><h2 class="chars" data-t>Sunday Worship Service</h2><div class="d chars" data-t>Dec 7th, 10-11:30am</div><div class="l"><span class="chars" data-t>Learn more</span><img src="https://framerusercontent.com/images/zBmfi9e2hdwkTHpcMqbS61FIc3c.png" alt=""></div><img class="star" src="https://framerusercontent.com/images/yi0dRg7NDCZUtTbPxCa115nMU5M.png" alt=""></div>
+ <div class="home"></div>
+</div></div></div>
+
+<div class="slot"><div class="phone"><div class="art" id="s2">
+ <div class="island"></div>
+ <div class="abs" style="left:0;top:0;width:375px;height:472px;background:url(https://framerusercontent.com/images/G9ZdWZubRnpc37d5d7uUzqaBqiw.png) center/cover,#8a5a2b"></div>
+ <div class="abs" style="left:0;top:0;width:375px;height:472px;background:rgba(0,0,0,.15)"></div>
+ <div class="hdr"><div class="brand"><img src="https://framerusercontent.com/images/Fr3jIzrNgNkSo8ZgFFTkpS308.png" alt=""><span class="chars" data-t>Christ Family<br>Church</span></div><button class="burger" aria-label="Menu"><i></i><i></i><i></i></button></div>
+ <img class="abs" style="left:19px;top:442px;width:149px;height:53px" src="https://framerusercontent.com/images/l3LBaTwnoXLWZd6axR7m3Q9iWeU.png" alt="">
+ <div class="h2 chars" data-t>Take a step toward the light</div>
+ <div class="sub chars" data-t>Discover faith, hope, and a home for your soul</div>
+ <button class="cta"><span class="chars" data-t>Join us</span><img src="https://framerusercontent.com/images/zBmfi9e2hdwkTHpcMqbS61FIc3c.png" alt=""></button>
+ <div class="home"></div>
+</div></div></div>
+
+<div class="slot"><div class="phone"><div class="art" id="s3" style="background:#fff">
+ <div class="island"></div>
+ <div class="abs" style="left:0;top:0;width:375px;height:345px;overflow:hidden;background:#3a2414"><img style="position:absolute;left:-20px;top:0;width:415px;height:345px;object-fit:cover" src="https://framerusercontent.com/images/Q7jLZsObox26xQCiWPAVYWzTsYs.png" alt=""></div>
+ <div class="abs" style="left:0;top:0;width:375px;height:345px;background:rgba(0,0,0,.3)"></div>
+ <div class="hdr"><div class="brand"><img src="https://framerusercontent.com/images/Fr3jIzrNgNkSo8ZgFFTkpS308.png" alt=""><span class="chars" data-t>Christ Family<br>Church</span></div><button class="burger" aria-label="Menu"><i></i><i></i><i></i></button></div>
+ <div class="play"><img src="https://framerusercontent.com/images/3M0CPgfOsuyRxuRs37KkTOTrUM.png" alt=""></div>
+ <div class="body3"><div class="band"></div>
+  <div class="up chars" data-t>Upcoming</div>
+  <div class="ev first" style="top:112px"><div class="dc w"><b>14</b><span>Dec</span></div><div><h3 class="chars" data-t>Luke 1 | A Story From Zechariah</h3><p class="chars" data-t>6:30 - 8:00 pm</p></div></div>
+  <div class="ev" style="top:224px"><div class="dc"><b>21</b><span>Dec</span></div><div><h3 class="chars" data-t>Romans 15 | Living For Christ Alone</h3><p class="chars" data-t>8:30 - 10:00 am</p></div></div>
+  <div class="ev" style="top:336px"><div class="dc"><b>28</b><span>Dec</span></div><div><h3 class="chars" data-t>Romans 9 | The Sovereignty Of God</h3><p class="chars" data-t>5:30 - 7:00 pm</p></div></div>
+  <div class="ev" style="top:448px;opacity:.5"><div class="dc"><b>4</b><span>Jan</span></div><div><h3 class="chars" data-t>John 3 | Born Again</h3></div></div>
+ </div>
+ <div class="home"></div>
+</div></div></div>
+
+</div>
+<template id="menuT"><div class="menu"><div class="hdr"><div class="brand"><img src="https://framerusercontent.com/images/Fr3jIzrNgNkSo8ZgFFTkpS308.png" alt=""><span>Christ Family<br>Church</span></div><button class="xbtn" aria-label="Close"><i></i><i></i></button></div>
+<div class="links"><a href="#">Home</a><a href="#">About</a><a href="#">Events</a><a href="#">Sermons</a><a href="#">Contact</a></div>
+<button class="cta"><span>Join us</span><img src="https://framerusercontent.com/images/zBmfi9e2hdwkTHpcMqbS61FIc3c.png" alt=""></button></div></template>
+<script>
+// typewriter
+function split(el){
+  const walk=n=>{[...n.childNodes].forEach(c=>{
+    if(c.nodeType===3){const f=document.createDocumentFragment();[...c.textContent].forEach(ch=>{const s=document.createElement('span');s.textContent=ch;f.appendChild(s)});c.replaceWith(f)}
+    else if(c.nodeType===1&&c.tagName!=='BR')walk(c)})};
+  walk(el);
+}
+let idx=0;
+document.querySelectorAll('[data-t]').forEach((el,i)=>{
+  split(el);
+  const sp=[...el.querySelectorAll('span')].filter(s=>!s.children.length);
+  const delay=400+idx*90; idx=(idx+1)%9;
+  const speed=Math.max(8,Math.min(28,900/sp.length));
+  setTimeout(()=>{sp.forEach((s,k)=>setTimeout(()=>s.classList.add('on'),k*speed))},delay);
+});
+// menu
+document.querySelectorAll('.art').forEach(a=>{
+  const m=document.getElementById('menuT').content.firstElementChild.cloneNode(true);
+  a.appendChild(m);
+  const b=a.querySelector('.burger');
+  b.onclick=()=>m.classList.add('open');
+  m.querySelector('.xbtn').onclick=()=>m.classList.remove('open');
+});
+// scale-to-fit on mobile
+function fit(){
+  const mobile=innerWidth<900;
+  const avail=innerWidth-40;
+  document.querySelectorAll('.slot').forEach(s=>{
+    const p=s.firstElementChild;
+    if(mobile){
+      const k=Math.min(1,avail/379);
+      p.style.transform='scale('+k+')';
+      s.style.width=(379*k)+'px';s.style.height=(816*k)+'px';
+    }else{p.style.transform='';s.style.width='379px';s.style.height='816px'}
+  });
+  const slots=document.querySelectorAll('.slot');
+  if(!mobile){slots[0].style.marginTop='80px';slots[2].style.marginTop='80px';slots[1].style.marginTop='-20px'}
+  else slots.forEach(s=>s.style.marginTop='0');
+}
+addEventListener('resize',fit);fit();
+</script>
+</body></html>

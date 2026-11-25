@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Build With Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+html,body{background:#fff;color:#000;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+a{text-decoration:none;color:inherit}
+.root{min-height:100vh;background:#fff;padding:12px}
+.card{position:relative;overflow:hidden;border-radius:16px;min-height:calc(100vh - 24px);background:#2a2a2a}
+.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.content{position:relative;z-index:10;display:flex;flex-direction:column;min-height:calc(100vh - 24px);padding:16px;gap:24px}
+.nav{display:flex;align-items:center;gap:12px;width:100%;background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.05);padding:8px 8px 8px 12px;align-self:flex-start}
+.nav svg.logo{width:32px;height:32px;flex-shrink:0}
+.links{display:none;align-items:center;gap:24px}
+.links a{color:#1f2937;font-size:14px;font-weight:500;white-space:nowrap;transition:opacity .15s}
+.links a:hover{opacity:.6}
+.cta{margin-left:auto;background:#000;color:#fff;font-size:14px;font-weight:500;padding:8px 16px;border-radius:12px;border:0;cursor:pointer;transition:background .15s;white-space:nowrap}
+.cta:hover{background:#1f2937}
+.spacer{flex:1;min-height:2rem}
+.bottom{display:flex;flex-direction:column;gap:24px}
+.headline{color:#fff;font-size:30px;line-height:1.25;font-weight:500;text-shadow:0 10px 15px rgba(0,0,0,.25),0 4px 6px rgba(0,0,0,.15);flex-shrink:0}
+.headline span{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.formwrap{width:100%;flex-shrink:0}
+.fcard{background:#fff;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:16px}
+.fcard h2{font-size:20px;font-weight:600;letter-spacing:-.025em;color:#000}
+.mailrow{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;background:#f9fafb;border-radius:16px;padding:10px 16px}
+.mailrow>div:first-child{min-width:0}
+.mailrow small{display:block;font-size:12px;color:#6b7280}
+.mailrow>div:first-child a{display:block;color:#2563eb;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mailrow>div:first-child a:hover{text-decoration:underline}
+.socials{display:flex;gap:6px;flex-shrink:0}
+.sb{width:32px;height:32px;border-radius:12px;display:flex;align-items:center;justify-content:center;transition:opacity .15s}
+.sb:hover{opacity:.8}
+.sb svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.or{display:flex;align-items:center;gap:12px;color:#9ca3af;font-weight:500;font-size:14px}
+.or i{flex:1;height:1px;background:#e5e7eb}
+form{display:flex;flex-direction:column;gap:16px}
+label.l{font-size:14px;font-weight:500;color:#000}
+.row{display:flex;flex-direction:column;gap:8px}
+.in{flex:1;min-width:0;width:100%;font-size:14px;padding:10px 12px;border-radius:12px;border:1px solid #e5e7eb;background:transparent;outline:none;transition:all .15s}
+.in::placeholder{color:#9ca3af}
+.in:focus{box-shadow:0 0 0 2px #111827;border-color:transparent}
+textarea.in{resize:none;display:block}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:12px;font-weight:500;padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;color:#374151;cursor:pointer;transition:all .15s}
+.tag:hover{border-color:#9ca3af}
+.tag.on{background:#f3f4f6;color:#000;border-color:#000}
+.submit{width:100%;background:#000;color:#fff;font-size:14px;font-weight:600;padding:12px;border-radius:16px;border:0;cursor:pointer;transition:background .15s}
+.submit:hover{background:#1f2937}
+.submit:disabled{opacity:.6;cursor:default}
+.ok{display:none;flex-direction:column;align-items:center;text-align:center;padding:24px 0;gap:12px}
+.ok.show{display:flex}
+.ok .chk{width:48px;height:48px;border-radius:50%;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:20px;color:#16a34a}
+.ok h3{font-size:16px;font-weight:600;color:#111827}
+.ok p{font-size:14px;color:#6b7280}
+@media(min-width:640px){
+ .root{padding:16px}
+ .card{border-radius:24px;min-height:calc(100vh - 32px)}
+ .content{min-height:calc(100vh - 32px);padding:24px}
+ .nav{width:auto;gap:24px;padding-left:16px}
+ .links{display:flex}
+ .cta{padding:8px 20px}
+ .headline{font-size:36px}
+ .fcard{border-radius:24px;padding:24px}
+ .fcard h2{font-size:24px}
+ .row{flex-direction:row}
+}
+@media(min-width:768px){
+ .root{padding:24px}
+ .card{min-height:calc(100vh - 48px)}
+ .content{min-height:calc(100vh - 48px);padding:32px}
+}
+@media(min-width:1024px){
+ .card{height:calc(100vh - 48px)}
+ .content{height:100%}
+ .bottom{flex-direction:row;align-items:flex-end;justify-content:space-between}
+ .headline{max-width:32rem}
+ .formwrap{width:min(480px,45%)}
+}
+@media(min-width:1280px){
+ .headline{font-size:48px;max-width:42rem}
+}
+</style>
+</head>
+<body>
+<div class="root">
+ <div class="card">
+  <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260602_150901_c45b90ec-18d7-42ff-90e2-b95d7109e330.mp4"></video>
+  <div class="content">
+   <nav class="nav">
+    <svg class="logo" viewBox="0 0 256 256"><path fill="#000" d="M 256 256 L 128 256 L 0 128 L 128 128 Z M 256 128 L 128 128 L 0 0 L 128 0 Z"/></svg>
+    <div class="links"><a href="#">Our story</a><a href="#">Expertise</a><a href="#">Our work</a><a href="#">Journal</a></div>
+    <button class="cta" type="button">Start a project</button>
+   </nav>
+   <div class="spacer"></div>
+   <div class="bottom">
+    <p class="headline">We craft bold ideas<br>and ship them as <span>products</span></p>
+    <div class="formwrap">
+     <div class="fcard">
+      <h2>Say hello! 👋</h2>
+      <div class="mailrow">
+       <div><small>Drop us a line</small><a href="mailto:hello@forma.co">hello@forma.co</a></div>
+       <div class="socials">
+        <a href="#" class="sb" style="background:#f3f4f6;color:#1f2937" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+        <a href="#" class="sb" style="background:#fce7f3;color:#ec4899" aria-label="Dribbble"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></a>
+        <a href="#" class="sb" style="background:#ffedd5;color:#fb923c" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" class="sb" style="background:#dbeafe;color:#2563eb" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+       </div>
+      </div>
+      <div class="or"><i></i><span>OR</span><i></i></div>
+      <form id="f">
+       <label class="l">Tell us about your vision</label>
+       <div class="row" style="margin-top:-8px">
+        <input class="in" type="text" placeholder="Full name">
+        <input class="in" type="email" placeholder="Email">
+       </div>
+       <textarea class="in" rows="4" placeholder="What are you looking to build or improve..." style="margin-top:-8px"></textarea>
+       <div style="margin-top:-8px">
+        <label class="l">I need help with...</label>
+        <div class="tags" id="tags"></div>
+       </div>
+       <button class="submit" type="submit" id="sub">Send my message</button>
+      </form>
+      <div class="ok" id="ok"><div class="chk">✓</div><h3>You're all set!</h3><p>Expect a reply within 24 hours.</p></div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<script>
+var SERVICES=['Website','Mobile App','Web App','E-Commerce','Visual Identity','3D & Motion','Digital Marketing','Growth & Consulting','Other'];
+var tags=document.getElementById('tags');
+SERVICES.forEach(function(s){
+ var b=document.createElement('button');b.type='button';b.className='tag';b.textContent=s;
+ b.onclick=function(){b.classList.toggle('on')};
+ tags.appendChild(b);
+});
+document.getElementById('f').addEventListener('submit',function(e){
+ e.preventDefault();
+ var s=document.getElementById('sub');s.disabled=true;s.textContent='Sending...';
+ setTimeout(function(){
+  document.getElementById('f').style.display='none';
+  document.getElementById('ok').classList.add('show');
+ },1000);
+});
+</script>
+</body>
+</html>

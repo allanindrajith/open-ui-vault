@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>dot.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<style>
+@import url('https://db.onlinewebfonts.com/c/440b53b1a1c65037f944ff19259d8014?family=Nokia+Cellphone+FC+Small');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--font-instrument:"Instrument Serif",serif;--font-sans:"Inter",sans-serif;--font-nokia:"Nokia Cellphone FC Small",monospace}
+html,body{overflow-x:hidden}
+body{font-family:var(--font-sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:#F3F4ED;color:#1a1a1a}
+a{text-decoration:none;color:inherit}
+.nav-wrap{position:fixed;top:24px;left:50%;transform:translateX(-50%);width:95%;max-width:64rem;z-index:50;pointer-events:none}
+nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 12px 12px 32px;border-radius:9999px;border:1px solid rgba(0,0,0,.1);background:transparent;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.logo{font-family:var(--font-instrument);font-size:28px;letter-spacing:-.025em;color:#1a1a1a;line-height:1.2}
+.links{display:none;gap:40px;font-size:14px;color:#1a1a1a}
+.links a{transition:opacity .2s}.links a:hover{opacity:.6}
+@media(min-width:768px){.links{display:flex}}
+.cta{position:relative;overflow:hidden;display:inline-block;background:#0871E7;color:#fff;font-size:14px;padding:10px 24px;border-radius:9999px;box-shadow:inset 0 -4px 4px rgba(255,255,255,.39);outline:1px solid #0871E7;outline-offset:-1px}
+.cta .glint{position:absolute;width:80%;height:16px;left:10%;top:1px;background:linear-gradient(to bottom,#DEF0FC,transparent);border-radius:12px;transition:transform .3s}
+.cta:hover .glint{transform:scaleX(1.05)}
+.cta span{position:relative}
+.hero{position:relative;min-height:100vh;background:#F3F4ED;padding-top:96px;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+@media(min-width:768px){.hero{padding-top:128px}}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.tint{position:absolute;inset:0;background:rgba(255,255,255,.05);z-index:1}
+.text{position:relative;z-index:20;pointer-events:none;text-align:center;padding:0 16px}
+h1{font-family:var(--font-instrument);font-weight:400;font-size:38px;line-height:.85;letter-spacing:-.025em;color:#1a1a1a;margin-bottom:24px;opacity:0;animation:pop 1.5s cubic-bezier(.16,1,.3,1) forwards}
+@media(min-width:768px){h1{font-size:56px}}
+@media(min-width:1024px){h1{font-size:72px}}
+.sub{font-size:16px;line-height:1.625;color:rgba(26,26,26,.7);max-width:36rem;margin:0 auto;opacity:0;animation:rise 1.2s .3s cubic-bezier(.16,1,.3,1) forwards}
+@media(min-width:768px){.sub{font-size:18px}}
+@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.typing{position:absolute;left:48.5%;transform:translateX(-50%);bottom:32%;z-index:30;width:110px;display:flex;justify-content:flex-start;text-align:left}
+@media(min-width:640px){.typing{width:130px}}
+@media(min-width:768px){.typing{left:47.5%}}
+@media(min-width:1024px){.typing{left:48.5%}}
+.typing p{font-family:var(--font-nokia);color:#2A3616;font-size:10px;line-height:1.25;word-break:break-word;min-height:1.5em}
+@media(min-width:640px){.typing p{font-size:14px}}
+.cursor{display:inline-block;width:6px;height:12px;background:#2A3616;margin-left:4px;vertical-align:middle;animation:blink .8s linear infinite}
+@keyframes blink{0%,100%{opacity:0}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="nav-wrap">
+  <nav>
+    <a class="logo" href="#">dot.</a>
+    <div class="links"><a href="#">Philosophy</a><a href="#">Trust</a><a href="#">Access</a><a href="#">Tribe</a></div>
+    <a class="cta" href="#"><i class="glint"></i><span>Link up</span></a>
+  </nav>
+</div>
+<section class="hero">
+  <video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260427_054418_a6d194f0-ac86-4df9-abe5-ded73e596d7c.mp4"></video>
+  <div class="tint"></div>
+  <div class="text">
+    <h1>Short notes. <br>Daily calm.</h1>
+    <p class="sub">Linked with a single anonymous peer. One message every day. A quiet rhythm in the digital noise.</p>
+  </div>
+  <div class="typing"><p><span id="t"></span><span class="cursor"></span></p></div>
+</section>
+<script>
+(function(){
+var msgs=["Are you here?","Yes, I am.","Speak soon."],i=0,n=0,del=false,el=document.getElementById('t');
+function tick(){
+  var m=msgs[i],d=100;
+  if(!del){n++;el.textContent=m.slice(0,n);if(n===m.length){del=true;d=2000}}
+  else{n--;el.textContent=m.slice(0,n);d=50;if(n===0){del=false;i=(i+1)%msgs.length}}
+  setTimeout(tick,d);
+}
+tick();
+})();
+</script>
+</body>
+</html>

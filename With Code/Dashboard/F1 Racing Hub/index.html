@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F1 Racing Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0a0e1c;-webkit-font-smoothing:antialiased}
+body{font-family:'Albert Sans',sans-serif;color:#fff;overflow-x:hidden}
+img{display:block}
+button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+:root{--bg:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260709_152331_bd312d1a-1f20-46b9-9b68-12bcdcf6d53e.png&w=1280&q=85")}
+.hero{position:relative;width:100%;overflow:hidden;min-height:100vh}
+.hero>.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero>.ov{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:1}
+.desk{display:none;position:relative;z-index:2;width:100%;height:100vh;align-items:center;justify-content:center;padding:24px 0}
+.desk .row{display:flex;align-items:flex-end;justify-content:center;gap:2vw}
+.mob{display:flex;position:relative;z-index:2;flex-direction:column;align-items:center;gap:50px;padding:20px}
+@media(min-width:768px){.desk{display:flex}.mob{display:none}}
+.mid{margin-bottom:-24px}
+.phone{display:flex;flex-direction:column;align-items:center}
+.frame{position:relative;border-radius:clamp(30px,4vw,54px);background:#000;padding:clamp(6px,1vw,12px);box-shadow:0 25px 50px -12px rgba(0,0,0,.6)}
+.frame .ring{position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);pointer-events:none}
+.phone-frame{aspect-ratio:390/844;width:clamp(200px,75vw,340px)}
+@media(min-width:768px){.phone-frame{width:min(25vw,42vh)}}
+@media(min-width:1280px){.phone-frame{width:min(28vw,48vh,430px)}}
+.screen{position:relative;width:100%;height:100%;border-radius:clamp(24px,3.2vw,44px);overflow:hidden;background:#0a0e1c}
+.island{position:absolute;top:3%;left:50%;transform:translateX(-50%);width:30%;height:4%;background:#000;border-radius:999px;z-index:50}
+.inner{position:absolute;top:0;left:0;width:390px;height:844px;transform-origin:top left}
+.sb{position:absolute;background:#404040;width:3px;border-radius:2px}
+.sb.l{left:-2px}.sb.r{right:-2px}
+.s{position:relative;width:100%;height:100%;overflow:hidden;font-family:'Albert Sans',sans-serif}
+.s .sbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.s .sov{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+.nav{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;margin-top:20px}
+.nav .lw{width:84px;height:28px;overflow:hidden}
+.nav .logo{height:28px;width:auto;max-width:none;object-fit:contain}
+.nav .r{display:flex}
+.nb{width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+.nb.w{background:#fff}.nb.w img{width:20px;height:20px}
+.nb.g{background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-direction:column;gap:5px;align-items:flex-end;justify-content:center;padding-right:17px}
+.nb.g i{display:block;height:2px;background:#fff;border-radius:99px}
+.menu{position:absolute;inset:0;z-index:50;background:linear-gradient(160deg,#1a0000 0%,#8B0000 40%,#E10600 100%);opacity:0;pointer-events:none;transition:opacity .4s;display:flex;flex-direction:column;padding:96px 20px 28px}
+.menu.open{opacity:1;pointer-events:auto}
+.menu .x{position:absolute;top:20px;right:20px;width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+.menu a{display:block;font-size:30px;font-weight:700;letter-spacing:-.025em;color:#fff;text-decoration:none;margin-bottom:18px;opacity:0;transform:translateX(-20px);transition:color .2s}
+.menu.open a{animation:slideIn .6s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.1s + var(--i)*.08s)}
+.menu a:hover{color:#EDB40B}
+.menu .sign{margin-top:auto;background:#fff;color:#000;font-weight:600;padding:16px;font-size:16px}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+.loc{position:relative;z-index:10}
+.loc .lab{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:16px}
+.loc .lab img{width:24px;height:24px}
+.loc h2{color:#fff;font-weight:400;line-height:.95;letter-spacing:-.05em;font-size:48px;margin-top:4px}
+.s1{display:flex;flex-direction:column;padding:76px 20px 0}
+.s1 .loc{margin:16px 0 8px}
+.drv{position:absolute;inset:0;z-index:5;display:flex;align-items:flex-end;justify-content:center}
+.drv img{width:calc(140% - 5px);max-width:none;height:auto;transform-origin:bottom;animation:scaleIn 1s cubic-bezier(.16,1,.3,1) .5s both}
+.drv .blur{position:absolute;bottom:0;left:0;right:0;height:50%;pointer-events:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);-webkit-mask:linear-gradient(to bottom,transparent 0%,black 50%);mask:linear-gradient(to bottom,transparent 0%,black 50%)}
+.s1 .bot{position:absolute;bottom:0;left:0;right:0;z-index:10;padding:0 20px 20px}
+.s1 .av{height:48px;width:auto;margin-bottom:12px;animation:fsu .9s cubic-bezier(.16,1,.3,1) .7s both}
+.s1 .name{color:#fff;font-weight:600;line-height:.82;letter-spacing:-.05em;font-size:64px;animation:speed .8s both .8s}
+.s2{display:flex;flex-direction:column;padding:76px 20px 32px}
+.s2 .loc{margin:16px 0 16px}
+.circ{position:relative;z-index:10;flex:1;display:flex;align-items:center;justify-content:center;margin:0 -20px;padding:0 8px;min-height:0;animation:scaleIn 1s cubic-bezier(.16,1,.3,1) .6s both}
+.circ img{width:100%;height:100%;object-fit:contain}
+.stats{position:relative;z-index:10;margin-top:auto;padding-top:16px;animation:fsu .9s cubic-bezier(.16,1,.3,1) .8s both}
+.stats .lab{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:15px;margin-bottom:8px}
+.stats .lab img{width:24px;height:24px}
+.num{display:block;font-weight:600;letter-spacing:-.06em;font-size:110px;line-height:.72;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.num.gr{background:linear-gradient(to bottom,#fff 0%,rgba(255,255,255,.4) 50%,transparent 85%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.num.y{color:#EDB40B}
+.team{position:absolute;top:100px;left:20px;z-index:10;animation:fsu .9s cubic-bezier(.16,1,.3,1) .3s both}
+.team .lab{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:15px}
+.team .lab img{width:20px;height:20px}
+.team h2{color:#fff;font-weight:400;line-height:.83;font-size:52px;letter-spacing:-.08em;margin-top:6px}
+.chas{position:absolute;top:245px;left:20px;z-index:10;animation:fsu .9s cubic-bezier(.16,1,.3,1) .5s both}
+.chas .lab{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:15px}
+.chas .lab img{width:20px;height:20px}
+.chas .n{color:#EDB40B;font-weight:600;line-height:.79;font-size:120px;letter-spacing:-.08em;margin-top:8px;white-space:nowrap}
+.car{position:absolute;top:390px;left:12px;width:calc(100% - 24px);height:auto;z-index:10;animation:fsl .9s cubic-bezier(.16,1,.3,1) .7s both}
+.cards{position:absolute;bottom:0;left:0;right:0;display:flex;z-index:10;animation:fsu .9s cubic-bezier(.16,1,.3,1) .9s both}
+.card{width:50%;height:200px;border-radius:16px 16px 0 0;padding:12px;background:rgba(20,20,30,.8);border:1px solid rgba(255,255,255,.1);border-bottom:none;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);position:relative}
+.card .t{display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.6);font-size:13px}
+.card .t img{width:16px;height:16px;opacity:.6}
+.card .st{height:20px;width:auto;margin-top:8px}
+.card .big{position:absolute;left:12px;bottom:12px;color:#fff;font-weight:600;line-height:.79;font-size:110px;letter-spacing:-.08em}
+@keyframes fsu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes fsl{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes speed{0%{opacity:0;transform:translateX(-100%) skewX(-8deg);filter:blur(8px)}60%{opacity:1;transform:translateX(4%) skewX(-2deg);filter:blur(0)}100%{opacity:1;transform:none;filter:blur(0)}}
+.wrap{animation:fsu .9s cubic-bezier(.16,1,.3,1) both}
+</style>
+</head>
+<body>
+<section class="hero">
+  <img class="bg" alt="" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260709_152331_bd312d1a-1f20-46b9-9b68-12bcdcf6d53e.png&w=1280&q=85">
+  <div class="ov"></div>
+  <div class="desk"><div class="row" id="deskRow"></div></div>
+  <div class="mob" id="mobCol"></div>
+</section>
+
+<template id="tpl">
+  <div class="phone wrap">
+    <div class="frame phone-frame">
+      <span class="sb l" style="top:19%;height:4.5%"></span><span class="sb l" style="top:26%;height:7.3%"></span><span class="sb l" style="top:35.5%;height:7.3%"></span>
+      <span class="sb r" style="top:30.8%;height:11.4%"></span>
+      <div class="ring"></div>
+      <div class="screen">
+        <div class="island"></div>
+        <div class="inner"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="nav">
+  <div class="nav">
+    <div class="lw"><img class="logo" alt="F1" src="https://framerusercontent.com/images/NZPITJ6zDBvxVT7rc1NH2sOU.png"></div>
+    <div class="r">
+      <div class="nb w"><img alt="" src="https://framerusercontent.com/images/JIl4japgQlMAQRvh1gDHszRvkUY.png?width=92&height=92"></div>
+      <button class="nb g" aria-label="Menu" data-open><i style="width:21px"></i><i style="width:10px"></i></button>
+    </div>
+  </div>
+  <div class="menu">
+    <button class="x" data-close aria-label="Close"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <a href="#" style="--i:0">Biography</a><a href="#" style="--i:1">Statistics</a><a href="#" style="--i:2">Career</a>
+    <button class="sign">Sign in</button>
+  </div>
+</template>
+
+<template id="s1">
+  <div class="s s1">
+    <img class="sbg" alt="" src="__BG__"><div class="sov"></div>
+    <!--NAV-->
+    <div class="loc wrap" style="animation-delay:.3s">
+      <div class="lab">United Kingdom <img alt="" src="https://framerusercontent.com/images/pqUTggaeyOivtzDImRzkBRdww.png"></div>
+      <h2>Silverstone<br>England</h2>
+    </div>
+    <div class="drv">
+      <img alt="Lewis Hamilton" src="https://framerusercontent.com/images/m5IyHuJeOQ5P0GOvWx1xv0IR9Y.png">
+      <div class="blur"></div>
+    </div>
+    <div class="bot">
+      <img class="av" alt="" src="https://framerusercontent.com/images/dAAdqktZVxBDjPKk97YCjZjsE.png">
+      <div class="name">Lewis<br>Hamilton</div>
+    </div>
+  </div>
+</template>
+
+<template id="s2">
+  <div class="s s2">
+    <img class="sbg" alt="" src="__BG__"><div class="sov"></div>
+    <!--NAV-->
+    <div class="loc wrap" style="animation-delay:.4s">
+      <div class="lab">United Kingdom <img alt="" src="https://framerusercontent.com/images/pqUTggaeyOivtzDImRzkBRdww.png"></div>
+      <h2>Silverstone<br>England</h2>
+    </div>
+    <div class="circ"><img alt="Silverstone circuit" src="https://framerusercontent.com/images/raKAG2bJP9xeqi118VMniPLvbAA.png"></div>
+    <div class="stats">
+      <div class="lab">Season Points <img alt="" src="https://framerusercontent.com/images/pIXUcwyAF0xzCIaKjtNLahHpasQ.png"></div>
+      <span class="num gr" data-to="227" data-delay="800">0</span>
+      <span class="num gr" data-to="374" data-delay="1000">0</span>
+      <span class="num y" data-to="4987" data-delay="1200">0</span>
+    </div>
+  </div>
+</template>
+
+<template id="s3">
+  <div class="s">
+    <img class="sbg" alt="" src="__BG__"><div class="sov"></div>
+    <!--NAV-->
+    <div class="team">
+      <div class="lab">Team Name <img alt="" src="https://framerusercontent.com/images/sUDhzMuxKIOvqjSH5U1fn0QSXqI.png"></div>
+      <h2>Scuderia<br>Ferrari</h2>
+    </div>
+    <div class="chas">
+      <div class="lab"><img alt="" src="https://framerusercontent.com/images/zIA1tYDOAdZo3k6IXX9gBC5FGbY.png">Chassis</div>
+      <div class="n">SF-26</div>
+    </div>
+    <img class="car" alt="Ferrari SF-26" src="https://framerusercontent.com/images/MzKCSYB4uVt9psQq4jRwQNRDjc.png">
+    <div class="cards">
+      <div class="card"><div class="t">Charles Leclerc <img alt="" src="https://framerusercontent.com/images/JIl4japgQlMAQRvh1gDHszRvkUY.png?width=92&height=92"></div><img class="st" alt="" src="https://framerusercontent.com/images/MJfqhcmEoIBnfimJNhKqoZpq0.png"><div class="big">16</div></div>
+      <div class="card"><div class="t">Lewis Hamilton <img alt="" src="https://framerusercontent.com/images/JIl4japgQlMAQRvh1gDHszRvkUY.png?width=92&height=92"></div><img class="st" alt="" src="https://framerusercontent.com/images/3EwXxC1QutaGnlNDZMlAN66ZmTU.png"><div class="big">44</div></div>
+    </div>
+  </div>
+</template>
+
+<script>
+(function(){
+  var BG=document.querySelector('.hero>.bg').src;
+  var navHTML=document.getElementById('nav').innerHTML;
+  var screens=['s1','s2','s3'], delays=[300,500,700];
+  function build(host,isDesk){
+    screens.forEach(function(id,i){
+      var p=document.getElementById('tpl').content.cloneNode(true);
+      var w=p.querySelector('.phone');
+      w.style.animationDelay=delays[i]+'ms';
+      if(isDesk&&i===1)w.classList.add('mid');
+      var html=document.getElementById(id).innerHTML.replace(/__BG__/g,BG).replace('<!--NAV-->',navHTML);
+      p.querySelector('.inner').innerHTML=html;
+      host.appendChild(p);
+    });
+  }
+  build(document.getElementById('deskRow'),true);
+  build(document.getElementById('mobCol'),false);
+  document.querySelectorAll('.phone').forEach(function(ph){
+    var scr=ph.querySelector('.screen'),inner=ph.querySelector('.inner');
+    function fit(){var w=scr.clientWidth;if(!w)return;inner.style.transform='scale('+(w/390)+')';inner.style.height=(scr.clientHeight/(w/390))+'px'}
+    fit();new ResizeObserver(fit).observe(scr);
+    var menu=ph.querySelector('.menu');
+    ph.querySelector('[data-open]').onclick=function(){menu.classList.add('open')};
+    ph.querySelector('[data-close]').onclick=function(){menu.classList.remove('open')};
+  });
+  document.querySelectorAll('.num').forEach(function(el){
+    var to=+el.dataset.to,d=+el.dataset.delay;
+    setTimeout(function(){
+      var t0=performance.now();
+      (function step(n){var t=Math.min(1,(n-t0)/2200),e=1-Math.pow(1-t,3);el.textContent=Math.round(to*e);if(t<1)requestAnimationFrame(step)})(t0);
+    },d);
+  });
+})();
+</script>
+</body>
+</html>

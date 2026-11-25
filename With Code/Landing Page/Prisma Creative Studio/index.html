@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prisma - Creative Visionaries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #DEDBC8;
+      --primary-70: rgba(222, 219, 200, 0.7);
+      --primary-80: rgba(225, 224, 204, 0.8);
+      --bg: #000000;
+      --card-bg: #212121;
+      --about-bg: #101010;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+    }
+
+    body {
+      font-family: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: var(--bg);
+      color: var(--primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Noise texture */
+    .noise-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .bg-noise {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    .hero-card {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 2rem;
+    }
+
+    .hero-video-container {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-video-container video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-noise {
+      position: absolute;
+      inset: 0;
+      opacity: 0.7;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+
+    .hero-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent, rgba(0,0,0,0.6));
+    }
+
+    /* Navbar */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    .navbar-inner {
+      position: relative;
+      background: #000;
+      border-radius: 0 0 1.5rem 1.5rem;
+      padding: 8px 32px;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      list-style: none;
+    }
+
+    .navbar-links a {
+      font-size: 14px;
+      color: var(--primary-80);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .navbar-links a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Content */
+    .hero-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 64px 32px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      align-items: end;
+    }
+
+    .hero-title {
+      font-size: 20vw;
+      font-weight: 500;
+      line-height: 0.85;
+      letter-spacing: -0.07em;
+      color: var(--primary);
+      display: inline-flex;
+      flex-wrap: wrap;
+    }
+
+    .hero-title .word {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: pullUp 0.6s forwards;
+    }
+
+    .hero-title .asterisk {
+      position: absolute;
+      top: 0.65em;
+      right: -0.3em;
+      font-size: 0.31em;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      padding-bottom: 16px;
+    }
+
+    .hero-description {
+      color: var(--primary-70);
+      font-size: 14px;
+      line-height: 1.2;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: pullUp 0.8s 0.5s forwards;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      padding: 4px 4px 4px 0;
+      text-decoration: none;
+      width: fit-content;
+      transition: gap 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: pullUp 0.8s 0.7s forwards;
+    }
+
+    .hero-btn:hover {
+      gap: 12px;
+    }
+
+    .hero-btn-text {
+      padding-left: 32px;
+      padding-right: 8px;
+      font-size: 16px;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .hero-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #000;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+
+    .hero-btn:hover .hero-btn-icon {
+      transform: scale(1.1);
+    }
+
+    .hero-btn-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* About Section */
+    .about {
+      width: 100%;
+      padding: 96px 32px;
+    }
+
+    .about-inner {
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+
+    .about-card {
+      background: var(--about-bg);
+      padding: 80px 64px;
+      text-align: center;
+    }
+
+    .about-tag {
+      display: inline-block;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--primary);
+      border-radius: 9999px;
+    }
+
+    .about-heading {
+      color: var(--primary);
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      max-width: 48rem;
+      margin: 0 auto;
+      line-height: 0.95;
+      margin-top: 16px;
+    }
+
+    .about-heading .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .about-heading .word.visible {
+      animation: pullUp 0.5s forwards;
+    }
+
+    .about-heading .italic-text {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+    }
+
+    .about-body {
+      max-width: 36rem;
+      margin: 48px auto 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--primary);
+    }
+
+    .about-body .char {
+      opacity: 0.2;
+      transition: opacity 0.1s;
+    }
+
+    .about-body .char.lit {
+      opacity: 1;
+    }
+
+    /* Features Section */
+    .features {
+      min-height: 100vh;
+      padding: 96px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features-noise {
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .features-inner {
+      max-width: 80rem;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .features-header {
+      margin-bottom: 64px;
+    }
+
+    .features-title {
+      font-size: clamp(1.25rem, 3vw, 2.25rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .features-subtitle {
+      font-size: clamp(1.25rem, 3vw, 2.25rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--gray-500);
+    }
+
+    .features-title .word,
+    .features-subtitle .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .features-title .word.visible,
+    .features-subtitle .word.visible {
+      animation: pullUp 0.4s forwards;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      height: 480px;
+    }
+
+    .feature-card {
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s, transform 0.5s;
+      transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .feature-card.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .feature-card-video {
+      position: relative;
+      height: 100%;
+    }
+
+    .feature-card-video video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .feature-card-video .card-title-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+    }
+
+    .feature-card-content {
+      background: var(--card-bg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      margin-bottom: 24px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .card-header h3 {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .card-header span {
+      color: var(--gray-500);
+      font-size: 14px;
+    }
+
+    .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card-list {
+      margin-bottom: 32px;
+    }
+
+    .card-list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .card-list-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .card-list-item p {
+      color: var(--gray-400);
+      font-size: 13px;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-size: 14px;
+      text-decoration: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+      font-family: inherit;
+      transition: gap 0.3s;
+    }
+
+    .card-link:hover {
+      gap: 12px;
+    }
+
+    .card-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: rotate(-45deg);
+    }
+
+    /* Animations */
+    @keyframes pullUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        height: auto;
+      }
+
+      .feature-card-video,
+      .feature-card-content {
+        min-height: 400px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 24vw;
+      }
+
+      .navbar-links {
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 16px;
+      }
+
+      .hero-card {
+        border-radius: 1rem;
+      }
+
+      .hero-content {
+        padding: 24px 16px;
+      }
+
+      .hero-title {
+        font-size: 26vw;
+      }
+
+      .hero-right {
+        gap: 32px;
+      }
+
+      .navbar-links {
+        gap: 12px;
+      }
+
+      .navbar-links a {
+        font-size: 10px;
+      }
+
+      .navbar-inner {
+        padding: 8px 16px;
+        border-radius: 0 0 1rem 1rem;
+      }
+
+      .about-card {
+        padding: 40px 24px;
+      }
+
+      .about-heading {
+        font-size: 1.875rem;
+      }
+
+      .features {
+        padding: 64px 16px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card-video {
+        min-height: 256px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .feature-card-content {
+        min-height: 400px;
+        border-radius: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-card">
+      <!-- Video Background -->
+      <div class="hero-video-container">
+        <video autoplay loop muted playsinline>
+          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-noise noise-overlay"></div>
+      </div>
+
+      <!-- Gradient Overlay -->
+      <div class="hero-gradient"></div>
+
+      <!-- Navbar -->
+      <nav class="navbar">
+        <div class="navbar-inner">
+          <ul class="navbar-links">
+            <li><a href="#our-story">Our story</a></li>
+            <li><a href="#collective">Collective</a></li>
+            <li><a href="#workshops">Workshops</a></li>
+            <li><a href="#programs">Programs</a></li>
+            <li><a href="#inquiries">Inquiries</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Hero Content -->
+      <div class="hero-content">
+        <div class="hero-grid">
+          <div>
+            <h1 class="hero-title">
+              <span class="word" style="animation-delay: 0s;">Prism<span style="position:relative;display:inline-block;">a<span class="asterisk">*</span></span></span>
+            </h1>
+          </div>
+          <div class="hero-right">
+            <p class="hero-description">
+              Prisma is a worldwide network of visual artists, filmmakers and storytellers bound not by place,
+              status or labels but by passion and hunger to unlock potential through our unique perspectives.
+            </p>
+            <button class="hero-btn">
+              <span class="hero-btn-text">Join the lab</span>
+              <div class="hero-btn-icon">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about">
+    <div class="about-inner">
+      <div class="about-card">
+        <div>
+          <span class="about-tag">Visual arts</span>
+        </div>
+
+        <h2 class="about-heading" id="about-heading">
+          <!-- Words injected by JS -->
+        </h2>
+
+        <div class="about-body" id="about-body">
+          <!-- Characters injected by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-noise bg-noise"></div>
+    <div class="features-inner">
+      <div class="features-header">
+        <h2 class="features-title" id="features-title"></h2>
+        <p class="features-subtitle" id="features-subtitle"></p>
+      </div>
+
+      <div class="features-grid" id="features-grid">
+        <!-- Card 1 - Video -->
+        <div class="feature-card feature-card-video">
+          <video autoplay loop muted playsinline>
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_133058_0504132a-0cf3-4450-a370-8ea3b05c95d4.mp4" type="video/mp4" />
+          </video>
+          <div class="card-title-overlay">
+            <h3 style="font-size:20px;font-weight:500;color:var(--primary);">Your creative canvas.</h3>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card feature-card-content">
+          <img class="card-icon" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85" alt="Mission Planning" />
+          <div class="card-header">
+            <h3>Project Storyboard.</h3>
+            <span>(01)</span>
+          </div>
+          <div class="card-body">
+            <div class="card-list">
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Structure stories with precision using Scene Frameworks</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Visual timeline for shoots</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Flexible ideation with muse</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Start each shoot with purpose</p>
+              </div>
+            </div>
+            <button class="card-link">Learn more <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card feature-card-content">
+          <img class="card-icon" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85" alt="AI Briefings" />
+          <div class="card-header">
+            <h3>Smart Critiques.</h3>
+            <span>(02)</span>
+          </div>
+          <div class="card-body">
+            <div class="card-list">
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Instant analysis of cuts, notes, and reviews</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Surface creative notes and themes automatically</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Syncs with Premiere, Frame.io, DaVinci & more</p>
+              </div>
+            </div>
+            <button class="card-link">Learn more <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card feature-card-content">
+          <img class="card-icon" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85" alt="Distraction Shield" />
+          <div class="card-header">
+            <h3>Immersion Capsule.</h3>
+            <span>(03)</span>
+          </div>
+          <div class="card-body">
+            <div class="card-list">
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Silences non-urgent calls and alerts entirely</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Ambient soundscapes: film scores, field sound, rain</p>
+              </div>
+              <div class="card-list-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                <p>Syncs with schedules & edit blocks</p>
+              </div>
+            </div>
+            <button class="card-link">Learn more <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // About heading with mixed styles
+    (function() {
+      const segments = [
+        { text: 'I am Marcus Chen,', className: '' },
+        { text: 'a self-taught director.', className: 'italic-text' },
+        { text: 'I have skills in color grading, visual effects, and narrative design.', className: '' }
+      ];
+
+      const heading = document.getElementById('about-heading');
+      let wordIndex = 0;
+
+      segments.forEach(seg => {
+        const words = seg.text.split(' ');
+        words.forEach((word, i) => {
+          const span = document.createElement('span');
+          span.className = 'word' + (seg.className ? ' ' + seg.className : '');
+          span.textContent = word;
+          span.dataset.index = wordIndex++;
+          heading.appendChild(span);
+          if (i < words.length - 1) {
+            heading.appendChild(document.createTextNode(' '));
+          }
+        });
+        heading.appendChild(document.createTextNode(' '));
+      });
+
+      // About body - character-by-character scroll reveal
+      const bodyText = 'Over the last seven years, I have worked with Parallax, a Berlin-based production house that crafts cinema, series, and Noir Studio in Paris. Together, we have created work that has earned international acclaim at several major festivals.';
+      const bodyEl = document.getElementById('about-body');
+
+      bodyText.split('').forEach((char, i) => {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        span.dataset.index = i;
+        bodyEl.appendChild(span);
+      });
+
+      // Features titles
+      const featTitle = document.getElementById('features-title');
+      'Studio-grade workflows for visionary creators.'.split(' ').forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = word;
+        span.dataset.index = i;
+        featTitle.appendChild(span);
+        featTitle.appendChild(document.createTextNode(' '));
+      });
+
+      const featSub = document.getElementById('features-subtitle');
+      'Built for pure vision. Powered by art.'.split(' ').forEach((word, i) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = word;
+        span.dataset.index = i;
+        featSub.appendChild(span);
+        featSub.appendChild(document.createTextNode(' '));
+      });
+    })();
+
+    // Intersection Observer for word pull-up animations
+    function observeWords(container) {
+      const words = container.querySelectorAll('.word');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const wordsInContainer = entry.target.querySelectorAll ? [entry.target] : [];
+            words.forEach((word, i) => {
+              setTimeout(() => {
+                word.classList.add('visible');
+                word.style.animationDelay = (i * 0.06) + 's';
+              }, i * 60);
+            });
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      observer.observe(container);
+    }
+
+    observeWords(document.getElementById('about-heading'));
+    observeWords(document.getElementById('features-title'));
+    observeWords(document.getElementById('features-subtitle'));
+
+    // Scroll-based character reveal for About body
+    function updateCharReveal() {
+      const bodyEl = document.getElementById('about-body');
+      const rect = bodyEl.getBoundingClientRect();
+      const windowH = window.innerHeight;
+
+      const start = windowH * 0.8;
+      const end = windowH * 0.2;
+      const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
+
+      const chars = bodyEl.querySelectorAll('.char');
+      const total = chars.length;
+
+      chars.forEach((char, i) => {
+        const charThreshold = i / total;
+        if (progress >= charThreshold) {
+          char.classList.add('lit');
+        } else {
+          char.classList.remove('lit');
+        }
+      });
+    }
+
+    // Feature cards scroll reveal
+    function updateFeatureCards() {
+      const grid = document.getElementById('features-grid');
+      const rect = grid.getBoundingClientRect();
+      const windowH = window.innerHeight;
+
+      if (rect.top < windowH - 100) {
+        const cards = grid.querySelectorAll('.feature-card');
+        cards.forEach((card, i) => {
+          setTimeout(() => {
+            card.classList.add('visible');
+          }, i * 150);
+        });
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      updateCharReveal();
+      updateFeatureCards();
+    }, { passive: true });
+
+    // Initial check
+    updateCharReveal();
+    updateFeatureCards();
+  </script>
+</body>
+</html>

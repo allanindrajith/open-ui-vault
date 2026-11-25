@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transform Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fustat:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#fff;color:#000;font-family:'Inter',sans-serif;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;display:flex;flex-direction:column;background:#f8f8f8}
+.vid{position:absolute;top:0;left:50%;width:115%;height:115%;transform:translateX(-50%);object-fit:cover;object-position:top;opacity:0;z-index:0}
+nav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:16px 120px;font-family:'Schibsted Grotesk',sans-serif}
+.logo{font-weight:600;font-size:24px;letter-spacing:-1.44px}
+.menu{display:flex;align-items:center;gap:32px;list-style:none;font-weight:500;font-size:16px;letter-spacing:-.2px}
+.menu li{display:flex;align-items:center;gap:4px;cursor:pointer}
+.actions{display:flex;gap:8px}
+.btn{height:40px;border-radius:8px;border:0;font:500 16px 'Schibsted Grotesk',sans-serif;letter-spacing:-.2px;cursor:pointer}
+.btn.s{background:transparent;width:82px;color:#000}
+.btn.l{background:#000;color:#fff;width:101px}
+main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 120px 40px;margin-top:-50px;text-align:center}
+.badge{display:inline-flex;align-items:center;background:#f8f8f8;border-radius:8px;padding:4px;font:400 14px 'Inter',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.badge .n{display:flex;align-items:center;gap:4px;background:#0e1311;color:#fff;border-radius:6px;padding:3px 8px}
+.badge .t{padding:0 10px 0 10px;color:#000}
+h1{margin-top:34px;font:700 80px/1 'Fustat',sans-serif;letter-spacing:-4.8px;color:#000}
+.sub{margin-top:34px;width:542px;max-width:736px;font:500 20px/1.3 'Fustat',sans-serif;letter-spacing:-.4px;color:#505050}
+.box{margin-top:44px;width:100%;max-width:728px;min-height:200px;border-radius:18px;background:rgba(0,0,0,.24);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:8px;display:flex;flex-direction:column;gap:8px;font-family:'Schibsted Grotesk',sans-serif;text-align:left}
+.top{display:flex;justify-content:space-between;align-items:center;color:#fff;font-weight:500;font-size:12px;padding:4px 8px 0}
+.top div{display:flex;align-items:center;gap:8px}
+.up{background:rgba(90,225,76,.89);color:#000;border:0;border-radius:6px;padding:3px 8px;font:500 12px 'Schibsted Grotesk',sans-serif;cursor:pointer}
+.inp{background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);padding:12px;display:flex;flex-direction:column;gap:12px;flex:1}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex:1}
+textarea{flex:1;border:0;outline:0;resize:none;font:400 16px 'Inter',sans-serif;min-height:56px;background:transparent;color:#000}
+textarea::placeholder{color:rgba(0,0,0,.6)}
+.go{width:36px;height:36px;border-radius:50%;background:#000;border:0;display:grid;place-items:center;cursor:pointer;flex:none}
+.bot{display:flex;justify-content:space-between;align-items:center}
+.bot .l{display:flex;gap:8px}
+.chip{display:flex;align-items:center;gap:4px;background:#f8f8f8;border:0;border-radius:6px;padding:6px 10px;font:500 12px 'Schibsted Grotesk',sans-serif;color:#000;cursor:pointer}
+.cnt{font-size:12px;color:#8a8a8a}
+@media(max-width:900px){
+nav{padding:16px 20px}.menu{display:none}
+main{padding:40px 20px 32px}
+h1{font-size:48px;letter-spacing:-2.6px}
+.sub{width:100%;font-size:17px}
+.bot .cnt{display:none}.chip{padding:6px 8px}
+.top{flex-wrap:wrap;gap:6px}
+}
+</style>
+</head>
+<body>
+<section class="hero">
+<video class="vid" id="v" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260329_050842_be71947f-f16e-4a14-810c-06e83d23ddb5.mp4" muted playsinline autoplay preload="auto"></video>
+<nav>
+<div class="logo">Logoipsum</div>
+<ul class="menu"><li>Platform</li><li>Features <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></li><li>Projects</li><li>Community</li><li>Contact</li></ul>
+<div class="actions"><button class="btn s">Sign Up</button><button class="btn l">Log In</button></div>
+</nav>
+<main>
+<div class="badge"><span class="n"><svg width="12" height="12" viewBox="0 0 12 12" fill="#fff"><path d="M6 .5l1.5 3.5 3.8.4-2.9 2.5.9 3.7L6 8.7l-3.3 1.9.9-3.7L.7 4.4 4.5 4z"/></svg>New</span><span class="t">Discover what's possible</span></div>
+<h1>Transform Data Quickly</h1>
+<p class="sub">Upload your information and get powerful insights right away. Work smarter and achieve goals effortlessly.</p>
+<div class="box">
+<div class="top"><div>60/450 credits <button class="up">Upgrade</button></div><div><svg width="14" height="14" viewBox="0 0 16 16" fill="#fff"><path d="M8 0l1.8 5.2L15 7l-5.2 1.8L8 14 6.2 8.8 1 7l5.2-1.8z"/></svg>Powered by GPT-4o</div></div>
+<div class="inp">
+<div class="row"><textarea id="t" maxlength="3000" placeholder="Type question..."></textarea><button class="go" aria-label="Submit"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+<div class="bot"><div class="l">
+<button class="chip"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#000" stroke-width="1.4" stroke-linecap="round"><path d="M13 7.5l-5 5a3 3 0 01-4.2-4.2l5.5-5.5a2 2 0 112.8 2.8L6.6 11a1 1 0 01-1.4-1.4L10 5"/></svg>Attach</button>
+<button class="chip"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#000" stroke-width="1.4" stroke-linecap="round"><rect x="5.5" y="1.5" width="5" height="8" rx="2.5"/><path d="M3 7.5a5 5 0 0010 0M8 12.5v2"/></svg>Voice</button>
+<button class="chip"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#000" stroke-width="1.4" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>Prompts</button></div>
+<span class="cnt" id="c">0/3,000</span></div>
+</div></div>
+</main>
+</section>
+<script>
+(function(){
+var v=document.getElementById('v'),raf=null,fadingOut=false,FADE=250;
+function fade(to){
+  if(raf)cancelAnimationFrame(raf);
+  var from=parseFloat(v.style.opacity||0),start=null;
+  function step(ts){
+    if(start===null)start=ts;
+    var p=Math.min((ts-start)/FADE,1);
+    v.style.opacity=from+(to-from)*p;
+    if(p<1)raf=requestAnimationFrame(step);else raf=null;
+  }
+  raf=requestAnimationFrame(step);
+}
+v.addEventListener('loadeddata',function(){v.style.opacity=0;fadingOut=false;v.play().catch(function(){});fade(1)});
+v.addEventListener('timeupdate',function(){
+  if(v.duration&&!fadingOut&&v.duration-v.currentTime<=0.55){fadingOut=true;fade(0)}
+});
+v.addEventListener('ended',function(){
+  if(raf)cancelAnimationFrame(raf);
+  v.style.opacity=0;
+  setTimeout(function(){v.currentTime=0;v.play().catch(function(){});fadingOut=false;fade(1)},100);
+});
+var t=document.getElementById('t'),c=document.getElementById('c');
+t.addEventListener('input',function(){c.textContent=t.value.length.toLocaleString('en-US')+'/3,000'});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creative Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#5E0ED7;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#f2f2f2;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;font-weight:600;color:#000;text-transform:uppercase;letter-spacing:.1em}
+a{color:inherit;text-decoration:none}
+.root{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.root>*:not(.bg){position:relative;z-index:1}
+.px{padding-left:20px;padding-right:20px}
+nav{display:flex;align-items:center;justify-content:space-between;padding-top:20px}
+.logo{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center}
+.logo i{width:10px;height:10px;border-radius:50%;background:var(--accent);display:block}
+.links{display:none;gap:32px;font-size:14px}
+.burger,.close{width:36px;height:36px;border-radius:50%;background:#000;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.burger span{display:block;width:16px;height:2px;background:#fff}
+.close{color:#fff}
+.stats{flex:1;display:flex;align-items:center;justify-content:flex-end;padding-top:32px;padding-bottom:32px}
+.stats .row{display:flex;gap:20px}
+.stat{text-align:right}
+.num{font-size:clamp(1.5rem,5vw,3.5rem);font-weight:600;line-height:1;letter-spacing:-.02em}
+.num b{color:var(--accent);font-size:.5em;font-weight:600;vertical-align:top;position:relative;top:.15em;margin-right:.1em}
+.lbl{font-size:10px;line-height:1.15;margin-top:6px;white-space:pre-line}
+.bottom{padding-bottom:32px;display:flex;flex-direction:column;gap:24px}
+.rowA,.rowB{display:flex;justify-content:space-between;gap:16px}
+.rowA{align-items:center}
+.rowB{align-items:flex-end;gap:12px}
+.tag{font-size:10px;max-width:130px}
+.cta{font-size:16px;color:var(--accent);white-space:nowrap;display:flex;align-items:center;gap:4px}
+.cta svg{width:18px;height:18px}
+.desc{width:120px;flex-shrink:0;font-size:9px;text-align:left}
+h1{font-size:clamp(2rem,9vw,9rem);line-height:.88;font-weight:600;text-align:right;letter-spacing:-.02em}
+h1 .w{display:block;overflow:hidden}
+h1 .w span{display:block}
+.menu{position:fixed;inset:0;z-index:50;background:#fff;display:none;flex-direction:column;padding:20px}
+.menu.open{display:flex}
+.menu .top{display:flex;justify-content:space-between;align-items:center}
+.menu ul{list-style:none;display:flex;flex-direction:column;gap:32px;margin-top:64px;font-size:30px}
+.menu .cta{margin-top:auto;font-size:20px}
+.menu .cta svg{width:22px;height:22px}
+/* animations */
+.fd{opacity:0;transform:translateY(-20px);animation:fd .5s var(--ease) forwards;animation-delay:calc(var(--i)*.1s)}
+.fu{opacity:0;transform:translateY(32px);animation:fu .6s var(--ease) forwards;animation-delay:calc(var(--i)*.12s)}
+h1 .w span{transform:translateY(110%);animation:sl .7s var(--ease) forwards;animation-delay:calc(.4s + var(--i)*.14s)}
+@keyframes fd{to{opacity:1;transform:none}}
+@keyframes fu{to{opacity:1;transform:none}}
+@keyframes sl{to{transform:none}}
+@media(prefers-reduced-motion:reduce){.fd,.fu,h1 .w span{animation-duration:.01s}}
+@media(min-width:640px){
+.px{padding-left:32px;padding-right:32px}
+.stats .row{gap:32px}.lbl{font-size:12px}.tag{font-size:12px;max-width:160px}
+.cta{font-size:20px}.cta svg{width:22px;height:22px}
+.desc{width:180px;font-size:12px}.rowB{gap:16px}
+}
+@media(min-width:768px){
+.px{padding-left:48px;padding-right:48px}
+nav{padding-top:24px}
+.links{display:flex}
+.stats{padding-top:0;padding-bottom:0}.stats .row{gap:40px}
+.lbl{font-size:14px}.tag{font-size:14px;max-width:20rem}
+.cta{font-size:24px}
+.desc{width:280px;font-size:14px;text-align:right}
+.bottom{padding-bottom:48px;gap:48px}
+}
+</style>
+</head>
+<body>
+<div class="root">
+<video class="bg" autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260517_222138_3e3205be-3364-417b-a64a-bfe087acbec4.mp4"></video>
+
+<nav class="px">
+  <a class="logo fd" style="--i:0" href="#"><i></i></a>
+  <div class="links">
+    <a class="fd" style="--i:1" href="#">Story</a>
+    <a class="fd" style="--i:2" href="#">Expertise</a>
+    <a class="fd" style="--i:3" href="#">Studios</a>
+    <a class="fd" style="--i:4" href="#">Feedback</a>
+  </div>
+  <button class="burger fd" style="--i:5" id="open" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="stats px">
+  <div class="row">
+    <div class="stat fu" style="--i:2"><div class="num"><b>+</b>300</div><div class="lbl">Crafted
+Brands</div></div>
+    <div class="stat fu" style="--i:3"><div class="num"><b>+</b>200</div><div class="lbl">Digital
+Products</div></div>
+    <div class="stat fu" style="--i:4"><div class="num"><b>+</b>100</div><div class="lbl">Ventures
+Funded</div></div>
+  </div>
+</div>
+
+<div class="bottom px">
+  <div class="rowA">
+    <p class="tag fu" style="--i:5">Shaping Bold<br>Visions Into Power<br>For Your Tribe</p>
+    <a class="cta fu" style="--i:6" href="#">Work With Us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10M7 17 17 7"/></svg></a>
+  </div>
+  <div class="rowB">
+    <div class="desc fu" style="--i:7"><p>Creative Studios Built Around Elevating Your Vision Into Striking Reality</p></div>
+    <h1>
+      <span class="w"><span style="--i:0">Fearless</span></span>
+      <span class="w"><span style="--i:1">Vision</span></span>
+      <span class="w"><span style="--i:2">Delivered</span></span>
+    </h1>
+  </div>
+</div>
+</div>
+
+<div class="menu" id="menu">
+  <div class="top">
+    <a class="logo" href="#"><i></i></a>
+    <button class="close" id="close" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  </div>
+  <ul><li><a href="#">Story</a></li><li><a href="#">Expertise</a></li><li><a href="#">Studios</a></li><li><a href="#">Feedback</a></li></ul>
+  <a class="cta" href="#">Work With Us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10M7 17 17 7"/></svg></a>
+</div>
+<script>
+var m=document.getElementById('menu');
+document.getElementById('open').onclick=function(){m.classList.add('open')};
+document.getElementById('close').onclick=function(){m.classList.remove('open')};
+</script>
+</body>
+</html>

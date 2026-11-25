@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CARGOX GROUP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#111;font-family:Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bc{font-family:'Barlow Condensed',Impact,sans-serif;font-weight:800;text-transform:uppercase}
+.phone{position:relative;height:min(calc(100vh - 40px),900px);aspect-ratio:393/852;max-width:100vw;background:#000;border:8px solid #2a2a2a;border-radius:54px;box-shadow:0 0 0 2px #1a1a1a,inset 0 0 0 1px #3a3a3a,0 30px 80px rgba(0,0,0,.6);overflow:hidden}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:126px;height:36px;background:#000;border-radius:20px;z-index:200}
+.home{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);z-index:200;pointer-events:none}
+.scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;container-type:size;container-name:phone;border-radius:46px}
+.scroll::-webkit-scrollbar{display:none}
+@media (max-width:500px){
+ body{display:block}
+ .phone{height:100%;width:100%;max-width:none;aspect-ratio:auto;border:0;border-radius:0;box-shadow:none}
+ .island,.home{display:none}
+ .scroll{border-radius:0}
+}
+/* hero */
+.hero{position:relative;height:100cqb;overflow:hidden;background:#222}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.nav{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:56px 20px 0;z-index:100}
+.logo{font-size:clamp(22px,6vw,32px);line-height:.9;color:#fff;transform:translateX(-120px);opacity:0;transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .6s}
+.logo span{display:block;color:#ffda00}
+.burger{background:none;border:0;color:#fff;cursor:pointer;width:28px;height:28px;position:relative;transform:translateX(120px);opacity:0;transition:transform .6s cubic-bezier(.16,1,.3,1),opacity .6s;z-index:101}
+.burger svg{position:absolute;inset:0}
+.loaded .logo,.loaded .burger{transform:none;opacity:1}
+.menu{position:absolute;inset:0;z-index:99;background:#6682c2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;opacity:0;transform:scale(1.08);pointer-events:none;transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
+.menu.open{opacity:1;transform:none;pointer-events:auto}
+.menu a{color:#fff;font-size:24px;text-decoration:none;opacity:0;transform:translateY(30px);transition:opacity .4s,transform .5s cubic-bezier(.16,1,.3,1)}
+.menu.open a{opacity:1;transform:none}
+.menu.open a:nth-child(2){transition-delay:.08s}.menu.open a:nth-child(3){transition-delay:.16s}
+.menu.open a:nth-child(1){transition-delay:.0s}
+.hc{position:absolute;left:0;right:0;bottom:0;z-index:10;padding:0 20px 24px;opacity:0;transition:opacity .5s}
+.hc.show{opacity:1}
+.h1{font-size:clamp(48px,14vw,72px);line-height:.82;color:#fff}
+.h1 div{transition:transform .85s cubic-bezier(.16,1,.3,1)}
+.h1 .l1{transform:translateX(-400px)}.h1 .l2{transform:translateX(400px);color:#ffda00;text-align:right;transition-delay:.13s}.h1 .l3{transform:translateX(-400px);transition-delay:.26s}
+.hc.show .h1 div{transform:none}
+.cta{display:inline-block;margin-top:24px;position:relative;width:200px;height:56px;border:0;background:none;cursor:pointer;transition:transform .25s}
+.cta:hover{transform:scale(1.08) translateY(-2px)}.cta:active{transform:scale(.97)}
+.cta svg.bg{position:absolute;inset:0;width:100%;height:100%}
+.cta .t{position:absolute;left:0;top:0;bottom:0;width:144px;display:flex;align-items:center;justify-content:center;font:20px Helvetica,Arial,sans-serif;color:#002a35}
+.cta .ar{position:absolute;right:0;top:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+.cta .ar svg{transform:rotate(-135deg);transition:transform .3s}
+.cta:hover .ar svg{transform:rotate(-90deg)}
+/* info */
+.info{background:linear-gradient(180deg,#C8C7B3 0%,#F0B172 50%,#EA7C58 100%);padding:clamp(60px,12vh,120px) 20px;overflow:hidden}
+.tag{opacity:0;transform:translateX(-80px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.tag h2{font-size:clamp(44px,13vw,64px);color:#fff;line-height:.9}
+.tag p{font-size:clamp(18px,5vw,26px);color:#1a1a1a;line-height:1.15;margin-top:6px}
+.in{opacity:1!important;transform:none!important}
+.map{position:relative;margin:40px -20px;aspect-ratio:435/340;background:url(https://polo-pecan-73837341.figma.site/_assets/v11/b6d561167283e799453232309bd13dd78b2d1afa.png) center/100% 100% no-repeat}
+.map>svg{position:absolute;left:10%;top:18%;width:80%;overflow:visible}
+.route{fill:none;stroke:#FFDA00;stroke-width:2.5;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.25,.46,.45,.94)}
+.map.in2 .route{stroke-dashoffset:0}
+.dot{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.map.in2 .dot{transform:scale(1)}
+.arrow{opacity:0}.map.in2 .arrow{opacity:1;transition:opacity .4s 1s}
+.ico{position:absolute;width:16%;aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25);overflow:hidden;opacity:0;transition:opacity .5s,scale .5s;scale:.5}
+.map.in2 .ico{opacity:1;scale:1}
+.ico img{width:100%;height:100%;object-fit:cover;display:block}
+.fl{position:absolute;inset:0;animation:fl 3s ease-in-out infinite alternate}
+@keyframes fl{from{transform:translateY(-4px)}to{transform:translateY(4px)}}
+.stat{opacity:0;transition:all .8s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;gap:14px;margin-top:10px}
+.s1{transform:translateX(-80px)}.s2{transform:translateX(80px);margin-left:clamp(40px,12vw,90px)}
+.stat b{font-size:clamp(50px,14vw,72px);color:#fff;line-height:.9;font-weight:800}
+.stat span{font-size:clamp(14px,3.8vw,18px);color:#1a1a1a;line-height:1.2}
+/* contact */
+.contact{background:#0a1f2b;padding:clamp(48px,10vh,96px) 20px clamp(32px,6vh,64px);color:#fff}
+.rv{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.contact h2{font-size:clamp(44px,13vw,64px);line-height:.9}.contact h2 span{color:#ffda00}
+.sub{color:#b0b8bc;font-size:clamp(14px,3.8vw,18px);margin-top:12px}
+form{margin-top:28px;display:flex;flex-direction:column;gap:12px}
+input{width:100%;border:0;outline:0;border-radius:40px;background:rgba(255,255,255,.08);color:#fff;padding:16px 22px;font:clamp(14px,3.5vw,16px) Helvetica,Arial,sans-serif;transition:background .25s,transform .25s}
+input::placeholder{color:#b0b8bc}
+input:focus{background:rgba(255,255,255,.14);transform:scale(1.01)}
+.send{border:0;border-radius:40px;background:#FFDA00;color:#0a1f2b;font:700 clamp(16px,4vw,20px) Helvetica,Arial,sans-serif;padding:16px;cursor:pointer;transition:transform .25s,background .25s}
+.send:hover{transform:scale(1.03) translateY(-2px);background:#ffe84d}.send:active{transform:scale(.97)}
+.fi{margin-top:36px;display:flex;flex-direction:column;gap:6px}
+.fi a{color:#b0b8bc;text-decoration:none;transition:transform .25s,color .25s;align-self:flex-start;font-size:16px}
+.fi a:hover{transform:translateX(4px);color:#fff}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.soc{display:flex;gap:12px}
+.c{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;border:0;cursor:pointer;transition:transform .25s}
+.c:hover{transform:scale(1.15) translateY(-3px)}
+.c svg{width:20px;height:20px;fill:#0a1f2b}
+.copy{color:#6b7a80;font-size:clamp(12px,3.2vw,14px);margin-top:32px}
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="island"></div><div class="home"></div>
+<div class="scroll" id="sc">
+ <section class="hero" id="hero">
+  <video id="vid" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260620_185230_f7f71ef4-6655-469f-b9c6-efbdc1f7684a.mp4"></video>
+  <div class="nav">
+   <div class="logo bc">CARGOX<span>GROUP</span></div>
+   <button class="burger" id="bg" aria-label="Menu">
+    <svg id="mi" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+    <svg id="xi" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+   </button>
+  </div>
+  <div class="menu" id="menu"><a href="#">Services</a><a href="#">Industries</a><a href="#">Company</a></div>
+  <div class="hc" id="hc">
+   <div class="h1 bc"><div class="l1">BEYOND</div><div class="l2">BORDERS</div><div class="l3">AND LIMITS</div></div>
+   <button class="cta">
+    <svg class="bg" viewBox="0 0 200 56" preserveAspectRatio="none"><path d="M28 0H172A28 28 0 0 1 172 56H28A28 28 0 0 1 28 0Z" fill="#ffda00"/><circle cx="172" cy="28" r="28" fill="#ffda00"/><circle cx="172" cy="28" r="20" fill="#002a35"/></svg>
+    <span class="t">Get in touch</span>
+    <span class="ar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+   </button>
+  </div>
+ </section>
+
+ <section class="info">
+  <div class="tag rev"><h2 class="bc">LOGISTICS</h2><p>shaped by scale<br>powered by precision</p></div>
+  <div class="map rev2" id="map">
+   <svg viewBox="0 0 299.037 142.509">
+    <path class="route" pathLength="1" id="p1" d="M128.161 74.6764C79.9989 130.001 71.9994 46.0005 20.9815 111.737"/>
+    <path class="route" pathLength="1" id="p2" d="M216.999 9.99985C260.499 12.4998 222.499 71.9998 291.999 58.9998" style="transition-delay:.2s"/>
+    <path class="route" pathLength="1" id="p3" d="M130.102 70.9998C144.499 -32.0002 183.852 70.2739 219.999 3.99985" style="transition-delay:.4s"/>
+    <path class="route" pathLength="1" id="p4" d="M14.4999 16.9998C111 20.9998 -53.0003 73.4998 21.4999 107" style="transition-delay:.6s"/>
+    <g class="arrow"><polygon points="0,-4 8,0 0,4" fill="#FFDA00"><animateMotion dur="4s" repeatCount="indefinite" rotate="auto"><mpath href="#p1"/></animateMotion></polygon>
+    <polygon points="0,-4 8,0 0,4" fill="#FFDA00"><animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto"><mpath href="#p2"/></animateMotion></polygon>
+    <polygon points="0,-4 8,0 0,4" fill="#FFDA00"><animateMotion dur="5s" repeatCount="indefinite" rotate="auto"><mpath href="#p3"/></animateMotion></polygon>
+    <polygon points="0,-4 8,0 0,4" fill="#FFDA00"><animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto"><mpath href="#p4"/></animateMotion></polygon></g>
+    <g id="dots"></g>
+   </svg>
+   <div class="ico" style="left:26%;top:28.9%"><div class="fl" style="animation-duration:2.9s"><img src="https://image-bottom-92901062.figma.site/_components/v2/142c6a6f3074dd8aee013fa440ff4ff369649d48/08d6a37375d428e07c59e24a8529de89bfee157e.08d6a373.png" alt=""></div></div>
+   <div class="ico" style="left:70.8%;top:15.6%;transform:rotate(9.73deg)"><div class="fl" style="animation-duration:2.5s"><img src="https://image-bottom-92901062.figma.site/_components/v2/142c6a6f3074dd8aee013fa440ff4ff369649d48/7d6f50a87e1427d9b4d1a9c9f1c064ff04b2b3f9.7d6f50a8.png" alt=""></div></div>
+   <div class="ico" style="left:55.2%;top:52.1%;transform:rotate(180deg) scaleY(-1)"><div class="fl" style="animation-duration:3.3s"><img src="https://image-bottom-92901062.figma.site/_components/v2/142c6a6f3074dd8aee013fa440ff4ff369649d48/0e0282ab1c70db03d437b0d01875ce45557d49f6.0e0282ab.png" alt=""></div></div>
+  </div>
+  <div class="stat s1 rev"><b class="bc">3M+</b><span>tons of cargo<br>delivered<br>without delays</span></div>
+  <div class="stat s2 rev"><b class="bc">13+</b><span>years of trusted<br>and reliable<br>operations</span></div>
+ </section>
+
+ <section class="contact">
+  <div class="rv rev"><h2 class="bc">CONTACT <span>US</span></h2><p class="sub">Complete the form and our team will contact you soon.</p></div>
+  <form class="rvf" onsubmit="return false">
+   <input class="rv" placeholder="First Name"><input class="rv" placeholder="Last Name"><input class="rv" type="email" placeholder="E-mail">
+   <button class="send rv">Send</button>
+  </form>
+  <div class="fi rv rev"><a href="mailto:info@cargox-group.com">info@cargox-group.com</a><a href="tel:+380442347890">+380 44 234-7890</a></div>
+  <div class="row">
+   <div class="soc">
+    <button class="c" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.5 5.8a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg></button>
+    <button class="c" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6c.6-1.1 2-1.9 3.8-1.9 3.5 0 4.4 2.3 4.4 5.3V21h-4v-5.8c0-1.4 0-3-1.9-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg></button>
+    <button class="c" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.2c0-.8.2-1.2 1.4-1.2H17V2h-2.6C11.2 2 10 3.700 10 6v2H7.500v3H10v11h4V11h2.800l.4-3z"/></svg></button>
+   </div>
+   <button class="c" id="top" aria-label="Scroll to top"><svg viewBox="0 0 24 24"><path d="M12 4l8 9h-5v7H9v-7H4z"/></svg></button>
+  </div>
+  <p class="copy">(c) 2025. All rights reserved.</p>
+ </section>
+</div>
+</div>
+<script>
+(function(){
+ var sc=document.getElementById('sc'),vid=document.getElementById('vid'),hc=document.getElementById('hc'),hero=document.getElementById('hero');
+ var shown=false;function show(){if(shown)return;shown=true;hero.classList.add('loaded');hc.classList.add('show')}
+ vid.addEventListener('canplay',show);setTimeout(show,2500);
+ var p=vid.play&&vid.play();if(p&&p.catch)p.catch(function(){});
+ var menu=document.getElementById('menu'),open=false;
+ document.getElementById('bg').onclick=function(){open=!open;menu.classList.toggle('open',open);document.getElementById('mi').style.display=open?'none':'';document.getElementById('xi').style.display=open?'':'none'};
+ // dots
+ var pts=[[9.519,15.519],[289.519,59.518],[220.519,9.519],[125.518,78.519],[19.519,104.519]],g=document.getElementById('dots'),ns='http://www.w3.org/2000/svg';
+ pts.forEach(function(q,i){var gg=document.createElementNS(ns,'g');gg.setAttribute('class','dot');gg.style.transitionDelay=(0.3+i*.15)+'s';
+  [['9.519','#FFDA00'],['3.389','#002A35']].forEach(function(c){var e=document.createElementNS(ns,'circle');e.setAttribute('cx',q[0]);e.setAttribute('cy',q[1]);e.setAttribute('r',c[0]);e.setAttribute('fill',c[1]);gg.appendChild(e)});g.appendChild(gg)});
+ // reveals
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var t=e.target;
+  if(t.id==='map')t.classList.add('in2');
+  else if(t.classList.contains('rvf')){[].forEach.call(t.children,function(c,i){c.style.transitionDelay=(i*.1)+'s';c.style.opacity=1;c.style.transform='none'})}
+  else t.classList.add('in');
+  io.unobserve(t)})},{root:sc,rootMargin:'0px 0px -50px 0px',threshold:0.01});
+ document.querySelectorAll('.rev,.rvf,#map').forEach(function(e){io.observe(e)});
+ document.querySelectorAll('.rev.rv').forEach(function(e){});
+ document.getElementById('top').onclick=function(){sc.scrollTo({top:0,behavior:'smooth'})};
+})();
+</script>
+<style>.rv.in{opacity:1;transform:none}</style>
+</body>
+</html>

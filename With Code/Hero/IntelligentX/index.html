@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IntelligentX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--font-sans:'Inter',system-ui,sans-serif;--font-display:'Outfit',system-ui,sans-serif;--brand-green:#9fff00;--bg-base:#EDEEF5}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg-base);overflow-x:hidden}
+body{color:#18181b;font-family:var(--font-sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+::selection{background:var(--brand-green);color:#000}
+a{color:inherit;text-decoration:none}
+.app{min-height:100vh;background:var(--bg-base)}
+nav{position:fixed;top:0;left:0;width:100%;z-index:50;padding:24px 0;background:linear-gradient(to bottom,rgba(241,241,241,.8),transparent);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.nav-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));max-width:80rem;margin:0 auto;padding:0 32px;align-items:center;column-gap:16px}
+.brand{grid-column:span 6;display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-size:22px;font-weight:500;color:#1a1a1a;letter-spacing:-.01em}
+.links{display:none;grid-column:4/span 6;justify-content:center;gap:32px;font-size:13px;text-transform:lowercase;color:#3f3f46}
+.links a{transition:opacity .2s}.links a:hover{opacity:.55}
+.right{grid-column:span 6;display:flex;align-items:center;justify-content:flex-end;gap:16px;font-size:13px}
+.find{display:none}
+.btn{background:#1a1a1a;color:#fff;border-radius:999px;padding:10px 18px;font-size:13px;white-space:nowrap}
+.burger{width:32px;height:32px;position:relative;background:none;border:0;cursor:pointer}
+.burger span{position:absolute;left:6px;width:20px;height:1.5px;background:#1a1a1a;transition:transform .3s,opacity .3s,top .3s}
+.burger span:nth-child(1){top:11px}.burger span:nth-child(2){top:16px}.burger span:nth-child(3){top:21px}
+.burger.open span:nth-child(1){top:16px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){top:16px;transform:rotate(-45deg)}
+.drawer{position:absolute;top:100%;left:0;width:100%;background:rgba(241,241,245,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden;max-height:0;opacity:0;transition:max-height .4s ease,opacity .3s}
+.drawer.open{max-height:360px;opacity:1}
+.drawer div{padding:16px 32px 28px;display:flex;flex-direction:column;gap:18px;font-size:18px;text-transform:lowercase;font-family:var(--font-display)}
+@media(min-width:768px){nav{padding:40px 0}.links{display:flex}.find{display:inline}.burger,.drawer{display:none}.brand{grid-column:span 3}.right{grid-column:10/span 3}.nav-grid{padding:0 32px}}
+.hero{position:relative;min-height:110vh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden;background:var(--bg-base)}
+.vwrap{position:absolute;top:15vh;left:0;width:100%;height:95vh;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 60%,#dfe6f7 0%,#c9d3ee 40%,var(--bg-base) 80%)}
+.vwrap video{width:100%;height:100%;object-fit:cover;display:block}
+.vwrap .mask{position:absolute;top:0;left:0;width:100%;height:96px;background:linear-gradient(to bottom,var(--bg-base),transparent)}
+.content{max-width:80rem;width:100%;margin:0 auto;padding:0 32px;position:relative;z-index:10;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:16px;padding-top:150px}
+.col{grid-column:span 12}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(30px,4.5vw,64px);line-height:1.08;letter-spacing:-.025em;color:#8e8e8e;animation:up .8s both}
+h1 .d{color:#1a1a1a}
+h1 br{display:none}
+.eye{display:inline-flex;align-items:center;justify-content:center;width:34px;height:.62em;border:2px solid #1a1a1a;border-radius:999px;vertical-align:middle;margin:0 .1em;position:relative;top:-.04em}
+.eye i{display:block;width:8px;height:8px;border-radius:50%;background:#000}
+.search{margin-top:32px;max-width:420px;animation:up .8s .15s both}
+.pill{background:#fff;border-radius:6px;border:1px solid rgba(0,0,0,.05);padding:4px 4px 4px 16px;display:flex;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.pill input{flex:1;min-width:0;background:transparent;border:0;outline:0;font:400 14px var(--font-sans);color:#18181b}
+.pill button{background:#1a1a1a;color:#fff;width:36px;height:36px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center}
+.lang{position:absolute;right:20px;top:50%;z-index:10;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:12px;color:#1a1a1a}
+.corner{position:absolute;bottom:24px;z-index:10;font-size:12px;color:#1a1a1a}
+.cl{left:32px}.cr{right:32px}
+@keyframes up{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@media(min-width:640px){.hero{min-height:140vh}.vwrap{top:20vh;height:120vh}.vwrap .mask{height:128px}}
+@media(min-width:768px){.content{padding:150px 64px 0;column-gap:32px}.col{grid-column:2/span 10}.eye{width:42px}h1 br{display:inline}.lang{right:48px}}
+@media(min-width:1024px){.content{padding-left:80px;padding-right:80px}.eye{width:62px}.cl{left:80px}.cr{right:80px}}
+@media(max-width:767px){h1 .eye{width:34px}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav>
+  <div class="nav-grid">
+    <a class="brand" href="#">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="#1a1a1a"><circle cx="12" cy="6" r="4.2"/><circle cx="18" cy="12" r="4.2"/><circle cx="12" cy="18" r="4.2"/><circle cx="6" cy="12" r="4.2"/></svg>
+      <span>mėntality</span>
+    </a>
+    <div class="links"><a href="#">service</a><a href="#">patient resources</a><a href="#">about us</a><a href="#">education center</a></div>
+    <div class="right">
+      <a class="find" href="#">find help</a>
+      <a class="btn" href="#">get started →</a>
+      <button class="burger" id="bg" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="drawer" id="dr"><div><a href="#">service</a><a href="#">patient resources</a><a href="#">about us</a><a href="#">education center</a><a href="#">find help</a></div></div>
+</nav>
+<main>
+<section class="hero">
+  <div class="vwrap">
+    <video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4"></video>
+    <div class="mask"></div>
+  </div>
+  <div class="content"><div class="col">
+    <h1><span class="d">Remix: Mentality offers</span> information<br> and resources to help you manage<br> your <span class="eye"><i></i></span> mental wellbeing.</h1>
+    <div class="search"><div class="pill"><input placeholder="Ask me anything..."><button aria-label="Go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+  </div></div>
+  <a class="lang" href="#">pl — en</a>
+  <span class="corner cl">2024</span>
+  <span class="corner cr">mental health tools</span>
+</section>
+</main>
+</div>
+<script>
+var b=document.getElementById('bg'),d=document.getElementById('dr');
+b.onclick=function(){b.classList.toggle('open');d.classList.toggle('open')};
+</script>
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preload" href="assets/pjs-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/pjs-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/pjs-800.woff2" as="font" type="font/woff2" crossorigin>
+<title>Sellix — Cross-border finance</title>
+<style>
+/* ---------- Fonts (embedded, offline) ---------- */
+@font-face{font-family:'PJS';src:url(assets/pjs-300.woff2) format('woff2');font-weight:300;font-style:normal;font-display:block}
+@font-face{font-family:'PJS';src:url(assets/pjs-400.woff2) format('woff2');font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:'PJS';src:url(assets/pjs-500.woff2) format('woff2');font-weight:500;font-style:normal;font-display:block}
+@font-face{font-family:'PJS';src:url(assets/pjs-600.woff2) format('woff2');font-weight:600;font-style:normal;font-display:block}
+@font-face{font-family:'PJS';src:url(assets/pjs-800.woff2) format('woff2');font-weight:800;font-style:normal;font-display:block}
+
+/* ---------- Reference frame: 1280 x 800 ----------
+   --u == the length of ONE reference pixel at the current viewport.
+   Every measurement below is written in reference pixels.            */
+:root{
+  --u: min(calc(100vw / 1280), calc(100dvh / 760));
+
+  --ink:        #ffffff;
+  --ink-muted:  #ededed;
+  --panel:      #181818;
+  --white-btn:  #fdfdfd;
+  --btn-ink:    #050505;
+  --glass-fill: rgba(0,0,0,.78);
+  --glass-line: rgba(255,255,255,.09);
+
+  /* hero block placement (solved against the reference render) */
+  --dx: 8.5;
+  --dy: 13.1;
+}
+@supports not (height: 100dvh){ :root{ --u: min(calc(100vw / 1280), calc(100vh / 760)); } }
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0;overflow:hidden;background:#000}
+body{
+  font-family:'PJS',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:geometricPrecision;
+}
+
+.hero{position:relative;width:100vw;height:100dvh;overflow:hidden;background:#000}
+@supports not (height: 100dvh){ .hero{height:100vh} }
+
+/* ---------- Background: 1280:800 bleed box, always covering ---------- */
+.bg{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:max(100vw, calc(100dvh * 1.6));
+  height:max(62.5vw, 100dvh);
+  background-color:#000;
+}
+/* Motion background: fills the same bleed box, framed like the still it replaces.
+   Two stacked copies cross-fade at the loop point — the clip does not end where
+   it starts, so a plain loop would snap a continent sideways every ten seconds. */
+.bg-video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:51% 8%;
+  display:block;
+  background-color:#000;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .9s linear;
+}
+.bg-video.is-active{opacity:1}
+@supports not (height: 100dvh){
+  .bg{width:max(100vw, calc(100vh * 1.6));height:max(62.5vw, 100vh)}
+}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:absolute;top:0;left:0;right:0;
+  height:calc(67 * var(--u));
+  display:flex;align-items:center;
+  padding-left:calc(24.5 * var(--u));
+  padding-right:calc(50.7 * var(--u));
+  z-index:3;
+}
+.logo{
+  font-weight:800;
+  font-size:calc(26 * var(--u));
+  letter-spacing:calc(0.45 * var(--u));
+  transform:translateY(calc(-2.4 * var(--u)));
+  line-height:1;
+  color:var(--ink);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.nav-links{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) translateX(calc(-23 * var(--u)));
+  display:flex;align-items:center;
+  gap:calc(24.3 * var(--u));
+  white-space:nowrap;
+}
+.nav-links a{
+  color:var(--ink-muted);
+  text-decoration:none;
+  font-size:calc(11.5 * var(--u));
+  font-weight:500;
+  letter-spacing:calc(-0.15 * var(--u));
+  line-height:1;
+  transition:color .18s ease;
+}
+.nav-links a:hover{color:#fff}
+.nav-actions{
+  margin-left:auto;
+  display:flex;align-items:center;
+  gap:calc(6.8 * var(--u));
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:inherit;
+  text-decoration:none;
+  white-space:nowrap;
+  border:0;cursor:pointer;
+}
+.btn-login{
+  height:calc(28 * var(--u));
+  padding:0 calc(12.9 * var(--u));
+  border-radius:calc(14 * var(--u));
+  background:var(--panel);
+  color:#e8e8e8;
+  font-size:calc(11.5 * var(--u));
+  font-weight:500;
+  letter-spacing:calc(-0.15 * var(--u));
+  transition:background .18s ease,color .18s ease;
+}
+.btn-login:hover{background:#232323;color:#fff}
+.btn-nav-start{
+  height:calc(28 * var(--u));
+  padding-left:calc(13.5 * var(--u));
+  padding-right:calc(14.5 * var(--u));
+  border-radius:calc(14 * var(--u));
+  background:var(--white-btn);
+  color:var(--btn-ink);
+  font-size:calc(11.1 * var(--u));
+  font-weight:500;
+  letter-spacing:0;
+  gap:calc(7 * var(--u));
+  transition:background .18s ease;
+}
+.btn-nav-start:hover{background:#fff}
+.btn-nav-start .arw{width:calc(11.5 * var(--u));height:calc(9.6 * var(--u))}
+
+/* hamburger (small screens only) */
+.burger{
+  display:none;margin-left:auto;
+  width:calc(40 * var(--u));height:calc(28 * var(--u));
+  align-items:center;justify-content:center;
+  background:var(--panel);border-radius:calc(14 * var(--u));
+  border:0;cursor:pointer;padding:0;
+}
+.burger span{display:block;width:16px;height:1.5px;background:#ededed;border-radius:2px;position:relative}
+.burger span::before,.burger span::after{
+  content:"";position:absolute;left:0;width:16px;height:1.5px;background:#ededed;border-radius:2px;
+}
+.burger span::before{top:-5px}
+.burger span::after{top:5px}
+
+/* ---------- Hero content ---------- */
+.hero-inner{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) translate(calc(var(--dx) * var(--u)), calc(var(--dy) * var(--u)));
+  width:max-content;
+  text-align:center;
+  z-index:2;
+}
+h1{
+  margin:0;
+  font-weight:500;
+  font-size:calc(89 * var(--u));
+  line-height:calc(90 * var(--u));
+  letter-spacing:calc(-1 * var(--u));
+  color:var(--ink);
+}
+.sub{
+  margin:calc(16.1 * var(--u)) 0 0;
+  font-weight:300;
+  font-size:calc(17.4 * var(--u));
+  line-height:calc(27 * var(--u));
+  letter-spacing:calc(-0.30 * var(--u));
+  color:#f6f6f6;
+}
+.ctas{
+  margin-top:calc(21.8 * var(--u));
+  display:flex;align-items:center;justify-content:center;
+  transform:translateX(calc(-0.75 * var(--u)));
+  gap:calc(7 * var(--u));
+}
+.btn-lg{
+  height:calc(39 * var(--u));
+  border-radius:calc(19.5 * var(--u));
+  font-size:calc(13.3 * var(--u));
+  font-weight:500;
+  letter-spacing:calc(-0.3 * var(--u));
+  gap:calc(9 * var(--u));
+}
+.btn-primary{
+  background:var(--white-btn);
+  color:var(--btn-ink);
+  padding-left:calc(18.2 * var(--u));padding-right:calc(19.2 * var(--u));
+  transition:background .18s ease,transform .18s ease;
+}
+.btn-primary:hover{background:#fff}
+.btn-ghost{
+  background:var(--glass-fill);
+  color:#d9d9d9;
+  padding:0 calc(17.4 * var(--u));
+  border:1px solid var(--glass-line);
+  -webkit-backdrop-filter:blur(2px);
+  backdrop-filter:blur(2px);
+  transition:background .18s ease,border-color .18s ease;
+}
+.btn-ghost:hover{background:rgba(0,0,0,.66);border-color:rgba(255,255,255,.16)}
+.btn-lg .arw{width:calc(13 * var(--u));height:calc(10.8 * var(--u))}
+
+.arw{flex:0 0 auto;display:block}
+
+.menu{display:none}
+@keyframes menuIn{from{opacity:0;transform:translateY(-6px) scale(.985)}to{opacity:1;transform:none}}
+
+a:focus-visible,button:focus-visible{outline:2px solid #a78bfa;outline-offset:3px;border-radius:99px}
+
+/* ============================================================
+   TABLET ARCHITECTURE — breakpoint derived from the design (1160px)
+
+   The desktop architecture scales proportionally (--u), so it never
+   collides or overflows; it degrades on legibility and target size.
+   Measured against the design's own values:
+
+     nav label   11.5u  drops under 10.5px at ~1155px
+     nav pill    28u    drops under 25px    at ~1140px
+     CTA label   13.3u  drops under 12px    at ~1155px
+     subtitle    17.4u  drops under 15.5px  at ~1140px
+     nav margin  24.5u  drops under 22px    at ~1150px
+
+   Everything holds at 1160px and the cluster fails just below it,
+   so the architecture changes there — not at a stock breakpoint.
+   ============================================================ */
+@media (max-width:1160px){
+  :root{
+    /* continuous with desktop at 1160 (0.906), then held at 0.9 so type
+       stops shrinking; falls again only if the viewport itself demands it */
+    --u: min(
+      max(0.9px, min(calc(100vw / 1280), calc(100dvh / 760))),
+      calc((100vw - 72px) / 575),
+      calc(100dvh / 620)
+    );
+  }
+
+  /* --- nav: links + actions fold into the burger --- */
+  .nav{
+    height:max(58px, calc(67 * var(--u)));
+    padding-left:max(24px, calc(28 * var(--u)));
+    padding-right:max(24px, calc(28 * var(--u)));
+  }
+  .nav-links,.nav-actions{display:none}
+  .burger{
+    display:flex;
+    width:max(46px, calc(48 * var(--u)));
+    height:max(38px, calc(34 * var(--u)));
+    border-radius:999px;
+  }
+
+  /* --- hero: same composition, touch-grade controls --- */
+  .hero-inner{max-width:calc(100vw - 48px)}
+  .sub{
+    font-size:max(16px, calc(17.4 * var(--u)));
+    line-height:max(25px, calc(27 * var(--u)));
+  }
+  .ctas{
+    margin-top:max(26px, calc(21.8 * var(--u)));
+    gap:max(10px, calc(7 * var(--u)));
+  }
+  .btn-lg{
+    height:max(44px, calc(39 * var(--u)));
+    border-radius:max(22px, calc(19.5 * var(--u)));
+    font-size:max(15px, calc(13.3 * var(--u)));
+    gap:max(10px, calc(9 * var(--u)));
+  }
+  .btn-primary{
+    padding-left:max(21px, calc(18.2 * var(--u)));
+    padding-right:max(22px, calc(19.2 * var(--u)));
+  }
+  .btn-ghost{
+    padding-left:max(20px, calc(17.4 * var(--u)));
+    padding-right:max(21px, calc(18.4 * var(--u)));
+  }
+  .btn-lg .arw{width:max(14px, calc(13 * var(--u)));height:max(11.6px, calc(10.8 * var(--u)))}
+
+  /* --- menu: floating panel anchored to the burger --- */
+  .menu{
+    position:absolute;
+    top:calc(max(58px, calc(67 * var(--u))) - 6px);
+    right:max(24px, calc(28 * var(--u)));
+    width:min(320px, calc(100vw - 48px));
+    background:rgba(10,10,12,.86);
+    -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:20px;
+    padding:10px 8px 12px;
+    flex-direction:column;
+    box-shadow:0 24px 60px rgba(0,0,0,.55);
+    transform-origin:top right;
+    z-index:5;
+  }
+  .menu.open{display:flex;animation:menuIn .18s ease both}
+  .menu a{
+    color:var(--ink-muted);text-decoration:none;
+    font-size:15px;font-weight:500;letter-spacing:calc(-0.15 * var(--u));
+    padding:12px 14px;border-radius:12px;
+    transition:background .18s ease,color .18s ease;
+  }
+  .menu a:hover{background:rgba(255,255,255,.06);color:#fff}
+  .menu .divider{height:1px;background:rgba(255,255,255,.08);margin:8px 14px}
+  .menu .m-start{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    background:var(--white-btn);color:var(--btn-ink);
+    margin:6px 8px 0;padding:13px 16px;border-radius:14px;font-weight:600;
+  }
+  .menu .m-start:hover{background:#fff;color:var(--btn-ink)}
+  .menu .m-start .arw{width:13px;height:11px}
+}
+
+/* ============================================================
+   MOBILE ARCHITECTURE — breakpoint derived from the design (552px)
+
+   Probed by running the tablet architecture all the way down with
+   the phone rules disabled. It holds far longer than any stock
+   mobile breakpoint, then fails in two measured steps:
+
+     side margin falls under 24px           at ~550px
+     subtitle's designed 3-line composition
+     collapses into ragged wrapping         at ~535px
+
+   Last fully sound width measured: 555px (margin 26, 2-line
+   headline, 3-line subtitle). Mobile therefore starts at 552px.
+
+   The architectural change: the subtitle stops being a fixed
+   3-line typographic composition and becomes a fluid measure,
+   and the headline is sized from the available width so
+   "Cross-border" never breaks at its hyphen.
+   ============================================================ */
+@media (max-width:552px){
+  :root{--u:1px}
+
+  /* --- nav: same burger pattern as tablet, tightened margins --- */
+  .nav{height:56px;padding:0 20px}
+  .logo{font-size:22px;letter-spacing:-.4px}
+  .burger{width:42px;height:36px}
+
+  /* --- hero: fluid composition, full content width --- */
+  .hero-inner{
+    position:absolute;left:0;right:0;top:50%;
+    width:auto;max-width:none;padding:0 20px;
+    transform:translateY(-47%);
+  }
+  h1{
+    /* sized so "Cross-border" always fits on one line: its ink is
+       6.46x the font size, so 6.9 leaves headroom at every width */
+    font-size:min(74px, calc((100vw - 44px) / 6.9));
+    line-height:1.04;
+    letter-spacing:-.02em;
+  }
+  .sub{
+    margin-top:16px;
+    font-size:clamp(15.5px, 4vw, 16.5px);
+    line-height:1.6;
+    letter-spacing:0;
+    max-width:42ch;
+    margin-left:auto;margin-right:auto;
+  }
+  .sub br{display:none}
+  .ctas{margin-top:24px;gap:10px;transform:none;flex-wrap:wrap}
+  .btn-lg{height:46px;border-radius:23px;font-size:15px;gap:9px}
+  .btn-primary{padding-left:20px;padding-right:21px}
+  .btn-ghost{padding-left:19px;padding-right:20px}
+  .btn-lg .arw{width:13px;height:11px}
+
+  /* --- menu: same panel as tablet, spanning the phone width --- */
+  .menu{top:50px;left:16px;right:16px;width:auto}
+  .menu a{font-size:15.5px;padding:13px 14px}
+  .menu .m-start{padding:14px 16px}
+}
+
+/* narrow phones: the CTA pair measures 314px, so it stops fitting
+   inside the 40px side padding at 354px — stack just below that */
+@media (max-width:353px){
+  .ctas{flex-direction:column;align-items:center}
+  .btn-lg{width:min(100%,272px)}
+}
+
+/* short landscape phones */
+@media (max-width:552px) and (max-height:460px){
+  h1{font-size:min(44px, calc((100vw - 44px) / 6.9))}
+  .sub{margin-top:12px;font-size:15px;line-height:1.5}
+  .ctas{margin-top:18px}
+  .hero-inner{transform:translateY(-44%)}
+}
+
+/* ============================================================
+   ENTRANCE SEQUENCE — runs once, on first load, then stops.
+
+   The background globe is the stage: it is never touched.
+   The foreground composition performs the entrance and the
+   whole apparatus detaches when the last tween ends, leaving
+   the original static design behind.
+
+   Motion language (4 behaviours, no more):
+     A  masked line rise   h1 only — the signature move
+     B  lift + focus       subtitle — blur settling to 0
+     C  settle             pills and CTAs — rise + small scale
+     D  quiet lift         logo, nav links — opacity + rise
+
+   Timeline (seconds from sequence start):
+     0.12  headline line 1        1.05s
+     0.22  headline line 2        1.05s
+     0.46  logo                   0.62s
+     0.54  nav links (+0.045)     0.55s
+     0.58  subtitle               0.85s
+     0.68  Login / burger         0.55s
+     0.73  Get Started            0.55s
+     0.90  CTA primary            0.70s
+     0.97  CTA secondary          0.70s   <- last to finish, 1.67s
+   ============================================================ */
+
+/* structural: the headline is now two block lines instead of a <br>.
+   Net layout is identical with or without the sequence. */
+.ln{display:block}
+.ln-i{display:block}
+
+:root{
+  --e-reveal: cubic-bezier(.16, 1, .3, 1);   /* long, graceful settle */
+  --e-soft:   cubic-bezier(.25, .8, .3, 1);  /* supporting elements   */
+}
+
+/* ---- resting state while the fonts resolve (stage lit, cast offstage) ---- */
+html.anim .ln{overflow:hidden;padding-top:.26em;margin-top:-.26em}
+html.anim .ln-i{transform:translateY(100%)}
+html.anim .logo,
+html.anim .nav-links a,
+html.anim .nav-actions .btn,
+html.anim .burger,
+html.anim .sub,
+html.anim .ctas .btn{opacity:0}
+
+html.anim .ln-i,
+html.anim .logo,
+html.anim .nav-links a,
+html.anim .nav-actions .btn,
+html.anim .sub,
+html.anim .ctas .btn{will-change:transform,opacity}
+
+/* ---- A: masked line rise ---- */
+@keyframes lineRise{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+/* ---- B: lift + focus settle ---- */
+@keyframes subIn{
+  from{opacity:0;transform:translateY(calc(14 * var(--u)));filter:blur(4px)}
+  to  {opacity:1;transform:none;filter:blur(0)}
+}
+@keyframes subInFlat{
+  from{opacity:0;transform:translateY(calc(12 * var(--u)))}
+  to  {opacity:1;transform:none}
+}
+
+/* ---- C: settle ---- */
+@keyframes pillIn{
+  from{opacity:0;transform:translateY(calc(8 * var(--u))) scale(.972)}
+  to  {opacity:1;transform:none}
+}
+
+/* ---- D: quiet lift ---- */
+@keyframes liftIn{
+  from{opacity:0;transform:translateY(calc(9 * var(--u)))}
+  to  {opacity:1;transform:none}
+}
+/* the logo carries an authored -2.4u optical offset; the keyframes
+   carry it through so the resting frame is bit-identical */
+@keyframes logoIn{
+  from{opacity:0;transform:translateY(calc(-2.4 * var(--u))) translateY(calc(9 * var(--u)))}
+  to  {opacity:1;transform:translateY(calc(-2.4 * var(--u)))}
+}
+
+/* ---- the sequence ---- */
+html.anim.go .ln-i{animation:lineRise 1.05s var(--e-reveal) both}
+html.anim.go .ln:nth-child(1) .ln-i{animation-delay:.12s}
+html.anim.go .ln:nth-child(2) .ln-i{animation-delay:.22s}
+
+html.anim.go .logo{animation:logoIn .62s var(--e-soft) .46s both}
+
+html.anim.go .nav-links a{animation:liftIn .55s var(--e-soft) both}
+html.anim.go .nav-links a:nth-child(1){animation-delay:.540s}
+html.anim.go .nav-links a:nth-child(2){animation-delay:.585s}
+html.anim.go .nav-links a:nth-child(3){animation-delay:.630s}
+html.anim.go .nav-links a:nth-child(4){animation-delay:.675s}
+html.anim.go .nav-links a:nth-child(5){animation-delay:.720s}
+
+html.anim.go .sub{animation:subIn .85s var(--e-reveal) .58s both}
+
+html.anim.go .btn-login{animation:pillIn .55s var(--e-soft) .68s both}
+html.anim.go .burger{animation:pillIn .55s var(--e-soft) .68s both}
+html.anim.go .btn-nav-start{animation:pillIn .55s var(--e-soft) .73s both}
+
+html.anim.go .ctas .btn-primary{animation:pillIn .70s var(--e-reveal) .90s both}
+html.anim.go .ctas .btn-ghost{animation:pillIn .70s var(--e-reveal) .97s both}
+
+/* ---- mobile: same language, restrained. drop the focus pull. ---- */
+@media (max-width:552px){
+  html.anim.go .sub{animation-name:subInFlat}
+  html.anim.go .ln-i{animation-duration:.92s}
+  html.anim.go .ctas .btn-primary{animation-delay:.84s}
+  html.anim.go .ctas .btn-ghost{animation-delay:.90s}
+}
+
+/* ---- safety net: if motion is reduced, there is no sequence at all.
+   (the boot script also declines to arm it, so this is belt and braces) ---- */
+@media (prefers-reduced-motion:reduce){
+  html.anim .ln{overflow:visible;padding-top:0;margin-top:0}
+  html.anim .ln-i{transform:none}
+  html.anim .logo,
+  html.anim .nav-links a,
+  html.anim .nav-actions .btn,
+  html.anim .burger,
+  html.anim .sub,
+  html.anim .ctas .btn{opacity:1}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<script>
+/* Entrance sequence — arms synchronously so there is no flash of
+   unanimated content, waits for the embedded faces to resolve (they
+   are font-display:block, so an early start would play the headline
+   reveal against invisible text), runs once, then removes itself.
+
+   If JavaScript never runs, no class is set, no entrance CSS matches,
+   and the page renders as the finished static design. */
+(function(){
+  var d = document, r = d.documentElement;
+
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  r.className += (r.className ? ' ' : '') + 'anim';
+
+  var started = false, cleaned = false, tStart, tSafe;
+
+  function clean(){
+    if (cleaned) return; cleaned = true;
+    clearTimeout(tSafe);
+    d.removeEventListener('animationend', onEnd, true);
+    r.classList.remove('anim', 'go');   /* every entrance rule stops matching */
+  }
+
+  function onEnd(e){
+    /* the secondary CTA is the last element on the timeline */
+    if (e.animationName === 'pillIn' && e.target.classList.contains('btn-ghost')) clean();
+  }
+
+  function start(){
+    if (started) return; started = true;
+    clearTimeout(tStart);
+    d.addEventListener('animationend', onEnd, true);
+    tSafe = setTimeout(clean, 2600);    /* nothing is left running either way */
+    r.classList.add('go');
+  }
+
+  function boot(){
+    tStart = setTimeout(start, 900);    /* never hold the stage longer than this */
+    if (d.fonts && d.fonts.ready && d.fonts.ready.then) d.fonts.ready.then(start, start);
+    else start();
+  }
+
+  if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+</head>
+<body>
+<main class="hero">
+  <div class="bg" role="img" aria-label="Stylised globe of Earth rendered as a purple dot matrix against a starfield, slowly rotating">
+    <video class="bg-video is-active" id="bgVideoA" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"
+           poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/82e7eb75-c65f-490a-99b5-f3d1cad54200.webp">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260912_104036_bd6924f6-3c8e-417e-8465-6d03c8c2e9e6.mp4" type="video/mp4">
+    </video>
+    <video class="bg-video" id="bgVideoB" muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"
+           poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/82e7eb75-c65f-490a-99b5-f3d1cad54200.webp">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260912_104036_bd6924f6-3c8e-417e-8465-6d03c8c2e9e6.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <header class="nav">
+    <a class="logo" href="#">Sellix</a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#">Products</a>
+      <a href="#">Pricing</a>
+      <a href="#">Developers</a>
+      <a href="#">Resources</a>
+      <a href="#">Contact Sales</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a class="btn btn-login" href="#">Login</a>
+      <a class="btn btn-nav-start" href="#">Get Started <svg class="arw" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M0.8 5h10M7.1 1.4 10.9 5l-3.8 3.6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+  </header>
+
+  <nav class="menu" id="menu" aria-label="Mobile">
+    <a href="#">Products</a>
+    <a href="#">Pricing</a>
+    <a href="#">Developers</a>
+    <a href="#">Resources</a>
+    <a href="#">Contact Sales</a>
+    <div class="divider"></div>
+    <a href="#">Login</a>
+    <a class="m-start" href="#">Get Started <svg class="arw" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M0.8 5h10M7.1 1.4 10.9 5l-3.8 3.6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </nav>
+
+  <div class="hero-inner">
+    <h1><span class="ln"><span class="ln-i">Cross-border</span></span><span class="ln"><span class="ln-i">finance</span></span></h1>
+    <p class="sub">Accept payments, manage and custody your assets with ease,<br>enjoy seamless on/off-ramping between cryptocurrencies and fiat,<br>and explore integrated eCommerce solutions.</p>
+    <div class="ctas">
+      <a class="btn btn-lg btn-primary" href="#">Get Started <svg class="arw" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M0.8 5h10M7.1 1.4 10.9 5l-3.8 3.6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn btn-lg btn-ghost" href="#">Contact Sales <svg class="arw" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M0.8 5h10M7.1 1.4 10.9 5l-3.8 3.6" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </div>
+</main>
+<script>
+(function(){
+  var b=document.getElementById('burger'), m=document.getElementById('menu');
+  if(!b||!m) return;
+  function set(open){
+    m.classList.toggle('open',open);
+    b.setAttribute('aria-expanded',open?'true':'false');
+    b.setAttribute('aria-label',open?'Close menu':'Open menu');
+  }
+  b.addEventListener('click',function(e){e.stopPropagation();set(!m.classList.contains('open'));});
+  m.addEventListener('click',function(e){if(e.target.closest('a')) set(false);});
+  document.addEventListener('click',function(e){
+    if(m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target)) set(false);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&m.classList.contains('open')){set(false);b.focus();}
+  });
+})();
+</script>
+<script>
+/* Background video.
+
+   Reduced motion: both copies hold on the poster frame, so the hero still
+   reads as the static composition it was designed from.
+
+   Otherwise the two copies hand off to each other: the idle one is started
+   from zero and faded up over the last .9s of the running one, which hides
+   the discontinuity between the clip's last and first frames. With no JS the
+   loop attribute still carries it — one visible cut per pass, never a freeze. */
+(function(){
+  var a = document.getElementById('bgVideoA'),
+      b = document.getElementById('bgVideoB');
+  if (!a || !b) return;
+
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+    a.removeAttribute('autoplay');
+    a.pause(); b.pause();
+    /* autoplay may already have advanced a frame or two — hold on the first,
+       which is the still this hero was composed against */
+    try { a.currentTime = 0; } catch(e){}
+    return;
+  }
+
+  var FADE = 0.9, cur = a, nxt = b, swapping = false;
+
+  /* some browsers ignore the autoplay attribute until play() is called */
+  function play(v){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+  play(a);
+
+  function tick(){
+    if (swapping || !cur.duration) return;
+    if (cur.duration - cur.currentTime > FADE) return;
+
+    swapping = true;
+    var out = cur;
+    nxt.currentTime = 0;
+    play(nxt);
+    nxt.classList.add('is-active');
+    out.classList.remove('is-active');
+    cur = nxt; nxt = out;
+
+    setTimeout(function(){
+      out.pause(); out.currentTime = 0;
+      swapping = false;
+    }, FADE * 1000 + 100);
+  }
+
+  a.addEventListener('timeupdate', tick);
+  b.addEventListener('timeupdate', tick);
+})();
+</script>
+</body>
+</html>

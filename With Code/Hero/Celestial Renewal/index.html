@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serene</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#0a0a0c;overflow-x:hidden;color:#fff}
+a{text-decoration:none;color:inherit}
+.app{background:#0a0608;overflow-x:hidden}
+.text-glow{text-shadow:0 0 40px rgba(255,255,255,.4),0 0 80px rgba(255,255,255,.2),0 0 120px rgba(255,255,255,.1)}
+.button-glow{box-shadow:0 0 20px rgba(255,255,255,.3),0 0 40px rgba(255,255,255,.1)}
+.btn{display:inline-block;background:#fff;color:#000;padding:14px 32px;border-radius:9999px;font-weight:500;font-size:14px;line-height:20px;letter-spacing:.025em;border:0;cursor:pointer;transition:all .3s;font-family:inherit}
+.btn:hover{background:rgba(255,255,255,.9)}
+
+/* hero */
+.hero{position:relative;height:100vh;height:100svh;min-height:520px;overflow:hidden;background:#02030a}
+.fallback{position:absolute;inset:0;background:
+ radial-gradient(ellipse 85% 60% at 50% 118%,#1a56d6 0%,#0b2a7a 40%,rgba(5,10,40,0) 70%),
+ radial-gradient(ellipse 90% 62% at 50% 124%,#0a0d22 55%,transparent 56%),
+ #02030a}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.2)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 24px}
+.logo{font-family:'Dancing Script',cursive;font-size:24px;line-height:32px;color:#fff}
+.links{display:none;gap:48px}
+.links a{color:rgba(255,255,255,.8);font-size:14px;letter-spacing:.025em;transition:color .2s}
+.links a:hover{color:#fff}
+.nav-btn{display:none}
+.burger{position:relative;width:28px;height:22px;background:none;border:0;cursor:pointer;z-index:70}
+.burger span{position:absolute;left:0;width:28px;height:2px;background:#fff;border-radius:2px;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .5s cubic-bezier(.22,1,.36,1)}
+.burger span:nth-child(1){top:2px}.burger span:nth-child(2){top:10px}.burger span:nth-child(3){top:18px}
+.burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0;transform:scale(0)}
+.burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.menu{position:fixed;top:0;right:0;bottom:0;width:85%;max-width:340px;z-index:60;background:rgba(10,6,8,.95);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border-left:1px solid rgba(255,255,255,.1);transform:translateX(100%);transition:transform .5s cubic-bezier(.22,1,.36,1);padding:100px 32px 40px;display:flex;flex-direction:column;visibility:hidden}
+.menu.open{transform:none;visibility:visible}
+.menu a.l{color:rgba(255,255,255,.85);font-size:22px;padding:14px 0;opacity:0;transform:translateX(24px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+.menu .btn{margin-top:auto;opacity:0;transform:translateX(24px);transition:opacity .5s cubic-bezier(.22,1,.36,1) 450ms,transform .5s cubic-bezier(.22,1,.36,1) 450ms;text-align:center}
+.menu.open a.l,.menu.open .btn{opacity:1;transform:none}
+.menu.open a.l:nth-child(1){transition-delay:150ms}.menu.open a.l:nth-child(2){transition-delay:225ms}
+.menu.open a.l:nth-child(3){transition-delay:300ms}.menu.open a.l:nth-child(4){transition-delay:375ms}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:-120px;padding:0 16px;z-index:5}
+h1{font-family:'Instrument Serif',serif;font-weight:400;color:#fff;font-size:36px;line-height:.9;letter-spacing:-.025em;text-align:center}
+.sub{color:rgba(255,255,255,.7);font-size:14px;line-height:20px;text-align:center;margin-top:20px;max-width:576px}
+.center .btn{margin-top:24px}
+.sound{display:none;position:absolute;bottom:32px;left:32px;align-items:center;gap:12px;z-index:5}
+.sound .c{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center}
+.sound .c i{display:block;width:16px;height:2px;background:#fff;border-radius:2px}
+.sound p{color:rgba(255,255,255,.6);font-size:12px;line-height:16px}
+
+/* quote */
+.quote{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:linear-gradient(180deg,#010A17 0%,#0A4267 30%,#20658E 60%,#6BADC4 100%);display:flex;align-items:center;justify-content:center}
+.rainbow{position:absolute;left:0;right:0;top:0;z-index:30;width:100%;will-change:transform;pointer-events:none}
+.cloud{position:absolute;z-index:10;will-change:transform,opacity;opacity:0;display:none;pointer-events:none}
+.cloud.l{left:0;bottom:10%;width:500px;margin-left:-50%}
+.cloud.r{right:0;bottom:15%;width:500px;margin-right:-75%;}
+.cloud img{width:100%;display:block}
+.cloud.r img{transform:scaleX(-1)}
+.qc{position:relative;z-index:20;max-width:896px;padding:0 24px;text-align:center}
+.qc blockquote{font-family:'Instrument Serif',serif;font-weight:400;color:#fff;font-size:20px;line-height:1.45}
+.qc cite{display:block;font-style:normal;margin-top:24px;color:rgba(255,255,255,.8);font-size:14px;line-height:20px;letter-spacing:.025em}
+
+@media(min-width:640px){.cloud{display:block}.qc blockquote{font-size:24px}}
+@media(min-width:768px){
+ nav{padding:20px 48px}.logo{font-size:30px;line-height:36px}
+ .links{display:flex}.nav-btn{display:inline-block}.burger,.menu{display:none}
+ h1{font-size:72px}.sub{font-size:16px;line-height:24px;margin-top:28px}.center .btn{margin-top:36px}
+ .sound{display:flex}
+ .cloud.l,.cloud.r{width:650px}
+ .qc blockquote{font-size:36px;line-height:1.5}.qc cite{margin-top:32px;font-size:16px;line-height:24px}
+}
+@media(min-width:1024px){h1{font-size:110px}.qc blockquote{font-size:42px}}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="hero">
+  <div class="fallback"></div>
+  <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4"></video>
+  <div class="overlay"></div>
+  <nav>
+    <a class="logo" href="#">Serene</a>
+    <div class="links"><a href="#">About</a><a href="#">Services</a><a href="#">Journal</a><a href="#">Contact</a></div>
+    <button class="btn button-glow nav-btn">Book a consultation</button>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="menu" id="menu">
+    <a class="l" href="#">About</a><a class="l" href="#">Services</a><a class="l" href="#">Journal</a><a class="l" href="#">Contact</a>
+    <button class="btn button-glow">Book a consultation</button>
+  </div>
+  <div class="center">
+    <h1 class="text-glow">Gentle touch. Radiant presence.</h1>
+    <p class="sub">Expert beauty and holistic wellness, delivered with warmth and intention.</p>
+    <button class="btn button-glow">Begin your renewal</button>
+  </div>
+  <div class="sound"><div class="c"><i></i></div><p>Experience<br>with sound</p></div>
+</section>
+
+<section class="quote" id="quote">
+  <img class="rainbow" id="rainbow" alt="" src="https://soft-zoom-63098134.figma.site/_assets/v11/8d520a7515d06cbfc403d0125e3d05b1a7ccd29c.png">
+  <div class="cloud l" id="cl"><img alt="" src="https://soft-zoom-63098134.figma.site/_assets/v11/0d6dfd3f90b930f21726f2ed56a3320d79b7a797.png"></div>
+  <div class="cloud r" id="cr"><img alt="" src="https://soft-zoom-63098134.figma.site/_assets/v11/0d6dfd3f90b930f21726f2ed56a3320d79b7a797.png"></div>
+  <div class="qc">
+    <blockquote>&ldquo;Serene was founded on a belief in beauty that honors your nature. We pursue refined outcomes, considered approaches, and lasting vitality. We spend time learning what matters to you before deciding what serves you best. No rushing, no excess -- just support that lets you feel radiant.&rdquo;</blockquote>
+    <cite>Dr. Mia Callahan -- Founder</cite>
+  </div>
+</section>
+</div>
+<script>
+(function(){
+  var b=document.getElementById('burger'),m=document.getElementById('menu');
+  b.addEventListener('click',function(){b.classList.toggle('open');m.classList.toggle('open')});
+  var sec=document.getElementById('quote'),rb=document.getElementById('rainbow'),cl=document.getElementById('cl'),cr=document.getElementById('cr');
+  var cur={rb:120,lx:-200,rx:200,cy:0,lo:0},lerp=function(a,t,f){return a+(t-a)*f};
+  function tick(){
+    var r=sec.getBoundingClientRect(),h=window.innerHeight;
+    var p=Math.min(1,Math.max(0,(h-r.top)/(h+r.height)));
+    var inView=p>0.12&&p<0.92;
+    var rbT=120+(-160-120)*p;
+    var lx=inView?0:-200,rx=inView?0:200,cyT=p*-50,oT=inView?1:0;
+    cur.rb=lerp(cur.rb,rbT,.06);
+    cur.lx=lerp(cur.lx,lx,.04);cur.rx=lerp(cur.rx,rx,.04);cur.cy=lerp(cur.cy,cyT,.04);cur.lo=lerp(cur.lo,oT,.04);
+    rb.style.transform='translate3d(0,'+cur.rb+'px,0)';
+    cl.style.transform='translate3d('+cur.lx+'px,'+cur.cy+'px,0)';
+    cr.style.transform='translate3d('+cur.rx+'px,'+cur.cy+'px,0)';
+    cl.style.opacity=cr.style.opacity=cur.lo;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

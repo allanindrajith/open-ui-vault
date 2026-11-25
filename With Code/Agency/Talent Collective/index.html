@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kollektiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow-x:hidden}
+body{font-family:'Geist',system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeIn .5s ease}
+section{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .7s ease-out}
+.bg.on{opacity:1}
+.grad{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.2),rgba(0,0,0,.05),rgba(0,0,0,.25))}
+.content{position:relative;z-index:10;display:flex;height:100%;flex-direction:column;justify-content:space-between;padding:40px 24px 24px}
+.top{display:flex;flex-direction:column;gap:32px}
+h1{max-width:36rem;font-weight:400;line-height:1.1;letter-spacing:-.025em;font-size:1.875rem}
+#desc{max-width:20rem;font-size:.875rem;font-weight:500;line-height:1.625;color:rgba(255,255,255,.8)}
+.bottom{display:flex;flex-direction:column;gap:32px;min-width:0}
+.picker{display:flex;align-items:flex-end;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.picker::-webkit-scrollbar{display:none}
+.picker button{display:flex;flex-shrink:0;flex-direction:column;align-items:center;gap:8px;background:none;border:0;cursor:pointer}
+.dot{width:4px;height:4px;border-radius:50%;background:#fff;opacity:0;transition:opacity .3s}
+button.act .dot{opacity:1}
+.av{display:block;width:40px;height:40px;border-radius:50%;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.meta{border-top:1px solid rgba(255,255,255,.2);padding-top:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;font-size:.875rem;font-weight:500}
+#role,.tenure{display:none;color:rgba(255,255,255,.7)}
+.meta a{color:#fff;text-decoration:underline;text-underline-offset:4px;transition:color .2s}
+.meta a:hover{color:rgba(255,255,255,.7)}
+@media(min-width:640px){
+.content{padding:56px 40px 32px}
+h1{font-size:3rem}
+#desc{font-size:1rem}
+.picker{gap:12px;overflow:visible;padding-bottom:0}
+.av{width:56px;height:56px}
+#role{display:block}
+}
+@media(min-width:768px){
+.top{flex-direction:row;align-items:flex-start;justify-content:space-between;gap:64px}
+#desc{padding-top:8px}
+.tenure{display:block}
+}
+@media(min-width:1024px){
+.content{padding-left:64px;padding-right:64px}
+h1{font-size:4.5rem}
+}
+</style>
+</head>
+<body>
+<section>
+  <div id="bgs"></div>
+  <div class="grad"></div>
+  <div class="content">
+    <div class="top">
+      <h1>Kollektiva is the talent you build with each&nbsp;day</h1>
+      <p id="desc" class="fade"></p>
+    </div>
+    <div class="bottom">
+      <div class="picker" id="picker"></div>
+      <div class="meta">
+        <span id="name" class="fade"></span>
+        <span id="role"></span>
+        <span class="tenure">In the business since 2020</span>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+var P="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_";
+var S=[
+["Andrei Baranov","Design Chief","20260727_225202_f9e684f3-dc19-469a-8142-eb391bfc601b","Andrei sets the visual direction of every project. He turns rough ideas into clear, confident design languages that feel effortless yet leave a lasting impression."],
+["Daria Lebedeva","Interface Expert","20260727_225149_7937e8ea-3b0a-46ab-919f-775627695a23","Daria crafts interfaces people understand at first glance. Every screen she designs balances clarity and character, making complex products feel simple and warm."],
+["Ivan Sorokin","Concept Chief","20260727_225153_f2b1fc04-776a-4f2e-879b-b764ea762e77","Ivan shapes the ideas behind the work. He digs into every brief until the core story emerges, then builds concepts that give each project its reason to exist."],
+["Anna Fedorova","Brand Consultant","20260727_225847_f456fd9c-8938-4103-836d-51b0e88a9510","Anna helps brands find their voice. From positioning to tone, she builds identities that stay consistent everywhere and grow stronger with every appearance."],
+["Pavel Smirnov","Movement Artist","20260727_225854_3958a522-6203-4f84-a7fa-3b3f1dcd7256","Pavel brings stillness to life. His motion work adds rhythm and personality to every product, guiding attention with transitions that feel natural and precise."],
+["Olga Kravtsova","UX Specialist","20260727_231111_fcefaa07-6851-4fdc-ac7b-98754ac9d5c4","Olga studies how people actually use what we make. Her research keeps every decision grounded in real behavior, so the work serves users and not assumptions."],
+["Igor Zakharenko","Graphic Creator","20260727_231124_9a1505aa-8c44-4046-aff8-1aa0bc7b3ef3","Igor gives every project its finishing touch. From typography to illustration, he sweats the visual details that separate good work from unforgettable work."],
+["Ksenia Romanova","Studio Head","20260727_230413_62e8b331-89be-4d35-84fe-330ba9b1b64f","Ksenia keeps the studio moving as one. She connects people, plans, and priorities so every project ships on time without losing the craft it deserves."]
+].map(function(s){return{name:s[0],role:s[1],img:P+s[2]+".png&w=1280&q=85",desc:s[3]}});
+var bgs=document.getElementById("bgs"),pk=document.getElementById("picker");
+var B=[],K=[];
+S.forEach(function(s,i){
+  var d=document.createElement("div");d.className="bg";d.style.backgroundImage='url("'+s.img+'")';bgs.appendChild(d);B.push(d);
+  var b=document.createElement("button");b.setAttribute("aria-label","Show "+s.name);
+  b.innerHTML='<span class="dot"></span><span class="av"><img alt="'+s.name+'"></span>';
+  b.querySelector("img").src=s.img;
+  b.onclick=function(){set(i)};pk.appendChild(b);K.push(b);
+});
+function re(el){el.classList.remove("fade");void el.offsetWidth;el.classList.add("fade")}
+function set(i){
+  var s=S[i];
+  B.forEach(function(d,j){d.classList.toggle("on",j===i)});
+  K.forEach(function(b,j){b.classList.toggle("act",j===i)});
+  var d=document.getElementById("desc");d.textContent=s.desc;re(d);
+  var n=document.getElementById("name");n.textContent=s.name;re(n);
+  document.getElementById("role").textContent=s.role;
+}
+set(0);
+</script>
+</body>
+</html>

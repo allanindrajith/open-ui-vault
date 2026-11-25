@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nexora Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:0 0% 100%;--foreground:210 14% 17%;--primary:210 14% 17%;--primary-foreground:0 0% 100%;
+  --secondary:0 0% 96%;--muted:0 0% 96%;--muted-foreground:184 5% 55%;--accent:239 84% 67%;--border:0 0% 90%;
+  --font-display:'Instrument Serif',serif;--font-body:'Inter',sans-serif;
+  --shadow-dashboard:0 25px 80px -12px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:hsl(var(--background));color:hsl(var(--foreground));font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+.page{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:hsl(var(--background))}
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;position:relative;z-index:20}
+@media(min-width:768px){nav{padding:20px 48px}}
+@media(min-width:1024px){nav{padding:20px 80px}}
+.logo{font-size:20px;font-weight:600;letter-spacing:-.025em}
+.right{display:flex;align-items:center;gap:32px}
+.links{display:none;gap:32px}
+@media(min-width:768px){.links{display:flex}}
+.links a{font-size:14px;color:hsl(var(--muted-foreground));text-decoration:none;transition:color .2s}
+.links a:hover{color:hsl(var(--foreground))}
+.btn{border:0;cursor:pointer;font-family:var(--font-body);font-weight:500;font-size:14px;border-radius:999px;background:hsl(var(--primary));color:hsl(var(--primary-foreground));transition:opacity .2s}
+.btn:hover{opacity:.9}
+.btn.sm{padding:9px 20px}
+.btn.lg{padding:14px 24px}
+.hero{position:relative;flex:1;min-height:0;overflow:hidden}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;width:100%;padding:24px 16px 0}
+@media(min-width:768px){.content{padding-top:32px}}
+.fade{opacity:0;transform:translateY(var(--y,16px));animation:up var(--d,.6s) ease-out forwards;animation-delay:var(--delay,0s)}
+@keyframes up{to{opacity:1;transform:none}}
+.badge{--y:10px;--d:.5s;display:inline-flex;align-items:center;gap:6px;border-radius:999px;border:1px solid hsl(var(--border));background:hsl(var(--background));padding:6px 16px;font-size:14px;color:hsl(var(--muted-foreground));margin-bottom:24px}
+h1{font-family:var(--font-display);font-weight:400;text-align:center;font-size:48px;line-height:.95;letter-spacing:-.025em;max-width:36rem;--delay:.1s}
+@media(min-width:768px){h1{font-size:60px}}
+@media(min-width:1024px){h1{font-size:80px}}
+h1 em{font-style:italic}
+.sub{margin-top:16px;text-align:center;font-size:16px;max-width:650px;line-height:1.625;color:hsl(var(--muted-foreground));--delay:.2s}
+@media(min-width:768px){.sub{font-size:18px}}
+.ctas{margin-top:20px;display:flex;align-items:center;gap:12px;--delay:.3s}
+.play{height:44px;width:44px;border-radius:50%;border:0;background:hsl(var(--background));box-shadow:0 2px 12px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.play:hover{background:hsl(var(--background)/.8)}
+.play svg{width:16px;height:16px;fill:hsl(var(--foreground));stroke:hsl(var(--foreground))}
+.dashwrap{margin-top:32px;width:100%;max-width:64rem;--y:30px;--d:.8s;--delay:.5s}
+.glass{border-radius:16px;overflow:hidden;padding:12px;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.5);box-shadow:var(--shadow-dashboard)}
+@media(min-width:768px){.glass{padding:16px}}
+.dash{background:hsl(var(--background));border-radius:10px;overflow:hidden;font-size:11px;user-select:none;pointer-events:none;text-align:left}
+.top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid hsl(var(--border));gap:10px}
+.brand{display:flex;align-items:center;gap:6px;font-weight:600;font-size:12px}
+.nlogo{width:20px;height:20px;border-radius:6px;background:hsl(var(--primary));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px}
+.search{flex:1;max-width:260px;display:flex;justify-content:space-between;border:1px solid hsl(var(--border));border-radius:8px;padding:5px 10px;color:hsl(var(--muted-foreground))}
+.tr{display:flex;align-items:center;gap:10px}
+.pill{border-radius:999px;padding:5px 12px;font-size:10px;font-weight:500;border:1px solid hsl(var(--border));background:#fff;white-space:nowrap}
+.pill.p{background:hsl(var(--accent));color:#fff;border-color:transparent}
+.bell{width:14px;height:14px;border:1.5px solid hsl(var(--muted-foreground));border-radius:50% 50% 3px 3px}
+.av{width:22px;height:22px;border-radius:50%;background:hsl(var(--accent)/.15);color:hsl(var(--accent));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+.body{display:flex}
+.side{display:none;width:160px;flex-shrink:0;padding:12px 8px;border-right:1px solid hsl(var(--border))}
+@media(min-width:768px){.side{display:block}}
+.side div{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:6px;color:hsl(var(--muted-foreground))}
+.side .act{background:hsl(var(--secondary));color:hsl(var(--foreground));font-weight:500}
+.side .sec{margin-top:12px;font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+.bd{background:hsl(var(--accent));color:#fff;border-radius:999px;padding:0 6px;font-size:9px}
+.main{flex:1;min-width:0;padding:14px;background:hsl(var(--secondary)/.3)}
+.main h3{font-size:14px;font-weight:600}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;align-items:center}
+.acts .pill{padding:4px 10px}
+.cards{display:flex;gap:12px}
+.card{flex:1;flex-basis:0;min-width:0;background:#fff;border:1px solid hsl(var(--border));border-radius:10px;padding:12px}
+@media(max-width:600px){.search{display:none}.top{justify-content:space-between}.cards{flex-direction:column}.card.hm{display:none}}
+.lbl{color:hsl(var(--muted-foreground))}
+.amt{font-size:22px;font-weight:600;margin:4px 0;letter-spacing:-.02em}
+.amt small{font-size:12px;color:hsl(var(--muted-foreground));font-weight:400}
+.stats{display:flex;gap:12px;font-size:10px}
+.g{color:#16a34a}.r{color:#dc2626}
+svg.chart{width:100%;height:80px;margin-top:8px;display:block}
+.row{display:flex;justify-content:space-between;padding:12px 0;font-size:12px}
+.ch{display:flex;justify-content:space-between;font-weight:600;font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:8px;background:#fff;border:1px solid hsl(var(--border));border-radius:10px}
+th,td{text-align:left;padding:8px 12px;font-size:11px}
+th{color:hsl(var(--muted-foreground));font-weight:500}
+td{border-top:1px solid hsl(var(--border))}
+.st{border-radius:999px;padding:2px 8px;font-size:10px}
+.st.a{background:#fef3c7;color:#b45309}.st.c{background:#dcfce7;color:#15803d}
+.tw{margin-top:12px}
+.tw h4{font-size:12px;font-weight:600}
+@media(max-width:600px){th:nth-child(1),td:nth-child(1){display:none}}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <div class="logo">✦ Nexora</div>
+    <div class="right">
+      <div class="links"><a href="#">Home</a><a href="#">Pricing</a><a href="#">About</a><a href="#">Contact</a></div>
+      <button class="btn sm">Get Started</button>
+    </div>
+  </nav>
+  <section class="hero">
+    <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_015952_e1deeb12-8fb7-4071-a42a-60779fc64ab6.mp4"></video>
+    <div class="content">
+      <div class="badge fade">Now with GPT-5 support ✨</div>
+      <h1 class="fade">The Future of <em>Smarter</em> Automation</h1>
+      <p class="sub fade">Automate your busywork with intelligent agents that learn, adapt, and execute—so your team can focus on what matters most.</p>
+      <div class="ctas fade">
+        <button class="btn lg">Book a demo</button>
+        <button class="play" aria-label="Play"><svg viewBox="0 0 24 24" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>
+      </div>
+      <div class="dashwrap fade"><div class="glass"><div class="dash">
+        <div class="top">
+          <div class="brand"><span class="nlogo">N</span>Nexora <span class="lbl">⌄</span></div>
+          <div class="search"><span>Search</span><span>⌘K</span></div>
+          <div class="tr"><span class="pill">Move Money</span><span class="bell"></span><span class="av">JB</span></div>
+        </div>
+        <div class="body">
+          <div class="side">
+            <div class="act">Home</div><div>Tasks <span class="bd">10</span></div><div>Transactions</div><div>Payments <span>⌄</span></div><div>Cards</div><div>Capital</div><div>Accounts <span>⌄</span></div>
+            <div class="sec">Workflows</div><div>Trake rutes</div><div>Payments</div><div>Notifications</div><div>Settings</div>
+          </div>
+          <div class="main">
+            <h3>Welcome, Jane</h3>
+            <div class="acts"><span class="pill p">Send</span><span class="pill">Request</span><span class="pill">Transfer</span><span class="pill">Deposit</span><span class="pill">Pay Bill</span><span class="pill">Create Invoice</span><span class="lbl" style="font-size:10px">Customize</span></div>
+            <div class="cards">
+              <div class="card">
+                <div class="lbl">Mercury Balance ✓</div>
+                <div class="amt">$8,450,190<small>.32</small></div>
+                <div class="stats"><span class="lbl">Last 30 Days</span><span class="g">+$1.8M</span><span class="r">-$900K</span></div>
+                <svg class="chart" viewBox="0 0 300 80" preserveAspectRatio="none">
+                  <defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="hsl(239 84% 67%)" stop-opacity=".15"/><stop offset="1" stop-color="hsl(239 84% 67%)" stop-opacity="0"/></linearGradient></defs>
+                  <path d="M0 62 C30 58 45 40 75 44 C105 48 120 62 150 48 C180 34 200 18 230 24 C260 30 280 14 300 10 L300 80 L0 80 Z" fill="url(#gr)"/>
+                  <path d="M0 62 C30 58 45 40 75 44 C105 48 120 62 150 48 C180 34 200 18 230 24 C260 30 280 14 300 10" fill="none" stroke="hsl(239 84% 67%)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+                </svg>
+              </div>
+              <div class="card">
+                <div class="ch"><span>Accounts</span><span class="lbl">+ &nbsp;⋮</span></div>
+                <div class="row"><span>Credit</span><span>$98,125.50</span></div>
+                <div class="row"><span>Treasury</span><span>$6,750,200.00</span></div>
+                <div class="row"><span>Operations</span><span>$1,592,864.82</span></div>
+              </div>
+            </div>
+            <div class="tw"><h4>Recent Transactions</h4>
+              <table>
+                <tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr>
+                <tr><td>Mar 18</td><td>AWS</td><td>-$5,200</td><td><span class="st a">Pending</span></td></tr>
+                <tr><td>Mar 17</td><td>Client Payment</td><td class="g">+$125,000</td><td><span class="st c">Completed</span></td></tr>
+                <tr><td>Mar 15</td><td>Payroll</td><td>-$85,450</td><td><span class="st c">Completed</span></td></tr>
+                <tr><td>Mar 14</td><td>Office Supplies</td><td>-$1,200</td><td><span class="st c">Completed</span></td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div></div></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Kanit',sans-serif;background:#0C0C0C;color:#fff;overflow-x:hidden}
+img{display:block}
+.about{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;overflow:hidden}
+.deco{position:absolute;z-index:0;height:auto;opacity:0;transition:opacity .9s cubic-bezier(.25,.1,.25,1),transform .9s cubic-bezier(.25,.1,.25,1);pointer-events:none}
+.deco.l{transform:translateX(-80px)}.deco.r{transform:translateX(80px)}
+.deco.in{opacity:1;transform:none}
+.moon{top:4%;left:1%;width:120px}
+.cube{bottom:8%;left:3%;width:100px}
+.lego{top:4%;right:1%;width:120px}
+.grp{bottom:8%;right:3%;width:130px}
+.center{position:relative;z-index:10;max-width:56rem;width:100%;display:flex;flex-direction:column;align-items:center;gap:64px}
+.g1{display:flex;flex-direction:column;align-items:center;gap:40px;width:100%}
+.fade{opacity:0;transform:translateY(var(--y,30px));transition:opacity .7s cubic-bezier(.25,.1,.25,1) var(--d,0s),transform .7s cubic-bezier(.25,.1,.25,1) var(--d,0s)}
+.fade.in{opacity:1;transform:none}
+h2{font-weight:900;text-transform:uppercase;line-height:1;letter-spacing:-.025em;text-align:center;font-size:clamp(3rem,12vw,160px)}
+.hero-heading{background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.para{color:#D7E2EA;font-weight:500;text-align:center;line-height:1.625;max-width:560px;font-size:clamp(1rem,2vw,1.35rem)}
+.ch{position:relative;display:inline-block}
+.ch .ghost{visibility:hidden}
+.ch .vis{position:absolute;left:0;top:0;opacity:.2}
+.word{display:inline-block;white-space:nowrap}
+.btn{display:inline-block;border-radius:9999px;color:#fff;font-weight:500;text-transform:uppercase;letter-spacing:.1em;text-decoration:none;font-size:.75rem;padding:12px 32px;background:linear-gradient(123deg,#18011F 7%,#B600A8 37%,#7621B0 72%,#BE4C00 100%);box-shadow:0 4px 4px rgba(181,1,167,.25),4px 4px 12px #7721B1 inset;outline:2px solid #E3E3E3;outline-offset:-3px;transition:opacity .2s}
+.btn:hover{opacity:.9}.btn:active{opacity:.75}
+@media(min-width:640px){
+.about{padding:80px 32px}.center{gap:80px}.g1{gap:56px}
+.moon,.lego{width:160px}.moon{left:2%}.lego{right:2%}
+.cube{width:140px;left:6%}.grp{width:170px;right:6%}
+.btn{font-size:.875rem;padding:14px 40px}}
+@media(min-width:768px){
+.about{padding:80px 40px}.center{gap:96px}.g1{gap:64px}
+.moon,.lego{width:210px}.moon{left:4%}.lego{right:4%}
+.cube{width:180px;left:10%}.grp{width:220px;right:10%}
+.btn{font-size:1rem;padding:16px 48px}}
+</style>
+</head>
+<body>
+<section class="about">
+  <img class="deco l moon" src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" alt="" style="transition-delay:.1s">
+  <img class="deco l cube" src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="" style="transition-delay:.25s">
+  <img class="deco r lego" src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" alt="" style="transition-delay:.15s">
+  <img class="deco r grp" src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" alt="" style="transition-delay:.3s">
+  <div class="center">
+    <div class="g1">
+      <h2 class="fade hero-heading" style="--y:40px">About me</h2>
+      <p class="para" id="para">With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!</p>
+    </div>
+    <div class="fade" style="--y:20px;--d:.3s"><a class="btn" href="#contact">Contact Me</a></div>
+  </div>
+</section>
+<script>
+(function(){
+  var p=document.getElementById('para'),text=p.textContent;p.textContent='';
+  var total=text.length,vis=[],idx=0;
+  text.split(/( )/).forEach(function(tok){
+    if(tok===' '){var s=document.createElement('span');s.className='ch';s.innerHTML='<span class="ghost"> </span><span class="vis"> </span>';p.appendChild(s);vis.push(s.lastChild);idx++;return;}
+    if(!tok)return;
+    var w=document.createElement('span');w.className='word';
+    for(var i=0;i<tok.length;i++){
+      var s=document.createElement('span');s.className='ch';
+      s.innerHTML='<span class="ghost"></span><span class="vis"></span>';
+      s.firstChild.textContent=tok[i];s.lastChild.textContent=tok[i];
+      w.appendChild(s);vis.push(s.lastChild);idx++;
+    }
+    p.appendChild(w);
+  });
+  function update(){
+    var r=p.getBoundingClientRect(),vh=window.innerHeight;
+    var startY=vh*0.8,endY=vh*0.2;
+    // progress: element top reaches 0.8vh -> 0 ; element bottom reaches 0.2vh -> 1
+    var a=r.top-startY, b=r.bottom-endY;
+    var prog=(0-a)/((b-a)||1);
+    prog=Math.max(0,Math.min(1,prog));
+    for(var i=0;i<vis.length;i++){
+      var cp=i/total,st=Math.max(0,cp-.1),en=Math.min(1,cp+.05);
+      var t=prog<=st?0:prog>=en?1:(prog-st)/(en-st);
+      vis[i].style.opacity=(.2+.8*t).toFixed(3);
+    }
+  }
+  addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
+  var els=document.querySelectorAll('.fade,.deco');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'50px'});
+    els.forEach(function(e){io.observe(e)});
+  }else els.forEach(function(e){e.classList.add('in')});
+})();
+</script>
+</body>
+</html>

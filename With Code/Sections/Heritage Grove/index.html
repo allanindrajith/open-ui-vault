@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Heritage Grove — Footer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#175A67;
+    --ink-soft:#2A707C;
+    --cream:#EAE3DE;
+    --max:1440px;
+    --fs-nav:clamp(.9rem, .55vw + .75rem, 1.02rem);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{
+    -webkit-text-size-adjust:100%;
+    background:#EAE3DE;
+  }
+  body{
+    margin:0;
+    font-family:"Poppins","Helvetica Neue",Arial,sans-serif;
+    background:#EAE3DE;
+    color:var(--ink);
+  }
+
+  /* ---------- Section shell : full viewport ---------- */
+  .site-footer{
+    position:relative;
+    isolation:isolate;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    min-height:100svh;
+    overflow:hidden;
+    background:#EAE3DE;
+    padding:clamp(2.25rem,4.5vh,4rem)
+            max(clamp(1.25rem,4vw,4.5rem), env(safe-area-inset-right))
+            max(clamp(1.5rem,3vh,2.75rem), env(safe-area-inset-bottom))
+            max(clamp(1.25rem,4vw,4.5rem), env(safe-area-inset-left));
+    overflow-wrap:break-word;
+  }
+
+  /* ---------- Animated background ---------- */
+  .footer-media{
+    position:absolute;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+  }
+  .footer-bg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center bottom;
+    pointer-events:none;
+  }
+
+  .footer-inner{
+    position:relative;
+    width:100%;
+    max-width:var(--max);
+    margin:0 auto;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- Top grid ---------- */
+  .footer-grid{
+    display:grid;
+    grid-template-columns:minmax(240px,1.45fr) repeat(3,minmax(130px,.85fr)) minmax(260px,1.25fr);
+    gap:clamp(1.5rem,3vw,3.25rem);
+    align-items:start;
+  }
+
+  /* Brand column */
+  .brand-lockup{
+    display:flex;
+    align-items:center;
+    gap:clamp(.65rem,1vw,1rem);
+  }
+  .brand-mark{
+    flex:none;
+    width:clamp(52px,4.4vw,74px);
+    height:auto;
+    color:var(--ink);
+  }
+  .brand-name{
+    margin:0;
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-weight:500;
+    font-size:clamp(1.85rem,2.5vw,2.9rem);
+    line-height:1;
+    color:var(--ink);
+  }
+
+  .brand-blurb{
+    margin:clamp(1.15rem,2.4vh,1.9rem) 0 0;
+    max-width:24ch;
+    font-size:var(--fs-nav);
+    line-height:1.62;
+  }
+
+  .contact-list{
+    list-style:none;
+    margin:clamp(1.15rem,2.4vh,1.9rem) 0 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:clamp(.6rem,1.2vh,.95rem);
+  }
+  .contact-list li{display:flex;align-items:center;gap:.85rem;}
+  .contact-list svg{flex:none;width:19px;height:19px;color:var(--ink);}
+  .contact-list a,
+  .contact-list span{
+    font-size:var(--fs-nav);
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .contact-list a:hover{text-decoration:underline;text-underline-offset:3px;}
+
+  /* Link columns */
+  .col-title{
+    margin:0 0 clamp(1.15rem,2.4vh,1.85rem);
+    font-size:clamp(.95rem,.5vw + .8rem,1.12rem);
+    font-weight:600;
+    letter-spacing:.055em;
+    text-transform:uppercase;
+  }
+  .link-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:clamp(.62rem,1.35vh,1.05rem);
+  }
+  .link-list a{
+    display:inline-block;
+    font-size:var(--fs-nav);
+    color:var(--ink);
+    text-decoration:none;
+    transition:opacity .2s ease,transform .2s ease;
+  }
+  .link-list a:hover{opacity:.62;transform:translateX(2px);}
+
+  /* Newsletter */
+  .newsletter p{
+    margin:0 0 clamp(1rem,2.2vh,1.6rem);
+    max-width:32ch;
+    font-size:var(--fs-nav);
+    line-height:1.62;
+  }
+  .subscribe{
+    display:flex;
+    width:100%;
+    max-width:380px;
+    border:1px solid var(--ink);
+    background:rgba(255,255,255,.4);
+  }
+  .subscribe input{
+    flex:1;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    padding:.95rem 1.05rem;
+    font-family:inherit;
+    font-size:var(--fs-nav);
+    color:var(--ink);
+  }
+  .subscribe input::placeholder{color:var(--ink-soft);opacity:.85;}
+  .subscribe input:focus-visible{box-shadow:inset 0 0 0 2px rgba(23,90,103,.25);}
+  .subscribe button{
+    flex:none;
+    width:clamp(56px,4vw,66px);
+    border:0;
+    background:var(--ink);
+    color:var(--cream);
+    cursor:pointer;
+    display:grid;
+    place-items:center;
+    transition:background .2s ease;
+  }
+  .subscribe button:hover{background:#0F454F;}
+  .subscribe button svg{width:22px;height:22px;}
+
+  /* ---------- Bottom bar ---------- */
+  .footer-bottom{
+    margin-top:auto;
+    padding-top:clamp(2.5rem,6vh,4.5rem);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1.25rem 2rem;
+    flex-wrap:wrap;
+  }
+  .socials{
+    display:flex;
+    align-items:center;
+    gap:clamp(.9rem,1.5vw,1.5rem);
+  }
+  .socials a{
+    display:inline-flex;
+    color:var(--ink);
+    transition:opacity .2s ease,transform .2s ease;
+  }
+  .socials a:hover{opacity:.65;transform:translateY(-2px);}
+  .socials svg{width:26px;height:26px;}
+
+  .legal{
+    display:flex;
+    align-items:center;
+    gap:clamp(1.15rem,2.6vw,3rem);
+    flex-wrap:wrap;
+  }
+  .legal a{
+    font-size:var(--fs-nav);
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .legal a:hover{text-decoration:underline;text-underline-offset:3px;}
+
+  .sr-only{
+    position:absolute;
+    width:1px;height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    white-space:nowrap;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1100px){
+    .footer-grid{
+      grid-template-columns:1fr 1fr 1fr;
+      row-gap:clamp(2rem,4vh,2.75rem);
+    }
+    .brand{grid-column:1 / -1;}
+    .newsletter{grid-column:1 / -1;}
+    .brand-blurb{max-width:42ch;}
+  }
+
+  @media (max-width:720px){
+    .site-footer{
+      height:auto;
+      min-height:100svh;
+      padding-right:0;
+      padding-bottom:0;
+      padding-left:0;
+      overflow-x:hidden;
+      overflow-y:visible;
+    }
+    .footer-inner{
+      order:0;
+      padding-right:max(clamp(1.25rem,4vw,4.5rem), env(safe-area-inset-right));
+      padding-bottom:clamp(1.25rem,3vh,2rem);
+      padding-left:max(clamp(1.25rem,4vw,4.5rem), env(safe-area-inset-left));
+    }
+    /* After the copy in flex order: full width, intrinsic height, no crop. */
+    .footer-media{
+      position:relative;
+      inset:auto;
+      order:1;
+      flex-shrink:0;
+      width:100%;
+      height:auto;
+      margin-top:auto;
+      z-index:0;
+    }
+    .footer-bg{
+      position:relative;
+      inset:auto;
+      width:100%;
+      height:auto;
+      max-width:100%;
+      object-fit:contain;
+      object-position:center bottom;
+      transform:none;
+      display:block;
+    }
+    .footer-grid{
+      grid-template-columns:1fr 1fr;
+      gap:clamp(1.75rem,5vw,2.25rem);
+    }
+    .brand-blurb{max-width:34ch;}
+    .footer-bottom{
+      padding-top:clamp(2rem,7vh,3rem);
+      padding-bottom:clamp(1.25rem,3vh,2rem);
+      flex-direction:column;
+      align-items:flex-start;
+      gap:1.5rem;
+    }
+    .legal{gap:1.1rem 1.5rem;}
+
+    /* Touch ergonomics: trade list gap for tap padding so each row is a
+       ~40px target without changing the visual rhythm. */
+    .link-list{gap:.2rem;}
+    .link-list a{padding:.55rem 0;}
+    .contact-list{gap:.25rem;}
+    .contact-list a,.contact-list span{padding:.4rem 0;}
+    .legal a{padding:.45rem 0;}
+    .socials a{padding:.3rem;margin:-.3rem;}
+    .socials svg{width:28px;height:28px;}
+    /* 16px keeps iOS Safari from zooming the page on focus. */
+    .subscribe input{font-size:16px;padding:1rem 1.05rem;}
+  }
+
+  @media (max-width:440px){
+    :root{--fs-nav:.92rem;}
+    .footer-grid{gap:1.35rem 1.25rem;}
+    .col-title{margin-bottom:.85rem;}
+    .brand-blurb,.newsletter p{max-width:none;}
+    .subscribe{max-width:none;}
+  }
+
+  /* Very narrow handsets only — everything stacks */
+  @media (max-width:359px){
+    .footer-grid{grid-template-columns:1fr;}
+  }
+
+  /* Tablet: same bottom-of-page clip as mobile so links stay readable.
+     Desktop (>1100px) and the mobile grid/touch rules above stay as they are. */
+  @media (min-width:721px) and (max-width:1100px){
+    .site-footer{
+      height:auto;
+      min-height:100svh;
+      padding-right:0;
+      padding-bottom:0;
+      padding-left:0;
+      overflow-x:hidden;
+      overflow-y:visible;
+    }
+    .footer-inner{
+      order:0;
+      padding-right:max(clamp(1.25rem,4vw,4.5rem), env(safe-area-inset-right));
+      padding-bottom:clamp(1.25rem,3vh,2rem);
+      padding-left:max(clamp(1.25rem,4vw,4.5rem), env(safe-area-inset-left));
+    }
+    .footer-media{
+      position:relative;
+      inset:auto;
+      order:1;
+      flex-shrink:0;
+      width:100%;
+      height:auto;
+      margin-top:auto;
+      z-index:0;
+    }
+    .footer-bg{
+      position:relative;
+      inset:auto;
+      width:100%;
+      height:auto;
+      max-width:100%;
+      object-fit:contain;
+      object-position:center bottom;
+      transform:none;
+      display:block;
+    }
+  }
+
+  /* Soft cream fade where the bottom clip meets the page (not used on full-bleed desktop). */
+  @media (max-width:1100px){
+    .footer-media::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:clamp(52px,16vw,120px);
+      background:linear-gradient(to bottom,#EAE3DE 0%,rgba(234,227,222,.65) 38%,rgba(234,227,222,0) 100%);
+      pointer-events:none;
+      z-index:1;
+    }
+  }
+
+  /* ---------- Staggered entrance (opacity + transform only; layout unchanged) ---------- */
+  @keyframes rise-in{
+    from{opacity:0;transform:translate3d(0,14px,0);}
+    to{opacity:1;transform:translate3d(0,0,0);}
+  }
+  @keyframes fade-in{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+
+  .footer-bg{
+    animation:fade-in 1.35s ease both;
+  }
+
+  .brand-lockup,
+  .brand-blurb,
+  .contact-list li,
+  .col .col-title,
+  .col .link-list li,
+  .newsletter .col-title,
+  .newsletter p,
+  .subscribe,
+  .socials a,
+  .legal a{
+    animation:rise-in .72s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .brand-lockup{animation-delay:.04s;}
+  .brand-blurb{animation-delay:.12s;}
+  .contact-list li:nth-child(1){animation-delay:.2s;}
+  .contact-list li:nth-child(2){animation-delay:.28s;}
+  .contact-list li:nth-child(3){animation-delay:.36s;}
+
+  .footer-grid > .col:nth-child(2){--col-stagger:.16s;}
+  .footer-grid > .col:nth-child(3){--col-stagger:.24s;}
+  .footer-grid > .col:nth-child(4){--col-stagger:.32s;}
+
+  .col .col-title{animation-delay:var(--col-stagger,.2s);}
+  .col .link-list li:nth-child(1){animation-delay:calc(var(--col-stagger,.2s) + .08s);}
+  .col .link-list li:nth-child(2){animation-delay:calc(var(--col-stagger,.2s) + .16s);}
+  .col .link-list li:nth-child(3){animation-delay:calc(var(--col-stagger,.2s) + .24s);}
+  .col .link-list li:nth-child(4){animation-delay:calc(var(--col-stagger,.2s) + .32s);}
+  .col .link-list li:nth-child(5){animation-delay:calc(var(--col-stagger,.2s) + .4s);}
+  .col .link-list li:nth-child(6){animation-delay:calc(var(--col-stagger,.2s) + .48s);}
+
+  .newsletter .col-title{animation-delay:.4s;}
+  .newsletter p{animation-delay:.48s;}
+  .subscribe{animation-delay:.56s;}
+
+  .socials a:nth-child(1){animation-delay:.64s;}
+  .socials a:nth-child(2){animation-delay:.7s;}
+  .socials a:nth-child(3){animation-delay:.76s;}
+  .socials a:nth-child(4){animation-delay:.82s;}
+
+  .legal a:nth-child(1){animation-delay:.7s;}
+  .legal a:nth-child(2){animation-delay:.78s;}
+  .legal a:nth-child(3){animation-delay:.86s;}
+
+  @media (prefers-reduced-motion:reduce){
+    .footer-bg{display:none;animation:none;}
+    .site-footer{
+      background-color:#EAE3DE;
+      background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4f690bd1-881a-4192-82f2-d714d34c8fb9.png");
+      background-position:center bottom;
+      background-size:cover;
+      background-repeat:no-repeat;
+    }
+    .footer-media::after{content:none;}
+    @media (max-width:1100px){
+      .site-footer{
+        background-size:100% auto;
+      }
+    }
+    .brand-lockup,
+    .brand-blurb,
+    .contact-list li,
+    .col .col-title,
+    .col .link-list li,
+    .newsletter .col-title,
+    .newsletter p,
+    .subscribe,
+    .socials a,
+    .legal a{
+      animation:none;
+    }
+    .link-list a:hover,.socials a:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<footer class="site-footer">
+
+  <div class="footer-media" aria-hidden="true">
+    <video class="footer-bg" autoplay muted loop playsinline preload="auto" poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4f690bd1-881a-4192-82f2-d714d34c8fb9.png">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="footer-inner">
+
+    <div class="footer-grid">
+
+      <!-- Brand -->
+      <div class="brand">
+        <div class="brand-lockup">
+          <svg class="brand-mark" viewBox="0 0 96 120" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <ellipse cx="48" cy="60" rx="45" ry="57"/>
+            <path d="M48 88V46" stroke-linecap="round"/>
+            <path d="M48 58c-8-2-14-8-16-16 9 0 15 5 16 16Zm0 0c8-2 14-8 16-16-9 0-15 5-16 16Z"/>
+            <path d="M48 74c-9-2-15-8-17-17 10 0 16 6 17 17Zm0 0c9-2 15-8 17-17-10 0-16 6-17 17Z"/>
+            <path d="M48 46c-6-3-9-9-8-16 6 3 9 9 8 16Zm0 0c6-3 9-9 8-16-6 3-9 9-8 16Z"/>
+            <path d="M30 44c-5 1-9-1-12-5 5-2 9-1 12 5Zm36 0c5 1 9-1 12-5-5-2-9-1-12 5Z"/>
+          </svg>
+          <p class="brand-name">Heritage Grove</p>
+        </div>
+
+        <p class="brand-blurb">Crafting digital experiences that connect, delight, and leave a lasting imprint</p>
+
+        <ul class="contact-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2.4.5 7.6 5.9L19.6 6H4.4ZM20 7.9l-7.4 5.7a1 1 0 0 1-1.2 0L4 7.9V18h16V7.9Z"/></svg>
+            <a href="mailto:care@heritage.com">care@heritage.com</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.6a1 1 0 0 1-.25 1l-2.22 2.2Z"/></svg>
+            <a href="tel:+910000000000">+91 00000 00000</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.05 6.24 12.4 6.5 12.71a.65.65 0 0 0 1 0C12.76 21.4 19 14.05 19 9a7 7 0 0 0-7-7Zm0 9.6A2.6 2.6 0 1 1 14.6 9 2.6 2.6 0 0 1 12 11.6Z"/></svg>
+            <span>India</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Shop -->
+      <nav class="col" aria-label="Shop">
+        <h2 class="col-title">Shop</h2>
+        <ul class="link-list">
+          <li><a href="#">Full Collection</a></li>
+          <li><a href="#">Vases</a></li>
+          <li><a href="#">Tableware</a></li>
+          <li><a href="#">Decor</a></li>
+          <li><a href="#">Limited Releases</a></li>
+          <li><a href="#">Gift Sets</a></li>
+        </ul>
+      </nav>
+
+      <!-- About -->
+      <nav class="col" aria-label="Heritage">
+        <h2 class="col-title">Heritage</h2>
+        <ul class="link-list">
+          <li><a href="#">Our Roots</a></li>
+          <li><a href="#">Our Craftwork</a></li>
+          <li><a href="#">Responsibility</a></li>
+          <li><a href="#">Join Us</a></li>
+          <li><a href="#">Media Enquiry</a></li>
+        </ul>
+      </nav>
+
+      <!-- Help -->
+      <nav class="col" aria-label="Care and service">
+        <h2 class="col-title">Care &amp; Service</h2>
+        <ul class="link-list">
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Shipping &amp; Dispatch</a></li>
+          <li><a href="#">Where&rsquo;s My Order</a></li>
+          <li><a href="#">Talk To Us</a></li>
+        </ul>
+      </nav>
+
+      <!-- Newsletter -->
+      <div class="newsletter">
+        <h2 class="col-title">The Letter</h2>
+        <p>Sign up for early notice on new arrivals, stories &amp; members-only offers.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="nl-email" class="sr-only">Email address</label>
+          <input id="nl-email" type="email" name="email" placeholder="Leave your email" autocomplete="email" required />
+          <button type="submit" aria-label="Subscribe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0-1.56 19.88v-7.03H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.85h-2.33v7.03A10 10 0 0 0 12 2Z"/></svg></a>
+        <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 5.9a8 8 0 0 1-2.36.65 4.12 4.12 0 0 0 1.8-2.27 8.2 8.2 0 0 1-2.6 1 4.1 4.1 0 0 0-7 3.74A11.65 11.65 0 0 1 3.4 4.7a4.1 4.1 0 0 0 1.27 5.48 4.07 4.07 0 0 1-1.86-.51v.05a4.1 4.1 0 0 0 3.3 4.02 4.13 4.13 0 0 1-1.86.07 4.11 4.11 0 0 0 3.83 2.85A8.24 8.24 0 0 1 2 18.4a11.62 11.62 0 0 0 6.29 1.84c7.55 0 11.68-6.25 11.68-11.67v-.53A8.3 8.3 0 0 0 22 5.9Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.07.05 1.8.22 2.43.46.66.26 1.22.6 1.77 1.16.56.55.9 1.11 1.16 1.77.24.63.41 1.36.46 2.43C21.99 8.94 22 9.28 22 12s-.01 3.06-.06 4.12c-.05 1.07-.22 1.8-.46 2.43a4.9 4.9 0 0 1-1.16 1.77c-.55.56-1.11.9-1.77 1.16-.63.24-1.36.41-2.43.46-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.07-.05-1.8-.22-2.43-.46a4.9 4.9 0 0 1-1.77-1.16 4.9 4.9 0 0 1-1.16-1.77c-.24-.63-.41-1.36-.46-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.07.22-1.8.46-2.43.26-.66.6-1.22 1.16-1.77.55-.56 1.11-.9 1.77-1.16.63-.24 1.36-.41 2.43-.46C8.94 2.01 9.28 2 12 2Zm0 1.8c-2.67 0-2.99.01-4.04.06-.98.04-1.5.2-1.86.34-.47.18-.8.4-1.15.75-.35.35-.57.68-.75 1.15-.14.36-.3.88-.34 1.86-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.98.2 1.5.34 1.86.18.47.4.8.75 1.15.35.35.68.57 1.15.75.36.14.88.3 1.86.34 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.98-.04 1.5-.2 1.86-.34.47-.18.8-.4 1.15-.75.35-.35.57-.68.75-1.15.14-.36.3-.88.34-1.86.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.98-.2-1.5-.34-1.86a3.1 3.1 0 0 0-.75-1.15 3.1 3.1 0 0 0-1.15-.75c-.36-.14-.88-.3-1.86-.34-1.05-.05-1.37-.06-4.04-.06Zm0 3.07a5.13 5.13 0 1 1 0 10.26 5.13 5.13 0 0 1 0-10.26Zm0 1.8a3.33 3.33 0 1 0 0 6.66 3.33 3.33 0 0 0 0-6.66Zm5.34-3.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 2H3.55A1.54 1.54 0 0 0 2 3.52v16.96A1.54 1.54 0 0 0 3.55 22h16.9A1.54 1.54 0 0 0 22 20.48V3.52A1.54 1.54 0 0 0 20.45 2ZM8.12 18.34H5.16V9.5h2.96v8.84ZM6.64 8.29a1.72 1.72 0 1 1 0-3.44 1.72 1.72 0 0 1 0 3.44Zm12.2 10.05h-2.95v-4.3c0-1.03-.02-2.35-1.43-2.35-1.44 0-1.66 1.12-1.66 2.28v4.37H9.85V9.5h2.83v1.21h.04a3.1 3.1 0 0 1 2.79-1.53c2.99 0 3.54 1.96 3.54 4.52v4.64Z"/></svg></a>
+      </div>
+
+      <nav class="legal" aria-label="Legal">
+        <a href="#">Privacy Notice</a>
+        <a href="#">Terms &amp; Policies</a>
+        <a href="#">Cookie Notice</a>
+      </nav>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

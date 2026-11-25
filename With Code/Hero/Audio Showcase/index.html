@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>quietpress</title>
+<link rel="stylesheet" href="https://db.onlinewebfonts.com/c/a64ff11d2c24584c767f6257e880dc65?family=Helvetica+Regular">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:'Helvetica Regular',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:#0a2a8a;color:#fff}
+button,a{font:inherit;color:inherit;text-decoration:none;border:none;background:none;cursor:pointer}
+svg{display:block}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.animate-fade-up{animation:fade-up .7s cubic-bezier(.22,1,.36,1) backwards}
+.delay-1{animation-delay:.1s}.delay-2{animation-delay:.25s}.delay-3{animation-delay:.4s}.delay-4{animation-delay:.55s}.delay-5{animation-delay:.75s}
+@media (prefers-reduced-motion:reduce){.animate-fade-up{animation:none}}
+.t{transition:transform .2s}
+.t:hover{transform:scale(1.05)}.t:active{transform:scale(.95)}
+
+.wrap{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden;background:#1a4fd0}
+.bg{position:absolute;inset:0;z-index:0;transform:scale(1.08);transform-origin:center;overflow:hidden}
+.bg video,.bg canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bg canvas{display:none}
+
+header{position:absolute;top:0;left:0;right:0;z-index:20}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:16px 16px}
+.logo{display:flex;align-items:center;gap:8px;font-size:16px;letter-spacing:-.025em;color:#fff}
+nav.desk{display:none;gap:32px;font-size:14px}
+nav.desk a{color:rgba(255,255,255,.9)}nav.desk a:hover{color:#fff}
+.right{display:flex;align-items:center;gap:8px}
+.cart{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:4px 12px 4px 4px;color:#111827;font-size:14px}
+.cart .ic{width:28px;height:28px;border-radius:8px;background:#1d4ed8;color:#fff;display:flex;align-items:center;justify-content:center}
+.cart .full{display:none}
+.menu-btn{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff}
+.mnav{margin:8px 16px 0;border-radius:16px;padding:8px;display:none}
+.mnav.open{display:block}
+.mnav a{display:block;border-radius:12px;padding:12px 16px;font-size:14px;color:rgba(255,255,255,.9)}
+.mnav a:hover{background:rgba(255,255,255,.1)}
+
+main{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:112px 16px 0}
+.badge{border-radius:8px;padding:6px 16px;font-size:12px;color:#fff;background:rgba(255,255,255,.16);margin-bottom:20px}
+h1{font-weight:400;max-width:48rem;font-size:36px;line-height:1.1;color:#fff}
+.sub{margin-top:20px;max-width:28rem;font-size:14px;line-height:1.625;color:rgba(255,255,255,.9)}
+.btns{margin-top:32px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.b1{border-radius:12px;background:#fff;padding:10px 28px;font-size:14px;color:#111827}
+.b2{border-radius:12px;padding:10px 28px;font-size:14px;color:#fff}
+
+.np{position:absolute;z-index:20;bottom:16px;right:16px;width:270px;display:flex;flex-direction:column;gap:8px;text-align:left}
+.card{display:flex;align-items:center;gap:12px;border-radius:16px;background:#fff;padding:10px 16px 10px 10px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);color:#111827}
+.card .sq{width:44px;height:44px;border-radius:12px;background:#1d4ed8;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.info{min-width:0;flex:1}
+.title{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{margin-top:6px;height:4px;border-radius:9999px;background:#e5e7eb}
+.prog i{display:block;height:100%;width:30%;background:#1d4ed8;border-radius:9999px}
+.times{display:flex;justify-content:space-between;margin-top:2px;font-size:10px;color:#6b7280}
+.ctl{display:flex;align-items:center;gap:8px}
+.pn{flex:1;border-radius:16px;background:#fff;padding:8px 0;font-size:14px;color:#111827;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+.heart{width:40px;height:40px;border-radius:9999px;background:#fff;display:flex;align-items:center;justify-content:center;color:#1d4ed8;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+.heart:hover{transform:scale(1.1)}.heart:active{transform:scale(.95)}
+.heart svg{fill:none}.heart.liked svg{fill:#1d4ed8}
+
+@media(min-width:640px){
+ .bar{padding:20px 24px}.cart{padding-right:16px}.cart .full{display:inline}.cart .short{display:none}
+ main{padding:144px 24px 0}.badge{font-size:14px;margin-bottom:24px}h1{font-size:48px}
+ .sub{margin-top:24px;font-size:16px}.btns{flex-direction:row}
+ .np{width:288px;bottom:24px;right:24px}
+}
+@media(min-width:768px){
+ nav.desk{display:flex}.menu-btn,.mnav,.mnav.open{display:none}
+ main{padding-top:176px}h1{font-size:60px}.sub{font-size:18px}.np{bottom:32px;right:40px}
+ .bar{padding:20px 40px}
+}
+@media(min-width:1024px){h1{font-size:72px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bg" id="bg">
+    <video id="vid" muted playsinline autoplay crossorigin="anonymous" preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260611_183632_c311af08-e4b7-458f-81e7-79847a49b3d3.mp4"></video>
+    <canvas id="cv"></canvas>
+  </div>
+
+  <header>
+    <div class="bar">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 256 256" fill="#fff"><path d="M 256 256 L 128 256 C 198.692 256 256 198.692 256 128 C 256 57.308 198.692 0 128 0 C 57.308 0 0 57.308 0 128 C 0 198.692 57.308 256 128 256 L 0 256 L 0 0 L 256 0 Z M 128 104 C 141.255 104 152 114.745 152 128 C 152 141.255 141.255 152 128 152 C 114.745 152 104 141.255 104 128 C 104 114.745 114.745 104 128 104 Z"/></svg>
+        <span>quietpress</span>
+      </div>
+      <nav class="desk"><a href="#">Anthology</a><a href="#">Talents</a><a href="#">Sound diary</a><a href="#">Playback salon</a></nav>
+      <div class="right">
+        <button class="cart t">
+          <span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span>
+          <span class="full">Cart (0)</span><span class="short">(0)</span>
+        </button>
+        <button class="menu-btn liquid-glass t" id="mb" aria-label="Menu">
+          <svg id="mi" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mnav liquid-glass" id="mn"><a href="#">Anthology</a><a href="#">Talents</a><a href="#">Sound diary</a><a href="#">Playback salon</a></div>
+  </header>
+
+  <main>
+    <div class="badge liquid-glass animate-fade-up delay-1">Press 04 . Vernal woods</div>
+    <h1 class="animate-fade-up delay-2">records cut for the<br>calm listener.</h1>
+    <p class="sub animate-fade-up delay-3">Drone, roots, and nature-captured sound on wax LPs. Every disc cut just once, snag it or miss.</p>
+    <div class="btns animate-fade-up delay-4">
+      <button class="b1 t">Browse the shelves</button>
+      <button class="b2 liquid-glass t">Newest arrivals</button>
+    </div>
+  </main>
+
+  <div class="np animate-fade-up delay-5">
+    <div class="card">
+      <div class="sq"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16M18 17V9M13 17V5M8 17v-3"/></svg></div>
+      <div class="info">
+        <div class="title">Helia Marsh — Fern Light</div>
+        <div class="prog"><i></i></div>
+        <div class="times"><span>0:33</span><span>-1:21</span></div>
+      </div>
+    </div>
+    <div class="ctl">
+      <button class="pn t">Prev</button>
+      <button class="heart" id="hb" aria-label="Like" style="transition:transform .2s"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+      <button class="pn t">Next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var mb=document.getElementById('mb'),mn=document.getElementById('mn'),mi=document.getElementById('mi');
+  var MENU='<path d="M4 12h16M4 6h16M4 18h16"/>',CLOSE='<path d="M18 6 6 18M6 6l12 12"/>';
+  mb.addEventListener('click',function(){var o=mn.classList.toggle('open');mi.innerHTML=o?CLOSE:MENU;});
+  var hb=document.getElementById('hb');
+  hb.addEventListener('click',function(){hb.classList.toggle('liked');});
+
+  var vid=document.getElementById('vid'),cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+  var frames=[],MAXW=960,done=false,useRVFC='requestVideoFrameCallback' in HTMLVideoElement.prototype;
+  function capture(){
+    if(done||vid.videoWidth===0)return;
+    var s=Math.min(1,MAXW/vid.videoWidth),w=Math.round(vid.videoWidth*s),h=Math.round(vid.videoHeight*s);
+    var c=document.createElement('canvas');c.width=w;c.height=h;
+    c.getContext('2d').drawImage(vid,0,0,w,h);frames.push(c);
+  }
+  function loop(){
+    if(done)return;capture();
+    if(useRVFC)vid.requestVideoFrameCallback(loop);else requestAnimationFrame(loop);
+  }
+  vid.addEventListener('play',function(){loop();});
+  vid.addEventListener('ended',function(){
+    done=true;
+    if(frames.length<2){vid.loop=true;vid.play();return;}
+    cv.width=frames[0].width;cv.height=frames[0].height;
+    vid.style.display='none';cv.style.display='block';
+    var i=0,dir=1,last=0,step=1000/30;
+    function tick(t){
+      if(t-last>=step){
+        last=t;ctx.drawImage(frames[i],0,0);
+        if(i+dir>=frames.length||i+dir<0)dir=-dir;
+        i+=dir;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+  vid.addEventListener('error',function(){});
+  var p=vid.play();if(p&&p.catch)p.catch(function(){});
+})();
+</script>
+</body>
+</html>

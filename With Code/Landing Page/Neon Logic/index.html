@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SynapseX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Anton+SC&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;color:#fff;overflow-x:hidden;overflow-y:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:"Space Mono",monospace}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+.vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+section{position:relative;overflow:hidden}
+.screen{height:100vh;height:100dvh}
+.light{font-weight:300}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;height:80px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 32px;opacity:0;transition:opacity .8s}
+nav.on,.hero-content.on{opacity:1}
+.grp{display:flex;gap:8px}
+.pill{height:48px;border-radius:14px;background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:center;overflow:hidden;transition:background .2s,transform .2s}
+.logo-pill{padding:0 20px;gap:10px;font-size:16px;font-weight:500;letter-spacing:-.025em;white-space:nowrap}
+.logo-pill:hover{background:rgba(255,255,255,.22);transform:scale(1.02)}
+.logo-pill:active{transform:scale(.98)}
+.logo-pill svg{width:18px;height:18px;fill:#fff}
+.menu-pill{width:48px;transition:width .45s cubic-bezier(.34,1.3,.5,1)}
+.menu-pill.open{width:290px}
+.burger{width:48px;height:48px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.menu-pill.open .burger{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.1);margin-left:6px}
+.menu-pill.open .burger:hover{background:rgba(255,255,255,.2)}
+.bars{position:relative;width:18px;height:12px;display:block}
+.bars i{position:absolute;left:0;width:100%;height:1.5px;background:#fff;transition:all .35s cubic-bezier(.34,1.5,.5,1)}
+.bars i:nth-child(1){top:0}.bars i:nth-child(2){top:5.25px}.bars i:nth-child(3){top:10.5px}
+.open .bars i:nth-child(1){top:5.25px;transform:rotate(45deg)}
+.open .bars i:nth-child(2){opacity:0;transform:scaleX(0)}
+.open .bars i:nth-child(3){top:5.25px;transform:rotate(-45deg)}
+.links{display:flex;gap:24px;margin-left:16px;opacity:0;transform:translateX(15px);transition:all .3s;pointer-events:none;white-space:nowrap}
+.open .links{opacity:1;transform:none;pointer-events:auto;transition-delay:.1s}
+.links button{font-size:16px;color:rgba(255,255,255,.85);transition:color .2s;min-width:6ch;text-align:left}
+.links button:hover{color:#fff}
+.dl{height:48px;padding:0 24px;background:#fff;color:#000;border-radius:999px;display:flex;align-items:center;gap:8px;font-size:16px;transition:transform .2s,background .2s}
+.dl:hover{transform:scale(1.03);background:#e2e2e6}.dl:active{transform:scale(.97)}
+
+/* hero */
+#hero{background:#000}
+.dots{position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:24px 24px;opacity:.05;pointer-events:none}
+.mark{position:absolute;left:0;right:0;top:calc(50% + 50px);transform:translateY(-50%);text-align:center;font-family:"Anton SC",sans-serif;font-size:clamp(120px,30vw,521px);text-transform:uppercase;letter-spacing:-4px;line-height:1;opacity:.1;background:radial-gradient(circle,rgba(142,127,148,0) 0%,#8E7F94 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;pointer-events:none;white-space:nowrap}
+.hero-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:80px 16px 32px;opacity:0;transition:opacity 1s}
+.spacer{flex:1}
+.bottom{display:flex;flex-direction:column;gap:24px}
+.col{display:flex;flex-direction:column;gap:16px}
+h1.big{font-weight:300;line-height:.95;letter-spacing:-.03em;font-size:clamp(40px,10vw,100px);color:#fff}
+h1.big.r{text-align:left}
+.hero-p{max-width:24rem;font-size:13px;color:rgba(255,255,255,.6);line-height:1.625;opacity:0;transform:translateY(25px);transition:opacity .9s cubic-bezier(.215,.61,.355,1) .2s,transform .9s cubic-bezier(.215,.61,.355,1) .2s}
+.hero-content.on .hero-p{opacity:1;transform:none}
+
+/* cinematic */
+#cine{display:flex;align-items:center;justify-content:center}
+.topfade{position:absolute;top:0;left:0;right:0;height:180px;background:linear-gradient(#010103,transparent);z-index:10}
+.persp{position:relative;z-index:5;max-width:64rem;perspective:400px}
+.cine-t{font-weight:400;font-size:22px;line-height:1.35;letter-spacing:-.02em;text-align:center;padding:0 24px;user-select:none;transform:rotateX(24deg) translateY(60px) translateZ(15px);opacity:0;will-change:transform,opacity}
+
+/* metrics */
+#metrics{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:128px 24px}
+.wrap6{position:relative;z-index:2;max-width:72rem;width:100%}
+.sub{color:rgba(255,255,255,.4);font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-align:center}
+#metrics .sub{margin-bottom:80px}
+.grid3{display:grid;grid-template-columns:1fr;gap:64px;text-align:center}
+.val{color:#fff;font-size:clamp(48px,10vw,96px);font-weight:300;letter-spacing:-.04em;line-height:1}
+.lab{color:rgba(255,255,255,.4);font-size:13px;margin-top:16px;letter-spacing:.025em}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s ease-out,transform .8s ease-out}
+.rv.in{opacity:1;transform:none}
+
+/* tech */
+#tech{padding:48px 32px;display:flex;flex-direction:column}
+#tech>*:not(.vid){position:relative;z-index:2}
+.top4{display:flex;flex-direction:column;gap:24px}
+.h2{font-weight:300;font-size:clamp(36px,8vw,72px);line-height:.95;letter-spacing:-.03em}
+.tp{color:rgba(255,255,255,.5);font-size:13px;line-height:1.625;max-width:20rem}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:32px}
+.grid4 h3{font-size:14px;font-weight:400;margin-bottom:8px}
+.grid4 p{color:rgba(255,255,255,.4);font-size:12px;line-height:1.625}
+
+/* arch */
+#arch{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:128px 24px;background:#000}
+.arch-in{max-width:48rem;width:100%}
+#arch .sub{margin-bottom:32px}
+.h3{font-weight:300;font-size:clamp(28px,6vw,56px);line-height:1.15;letter-spacing:-.02em;margin-bottom:40px}
+.ad{color:rgba(255,255,255,.45);font-size:15px;line-height:1.625;max-width:36rem;margin:0 auto}
+.layers{margin-top:80px;display:flex;flex-direction:column;align-items:center;gap:16px;opacity:0;transition:opacity 1.2s .4s}
+.layers.in{opacity:1}
+.card{width:100%;max-width:28rem;height:72px;border:1px solid rgba(255,255,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.card span{color:rgba(255,255,255,.3);font-size:12px;letter-spacing:.15em;text-transform:uppercase}
+.card b{font-weight:300;font-size:16px}
+
+/* footer */
+footer{background:#000;overflow:hidden;display:flex;flex-direction:column;min-height:400px}
+.fv{position:relative;height:300px;overflow:hidden}
+.fr{display:flex;flex-direction:column;justify-content:space-between;padding:40px}
+.fb{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:15px;font-weight:500;letter-spacing:-.025em;margin-bottom:32px}
+.fb svg{width:18px;height:18px;fill:currentColor}
+.fp{color:rgba(255,255,255,.4);font-size:14px;line-height:1.625;max-width:24rem}
+.cp{color:rgba(255,255,255,.25);font-size:12px;margin-top:48px}
+
+.mob{display:none}
+@media(min-width:640px){
+  .hero-content{padding:96px 24px 48px}
+  .hero-p{font-size:15px}
+  .cine-t{font-size:30px;padding:0 48px}
+  .sub{font-size:14px}.lab{font-size:15px}
+  #tech{padding:64px 48px}
+  .tp{font-size:15px}.grid4 h3{font-size:16px}.grid4 p{font-size:14px}
+  .ad{font-size:17px}.card b{font-size:18px}
+  .fr{padding:64px}.fp{font-size:15px}
+}
+@media(min-width:768px){
+  .hero-content{padding:96px 32px 48px}
+  .bottom{flex-direction:row;align-items:flex-end;justify-content:space-between}
+  h1.big.r{text-align:right}
+  .cine-t{font-size:36px}
+  .grid3{grid-template-columns:repeat(3,1fr);gap:32px}
+  #tech{padding:64px}
+  .top4{flex-direction:row;justify-content:space-between;align-items:flex-start}
+  .tp{text-align:right;padding-top:8px}
+  .grid4{grid-template-columns:repeat(4,1fr);gap:24px}
+  footer{flex-direction:row}
+  .fv{height:auto;width:50%}.fr{width:50%}
+}
+@media(min-width:1024px){.cine-t{font-size:42px}}
+@media(max-width:639px){
+  nav{padding:0 16px;height:64px}
+  .desk{display:none!important}.mob{display:flex}
+  .mnav{width:100%;justify-content:space-between;align-items:center;gap:8px}
+  .mnav .pill{height:36px;border-radius:10px}
+  .mnav .logo-pill{padding:0 12px;font-size:13px;gap:8px;transition:all .45s cubic-bezier(.34,1.3,.5,1)}
+  .mnav .logo-pill svg{width:15px;height:15px}
+  .mnav .logo-pill.hide{width:0;padding:0;opacity:0;margin-right:-8px}
+  .mnav .menu-pill{width:36px}
+  .mnav .menu-pill.open{width:100%}
+  .mnav .burger{width:36px;height:36px;border-radius:10px}
+  .mnav .menu-pill.open .burger{width:28px;height:28px;border-radius:8px;margin-left:4px}
+  .mnav .bars{width:15px;height:10px}
+  .mnav .bars i{height:1.2px}.mnav .bars i:nth-child(2){top:4.4px}.mnav .bars i:nth-child(3){top:8.8px}
+  .mnav .open .bars i:nth-child(1),.mnav .open .bars i:nth-child(3){top:4.4px}
+  .mnav .links{gap:16px;margin-left:12px}.mnav .links button{font-size:13px}
+  .mnav .dl{height:36px;padding:0 14px;font-size:13px}
+  .mnav .grp{flex:1;min-width:0}
+  .mnav.menu-open .dl{display:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="logo" viewBox="-50 -50 100 100">
+<g><path id="lq" d="M 1.5,23 L 1.5,33 C 1.5,38.5 6,43 11.5,43 L 16.5,43 C 22,43 26.5,38.5 26.5,33 Q 28,28 33,26.5 C 38.5,26.5 43,22 43,16.5 L 43,11.5 C 43,6 38.5,1.5 33,1.5 L 23,1.5 Q 12,12 1.5,23 Z"/>
+<use href="#lq" transform="rotate(90)"/><use href="#lq" transform="rotate(180)"/><use href="#lq" transform="rotate(270)"/></g>
+</symbol></defs></svg>
+
+<nav id="nav">
+  <div class="grp desk" style="display:flex;flex:none">
+    <a class="pill logo-pill" id="dlogo" href="#"><svg><use href="#logo"/></svg>SynapseX</a>
+    <div class="pill menu-pill" id="dmenu">
+      <button class="burger" aria-label="Menu"><span class="bars"><i></i><i></i><i></i></span></button>
+      <div class="links"><button data-s="1" data-t="About">About</button><button data-s="2" data-t="Metrics">Metrics</button></div>
+    </div>
+  </div>
+  <a class="dl desk" href="#" data-t="Download"><i class="bi bi-apple"></i><span>Download</span></a>
+
+  <div class="mnav mob" id="mnav">
+    <div class="grp" style="display:flex">
+      <a class="pill logo-pill" id="mlogo" href="#"><svg><use href="#logo"/></svg>SynapseX</a>
+      <div class="pill menu-pill" id="mmenu">
+        <button class="burger" aria-label="Menu"><span class="bars"><i></i><i></i><i></i></span></button>
+        <div class="links"><button data-s="1" data-t="About">About</button><button data-s="2" data-t="Metrics">Metrics</button></div>
+      </div>
+    </div>
+    <a class="dl" href="#"><i class="bi bi-apple"></i><span>Download</span></a>
+  </div>
+</nav>
+
+<section id="hero" class="screen">
+  <video id="hv" class="vid" muted playsinline preload="auto" crossorigin="anonymous" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_083515_290e5a10-0b95-41af-a5e2-32b6389baa4d.mp4"></video>
+  <div class="dots"></div>
+  <div class="mark">TRANSCENDENCE</div>
+  <div class="hero-content" id="hc">
+    <div class="spacer"></div>
+    <div class="bottom">
+      <div class="col">
+        <h1 class="big"><span data-sc="200">Brain</span><br><span data-sc="500">And Body</span></h1>
+        <p class="hero-p">Built at the intersection of neuroscience and artificial intelligence. SynapseX continuously maps neural pathways, cognitive load, and physiological states into a single adaptive intelligence layer.</p>
+      </div>
+      <h1 class="big r"><span data-sc="700">One</span><br><span data-sc="1000">Network</span></h1>
+    </div>
+  </div>
+</section>
+
+<section id="cine" class="screen">
+  <video class="vid" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_092455_089c54f8-3b03-4966-9df1-e9746063d0ef.mp4"></video>
+  <div class="topfade"></div>
+  <div class="persp"><p class="cine-t" id="ct">A neural-AI interface built on the architecture of the human nervous system. SynapseX translates synaptic activity into computational intelligence. Every signal becomes measurable, structured, and visible. It continuously reconstructs internal state as a dynamic neural map. Biological noise is filtered into actionable cognitive patterns.</p></div>
+</section>
+
+<section id="metrics">
+  <video class="vid" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_095810_ecea3dd2-fc5e-4e41-8696-4219290b6589.mp4"></video>
+  <div class="wrap6">
+    <p class="sub rv" style="transition-duration:1.2s">Performance Metrics</p>
+    <div class="grid3">
+      <div class="rv" style="transition-delay:0s"><div class="val">2.4ms</div><div class="lab">Synaptic Latency</div></div>
+      <div class="rv" style="transition-delay:.15s"><div class="val">99.7%</div><div class="lab">Signal Accuracy</div></div>
+      <div class="rv" style="transition-delay:.3s"><div class="val">140B</div><div class="lab">Neural Parameters</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tech" class="screen">
+  <video class="vid" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_095750_32a52ce0-2005-45c9-9093-41f03fde9530.mp4"></video>
+  <div class="top4">
+    <h2 class="h2 rv" style="transition-duration:1s;transform:translateY(40px)">Adaptive<br>Intelligence</h2>
+    <p class="tp rv" style="transition-duration:1s;transition-delay:.2s">The system learns your neural baseline within 72 hours. From there, every cognitive state is mapped, predicted, and optimized in real time.</p>
+  </div>
+  <div class="spacer"></div>
+  <div class="grid4">
+    <div class="rv" style="transition-delay:0s"><h3>Cortical Mapping</h3><p>Real-time spatial reconstruction of active neural regions.</p></div>
+    <div class="rv" style="transition-delay:.1s"><h3>Signal Isolation</h3><p>Separates cognitive intent from biological noise.</p></div>
+    <div class="rv" style="transition-delay:.2s"><h3>State Prediction</h3><p>Anticipates cognitive transitions before they occur.</p></div>
+    <div class="rv" style="transition-delay:.3s"><h3>Loop Feedback</h3><p>Closed-loop adjustment based on outcome correlation.</p></div>
+  </div>
+</section>
+
+<section id="arch">
+  <div class="arch-in">
+    <div class="rv" style="transition-duration:1s">
+      <p class="sub">Architecture</p>
+      <h2 class="h3">Three layers. Zero friction.</h2>
+      <p class="ad">Sensor layer captures raw bioelectric signals. Processing layer isolates intent. Interface layer delivers structured output to any connected system.</p>
+    </div>
+    <div class="layers rv2">
+      <div class="card"><span>Layer 1</span><b>Capture</b></div>
+      <div class="card"><span>Layer 2</span><b>Process</b></div>
+      <div class="card"><span>Layer 3</span><b>Interface</b></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fv"><video class="vid" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_080203_fd7f4f85-3a86-4837-8192-85e7bfe68e75.mp4"></video></div>
+  <div class="fr">
+    <div>
+      <div class="fb"><svg viewBox="-50 -50 100 100"><use href="#logo"/></svg>SynapseX</div>
+      <p class="fp">The next evolution of human-machine interaction. Built for those who refuse to be limited by biology alone.</p>
+    </div>
+    <p class="cp">© 2026 SynapseX Labs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~|}{[]:;?><';
+var rc=function(){return CH[Math.floor(Math.random()*CH.length)]};
+// ScrambleIn
+function scrambleIn(el,delay){
+  var text=el.textContent;el.innerHTML='&nbsp;';
+  setTimeout(function(){
+    var p=0;
+    var iv=setInterval(function(){
+      p+=0.5;var r=Math.floor(p),out='';
+      for(var i=0;i<text.length;i++){
+        var c=text[i];
+        if(c===' ')out+=' ';
+        else if(i<r)out+=c;
+        else if(i<r+3)out+=rc();
+        else out+=' ';
+      }
+      el.textContent=out;
+      if(r>=text.length){clearInterval(iv);el.textContent=text}
+    },25);
+  },delay);
+}
+// ScrambleText hover
+function scrambleHover(el,orig,target){
+  var iv=null;
+  var t=target||el;
+  function stop(){clearInterval(iv);iv=null}
+  el.addEventListener('mouseenter',function(){
+    stop();var f=0;
+    iv=setInterval(function(){
+      f++;var r=Math.floor(f/4),out='';
+      for(var i=0;i<orig.length;i++){out+=orig[i]===' '?' ':(i<r?orig[i]:rc())}
+      t.textContent=out;
+      if(r>=orig.length){stop();t.textContent=orig}
+    },25);
+  });
+  el.addEventListener('mouseleave',function(){stop();t.textContent=orig});
+}
+document.querySelectorAll('[data-t]').forEach(function(el){
+  var t=el.getAttribute('data-t');
+  scrambleHover(el,t,el.tagName==='A'?el.querySelector('span'):el);
+});
+
+// entrance
+var started=false;
+setTimeout(function(){
+  document.getElementById('nav').classList.add('on');
+  document.getElementById('hc').classList.add('on');
+  document.querySelectorAll('[data-sc]').forEach(function(s){scrambleIn(s,+s.dataset.sc)});
+},800);
+
+// menus
+function setupMenu(menuId,logoId,mobile){
+  var m=document.getElementById(menuId),lg=document.getElementById(logoId);
+  m.querySelector('.burger').addEventListener('click',function(){
+    var o=m.classList.toggle('open');
+    if(mobile){lg.classList.toggle('hide',o);document.getElementById('mnav').classList.toggle('menu-open',o)}
+    else lg.style.display=(o&&innerWidth<768)?'none':'';
+  });
+  m.querySelectorAll('.links button').forEach(function(b){
+    b.addEventListener('click',function(){
+      window.scrollTo({top:innerHeight*(+b.dataset.s),behavior:'smooth'});
+    });
+  });
+}
+setupMenu('dmenu','dlogo',false);setupMenu('mmenu','mlogo',true);
+
+// hero scrub
+var v=document.getElementById('hv'),lastX=null,target=0,seeking=false;
+function seek(){
+  if(seeking||!v.duration)return;
+  if(Math.abs(v.currentTime-target)<0.01)return;
+  seeking=true;v.currentTime=target;
+}
+v.addEventListener('seeked',function(){seeking=false;seek()});
+v.addEventListener('loadedmetadata',function(){v.pause()});
+window.addEventListener('mousemove',function(e){
+  if(!v.duration)return;
+  if(lastX!==null){
+    var dx=(e.clientX-lastX)/innerWidth;
+    target=Math.min(v.duration,Math.max(0,target+dx*v.duration*0.8));
+    seek();
+  }
+  lastX=e.clientX;
+});
+window.addEventListener('touchmove',function(e){
+  if(!v.duration)return;var x=e.touches[0].clientX;
+  if(lastX!==null){var dx=(x-lastX)/innerWidth;target=Math.min(v.duration,Math.max(0,target+dx*v.duration*0.8));seek()}
+  lastX=x;
+},{passive:true});
+window.addEventListener('touchend',function(){lastX=null});
+
+// reveal on scroll
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.25});
+document.querySelectorAll('.rv,.layers').forEach(function(el){io.observe(el)});
+
+// cinematic text scroll
+var cine=document.getElementById('cine'),ct=document.getElementById('ct');
+var cur=0,tgt=0,vel=0;
+function prog(){
+  var r=cine.getBoundingClientRect(),h=innerHeight;
+  // start end -> end start
+  var p=(h-r.top)/(h+r.height);
+  return Math.min(1,Math.max(0,p));
+}
+function frame(){
+  tgt=prog();
+  // spring (stiffness 15, damping 32, mass 1.8) @ ~60fps
+  var k=15,d=32,m=1.8,dt=1/60;
+  var a=(k*(tgt-cur)-d*vel)/m;vel+=a*dt;cur+=vel*dt;
+  var y=60+(-120-60)*cur;
+  var op=Math.min(1,Math.max(0,(cur-0.3)/0.2));
+  ct.style.transform='rotateX(24deg) translateY('+y+'px) translateZ(15px)';
+  ct.style.opacity=op;
+  requestAnimationFrame(frame);
+}
+cur=prog();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

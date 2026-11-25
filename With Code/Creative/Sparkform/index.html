@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Hero</title>
+<link href="https://db.onlinewebfonts.com/c/58ee300970307a1cc399e6bebd7617ce?family=Bamboly+Demo" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#000;overflow-x:hidden}
+.hero{position:relative;width:100%;height:120vh;background:#EC612C;overflow:hidden}
+.char{position:absolute;inset:0;z-index:10;pointer-events:none}
+.char img{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:auto;max-width:none;display:block;height:115%;max-height:115%;min-height:80%}
+.sticky{position:sticky;top:0;height:100vh;width:100%;z-index:5}
+.title{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:3vh}
+.stack{position:relative}
+.stack h1{font-family:"Bamboly Demo",sans-serif;letter-spacing:.02em;line-height:.85;font-weight:400;font-size:clamp(7.5rem,30vw,28rem);user-select:none;white-space:nowrap}
+.stack h1.l{position:absolute;top:0;left:0}
+.l0{color:#89CFF0;transform:translateY(36px)}
+.l1{color:#EC612C;transform:translateY(24px)}
+.l2{color:#90EE90;transform:translateY(12px)}
+.l3{color:#fff;position:relative}
+.cols{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 6vw;bottom:-8vh;pointer-events:none}
+.col{display:flex;flex-direction:column;gap:.5rem}
+.col.r{align-items:flex-end}
+.col span{font-family:"Poppins",sans-serif;font-weight:500;font-size:clamp(1.6rem,7vw,9rem);line-height:1.1;color:rgba(255,255,255,.8);text-transform:uppercase;user-select:none;transition:transform .05s linear}
+.col.r span{text-align:right}
+.marquee{width:100%;background:#fff;overflow:hidden;padding:2rem 0}
+.track{display:flex;white-space:nowrap;width:max-content;animation:marquee-scroll 18s linear infinite}
+.track span{flex-shrink:0;font-family:"Bamboly Demo",sans-serif;text-transform:uppercase;color:#EC612C;font-size:clamp(2.5rem,6vw,5rem);line-height:1;padding-right:.25em;user-select:none}
+@keyframes marquee-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media(max-width:767px){
+.title{padding-top:2vh}
+.cols{padding:0 3vw}
+.col{gap:.25rem}
+.l0{transform:translateY(18px)}.l1{transform:translateY(12px)}.l2{transform:translateY(6px)}
+.marquee{padding:1.5rem 0}
+}
+</style>
+</head>
+<body>
+<section class="hero" id="hero">
+  <div class="char"><img alt="" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260801_104316_80b428ea-dc99-4399-afb3-8ccb7b34b2d0.png&w=1280&q=85"></div>
+  <div class="sticky">
+    <div class="title"><div class="stack">
+      <h1 class="l l0">BEYOND</h1><h1 class="l l1">BEYOND</h1><h1 class="l l2">BEYOND</h1><h1 class="l3">BEYOND</h1>
+    </div></div>
+    <div class="cols">
+      <div class="col l" id="left"><span>spark</span><span>imagine</span><span>evolve</span><span>render</span></div>
+      <div class="col r" id="right"><span>blaze</span><span>genesis</span><span>purpose</span><span>ignite</span></div>
+    </div>
+  </div>
+</section>
+<div class="marquee"><div class="track" id="track"></div></div>
+<script>
+(function(){
+  var s="SPARK · RENDER · IGNITE · UNFOLD · GENESIS · EVOLVE · PURPOSE · BEYOND · ";
+  var t=document.getElementById('track');
+  for(var i=0;i<4;i++){var e=document.createElement('span');e.textContent=s;t.appendChild(e);}
+  var hero=document.getElementById('hero');
+  var L=document.querySelectorAll('#left span'),R=document.querySelectorAll('#right span');
+  var lc=document.getElementById('left'),rc=document.getElementById('right');
+  function upd(){
+    var r=hero.getBoundingClientRect();
+    var range=hero.offsetHeight-window.innerHeight;
+    var p=range>0?Math.max(0,Math.min(1,-r.top/range)):0;
+    var sf=window.innerWidth<768?.5:1;
+    for(var i=0;i<4;i++){
+      var o=(60+i*40)*sf*(1-p);
+      L[i].style.transform='translateX('+(-o)+'px)';
+      R[i].style.transform='translateX('+o+'px)';
+    }
+    var op=.35+p*.65;
+    lc.style.opacity=op;rc.style.opacity=op;
+  }
+  addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+})();
+</script>
+</body>
+</html>

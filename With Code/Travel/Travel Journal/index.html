@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travel Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+html,body{height:100%;background:#fff;overflow:hidden}
+.page{height:100vh;width:100vw;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.scaler{width:375px;height:780px;flex:none;transform-origin:center center}
+.phone{position:relative;width:375px;height:780px;background:#0a0a0c;border-radius:52px;overflow:hidden;
+box-shadow:inset 0 0 0 2px rgba(255,255,255,.08),0 0 0 1px rgba(0,0,0,.6),0 0 0 10px #1a1a1e,0 0 0 11px rgba(255,255,255,.06),0 0 60px rgba(0,0,0,.5);color:#fff}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;background:#000;border-radius:0 0 16px 16px;z-index:50}
+.header{position:absolute;top:0;left:0;right:0;z-index:30;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(10,10,12,.75);padding:56px 24px 16px;display:flex;justify-content:space-between;align-items:center}
+.header button{background:none;border:none;color:#fff;cursor:pointer;display:flex;align-items:center;gap:4px}
+.header .city{font-size:18px;font-weight:600;line-height:28px}
+.header svg{display:block}
+.scroll{position:absolute;inset:0;overflow-y:auto;padding:112px 24px 96px;display:flex;flex-direction:column;gap:16px}
+.scrollbar-hide::-webkit-scrollbar{display:none}.scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none}
+.card{position:relative;width:100%;height:200px;flex:none;border-radius:16px;overflow:hidden;opacity:0;transform:translateY(24px);transition:all .7s ease-out}
+.card.in{opacity:1;transform:none}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.2),transparent)}
+.pill{position:absolute;top:12px;left:12px;border-radius:9999px;padding:4px 12px;color:rgba(255,255,255,.9);font-size:12px;font-weight:400;line-height:16px;z-index:2}
+.dots{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8);z-index:2}
+.name{position:absolute;left:0;right:0;bottom:0;height:80px;overflow:hidden;text-align:center;font-size:96px;font-weight:700;letter-spacing:-.025em;line-height:1;margin-top:2px;color:rgba(255,255,255,.55);z-index:1}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.pill,.dots{position:absolute}
+.nav{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:30;border-radius:9999px;display:flex;gap:24px;padding:8px 24px}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,.5);font-size:10px;font-weight:500;line-height:16px;cursor:pointer;text-decoration:none}
+.nav a.active{color:#fff}
+.nav svg{display:block}
+</style></head><body>
+<div class="page"><div class="scaler" id="scaler"><div class="phone">
+<div class="notch"></div>
+<div class="header">
+<button><span class="city">Asia</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+<button aria-label="Calendar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></button>
+</div>
+<div class="scroll scrollbar-hide" id="list"></div>
+<nav class="nav liquid-glass">
+<a><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Feed</a>
+<a><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</a>
+<a class="active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>Trips</a>
+</nav>
+</div></div></div>
+<script>
+var U=function(id){return 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2F'+id+'.png&w=1280&q=85'};
+var D=[['Tokyo',23,'hf_20260704_101902_e8f0f37b-18b7-4c14-bb5c-99f0724d2646'],['Seoul',18,'hf_20260704_101935_4b17f250-8ddb-4ff2-b63d-dfd3497d4428'],['Bali',29,'hf_20260704_101958_7116d6bf-fd6f-496f-b3cf-007688cd5123'],['Rome',15,'hf_20260704_143008_72ee7299-04a8-474c-ae73-220d45b24a20']];
+var list=document.getElementById('list'),cards=[];
+D.forEach(function(d){var c=document.createElement('div');c.className='card';
+c.innerHTML='<img alt="'+d[0]+'" src="'+U(d[2])+'"><div class="grad"></div><div class="pill liquid-glass">'+d[1]+' moments</div><div class="dots liquid-glass"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div><div class="name">'+d[0]+'</div>';
+list.appendChild(c);cards.push(c)});
+cards.forEach(function(c,i){setTimeout(function(){c.classList.add('in')},150+i*120)});
+function fit(){var s=Math.min(1,(innerWidth-8)/397,(innerHeight-8)/802);document.getElementById('scaler').style.transform='scale('+s+')'}
+fit();addEventListener('resize',fit);
+</script></body></html>

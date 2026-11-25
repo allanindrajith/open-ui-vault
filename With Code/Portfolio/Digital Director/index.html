@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adam Roberts - Design & Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/d08bafd725a4cfc309efb5a88e0b63a5?family=basis33" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#fff;overflow:hidden}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{background:none;border:0;color:inherit;font:inherit;cursor:pointer}
+.font-pixel{font-family:'basis33',monospace}
+.root{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.content{position:relative;z-index:10;display:flex;flex-direction:column;height:100%;padding:0 20px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+.nav-links{display:none;gap:32px;font-size:14px;letter-spacing:.025em}
+.nav-links a,.burger{transition:opacity .15s}
+.nav-links a:hover,.burger:hover,.close:hover{opacity:.7}
+.burger,.close{padding:8px;display:flex}
+.meta{margin-top:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.meta h2{font-size:18px;font-weight:400;letter-spacing:.025em;line-height:1.25}
+.meta h2 .font-pixel{font-size:24px}
+.c2,.c4{text-align:right}
+.ast{font-size:10px;color:rgba(255,255,255,.5);margin-top:12px}
+.blurb{margin-top:4px;font-size:12px;color:rgba(255,255,255,.6);line-height:1.625}
+.label{font-size:16px;letter-spacing:.1em;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:12px}
+.body{font-size:14px;color:rgba(255,255,255,.9);line-height:1.625;max-width:220px}
+.c3 .body{margin-right:auto}
+.c4 ul{font-size:14px;color:rgba(255,255,255,.9);line-height:1.625}
+.c4 li+li{margin-top:2px}
+.spacer{flex:1}
+.bottom{padding-bottom:16px}
+.rowA{display:grid;grid-template-columns:1fr;gap:16px;align-items:end}
+h1{font-size:30px;letter-spacing:.025em;text-transform:uppercase;font-weight:400;line-height:.72}
+h1 .px{font-family:'basis33',monospace;font-weight:400;font-size:1.25em;display:inline-block;line-height:1;vertical-align:baseline}
+.right{display:flex;flex-direction:column;gap:16px;justify-content:flex-end}
+.show{align-self:flex-start;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.3);padding:12px 24px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);background:rgba(255,255,255,.05);transition:background-color .2s;font-size:14px;letter-spacing:.05em}
+.show:hover{background:rgba(255,255,255,.1)}
+.awards{align-self:flex-start;display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;font-size:14px;color:rgba(255,255,255,.8)}
+.chip{background:#0B0B0B;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.chip b{font-weight:700;letter-spacing:-.025em}
+.chip i{font-style:normal;color:rgba(255,255,255,.5);font-size:12px}
+.fwa{font-size:14px}.w{font-size:18px}.css{font-size:10px}
+.foot{margin-top:16px;display:grid;grid-template-columns:1fr;gap:8px;padding-top:16px;font-size:12px;color:rgba(255,255,255,.6)}
+.foot a{color:#ef4444;transition:color .2s}.foot a:hover{color:#f87171}
+.menu{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:all .5s cubic-bezier(.16,1,.3,1)}
+.menu.open{opacity:1;pointer-events:auto}
+.menu header{display:flex;align-items:center;justify-content:space-between;padding:24px}
+.menu nav{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:32px}
+.menu nav a{font-size:24px;letter-spacing:.1em;opacity:0;transform:translateY(16px);transition:all .5s cubic-bezier(.16,1,.3,1);transition-delay:0ms}
+.menu.open nav a{opacity:1;transform:none}
+@media(min-width:640px){.content{padding:0 24px}.meta{gap:24px}h1{font-size:36px}.rowA{gap:24px}.right{gap:24px}.awards{gap:12px}.chip{padding:8px 16px}.fwa{font-size:16px}.w{font-size:20px}.css{font-size:12px}.foot{margin-top:20px;grid-template-columns:1fr 1fr;gap:16px}.foot .r{text-align:right}}
+@media(min-width:768px){.content{padding:0 40px}.nav-links{display:flex}.burger{display:none}.meta h2{font-size:20px}.meta h2 .font-pixel{font-size:30px}h1{font-size:48px}}
+@media(min-width:1024px){.content{padding:0 56px}.bg{transform:scale(1.2)}.meta{grid-template-columns:repeat(4,1fr);gap:32px}.c2,.c4{text-align:left}.rowA{grid-template-columns:1fr 1fr}h1{font-size:3.75rem}.awards{align-self:flex-end}}
+@media(min-width:1280px){h1{font-size:4.25rem}}
+</style>
+</head>
+<body>
+<div class="root">
+<video class="bg" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_114042_d2ed2a89-f2fa-449b-9609-da456344257b.mp4"></video>
+<div class="content">
+<div class="nav">
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="none"><path d="M 160 88 L 194 34 L 216 0 L 256 0 L 256 40 L 221.5 93.5 L 200 128 L 256 128 L 256 256 L 96 256 L 96 168 L 64.246 220 L 40 256 L 0 256 L 0 216 L 34 162 L 56 128 L 0 128 L 0 0 L 160 0 Z" fill="white"/></svg>
+<div class="nav-links"><a href="#">ABOUT</a><a href="#">PROCESS</a><a href="#">PROJECTS</a><a href="#">CATALOG</a><a href="#">D.O.T</a><a href="#">TALK</a></div>
+<button class="burger" id="open" aria-label="Open menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+</div>
+<div class="meta">
+<div class="c1"><h2>ADAM<br><span class="font-pixel">ROBERTS</span></h2><div class="ast">*</div><p class="blurb font-pixel">Grilled Pixels is my<br>personal brand - I came up<br>with it in 2004 based on<br>"cooking up ideas"</p></div>
+<div class="c2"><h2>DESIGN &amp;<br><span class="font-pixel">ENGINEERING</span></h2></div>
+<div class="c3"><div class="label font-pixel">What I Do</div><p class="body">I create the top 1% of experiences for brands and digital products</p></div>
+<div class="c4"><div class="label font-pixel">Services</div><ul><li>Branding</li><li>Creative Direction &amp; Strategy</li><li>UX/UI Design</li><li>Web Development (React/Nextjs)</li><li>3D, WebGL / Photography</li><li>Video &amp; Animation</li></ul></div>
+</div>
+<div class="spacer"></div>
+<div class="bottom">
+<div class="rowA">
+<h1>I BRING THE<br><span class="px">UNEXPECTED</span> TO<br>BRAND &amp; DIGITAL<br><span class="px">EXPERIENCES</span></h1>
+<div class="right">
+<button class="show"><svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>PLAY SHOWREEL</span></button>
+<div class="awards">
+<div class="chip"><b class="fwa">FWA</b><i>x1</i></div>
+<div class="chip"><b class="w">W.</b><i>x7</i></div>
+<div class="chip"><b class="css">CSSDesignAwards</b><i>x22</i></div>
+</div></div></div>
+<div class="foot"><div>Open to freelance, contract or full-time. <a href="#">Schedule a call</a></div><div class="r">5 full cases &bull; 82 archive fragments &bull; 22 catalog items</div></div>
+</div>
+</div>
+<div class="menu" id="menu">
+<header><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 256 256" fill="none"><path d="M 160 88 L 194 34 L 216 0 L 256 0 L 256 40 L 221.5 93.5 L 200 128 L 256 128 L 256 256 L 96 256 L 96 168 L 64.246 220 L 40 256 L 0 256 L 0 216 L 34 162 L 56 128 L 0 128 L 0 0 L 160 0 Z" fill="white"/></svg>
+<button class="close" id="close" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></header>
+<nav><a href="#">ABOUT</a><a href="#">PROCESS</a><a href="#">PROJECTS</a><a href="#">CATALOG</a><a href="#">D.O.T</a><a href="#">TALK</a></nav>
+</div>
+</div>
+<script>
+var m=document.getElementById('menu'),links=m.querySelectorAll('nav a');
+function set(o){m.classList.toggle('open',o);links.forEach(function(a,i){a.style.transitionDelay=o?(100+i*60)+'ms':'0ms'})}
+document.getElementById('open').onclick=function(){set(true)};
+document.getElementById('close').onclick=function(){set(false)};
+links.forEach(function(a){a.onclick=function(e){e.preventDefault();set(false)}});
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbis Hello</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Condiment&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#010828;overflow-x:hidden}
+:root{--cream:#EFF4FF;--neon:#6FFF00}
+section{position:relative;overflow:hidden;min-height:100vh}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wrap{position:relative;z-index:10;max-width:1831px;margin:0 auto;padding:64px 16px}
+.row1{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:32px;margin-bottom:48px}
+h2{font-family:'Anton',sans-serif;font-size:32px;font-weight:400;text-transform:uppercase;line-height:1.05;color:var(--cream);position:relative}
+h2 .sig{font-family:'Condiment',cursive;font-size:36px;font-weight:400;text-transform:none;color:var(--neon);mix-blend-mode:exclusion;line-height:.79;letter-spacing:.03em;position:absolute;right:-8px;bottom:-20px;transform:rotate(-1deg);opacity:.9}
+p{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:14px;text-transform:uppercase;color:var(--cream);line-height:1.625}
+.row1 p{max-width:266px}
+.row2{display:flex;justify-content:space-between;align-items:flex-start}
+.col{display:flex;flex-direction:column;gap:20px;max-width:335px}
+.col p{color:#010828;opacity:.1}
+.col.right{display:none}
+@media(min-width:640px){
+ .wrap{padding:80px 24px}
+ .row1{margin-bottom:64px}
+ h2{font-size:48px;line-height:1}
+ h2 .sig{font-size:52px;bottom:-30px}
+ p{font-size:15px}
+}
+@media(min-width:768px){
+ .wrap{padding:96px 32px}
+ .row1{margin-bottom:80px}
+ h2{font-size:60px}
+ h2 .sig{font-size:68px;bottom:-40px}
+ p{font-size:16px}
+}
+@media(min-width:1024px){
+ .row1{flex-direction:row;gap:48px}
+ .col p{color:var(--cream)}
+ .col.right{display:flex}
+}
+</style>
+</head>
+<body>
+<section>
+  <video autoplay loop muted playsinline><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_151551_992053d1-3d3e-4b8c-abac-45f22158f411.mp4" type="video/mp4"></video>
+  <div class="wrap">
+    <div class="row1">
+      <h2>Hello!<br>I'm orbis<span class="sig">Orbis</span></h2>
+      <p>A digital object fixed beyond time and place. An exploration of distance, form, and silence in space</p>
+    </div>
+    <div class="row2">
+      <div class="col">
+        <p>A digital object fixed beyond time and place. An exploration of distance, form, and silence in space</p>
+        <p>A digital object fixed beyond time and place. An exploration of distance, form, and silence in space</p>
+      </div>
+      <div class="col right">
+        <p>A digital object fixed beyond time and place. An exploration of distance, form, and silence in space</p>
+        <p>A digital object fixed beyond time and place. An exploration of distance, form, and silence in space</p>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

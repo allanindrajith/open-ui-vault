@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXON..</title>
+  <meta name="description" content="AXON is a motion research studio: an open logbook of real-time rendering studies in particles, fluids and signed surfaces.">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+    canvas#bg {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    :root {
+      --accent: #aa88ff;
+      --text: #dddddd;
+      --muted: #8a8a8a;
+      --chip: #1c1c1c;
+      --line: #2a2a2a;
+    }
+    .ui {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      font-family: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      pointer-events: none;
+    }
+    .brand, .tags, .about, .counter, .meta { mix-blend-mode: plus-lighter; }
+    .ui a { color: inherit; text-decoration: underline; pointer-events: auto; transition: opacity 300ms cubic-bezier(.215,.61,.355,1); }
+    .ui a:hover { opacity: .7; }
+
+    /* brand */
+    .brand { position: absolute; top: 24px; left: 24px; display: flex; align-items: center; gap: 14px; }
+    .brand svg { width: 40px; height: 40px; }
+    .brand .name { font-size: 20px; color: #fff; }
+    .brand .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* counter */
+    .counter {
+      position: absolute; top: 24px; right: 24px;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid var(--line); background: #0a0a0a;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #fff;
+    }
+
+    /* tags */
+    .tags { position: absolute; top: 120px; left: 24px; width: 320px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .tags span { background: var(--chip); padding: 5px 9px; font-size: 11px; color: #cfcfcf; pointer-events: auto; cursor: default; }
+    .tags span.on { background: #e6e6e6; color: #000; }
+
+    /* left list */
+    .list { position: absolute; top: 250px; left: 24px; bottom: 0; width: 320px; overflow-y: auto; pointer-events: auto; scrollbar-width: none; }
+    .list::-webkit-scrollbar { display: none; }
+    .card { padding: 18px 0; border-top: 1px solid var(--line); }
+    .thumb { height: 160px; border-radius: 2px; background: #0a0a0a; position: relative; overflow: hidden; }
+    .thumb video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .meta { display: flex; justify-content: space-between; gap: 16px; margin-top: 10px; font-size: 12px; }
+    .meta .l { color: #fff; white-space: pre-line; }
+    .meta .r { color: var(--muted); text-align: right; white-space: pre-line; }
+
+    /* right column */
+    .about { position: absolute; right: 90px; top: 50%; transform: translateY(-50%); width: 380px; }
+    .about h2 { font: inherit; font-size: 13px; color: var(--accent); margin: 0 0 1em; }
+    .about p, .about li { margin: 0 0 1em; text-align: justify; }
+    .about ul { margin: 0 0 1em; padding: 0; list-style: inside; }
+    .about li { margin: 0; text-align: left; }
+    .about > div { margin-bottom: 2.2em; }
+    .about > div:last-child { margin-bottom: 0; }
+    .about a { display: block; margin: 4px 0; text-align: left; }
+
+    @media (max-width: 1100px) {
+      .about { right: 24px; width: 320px; }
+    }
+    @media (max-width: 760px) {
+      .list, .tags { display: none; }
+      .about { position: absolute; left: 24px; right: 24px; top: auto; bottom: 24px; transform: none; width: auto; }
+      .about p { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="ui">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" stroke="#fff" stroke-width="1.6"/>
+        <path d="M20 8 L23 17 L32 20 L23 23 L20 32 L17 23 L8 20 L17 17 Z" fill="#fff"/>
+      </svg>
+      <div>
+        <div class="name">AXON</div>
+        <div class="sub">Motion research</div>
+      </div>
+    </div>
+
+    <div class="counter">07</div>
+
+    <div class="tags">
+      <span class="on">All</span><span>Light</span><span>Physics</span><span>Fluids</span>
+      <span>Grid</span><span>Audio</span><span>Volumes</span><span>Particles</span>
+      <span>Capture</span><span>Render</span>
+    </div>
+
+    <div class="list">
+      <div class="card">
+        <div class="thumb"><video src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/aaaf/oraciteslArea.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="meta"><div class="l">Lattices
+zone</div><div class="r">Ambient light
+study</div></div>
+      </div>
+      <div class="card">
+        <div class="thumb"><video src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/aaaf/facet-glass-hero.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="meta"><div class="l">Prism
+shell</div><div class="r">Dispersion hero
+render</div></div>
+      </div>
+      <div class="card">
+        <div class="thumb"><video src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/aaaf/stellarmind-hero.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="meta"><div class="l">Nebular
+loop</div><div class="r">Procedural hero
+sequence</div></div>
+      </div>
+      <div class="card">
+        <div class="thumb"><video src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/aaaf/thedropthroughArea.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+        <div class="meta"><div class="l">Fall
+forward</div><div class="r">Dolly track
+study</div></div>
+      </div>
+    </div>
+
+    <div class="about">
+      <div>
+        <h2>[info]</h2>
+        <p>Studies are published as they are built and may not run on every device.</p>
+      </div>
+      <div>
+        <h2>[aims]</h2>
+        <p>An open logbook of real-time rendering research: surfaces, fluids, fields, and the little tools we build to shape them.</p>
+        <p>It is here to keep the work in view and to give each new project a place to grow.</p>
+      </div>
+      <div>
+        <h2>[exploring]</h2>
+        <ul>
+          <li>Signed surfaces</li>
+          <li>Cursor turbulence</li>
+          <li>Compute passes</li>
+          <li>Type in 3D space</li>
+        </ul>
+      </div>
+      <div>
+        <h2>[connect]</h2>
+        <a href="#">Index -> AXON</a>
+        <a href="mailto:hello@axonlab.dev">Mail -> hello@axonlab.dev</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"></script>
+  <script>
+  (function () {
+    // ---------------------------------------------------------------
+    // Shared GLSL chunks (ported from the atlab.io shader bundle)
+    // ---------------------------------------------------------------
+    const GLSL_RANGE = `
+      float range(float oldValue, float oldMin, float oldMax, float newMin, float newMax) {
+        vec3 sub = vec3(oldValue, newMax, oldMax) - vec3(oldMin, newMin, oldMin);
+        return sub.x * sub.y / sub.z + newMin;
+      }
+      float crange(float oldValue, float oldMin, float oldMax, float newMin, float newMax) {
+        return clamp(range(oldValue, oldMin, oldMax, newMin, newMax), min(newMin, newMax), max(newMin, newMax));
+      }
+    `;
+
+    const GLSL_TRANSFORM_UV = `
+      vec2 rotateUV(vec2 uv, float r, vec2 origin) {
+        float c = cos(r); float s = sin(r);
+        mat2 m = mat2(c, -s, s, c);
+        vec2 st = uv - origin; st = m * st; return st + origin;
+      }
+      vec2 rotateUV(vec2 uv, float r) { return rotateUV(uv, r, vec2(0.5)); }
+    `;
+
+    const GLSL_SIMPLENOISE = `
+      #define sinf sin
+      float cnoise(vec3 v) {
+        float t = v.z * 0.3;
+        v.y *= 0.8;
+        float noise = 0.0;
+        float s = 0.5;
+        noise += (sinf(v.x * 0.9 / s + t * 10.0) + sinf(v.x * 2.4 / s + t * 15.0) + sinf(v.x * -3.5 / s + t * 4.0) + sinf(v.x * -2.5 / s + t * 7.1)) * 0.3;
+        noise += (sinf(v.y * -0.3 / s + t * 18.0) + sinf(v.y * 1.6 / s + t * 18.0) + sinf(v.y * 2.6 / s + t * 8.0) + sinf(v.y * -2.6 / s + t * 4.5)) * 0.3;
+        return noise;
+      }
+    `;
+
+    const GLSL_BLEND = `
+      float blendOverlay(float base, float blend) { return base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend)); }
+      vec3 blendOverlay(vec3 base, vec3 blend) { return vec3(blendOverlay(base.r, blend.r), blendOverlay(base.g, blend.g), blendOverlay(base.b, blend.b)); }
+      vec3 blendOverlay(vec3 base, vec3 blend, float opacity) { return (blendOverlay(base, blend) * opacity + base * (1.0 - opacity)); }
+      float blendSoftLight(float base, float blend) { return (blend<0.5)?(2.0*base*blend+base*base*(1.0-2.0*blend)):(sqrt(base)*(2.0*blend-1.0)+2.0*base*(1.0-blend)); }
+      vec3 blendSoftLight(vec3 base, vec3 blend) { return vec3(blendSoftLight(base.r, blend.r), blendSoftLight(base.g, blend.g), blendSoftLight(base.b, blend.b)); }
+      vec3 blendSoftLight(vec3 base, vec3 blend, float opacity) { return (blendSoftLight(base, blend) * opacity + base * (1.0 - opacity)); }
+    `;
+
+    const GLSL_CURL = `
+      #define sinf2 sin
+      #define cosf2 cos
+      float dP3dY(vec3 v) {
+        float noise = 0.0;
+        noise += 3. * cosf2(v.z * 1.8 + v.y * 3. - 194.58) + 4.5 * cosf2(v.z * 4.8 + v.y * 4.5 - 83.13) + 1.2 * cosf2(v.z * -7.0 + v.y * 1.2 -845.2) + 2.13 * cosf2(v.z * -5.0 + v.y * 2.13 - 762.185);
+        noise += 5.4 * cosf2(v.x * -0.48 + v.y * 5.4 - 707.916) + 5.4 * cosf2(v.x * 2.56 + v.y * 5.4 + -482.348) + 2.4 * cosf2(v.x * 4.16 + v.y * 2.4 + 9.872) + 1.35 * cosf2(v.x * -4.16 + v.y * 1.35 - 476.747);
+        return noise;
+      }
+      float dP2dZ(vec3 v) {
+        return -0.48 * cosf2(v.z * -0.48 + v.x * 5.4 -125.796) + 2.56 * cosf2(v.z * 2.56 + v.x * 5.4 + 17.692) + 4.16 * cosf2(v.z * 4.16 + v.x * 2.4 + 150.512) -4.16 * cosf2(v.z * -4.16 + v.x * 1.35 - 222.137);
+      }
+      float dP1dZ(vec3 v) {
+        float noise = 0.0;
+        noise += 3. * cosf2(v.x * 1.8 + v.z * 3.) + 4.5 * cosf2(v.x * 4.8 + v.z * 4.5) + 1.2 * cosf2(v.x * -7.0 + v.z * 1.2) + 2.13 * cosf2(v.x * -5.0 + v.z * 2.13);
+        noise += 5.4 * cosf2(v.y * -0.48 + v.z * 5.4) + 5.4 * cosf2(v.y * 2.56 + v.z * 5.4) + 2.4 * cosf2(v.y * 4.16 + v.z * 2.4) + 1.35 * cosf2(v.y * -4.16 + v.z * 1.35);
+        return noise;
+      }
+      float dP3dX(vec3 v) {
+        return -0.48 * cosf2(v.x * -0.48 + v.y * 5.4 - 707.916) + 2.56 * cosf2(v.x * 2.56 + v.y * 5.4 + -482.348) + 4.16 * cosf2(v.x * 4.16 + v.y * 2.4 + 9.872) -4.16 * cosf2(v.x * -4.16 + v.y * 1.35 - 476.747);
+      }
+      float dP2dX(vec3 v) {
+        float noise = 0.0;
+        noise += 3. * cosf2(v.y * 1.8 + v.x * 3. - 2.82) + 4.5 * cosf2(v.y * 4.8 + v.x * 4.5 + 74.37) + 1.2 * cosf2(v.y * -7.0 + v.x * 1.2 - 256.72) + 2.13 * cosf2(v.y * -5.0 + v.x * 2.13 - 207.683);
+        noise += 5.4 * cosf2(v.z * -0.48 + v.x * 5.4 -125.796) + 5.4 * cosf2(v.z * 2.56 + v.x * 5.4 + 17.692) + 2.4 * cosf2(v.z * 4.16 + v.x * 2.4 + 150.512) + 1.35 * cosf2(v.z * -4.16 + v.x * 1.35 - 222.137);
+        return noise;
+      }
+      float dP1dY(vec3 v) {
+        return -0.48 * cosf2(v.y * -0.48 + v.z * 5.4) + 2.56 * cosf2(v.y * 2.56 + v.z * 5.4) +  4.16 * cosf2(v.y * 4.16 + v.z * 2.4) -4.16 * cosf2(v.y * -4.16 + v.z * 1.35);
+      }
+      vec3 curlNoise(vec3 p) {
+        float x = dP3dY(p) - dP2dZ(p);
+        float y = dP1dZ(p) - dP3dX(p);
+        float z = dP2dX(p) - dP1dY(p);
+        return normalize(vec3(x, y, z));
+      }
+    `;
+
+    const GLSL_SDFS = `
+      vec3 applyQuaternion(vec3 vec, vec4 quat) {
+        return vec + 2.0 * cross(quat.xyz, cross(quat.xyz, vec) + quat.w * vec);
+      }
+      float logo_sdf(vec3 p) {
+        p.z = sqrt(p.z * p.z + 0.0215) - sqrt(0.012);
+        p = applyQuaternion(p, vec4(0.5));
+        if (length(p) > .8) return length(p)-.7;
+        vec4 x=vec4(p,1),
+          f00=sin(x*mat4(-.91,-4.0,-.9,-1.09,.49,4.33,-2.8,-.61,-3.86,-1.09,-1.97,.33,-3.62,2.82,-3.46,1.44)),
+          f01=sin(x*mat4(1.44,1.65,-5.59,.06,-.49,-5.06,-.79,.42,2.16,.94,8.4,1.65,.88,-6.19,5.45,.51)),
+          f02=sin(x*mat4(3.74,1.67,-2.29,-.34,3.25,-2.21,-.4,-.2,-1.51,7.37,-5.42,.19,.34,-1.96,3.46,.5)),
+          f10=sin(mat4(.57,-1.33,-.77,-.16,.77,-.88,-.08,.72,.19,-.25,.87,-.38,-.33,.9,.35,.19)*f00+mat4(-.45,-.8,.4,.4,.24,-.58,.17,-.6,-.49,-.03,-.14,.29,.34,.19,.49,.4)*f01+mat4(.72,-.24,.85,.75,.75,1.01,.59,-.53,.09,.09,.49,.69,-.77,.64,.48,-.24)*f02+vec4(1.16,.88,1.41,1.26)),
+          f11=sin(mat4(.09,.83,.54,.11,-1.23,-.25,-.52,.63,-.23,-.1,.34,-1.04,-.42,-.4,-.14,.21)*f00+mat4(-.05,.04,.6,-.69,1.06,.4,.68,.01,.25,.28,.04,.06,-.18,-1.16,-.6,.08)*f01+mat4(.02,-.7,.04,.93,.68,.98,.58,-.44,-.44,-1.15,.0,-.68,.87,.95,-.33,.51)*f02+vec4(2.05,.9,-.97,1.33)),
+          f12=sin(mat4(-.55,-1.13,.68,.38,.85,.51,-.67,-.45,.06,.29,-1.2,-.21,-.61,.3,.08,-.1)*f00+mat4(-1.13,.32,.06,.15,-.82,.31,-.65,1.67,-.34,-.1,-.12,.37,-.67,-.52,-.67,-.73)*f01+mat4(-.16,-.3,.36,-.54,-.3,-.51,1.23,.45,-1.53,-.52,-.47,-1.08,-.19,.43,-.87,-.55)*f02+vec4(-.04,-.88,-.67,1.62));
+        return dot(vec4(.05,.04,.09,.07),f10)+dot(vec4(.07,.08,-.08,.07),f11)+dot(vec4(-.03,-.08,.07,.04),f12)+.01;
+      }
+      vec3 logo_norm(vec3 p) {
+        mat3 k = mat3(p,p,p)-mat3(0.001);
+        return normalize(logo_sdf(p) - vec3(logo_sdf(k[0]),logo_sdf(k[1]),logo_sdf(k[2])));
+      }
+    `;
+
+    const GLSL_SCREENPROJ = `
+      vec2 frag_coord(vec4 glPos) { return ((glPos.xyz / glPos.w) * 0.5 + 0.5).xy; }
+      vec2 getProjection(vec3 pos, mat4 projMatrix) { vec4 mvpPos = projMatrix * vec4(pos, 1.0); return frag_coord(mvpPos); }
+      void applyNormal(inout vec3 pos, mat4 projNormalMatrix) { pos = vec3(projNormalMatrix * vec4(pos, 0.0)); }
+    `;
+
+    const QUAD_VS = `
+      varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
+    `;
+
+    // ---------------------------------------------------------------
+    // Setup
+    // ---------------------------------------------------------------
+    const canvas = document.getElementById('bg');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    renderer.setPixelRatio(DPR);
+    renderer.setClearColor(0x000000, 1);
+    renderer.autoClear = false;
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const PARTICLE_COUNT = isMobile ? 16384 : 262144;
+    const TEX_SIZE = Math.ceil(Math.sqrt(PARTICLE_COUNT)); // 512 desktop
+
+    const stage = { width: window.innerWidth, height: window.innerHeight };
+    const mouse = { x: stage.width / 2, y: stage.height / 2, dx: 0, dy: 0 };
+    const mouseLast = { x: mouse.x, y: mouse.y };
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(30, stage.width / stage.height, 0.1, 1000);
+    camera.position.set(-1.17, 0, 6);
+
+    const fsScene = new THREE.Scene();
+    const fsCamera = new THREE.Camera();
+    const fsMesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), null);
+    fsMesh.frustumCulled = false;
+    fsScene.add(fsMesh);
+    function blit(material, target) {
+      fsMesh.material = material;
+      renderer.setRenderTarget(target);
+      renderer.render(fsScene, fsCamera);
+      renderer.setRenderTarget(null);
+    }
+
+    // ---------------------------------------------------------------
+    // Fluid simulation (MouseFluid / FluidLayer config from atlab)
+    // ---------------------------------------------------------------
+    const FLUID = {
+      SIM: 256, DYE: 512,
+      VELOCITY_DISSIPATION: 0.98, DENSITY_DISSIPATION: 0.97,
+      PRESSURE_DISSIPATION: 0.95, PRESSURE_ITERATIONS: 5, CURL: 30
+    };
+    const fluidBaseVS = `
+      varying vec2 vUv; varying vec2 vL; varying vec2 vR; varying vec2 vT; varying vec2 vB;
+      uniform vec2 texelSize;
+      void main () {
+        vUv = uv;
+        vL = vUv - vec2(texelSize.x, 0.0); vR = vUv + vec2(texelSize.x, 0.0);
+        vT = vUv + vec2(0.0, texelSize.y); vB = vUv - vec2(0.0, texelSize.y);
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+    function fbo(size, filter) {
+      const mk = () => new THREE.WebGLRenderTarget(size, size, {
+        minFilter: filter, magFilter: filter, format: THREE.RGBAFormat, type: THREE.HalfFloatType,
+        depthBuffer: false, stencilBuffer: false
+      });
+      return { read: mk(), write: mk(), swap() { const t = this.read; this.read = this.write; this.write = t; } };
+    }
+    const fVelocity = fbo(FLUID.SIM, THREE.LinearFilter);
+    const fDensity = fbo(FLUID.DYE, THREE.LinearFilter);
+    const fDivergence = fbo(FLUID.SIM, THREE.NearestFilter);
+    const fCurl = fbo(FLUID.SIM, THREE.NearestFilter);
+    const fPressure = fbo(FLUID.SIM, THREE.NearestFilter);
+    let fluidRT = new THREE.WebGLRenderTarget(stage.width, stage.height, { depthBuffer: false, stencilBuffer: false });
+
+    const simTexel = new THREE.Vector2(1 / FLUID.SIM, 1 / FLUID.SIM);
+    function fluidMat(frag, uniforms) {
+      return new THREE.ShaderMaterial({ vertexShader: fluidBaseVS, fragmentShader: frag, uniforms, depthTest: false, depthWrite: false });
+    }
+    const mCurl = fluidMat(`
+      varying vec2 vUv; varying vec2 vL; varying vec2 vR; varying vec2 vT; varying vec2 vB;
+      uniform sampler2D uVelocity;
+      void main () {
+        float L = texture2D(uVelocity, vL).y; float R = texture2D(uVelocity, vR).y;
+        float T = texture2D(uVelocity, vT).x; float B = texture2D(uVelocity, vB).x;
+        float vorticity = R - L - T + B;
+        gl_FragColor = vec4(0.5 * vorticity, 0.0, 0.0, 1.0);
+      }`, { texelSize: { value: simTexel }, uVelocity: { value: null } });
+    const mVorticity = fluidMat(`
+      varying vec2 vUv; varying vec2 vL; varying vec2 vR; varying vec2 vT; varying vec2 vB;
+      uniform sampler2D uVelocity; uniform sampler2D uCurl; uniform float curl; uniform float dt;
+      void main () {
+        float L = texture2D(uCurl, vL).x; float R = texture2D(uCurl, vR).x;
+        float T = texture2D(uCurl, vT).x; float B = texture2D(uCurl, vB).x;
+        float C = texture2D(uCurl, vUv).x;
+        vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
+        force /= length(force) + 0.0001;
+        force *= curl * C;
+        force.y *= -1.0;
+        vec2 vel = texture2D(uVelocity, vUv).xy;
+        gl_FragColor = vec4(vel + force * dt, 0.0, 1.0);
+      }`, { texelSize: { value: simTexel }, uVelocity: { value: null }, uCurl: { value: null }, curl: { value: FLUID.CURL }, dt: { value: 1 / 60 } });
+    const mDivergence = fluidMat(`
+      varying vec2 vUv; varying vec2 vL; varying vec2 vR; varying vec2 vT; varying vec2 vB;
+      uniform sampler2D uVelocity;
+      void main () {
+        float L = texture2D(uVelocity, vL).x; float R = texture2D(uVelocity, vR).x;
+        float T = texture2D(uVelocity, vT).y; float B = texture2D(uVelocity, vB).y;
+        vec2 C = texture2D(uVelocity, vUv).xy;
+        if (vL.x < 0.0) { L = -C.x; } if (vR.x > 1.0) { R = -C.x; }
+        if (vT.y > 1.0) { T = -C.y; } if (vB.y < 0.0) { B = -C.y; }
+        float div = 0.5 * (R - L + T - B);
+        gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
+      }`, { texelSize: { value: simTexel }, uVelocity: { value: null } });
+    const mClear = fluidMat(`
+      varying vec2 vUv; uniform sampler2D uTexture; uniform float value;
+      void main () { gl_FragColor = value * texture2D(uTexture, vUv); }`,
+      { texelSize: { value: simTexel }, uTexture: { value: null }, value: { value: FLUID.PRESSURE_DISSIPATION } });
+    const mPressure = fluidMat(`
+      varying vec2 vUv; varying vec2 vL; varying vec2 vR; varying vec2 vT; varying vec2 vB;
+      uniform sampler2D uPressure; uniform sampler2D uDivergence;
+      void main () {
+        float L = texture2D(uPressure, vL).x; float R = texture2D(uPressure, vR).x;
+        float T = texture2D(uPressure, vT).x; float B = texture2D(uPressure, vB).x;
+        float divergence = texture2D(uDivergence, vUv).x;
+        float pressure = (L + R + B + T - divergence) * 0.25;
+        gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
+      }`, { texelSize: { value: simTexel }, uPressure: { value: null }, uDivergence: { value: null } });
+    const mGradient = fluidMat(`
+      varying vec2 vUv; varying vec2 vL; varying vec2 vR; varying vec2 vT; varying vec2 vB;
+      uniform sampler2D uPressure; uniform sampler2D uVelocity;
+      void main () {
+        float L = texture2D(uPressure, vL).x; float R = texture2D(uPressure, vR).x;
+        float T = texture2D(uPressure, vT).x; float B = texture2D(uPressure, vB).x;
+        vec2 velocity = texture2D(uVelocity, vUv).xy;
+        velocity.xy -= vec2(R - L, T - B);
+        gl_FragColor = vec4(velocity, 0.0, 1.0);
+      }`, { texelSize: { value: simTexel }, uPressure: { value: null }, uVelocity: { value: null } });
+    const mAdvection = fluidMat(`
+      varying vec2 vUv; uniform sampler2D uVelocity; uniform sampler2D uSource;
+      uniform vec2 texelSize; uniform float dt; uniform float dissipation;
+      void main () {
+        vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
+        gl_FragColor = dissipation * texture2D(uSource, coord);
+        gl_FragColor.a = 1.0;
+      }`, { texelSize: { value: new THREE.Vector2() }, uVelocity: { value: null }, uSource: { value: null }, dt: { value: 1 / 60 }, dissipation: { value: 1 } });
+    const mDisplay = fluidMat(`
+      varying vec2 vUv; uniform sampler2D uTexture;
+      void main () {
+        vec3 C = texture2D(uTexture, vUv).rgb;
+        float a = max(C.r, max(C.g, C.b));
+        gl_FragColor = vec4(C, a);
+      }`, { texelSize: { value: simTexel }, uTexture: { value: null } });
+    const mSplat = fluidMat(`
+      varying vec2 vUv; uniform sampler2D uTarget; uniform float aspectRatio;
+      uniform vec3 color; uniform vec2 point; uniform vec2 prevPoint; uniform float radius; uniform float uAdd;
+      float blendScreen(float base, float blend) { return 1.0-((1.0-base)*(1.0-blend)); }
+      vec3 blendScreen(vec3 base, vec3 blend) { return vec3(blendScreen(base.r, blend.r), blendScreen(base.g, blend.g), blendScreen(base.b, blend.b)); }
+      float l(vec2 uv, vec2 point1, vec2 point2) {
+        vec2 pa = uv - point1, ba = point2 - point1;
+        pa.x *= aspectRatio; ba.x *= aspectRatio;
+        float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+        return length(pa - ba * h);
+      }
+      float cubicOut(float t) { float f = t - 1.0; return f * f * f + 1.0; }
+      void main () {
+        vec3 splat = (1.0 - cubicOut(clamp(l(vUv, prevPoint.xy, point.xy) / radius, 0.0, 1.0))) * color;
+        vec3 base = texture2D(uTarget, vUv).xyz;
+        vec3 outColor = mix(blendScreen(base, splat), base + splat, uAdd);
+        gl_FragColor = vec4(outColor, 1.0);
+      }`, { texelSize: { value: simTexel }, uTarget: { value: null }, aspectRatio: { value: 1 }, color: { value: new THREE.Vector3() }, point: { value: new THREE.Vector2() }, prevPoint: { value: new THREE.Vector2() }, radius: { value: 0.25 / 100 }, uAdd: { value: 1 } });
+
+    let lastSplat = performance.now();
+    const splatTmp = new THREE.Vector2();
+    function drawInput(x, y, dx, dy, radius) {
+      const u = mSplat.uniforms;
+      u.uTarget.value = fVelocity.read.texture;
+      u.radius.value = radius / 200;
+      u.aspectRatio.value = stage.width / stage.height;
+      splatTmp.set(x / stage.width, 1 - y / stage.height);
+      const now = performance.now(); const delta = now - lastSplat; lastSplat = now;
+      if (delta > 50) u.prevPoint.value.copy(splatTmp); else u.prevPoint.value.copy(u.point.value);
+      u.point.value.copy(splatTmp);
+      u.color.value.set(dx, -dy, 1); u.uAdd.value = 1;
+      blit(mSplat, fVelocity.write); fVelocity.swap();
+      u.uTarget.value = fDensity.read.texture;
+      u.color.value.set(1, 1, 1); u.uAdd.value = 1;
+      blit(mSplat, fDensity.write); fDensity.swap();
+    }
+    function fluidStep() {
+      mCurl.uniforms.uVelocity.value = fVelocity.read.texture;
+      blit(mCurl, fCurl.read);
+      mVorticity.uniforms.uVelocity.value = fVelocity.read.texture;
+      mVorticity.uniforms.uCurl.value = fCurl.read.texture;
+      blit(mVorticity, fVelocity.write); fVelocity.swap();
+      mDivergence.uniforms.uVelocity.value = fVelocity.read.texture;
+      blit(mDivergence, fDivergence.read);
+      mClear.uniforms.uTexture.value = fPressure.read.texture;
+      blit(mClear, fPressure.write); fPressure.swap();
+      mPressure.uniforms.uDivergence.value = fDivergence.read.texture;
+      for (let i = 0; i < FLUID.PRESSURE_ITERATIONS; i++) {
+        mPressure.uniforms.uPressure.value = fPressure.read.texture;
+        blit(mPressure, fPressure.write); fPressure.swap();
+      }
+      mGradient.uniforms.uPressure.value = fPressure.read.texture;
+      mGradient.uniforms.uVelocity.value = fVelocity.read.texture;
+      blit(mGradient, fVelocity.write); fVelocity.swap();
+      mAdvection.uniforms.texelSize.value.set(1 / FLUID.SIM, 1 / FLUID.SIM);
+      mAdvection.uniforms.uVelocity.value = fVelocity.read.texture;
+      mAdvection.uniforms.uSource.value = fVelocity.read.texture;
+      mAdvection.uniforms.dissipation.value = FLUID.VELOCITY_DISSIPATION;
+      blit(mAdvection, fVelocity.write); fVelocity.swap();
+      mAdvection.uniforms.texelSize.value.set(1 / FLUID.DYE, 1 / FLUID.DYE);
+      mAdvection.uniforms.uVelocity.value = fVelocity.read.texture;
+      mAdvection.uniforms.uSource.value = fDensity.read.texture;
+      mAdvection.uniforms.dissipation.value = FLUID.DENSITY_DISSIPATION;
+      blit(mAdvection, fDensity.write); fDensity.swap();
+      mDisplay.uniforms.uTexture.value = fDensity.read.texture;
+      blit(mDisplay, fluidRT);
+    }
+    // MouseFluid.loop: velocity-based splat size
+    const rangeClamp = (v, a, b, c, d) => Math.min(Math.max((v - a) * (d - c) / (b - a) + c, Math.min(c, d)), Math.max(c, d));
+    function mouseFluidLoop() {
+      const len = Math.hypot(mouse.x - mouseLast.x, mouse.y - mouseLast.y);
+      let size = rangeClamp(len, 0, 5, 0, 60) * (isMobile ? 0.8 : 0.6);
+      const delta = rangeClamp(len, 0, 15, 0, 10);
+      if (len > 0.01) drawInput(mouse.x, mouse.y, (mouse.x - mouseLast.x) * delta, (mouse.y - mouseLast.y) * delta, size);
+      mouseLast.x = mouse.x; mouseLast.y = mouse.y;
+    }
+
+    // ---------------------------------------------------------------
+    // Antimatter particle simulation (Proton behavior: SDF logo + fluid)
+    // ---------------------------------------------------------------
+    function simRT() {
+      return new THREE.WebGLRenderTarget(TEX_SIZE, TEX_SIZE, {
+        minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter,
+        format: THREE.RGBAFormat, type: THREE.FloatType, depthBuffer: false, stencilBuffer: false
+      });
+    }
+    const posRT = { read: simRT(), write: simRT(), swap() { const t = this.read; this.read = this.write; this.write = t; } };
+
+    const originData = new Float32Array(TEX_SIZE * TEX_SIZE * 4);
+    const attribData = new Float32Array(TEX_SIZE * TEX_SIZE * 4);
+    for (let i = 0; i < TEX_SIZE * TEX_SIZE; i++) {
+      originData[i * 4 + 0] = Math.random() * 2 - 1;
+      originData[i * 4 + 1] = Math.random() * 2 - 1;
+      originData[i * 4 + 2] = Math.random() * 2 - 1;
+      originData[i * 4 + 3] = 0;
+      attribData[i * 4 + 0] = Math.random();
+      attribData[i * 4 + 1] = Math.random();
+      attribData[i * 4 + 2] = Math.random();
+      attribData[i * 4 + 3] = Math.random();
+    }
+    const tOrigin = new THREE.DataTexture(originData, TEX_SIZE, TEX_SIZE, THREE.RGBAFormat, THREE.FloatType);
+    tOrigin.minFilter = tOrigin.magFilter = THREE.NearestFilter; tOrigin.needsUpdate = true;
+    const tAttribs = new THREE.DataTexture(attribData, TEX_SIZE, TEX_SIZE, THREE.RGBAFormat, THREE.FloatType);
+    tAttribs.minFilter = tAttribs.magFilter = THREE.NearestFilter; tAttribs.needsUpdate = true;
+
+    const projMatrix = new THREE.Matrix4();
+    const normalMatrix = new THREE.Matrix4();
+    const modelMatrix = new THREE.Matrix4();
+
+    const behavior = new THREE.ShaderMaterial({
+      vertexShader: QUAD_VS,
+      fragmentShader: `
+        varying vec2 vUv;
+        uniform sampler2D tInput;
+        uniform sampler2D tOrigin;
+        uniform sampler2D tAttribs;
+        uniform float fSize;
+        uniform float uMaxCount;
+        uniform float time;
+        uniform float HZ;
+        uniform float uCurlNoiseScale;
+        uniform float uCurlTimeScale;
+        uniform float uCurlNoiseSpeed;
+        uniform float uMouseStrength;
+        uniform mat4 uProjMatrix;
+        uniform mat4 uProjNormalMatrix;
+        uniform mat4 uModelMatrix;
+        uniform sampler2D tFluid;
+        uniform sampler2D tFluidMask;
+        ${GLSL_RANGE}
+        ${GLSL_CURL}
+        ${GLSL_SDFS}
+        ${GLSL_SCREENPROJ}
+        void main() {
+          vec2 uv = gl_FragCoord.xy / fSize;
+          vec3 origin = texture2D(tOrigin, uv).xyz;
+          vec4 inputData = texture2D(tInput, uv);
+          vec3 pos = inputData.xyz;
+          vec4 random = texture2D(tAttribs, uv);
+          float data = inputData.w;
+
+          if (vUv.x + vUv.y * fSize > uMaxCount) { gl_FragColor = vec4(9999.0); return; }
+
+          // --- code_2: SDF logo ---
+          if (length(pos) > 0.7) { pos /= 2.; }
+          vec3 curl = curlNoise(pos * uCurlNoiseScale*0.1 + (time * uCurlTimeScale * 0.1));
+          pos += curl * uCurlNoiseSpeed * 0.0002 * HZ;
+          vec3 gradient = logo_norm(pos.xyz);
+          float sdf = logo_sdf(pos.xyz);
+          vec3 dir = cross(normalize(pos), normalize(gradient));
+          pos += dir * 0.0005;
+          pos += -gradient * sdf * 0.5;
+          pos += (origin - pos) * 0.0002 * HZ;
+
+          // --- code_5: Mouse Fluid ---
+          vec3 mpos = vec3(uModelMatrix * vec4(pos, 1.0));
+          vec2 screenUV = getProjection(mpos, uProjMatrix);
+          vec3 flow = vec3(texture2D(tFluid, screenUV).xy, 0.0);
+          applyNormal(flow, uProjNormalMatrix);
+          pos += flow * 0.0001 * HZ * uMouseStrength * texture2D(tFluidMask, screenUV).r;
+
+          gl_FragColor = vec4(pos, data);
+        }
+      `,
+      uniforms: {
+        tInput: { value: null }, tOrigin: { value: tOrigin }, tAttribs: { value: tAttribs },
+        fSize: { value: TEX_SIZE }, uMaxCount: { value: PARTICLE_COUNT },
+        time: { value: 0 }, HZ: { value: 1 },
+        uCurlNoiseScale: { value: 1.0 }, uCurlTimeScale: { value: 0.5 }, uCurlNoiseSpeed: { value: 1.0 },
+        uMouseStrength: { value: 0.4 },
+        uProjMatrix: { value: projMatrix }, uProjNormalMatrix: { value: normalMatrix }, uModelMatrix: { value: modelMatrix },
+        tFluid: { value: null }, tFluidMask: { value: null }
+      },
+      depthTest: false, depthWrite: false
+    });
+    // seed position buffers with origin
+    const copyMat = new THREE.ShaderMaterial({
+      vertexShader: QUAD_VS,
+      fragmentShader: `varying vec2 vUv; uniform sampler2D tMap; void main(){ gl_FragColor = texture2D(tMap, vUv); }`,
+      uniforms: { tMap: { value: tOrigin } }, depthTest: false, depthWrite: false
+    });
+    blit(copyMat, posRT.read); blit(copyMat, posRT.write);
+
+    // ---------------------------------------------------------------
+    // Particle points (LogoParticleShader)
+    // ---------------------------------------------------------------
+    const lookup = new Float32Array(PARTICLE_COUNT * 3);
+    const rnd = new Float32Array(PARTICLE_COUNT * 4);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const x = i % TEX_SIZE, y = Math.floor(i / TEX_SIZE);
+      lookup[i * 3 + 0] = (x + 0.5) / TEX_SIZE;
+      lookup[i * 3 + 1] = (y + 0.5) / TEX_SIZE;
+      lookup[i * 3 + 2] = 0;
+      rnd[i * 4 + 0] = attribData[i * 4 + 0];
+      rnd[i * 4 + 1] = attribData[i * 4 + 1];
+      rnd[i * 4 + 2] = attribData[i * 4 + 2];
+      rnd[i * 4 + 3] = attribData[i * 4 + 3];
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(lookup, 3));
+    geo.setAttribute('random', new THREE.BufferAttribute(rnd, 4));
+
+    const matcap = new THREE.TextureLoader().load('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAAW9yTlQBz6J3mgAAGghJREFUaN51ekmTJMeV3lvcI7MyszKrqrt67+q9GwRAgARAzpAckCBG3MY4Jps5yGTiVbpIP2D0H3TWRUcddJHpIKOMnOGQMo5I0UQOAQKNrdFA7xuqa6+sXCLc33s6PI9qGKVJgzWyszMiPdyff9tz/Msf/Q0AEBETISIT+ouJmDkEJiRiYiZCYiYm8u+HEFJKO3t7O7u7qro0Gp05efLCubXTJ0+uLI+Whov9XjdGIjRERszjg/Hm9u6DR49v3Xlw78Hj3d393kLv3NnT586cGo0Wqxg7naqKod/vDwaDThWrGHu9bq+PSPBPvZom4Q9/9O8RAQGYiIgRwZ8E0Zg4xsAc2F9EiEiERDSdTTc2N3POx48d+8LVq1cuXlgeDZkp51zXdV3X8/nczA6v63Y6/V53uDgYLvZ6vcpMN3e2Pv7k9gcffbK5tbeytHzl4vnVoyuBuddbGAwGVQzdbjfG2O2E/oAA//8PUDdNMDMEAkQ1ADNGMgBEAgQzE1VERUQiMjNinkynn60/iVX1wrXnvvTFLx5dWZ7P5/v7e48fP5rPZ2oWOPiMhBAIkQiRCMAIqdPpxBCrGAaDwbGjy6//yde+/+ffXN/Y+P0frn/40acPH/euXbm00FuYzWaqFRE3Kc1mJLKwOIx/tA5mgAgAgD/80d8gkAEQE2OpJEYMIQIagoUQiCiGaGDrT9cB4Msvvfzll14mtI2Np7v7e01dmykCAJivHRG2b+hw3ULgTtUJgQNzrGIVq6rqLA76J46vnjq1OK/nv3vr3Xeu31weLT139fKgPwjMRGQAMcZBb2E07HYW/ngpZpOGr730TSQEADND8l8kaH8eABCQmXf3d9bXP7t6+eoPvvu91SNHHj56eO/+/b39vdTUIllEVLKqSBZVMVUzk5yzZDMzMDAFA1VBREI0sCrGwGSmk8l0e3vK2HnxhYsvvXjlyfrT6x/cZOZebyGLqlrTpIPJbDqpm1pNwBQkWT3L+3vzJ0+2gwEQACACoKkZGSAjIiAYAHMAsMdPHnU6ne9/9y+Orx579Pjx7u4OgolkUwFTU0VCJgIwAN9OWFWValkWVTEOAADAIiJMbAiggGBgIVBg2N7dmUxnq6vL//yHb966c//HP/mHz9Y3Xnz+C4goImA2nfHe+KCqqsAEYHWT5vNmfzzmK1/8M2JGBPCVRkBEJEZEJlaVx08erK1d+Pa3vtPU8zt3b08nB5Jz09Q5NSJZJOecTVVEJCcwU1UDAzMVMQAzMBWvV9/STFTFUMWqqmKnqnoLC51uZ2FhodOp6rqZTvTM6aOvfPkLH396++13PlgaDcFAREUsZZnN5geT6Xgy3R9PprP5bF7z1Zde9/siogEAECAiADHl1GxuPHnp5ddeevHL9+/f2dh4mnPKOaemzjmpqpmoiKqa/1de6gWqpiqZiBARAEIIgYkJY+RYxU6n0+12FgeD4eLi4mJ/0O/FEAIzIO7vN0zxq689N5tNf/7L3yyNhjFGURXRJqUm5bpJKWczyzkHBDBAQEJEUC1FhFjX8/3dzVdf/caJk6c/vvnRbDYxyV4SpgJoBABgCIaICuAb18yYSUS8KhEg5wQQENFMrcWOwFzF0Ot2jx5ZWVnpxwiAYAoqYTaT/fFse2cyOYjf/87ro9Hif/4v/+Orr3z56JEjZgCIZiqiAICIIhoQEcDhkhGJCAEx5zQZ73zp1T/rLS59cvOG5EYk51QjGBGiGYAhGpg58jCRAYkZM5kVwCNEAG1rk0REVQAMEYmp0+2srCyvrvbL7gBABmJYrDjG3tONg929/f3x5Gtf+VJVhf/4n/7rn7726tJoiD7RgGCGRKrKX3jlDeZgBmYKYIhkpvs768+9+Ce93uLjR3dTTik1OSVVUUmqqirmF5ia6eG9SgGpmqmqIKCqAAIxMRETMnMVgxfP8WPH1s6uxgoPEf3wFSJ2u3Fvbzav55ubs5dfvHjkyOJ/++9/d+zoEUY2r09VM2tS4msvv8EcAAHB/7D9nfXzl764uHz8yaN7KTU5J5GcczIRNfNyVyvDLaxiZgYiGcAQDj8TAEAwBECAwBwYA3OnU42Gw3NnTw2XOgZ/PHonqRAxctjZnaacNjZnX33tGqL+7c//95nTJw0AAQxAzZqmCYRoAERkiES8u/1k9fiZY6cuPn54q0lNTo2pmAqYIACCQhmQEQIhcmAjVBFCMBUwAkZVYCLJxkxggcAyaGIIAcw6hLDQrQb9rmPu//vyRxotdRbW49OtCWH9+9+nv/7L796+++j3f7j+jT/9iqhSu+ZEVORNCHE23evEeP7qK5tPH9bzqakgiEoSSSKSUkopiaj4pYBilssrtYyWUlOnpk6pEUmSc0p1yo1q9rkQSWBSRQr8T+ibdhEAodsJdV3XTbN/sP/e+0/+7b/+V0hy6/bdnHNKyde/gCYigul8Or743KvTyf50MlYRbYdqBlk0q+SC/JKzpCw+9JySc0JOTc6NqJT3KTkTi0hOyT8USaYCoDklrRWys9/huK2tTAOAed2klFPKWeSzp1vTCf67f/MvP/j45vjgwPdZSg0dLsHB/tbJ0xf7iyvj3S0wQwTJKeWcRfwpEMkARS2LJpGmqXNOkn2sje+WnLLkLK4uzJzmRHIWMbOUc2pSXc+nk2ld12aqWSwbAJi6Pnv22t+Zr2/siEoWaZpkJh98dOfqpatvvP7KBzc+AbO6nk8nB4GJkLCeTUzz2sUX9na3VFLBGTAwJ31lJgRTQBVfEzXJCiKIiMpEhNBKKmVmZlQRMEIUQhDmlLNTRJPz+OBgc2urqmIVgyRrxrKxtTef192Fbn+hYwDj8fzx+vb+eCKqAKiqOUvK+cMbj/7FX/3FP771Hx5/9mSw0JlODwIzMYedg+0z566J5oODXRExUzP1mXC1TYiqCgaIYKpeyqqZEJnAVAobGBqhmYExMYGqiKsjyZwlhiwym862t7eZaTabV50qpbS3PxkfTJskoghABqhqYgYGxBxCVFNNAmBP1p+eW3vxB9/5+o9/+uuXX7iScxOYIDWzGOOps1e2t9bBFEAdZLIZIQCiqBqYqoqIfwFMzZ8TwAwI0YgAxAwB2EDNLAArIBKpWhbBBmIITdMgGIClnMfjA2bOOdd1SlnM0IAAA3E0ROaIiAFwMOouDQebW1ubm1tm+tbb9u3Xv/53v/jN9vZOFSkEpv3t7eMn14g5pTkTGiEyioERqCEgABGAuUI1UzMBUyIwRVURMSACMzPXpEqEoJZFCRFSMmZAALPZfO7GSM1SztNp+1c1ESnKPXQ4doijKrib6HbiubPHc5rcub2dmmYy3rt07vg3v/Ha3//815fPn+ZXv/bP5tP9i8+9Mp+NUz0JTIEgoAUCZg6MhECEpmKqAIammpNpZgI3XGaFVsA55nOwgoiutKDFfEQ0LdiWkzRNk3JuUkpZRETUsoiLjyZlM6six4CTg/279+5tb+84jo3H4+cuX/7t29d73SpoMx2NjvQGo9nB7kIVwdTYhEyMK7Wck0UWtYaprrWus7inMBMFFxSHlGwIiIaIJqagxIoYgUBUURARM2ndNCIOwRJjQEIzKAaOyCyFEEUhZeUQDWB3r97aWs9pXs/nrZTU9adPz54+cfb0yY2Np4GsOXLqakDrVmyhAlPEKFJJlqZpAFQVIUsViaAySY2AMWYDVSlz7YIWEQCyCAAwk5mhoYiaoenh98QMhFXUVK1OqTWcBIBERMRmoK4SAVS1qWfz+YHkxs0tEyFClryxsX7u1LF7Dx6EejZdWT2Zm0kMREhM1O1Wg34vBFaRnd39pxub09m0nmUwrQKhsmkGppSLpvWxIQARoUcBWYjIDFQVgIBADVLOBgYA7h1EjRBDCMyEaohIahxAkwWD8hiqKdU5JVNBRLd4RKiqO7v7q8sDRAx11qrqPnl4W3KDaFUMiP3RsL925uSx1SPT6fz9D2/cvf9wH820ASUIJBnBwJhF1Tc2IAIYEjKhqPoMA4ASMgAgq5rvlpQlsNudzMwGolaMaFVVqApgRCRKlmrnWlBRVQAgBARQRQSrm+Zkv7PY64T+4jKYHhyMU1MjaIxhPps19RzBwIyZu52q14lTJkYUAmaqqggAKKUwzAxM/Y0ogiERq1lWRUNVKMKr+AIQVfcl/thmzERA6DbInQMimkrOklJtpm4YRRUJRSxwrKr4ZGO7qmJYXllN9bSpZ5KTmaqknNJ8Pj2YTB49ehICp5Tms5lpDoFyQnXDSUQmATiLtg7DMafsBkIwNUIkIlVAAlRTVESvcgOAMv8mAEZAUmAKRExV3DjlnNrQDd17ASAibu/sXf/o05RyWFpaaeYT0OT5QlJJqTGz+Xx+MB4HZiLMOeWmdl/mDM1M7oid6cDYwBDRJROUByK3q4BohoigZmSmZu4vs0hwingm5FTEYozgWsDUbap7JyBSAUZIqXm8vrW+sUUIYWk43N7eZAADBVRT84JziRZDJAKVbJolpZRTgRQz9yhKxdWoKQIaABYpgcRoVna2qgKhedWJkmAMTEwG5nbcDND8tqSiBQwkt8gJCMQIiIQI0+lsa3sX3dAMFhae1lNGBTLxXUlFjxuYStasZkJgiEAAUtBfyYMjRCcDQi5AQeiPVFiM/H9F6IkoIqhiYAQzVUEwMWImMzAjJxkzUBVTwwLTWnwwWG6apxub08kEQVJOAU1AEpqCCqowIhICoPozmIiKSlbTLLncpcyZEhYfaoAIaGBEBAZeTgCARIAAhlY8fsvQAOjFVapGEJgxmomIEgZEMBUVQUQOwdMlU1PQed3s7o1VM4KZSvBbMAIyKaGKABoYmqlHvO4jXdYjIpUS99p24YDmRe+1b8V1+tO1+gIAlIi91ImKqjVCapMGkcxAhiiSC6GoGhgTAaKJGFPOtrs3VrUqhAxIiKGKodwCCVU9XwAwJiRENRMzrxIAFFFDI8bDvBoRoewzO8w9DeHzs42HPtcUAMroRQQMkUUMgc0hTL1WGAl9GG4VfY5MbDqbH0xmJTtDA9CACER+d0cCJUIzIyQAJCCmAnA+JYqIpF5CPjwzJSR/jBIHOf448Zr51jMzQxd8XKbf0NTMNPs2YlIxInLkNVWHEzD/EA1xPJ2rKiGJZjMIzMFMPcF1fCQiBEAi9VlHIEImIiIvIfQveBqMRCXTRQBQM+/fHAYuhGieyYGamRMEggIgc1E1hIiAzm5o6oRliCLil5iBmoLivE5Nk4nQDE2BCEMIJDn1e/02ny59Gs+UPabCtgEFAAaH1WEFZ0rtm2s4KIbB3M05/1PpchAigVnhhkPkVxXRnKVpkgIYgEjRDs/CMtG6yQfTubW6AwBMLXAI+/t7nW6XmRAo56xWEmUvcUAABSJiphgjpFQ6LmZIaKBo5EMhJteQWARCkXoOakXwFFAEVdUSowESSgv8vhpYJskA0PnDwKazOqeMhAAE6LAHMXDY2nq6tnYxhGBmqAoqYMDELmAQUc0oZ68QM9NCAv4rhd5LISGUui9DL0hSpJ5fgqBa3jvQHX4RAUQFBJhQSzMOVUVUmyY1KREzmAEoITKzGhBY2NraeOH5lxe6vSY1ZuDOAxBKn4AIAIQYiURVVVHVDJ3NfLrs0HN5jFHSAHJe85Exs0982Rhg5ZF8Q3mo0sIEADH7fIABppTmTUakw7wICQOGECrL87CzvYlIw+FwPN4nQpUAYGrmrY6CAwCqFEMwlSxiaqLi7UAvd20jDAQk8NozD5fakRU88VlRFTcxHrW6mXMOUTUEJ2z2mcy5jIGIzFQ9VzTjwJIhzGaT2WwyHI7m8xkzq6pI9p3osXMblJuoqAZx3Gb2sfl8+95yGUxEoNAyGSCRAXyentV89ADQIr2zRWuavRRjCIhQN+IsXkDMgNiBJnSram+yT52q+9lnj0ajlSpWIQRE71SyFz20gwghVjHGEGKMMUbf4mYKCB7uHdLzs72LqOJBvOMueaYNrZwW0fJFKFvXSSCG2Ol0YggxVjFUfnNiLuuACGa9Xj8wpZxpNFp+/PhBt9PtdheYSlO7DRyREENgL+IYY6yqqqqY2GHRJ8PNF5ohISBa2x/QAqaFGRCMym4udUVEqiVbgpYEfYPGELyfFkLodLrMDGaEVMZGtDQa1fUUEcNoafnJkwfT6WQ4XGpSgwiQs/MxIkOxTFzQAj3/MS0mVVQLzaqVsiiqA5AQ2s/AZ9cMJOf2VgXNCT1jLlXnUxhijLECMFWOMajGlJL3XwCg1+sP+/1702lnoRdirKqqc+f2xy+9/Nre3nZu1XLZnaq+GQgJCIC5qionF8kZAMz7BkSg5RJPFtreB/i/WssDz7qJZp/HVl+QwKGKVbfTIfJHohgrJELAwCSlIYDnzqzt7myK6kInBkQ4evT4vXu3XnjxS4PB4ni877MaQjD3s+129Pp1xjCz5KlbO9BSG+AT8GwzONQ803VU+K5QGrYUjURMnapTxRhD5MCuz0Ng716qdL2BO1wcHl899v4Hf+j1BmYWALHXH2xtPv3kk4+uXHl+PN5jIuMgkgWMCA/xmRCrWJkpPPMrBmCef7QmwVTLZCOStf4GC+C6AvDWIPmG9KIPHEKMVQghxNJpbLkIEbudLoB5+Z8/d+H2nU+bJi2vDGezWWBiMDtydPXjG+9fvHh1uDiaTCcAtZkeCqmy2K3RijEiubXHnLlpknpv0BTMuPghdYwCMyKEgkVIgEjPskciCswhxBBj5Da5os+BmUtGJrf2o+EIAW/c/HD16DEkargJakqAvV6fiK9ff+urX/nGvXu3MyZEJAoeqR+67lbcGhmFGAFcKZN4sNm6ITBgZFd+3rUHN8g+ICoRhuNJ4OD4zEx+0qXgJpFTBxEiQAiREI8fO/GPb/+WiBcXFyULAATvkwHgiZOn79759PKla0dXjz158iiClVaYASIyc0rJzYOIESJx8A0amNs+TALIn+teurl2F4rFiraVz1QOIgXiEGPgUM6WIBKWEw+u7csBFKLjx07sjfdu3f507ew5BAwxdsz4z7/9Aw4RzEKIgHjv3q0Xnn/JTxKAN3rbcm93ZKsIEMvZHGb/MT9LwMzMgYk4uMEmZiYkImTiGIKTYafT8XdOLA7wvrOpPRTGZYmYmRcXF4+tHv/ZL36yuDhc7A9bBQkBwFSyqQHiysrRRw/v/fa3v3799Tfv3rsN87mZ+uQWyDNDIkNUlRKfAKiKD0VVNWrOuSzdYdOuFXpExMwuGwIHJH888vTlkGj9cz944md/YqzOr1345f/6RUrp5InTh31JYg5q5oe1nCZPnT575/YnH3743rVrz9+582kFlZmasSr4Q6upH0vz3IUCiSB7rkSqqszhWTcf/MBckdCeRLcDdbZ3rnTedCAop6agPZlHRFcuXf3wxvu37926fPGqZ3ROloQYHCWs7HUCg7W1C9evvzUYDNbOXbhz+xPmgICiqKreovfbqxbgdyFqZmQEAEyspqbBlU/gYAB+8sDMyBMBRBeVruOI2O0zEwOVAMBrL4Rw7cpzDx7c/dVv/uHyxascQtssMU+w+c03fxB8O2K5lJn6/cF777199OjxU6fOjPf32x/2eBKZuFgQLEDupxzd8TIzApYzjkjMjC6tkLEcJyzcXEymC1IsLspvFUIIHEIMly9cfrqx/rNf/PTc2Qvdbpdax9tOovKbb/4ACa343UJAxByrzvV3f3/kyOqF8xfHB/utK9DWavl5LvI84nM9XqKSzJVDE34U6dCjYSuX/bf8kIATVgjBv+Z00O12r1y8+uDhvb/9+5+cWzu/OBi2qI3tRKCo8rff+F4JZVteB4Scc1V1ugsL7733dqezcO3q87P5bF7PHWfMFKkIw8+7bIBDoVkcbalX8D1jLfQXRMJDB1x2LXF7xnPQH1w8f+mjG+//8lf/89za+X5/4EtUdFSrREQ1HDa5HFVEpJz9MFtY6F24cOXdd9/a3t76+te+ubg43NhYzznHWLXnysB1HxCpiogSU6smyiR5qdBhatSyLCF5Huy/xURODEh08vjJ/kLvl7/6xd17dy5fuurysZx/RfejrQ1C5G9967ultNv4wLnQVIk5xjgcjh4/eXjr1s3Tp8+cPr0mOTmjMYeilNoctyAglbksoO4Ab+BDdMUaOLRFj75TvehHo9HF8xcPJgc//dmPd/Z2z69dqKoOtYec2k7bM89uZvzGG98j5qLOCxRQESCeGKstLS9nye+9907TzM+fvzQajXLKqkrEZf3bEmdmMCBiZzcvMzws3ZbOQuDiljgQAnNYGi6dOXO2W3Xe+sPv/s/vfjMaLZ08cepwWx0q12eF2haSR4vkNsqHYebdUnJH6dcvL60M+oNHjx7cv3/3uWvPX7p0lZn39nb39vdSagKzqHqCoujxlKcPbnDU0VNFnXPBQESQsKo6o+HoyJEjpnbj4w+vv/8OEZ8/7zEPsIc9pWpKL65YaFNVMLNAxWQVA+znVAmKGhERpy1VrarO6dNrk8nBRzc+uPnJjXNrF86fv3R+7cK8nk2n08lk4qYp5+w/KSJQTqVyCQGCgYFb6l6vPxwMY4yz+eydd9/+5NZNMDh+/GRvoefBmbQuwqkCUA+Ph/m6mImZBWtlZsFGg5YIPXk1JoY2IDKzXq9/7tzFup7ff3Dv01s3V1aOnDxx6tixEydOnCCkuqlTSjmluqmLgfIDyBxCCDHEXq8XQhCRycHB3Xu37z+8v7W9GWNcPXqs1+sTkbVHe5jREaXIMCRvC7nCPzSl4XNSpQh0LLG/HtomhxpfPofCXq9/5sxC0zTjg/2Pb3704Ufvd7sLq0dXl0bLy8srCwu94XDU7XTbpbcsOTXNweRga2vj6cb6xubGwcGYmQeLw7Nn1mKsfBatPRDnPN3Gm1iwuXiKMrOedPxfg+1zGhUCI2UAAAAASUVORK5CYII=');
+    const resolution = new THREE.Vector2();
+
+    const pointsMat = new THREE.ShaderMaterial({
+      vertexShader: `
+        attribute vec4 random;
+        uniform sampler2D tPos;
+        uniform float DPR;
+        varying vec3 vPos; varying vec4 vRandom; varying float vScale; varying float vDist;
+        varying vec3 vWorldPos; varying vec2 vUv; varying vec3 vBasePos; varying vec2 vParticlePos;
+        ${GLSL_RANGE}
+        void main() {
+          vec4 decodedPos = texture2D(tPos, position.xy);
+          vParticlePos = position.xy;
+          vec3 pos = decodedPos.xyz;
+          vBasePos = pos;
+          pos *= mix(1.0, 1.5, pow(random.y, 150.0));
+          vec3 worldPos = vec3(modelMatrix * vec4(pos, 1.0));
+          vWorldPos = worldPos;
+          float dist = length(worldPos - cameraPosition);
+          vDist = dist;
+          vUv = uv;
+          vPos = pos;
+          vRandom = random;
+          vScale = smoothstep(3.0, 15.0, dist);
+          vScale *= mix(0.5, 1.0, random.z);
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_PointSize = (0.04) * DPR * 2.0 * vScale * (1000.0 / length(mvPosition.xyz));
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D tMap;
+        uniform float time;
+        uniform vec2 resolution;
+        varying vec3 vPos; varying vec4 vRandom; varying float vScale; varying float vDist;
+        varying vec3 vWorldPos; varying vec2 vUv; varying vec3 vBasePos; varying vec2 vParticlePos;
+        ${GLSL_RANGE}
+        ${GLSL_TRANSFORM_UV}
+        ${GLSL_SIMPLENOISE}
+        ${GLSL_BLEND}
+        void main() {
+          vec2 uv = vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y);
+          if (length(uv-0.5) > 0.5) discard;
+          if (vScale < 0.1) discard;
+          vec3 color = vec3(mix(0.0, 0.2, vRandom.x));
+          color = mix(color, vec3(0.6, 0.45, 1.0), pow(vRandom.z, 100.0));
+          vec3 sparkle = vec3(0.4 + sin(time * 4.0 + vRandom.y * 20.0));
+          color *= 0.5 + sparkle * pow(vRandom.z, 10.0) * 2.5;
+          float noise = cnoise(vWorldPos*0.5-time*0.2+length(vWorldPos) * 0.05);
+          vec2 matcapUV = rotateUV(uv, sin(time * 1.0 + vRandom.z * 20.0) * 0.5 + 1.0);
+          vec3 matcap = texture2D(tMap, matcapUV).rgb * 1.0;
+          color = blendSoftLight(color, matcap, 0.8);
+          color = blendOverlay(color, matcap, 0.2);
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+      uniforms: {
+        tPos: { value: null }, tMap: { value: matcap }, DPR: { value: DPR },
+        time: { value: 0 }, resolution: { value: resolution }
+      },
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthTest: true,
+      depthWrite: false
+    });
+    const points = new THREE.Points(geo, pointsMat);
+    points.frustumCulled = false;
+
+    // Mesh transform from UIL: position / rotation (deg) / scale
+    const group = new THREE.Group();
+    group.position.set(0.34329400898860996, 0.16, -1);
+    group.rotation.set(THREE.MathUtils.degToRad(-28.4), THREE.MathUtils.degToRad(390), THREE.MathUtils.degToRad(4.92));
+    group.scale.set(5, 5, 6);
+    group.add(points);
+    scene.add(group);
+
+    // ---------------------------------------------------------------
+    // GazeCamera: position [-1.17,0,6], lookAt 0, moveXY [-1,2], lerp .05
+    // ---------------------------------------------------------------
+    const gaze = { base: new THREE.Vector3(-1.17, 0, 6), moveXY: new THREE.Vector2(-1, 2), move: new THREE.Vector3(), pos: new THREE.Vector3(-1.17, 0, 6), lookAt: new THREE.Vector3(0, 0, 0) };
+    function gazeLoop() {
+      gaze.move.x = gaze.base.x + rangeClamp(mouse.x, 0, stage.width, -1, 1) * gaze.moveXY.x;
+      gaze.move.y = gaze.base.y + rangeClamp(mouse.y, 0, stage.height, -1, 1) * gaze.moveXY.y;
+      gaze.move.z = gaze.base.z;
+      gaze.pos.lerp(gaze.move, 1);
+      camera.position.lerp(gaze.pos, 0.05);
+      camera.lookAt(gaze.lookAt);
+    }
+
+    // ---------------------------------------------------------------
+    // Events
+    // ---------------------------------------------------------------
+    function resize() {
+      stage.width = window.innerWidth; stage.height = window.innerHeight;
+      renderer.setSize(stage.width, stage.height);
+      camera.aspect = stage.width / stage.height; camera.updateProjectionMatrix();
+      fluidRT.dispose();
+      fluidRT = new THREE.WebGLRenderTarget(stage.width, stage.height, { depthBuffer: false, stencilBuffer: false });
+      renderer.getDrawingBufferSize(resolution);
+    }
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+    window.addEventListener('touchmove', e => { const t = e.touches[0]; if (t) { mouse.x = t.clientX; mouse.y = t.clientY; } }, { passive: true });
+    window.addEventListener('touchstart', e => { const t = e.touches[0]; if (t) { mouse.x = t.clientX; mouse.y = t.clientY; mouseLast.x = t.clientX; mouseLast.y = t.clientY; } }, { passive: true });
+    resize();
+
+    // ---------------------------------------------------------------
+    // Loop
+    // ---------------------------------------------------------------
+    const invCam = new THREE.Matrix4();
+    let last = performance.now();
+    const start = last;
+    function loop(now) {
+      requestAnimationFrame(loop);
+      const dt = Math.min((now - last) / 1000, 0.1); last = now;
+      const t = (now - start) / 1000;
+      const HZ = dt * 60;
+
+      gazeLoop();
+      camera.updateMatrixWorld();
+      group.updateMatrixWorld();
+
+      mouseFluidLoop();
+      fluidStep();
+
+      // GLScreenProjection uniforms
+      invCam.copy(camera.matrixWorld).invert();
+      projMatrix.multiplyMatrices(camera.projectionMatrix, invCam);
+      normalMatrix.copy(camera.matrixWorld);
+      modelMatrix.copy(group.matrixWorld);
+
+      // Antimatter step
+      const bu = behavior.uniforms;
+      bu.time.value = t; bu.HZ.value = HZ;
+      bu.tInput.value = posRT.read.texture;
+      bu.tFluid.value = fVelocity.read.texture;
+      bu.tFluidMask.value = fluidRT.texture;
+      blit(behavior, posRT.write); posRT.swap();
+
+      // Draw
+      pointsMat.uniforms.tPos.value = posRT.read.texture;
+      pointsMat.uniforms.time.value = t;
+      renderer.setRenderTarget(null);
+      renderer.clear();
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--fg:#fafafa;--muted:#a1a1a1;--mutedbg:#262626;--accent:#FF5656}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+section{max-width:80rem;margin:0 auto;padding:4rem 1rem}
+.head{text-align:center;margin-bottom:3rem}
+.label{font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;font-size:.875rem;color:var(--muted);margin-bottom:1rem}
+h2{font-weight:400;font-size:1.875rem;line-height:1.2}
+.grid{display:grid;grid-template-columns:1fr;border-radius:1rem;overflow:hidden}
+.left{background:#0D0D0D;padding:2rem}
+.left>div{padding:1.75rem 0;border-top:1px solid #1E1E1E}
+.left>div:first-child{border-top:0;padding-top:0}
+.left>div:last-child{padding-bottom:0}
+h3{font-size:1.125rem;font-weight:500;margin-bottom:1.25rem}
+h3 span{color:var(--accent)}
+.opt{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;cursor:pointer;user-select:none}
+.opt .t{flex:1;font-size:.95rem}
+.opt .p{color:var(--accent);font-size:.875rem;white-space:nowrap}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.rad{width:20px;height:20px;border-radius:50%;border:2px solid #555;display:grid;place-items:center;flex:none;transition:.15s}
+.rad::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);transform:scale(0);transition:.15s}
+input:checked+.rad{border-color:var(--accent)}
+input:checked+.rad::after{transform:scale(1)}
+input:focus-visible+.rad,input:focus-visible+.cb{outline:2px solid var(--accent);outline-offset:2px}
+.cb{width:20px;height:20px;border-radius:4px;border:2px solid #555;display:grid;place-items:center;flex:none;transition:.15s}
+.cb svg{width:12px;height:12px;opacity:0}
+input:checked+.cb{border-color:var(--accent);background:var(--accent)}
+input:checked+.cb svg{opacity:1}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--accent) var(--pct,13%),#262626 var(--pct,13%));outline:none;margin:.5rem 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--accent);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid var(--accent);cursor:pointer}
+.lbls{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:.5rem}
+.right{padding:2rem;border:1px solid rgba(255,255,255,.1);min-height:717.98px}
+.right h3{font-size:1.5rem;margin-bottom:.5rem}
+.right>p{color:var(--muted);font-size:.9rem;line-height:1.5;margin-bottom:1.5rem}
+.card{border-radius:1rem;padding:1.5rem;background:rgba(38,38,38,.5);margin-bottom:1rem}
+.card>*+*{margin-top:.75rem}
+.card .tt{font-size:.9rem;color:var(--muted)}
+.card .pr{font-size:2.25rem;font-weight:700;line-height:1.1}
+.card .st{font-size:.85rem;color:var(--muted)}
+.card.me{background:linear-gradient(to right,#ec4899,#f97316);color:#fff}
+.card.me .tt,.card.me .st{color:rgba(255,255,255,.9)}
+.card.me .pr{font-size:3rem}
+@media(min-width:768px){section{padding:7rem 4rem}h2{font-size:2.25rem}}
+@media(min-width:1024px){h2{font-size:3rem}.grid{grid-template-columns:1fr 1fr}.left,.right{padding:3rem}.right{border-radius:0 1rem 1rem 0}}
+@media(max-width:400px){.card .pr{font-size:2rem}.card.me .pr{font-size:2.5rem}}
+</style>
+</head>
+<body>
+<section id="calculator-section">
+ <div class="head">
+  <p class="label">Try project estimation calculator</p>
+  <h2>Get premium website within your budget</h2>
+ </div>
+ <div class="grid">
+  <div class="left">
+   <div>
+    <h3>What kind of service do you need?</h3>
+    <label class="opt"><input type="radio" name="svc" value="design"><span class="rad"></span><span class="t">Only Design</span></label>
+    <label class="opt"><input type="radio" name="svc" value="development"><span class="rad"></span><span class="t">Only Development</span></label>
+    <label class="opt"><input type="radio" name="svc" value="both" checked><span class="rad"></span><span class="t">Design + Development</span></label>
+   </div>
+   <div>
+    <h3>Number of Pages: <span id="pv">5</span></h3>
+    <input type="range" id="pages" min="1" max="30" step="1" value="5" aria-label="Number of pages">
+    <div class="lbls"><span>1</span><span>30</span></div>
+   </div>
+   <div>
+    <h3>Add-ons</h3>
+    <label class="opt"><input type="checkbox" id="content"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l3 3 5-7"/></svg></span><span class="t">I will need help with content</span><span class="p">+$50/pages</span></label>
+    <label class="opt"><input type="checkbox" id="seo"><span class="cb"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l3 3 5-7"/></svg></span><span class="t">I want to optimize my website for SEO</span><span class="p">+$50/pages</span></label>
+   </div>
+   <div>
+    <h3>How fast do you need this?</h3>
+    <label class="opt"><input type="radio" name="tl" value="rush"><span class="rad"></span><span class="t">Within 7 Days</span><span class="p">+$100/pages</span></label>
+    <label class="opt"><input type="radio" name="tl" value="fast"><span class="rad"></span><span class="t">Within 14 Days</span><span class="p">+$25/pages</span></label>
+    <label class="opt"><input type="radio" name="tl" value="regular" checked><span class="rad"></span><span class="t">Regular Speed (Based on discussion)</span></label>
+   </div>
+  </div>
+  <div class="right">
+   <h3>Estimated Cost</h3>
+   <p>Adjust the options to see how much your project would cost compared with typical alternatives.</p>
+   <div class="card"><p class="tt">Typical Agency charges minimum</p><p class="pr" id="agency"></p><p class="st">+ Too much extra time &amp; additional cost</p></div>
+   <div class="card"><p class="tt">Regular Freelancer charges minimum</p><p class="pr" id="free"></p><p class="st">+ Too much headache &amp; back-and-forth</p></div>
+   <div class="card me"><p class="tt">With Webfluin Studio</p><p class="pr" id="mine"></p><p class="st">Save your money, time &amp; headache</p></div>
+  </div>
+ </div>
+</section>
+<script>
+const S={serviceType:'both',pages:5,needContent:false,needSEO:false,timeline:'regular'};
+const B={design:[399,100],development:[199,100],both:[499,200]};
+const $=id=>document.getElementById(id);
+const fmt=n=>'$'+n.toLocaleString();
+function calc(){
+ const [base,pp]=B[S.serviceType];let t=Math.max(base,base+(S.pages-1)*pp);
+ if(S.needContent)t+=S.pages*50;if(S.needSEO)t+=S.pages*50;
+ if(S.timeline==='rush')t+=S.pages*100;if(S.timeline==='fast')t+=S.pages*25;return t}
+function render(){
+ const both=S.serviceType==='both';
+ $('pv').textContent=S.pages;
+ $('pages').style.setProperty('--pct',((S.pages-1)/29*100)+'%');
+ $('agency').textContent=fmt(8000+(S.pages-1)*(both?1000:400));
+ $('free').textContent=fmt(3000+(S.pages-1)*(both?500:200));
+ $('mine').textContent=fmt(calc());
+}
+document.querySelectorAll('input[name=svc]').forEach(e=>e.onchange=()=>{S.serviceType=e.value;render()});
+document.querySelectorAll('input[name=tl]').forEach(e=>e.onchange=()=>{S.timeline=e.value;render()});
+$('pages').oninput=e=>{S.pages=+e.target.value;render()};
+$('content').onchange=e=>{S.needContent=e.target.checked;render()};
+$('seo').onchange=e=>{S.needSEO=e.target.checked;render()};
+render();
+</script>
+</body>
+</html>

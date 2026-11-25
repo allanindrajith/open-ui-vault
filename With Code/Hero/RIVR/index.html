@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RIVR</title>
+<style>
+@font-face{font-family:"Helvetica Regular";src:url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.eot");src:url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.eot?#iefix") format("embedded-opentype"),url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.woff2") format("woff2"),url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.woff") format("woff"),url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.ttf") format("truetype"),url("https://db.onlinewebfonts.com/t/a64ff11d2c24584c767f6257e880dc65.svg#Helvetica Regular") format("svg");}
+*,*::before,*::after{box-sizing:border-box}
+:root{font-family:"Helvetica Regular",ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;--navy:30,50,90}
+html,body{margin:0}
+body{overflow-x:hidden;background:#f0f0f0;font-weight:400}
+button{font:inherit;border:0;cursor:pointer;background:none;padding:0}
+svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+main{min-height:100vh;background:#f0f0f0}
+.wrap{width:100%;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;padding:12px;background:#f0f0f0}
+.hero{position:relative;width:100%;max-width:1536px;height:100%;border-radius:1.5rem;overflow:hidden;display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.1);
+ background-image:linear-gradient(160deg,#dfe8f3 0%,#cfdcee 45%,#e9eef6 100%)}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65%;z-index:0}
+.layer{position:relative;z-index:10;width:100%;height:100%;display:flex;flex-direction:column;align-items:center}
+nav{display:flex;align-items:center;justify-content:space-between;padding:24px;width:100%;position:relative;z-index:10}
+nav .sp{flex:1;display:none}
+nav ul{display:none;list-style:none;margin:0;padding:0;align-items:center;gap:32px;color:rgb(45,45,45);font-size:14px}
+nav li{cursor:pointer;display:flex;align-items:center;gap:4px;transition:opacity .15s}
+nav li:hover{opacity:.7}
+nav li svg{width:16px;height:16px;transition:transform .15s}
+nav li:hover svg{transform:translateX(2px)}
+.logo{font-size:20px;letter-spacing:-.05em;color:rgba(30,50,90,.9)}
+.rt{flex:1;display:flex;justify-content:flex-end}
+.demo{display:flex;align-items:center;background:rgba(30,50,90,.8);color:#fff;border-radius:999px;padding:6px 16px 6px 8px;gap:8px;transition:background .15s,transform .15s}
+.demo:hover{background:rgba(30,50,90,1);transform:scale(1.02)}
+.demo:active{transform:scale(.98)}
+.demo .ic{background:rgba(255,255,255,.2);padding:4px;border-radius:999px;display:flex}
+.demo .ic svg{width:16px;height:16px}
+.demo span{font-size:12px}
+.txt{width:100%;display:flex;flex-direction:column;align-items:center;padding:32px 24px 0;text-align:center;max-width:56rem}
+.badge{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);margin:0 auto 12px;width:fit-content;animation:up .6s ease-out both}
+.badge svg{width:16px;height:16px;color:rgba(30,50,90,.8)}
+.badge span{font-size:14px;color:rgba(30,50,90,.9)}
+h1{margin:0 0 8px;font-weight:400;font-size:36px;color:#5E6470;letter-spacing:-.025em;line-height:1.05;animation:pop .8s ease .2s both}
+.txt p{margin:0;font-size:14px;color:#5E6470;opacity:.8;line-height:1.625;max-width:36rem;animation:fade .8s ease .4s both}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes inl{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+@keyframes inb{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.bl{position:absolute;bottom:112px;right:16px;padding:12px;border-radius:1.2rem;background:rgba(255,255,255,.3);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;gap:8px;min-width:140px;width:fit-content;animation:inl .8s ease .2s both}
+.bl .n{font-size:24px;color:rgba(30,50,90,.9);letter-spacing:-.025em;line-height:1.33}
+.bl .l{font-size:10px;color:rgba(30,50,90,.6);text-transform:uppercase;letter-spacing:.05em}
+.disc{display:flex;align-items:center;background:#fff;border-radius:999px;padding:6px 20px 6px 6px;gap:8px;align-self:flex-start;transition:background .15s,transform .15s}
+.disc:hover{background:rgba(255,255,255,.9);transform:scale(1.02)}
+.disc:active{transform:scale(.98)}
+.disc .ic{background:rgba(30,50,90,.1);padding:4px;border-radius:999px;display:flex;color:rgba(30,50,90,.9)}
+.disc .ic svg{width:16px;height:16px}
+.disc span{font-size:14px;color:rgba(30,50,90,.9)}
+.br{--r:1.5rem;position:absolute;bottom:0;right:0;padding:20px 12px 12px 32px;background:#f0f0f0;border-top-left-radius:var(--r);display:flex;align-items:center;gap:12px;animation:inb .8s ease .4s both}
+.br .m{position:absolute;width:var(--r);height:var(--r);pointer-events:none}
+.br .m svg{width:100%;height:100%;display:block}
+.br .m1{top:calc(var(--r) * -1);right:0}
+.br .m2{bottom:0;left:calc(var(--r) * -1)}
+.ci{background:rgba(30,50,90,.05);width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(30,50,90,.1);color:rgba(30,50,90,.8)}
+.ci svg{width:20px;height:20px}
+.br .t{font-size:16px;color:rgba(30,50,90,.95)}
+.lib{display:flex;align-items:center;gap:4px;color:rgba(30,50,90,.6);cursor:pointer;transition:color .15s}
+.lib:hover{color:rgba(30,50,90,.8)}
+.lib span{font-size:12px}
+.lib svg{width:16px;height:16px}
+@media(min-width:640px){
+ h1{font-size:48px}.txt p{font-size:16px}
+ .br{--r:2rem;padding:24px 16px 16px 40px;gap:16px}
+}
+@media(min-width:768px){
+ .wrap{padding:20px}
+ .hero{border-radius:3rem}
+ nav{padding:24px 40px}
+ nav .sp{display:block}nav ul{display:flex}.logo{display:none}
+ .demo{padding:8px 24px 8px 8px;gap:12px}.demo .ic{padding:6px}.demo .ic svg{width:20px;height:20px}.demo span{font-size:14px}
+ h1{font-size:60px}.txt p{font-size:18px}
+ .bl{bottom:24px;left:24px;right:auto;padding:16px;border-radius:1.5rem;min-width:150px}
+ .bl .n{font-size:30px;line-height:1.2}.bl .l{font-size:12px}
+ .br{--r:3.5rem;padding:32px 24px 24px 56px;gap:24px}
+ .ci{width:56px;height:56px}.ci svg{width:24px;height:24px}
+ .br .t{font-size:20px}.lib span{font-size:15px}
+}
+@media(min-width:1024px){
+ .hero video{object-position:center}
+ h1{font-size:80px}
+ .bl{bottom:40px;left:40px;padding:20px;border-radius:2.2rem;gap:12px;min-width:180px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<div class="wrap">
+<section class="hero">
+<video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4"></video>
+<div class="layer">
+<nav>
+ <div class="sp"></div>
+ <ul>
+  <li>Ecosystem</li>
+  <li>Economics <svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></li>
+  <li>Developers</li>
+  <li>Governance <svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></li>
+ </ul>
+ <div class="logo">RIVR</div>
+ <div class="rt"><button class="demo"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div><span>Book Demo</span></button></div>
+</nav>
+<div class="txt">
+ <div class="badge"><svg class="i" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg><span>Fluid Staking</span></div>
+ <h1>Fluid Asset Streams</h1>
+ <p>Access Smart Vaults, stake RIVR, NFTs, transform rigid holdings into liquid cash instantly.</p>
+</div>
+<div class="bl">
+ <div><div class="n">5.2K</div><div class="l">Active Yielders</div></div>
+ <button class="disc"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div><span>Join Discord</span></button>
+</div>
+<div class="br">
+ <div class="m m1"><svg viewBox="0 0 56 56" fill="none"><path d="M56 56V0C56 30.9279 30.9279 56 0 56H56Z" fill="#f0f0f0"/></svg></div>
+ <div class="m m2"><svg viewBox="0 0 56 56" fill="none"><path d="M56 56H0C30.9279 56 56 30.9279 56 0V56Z" fill="#f0f0f0"/></svg></div>
+ <div class="ci"><svg class="i" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></div>
+ <div><div class="t">Documentation</div><div class="lib"><span>Library</span><svg class="i" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div></div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body>
+</html>

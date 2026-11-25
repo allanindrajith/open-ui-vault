@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthetic Nature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=EB+Garamond&display=swap" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/2bf40ab72ea4897a3fd9b6e48b233a19?family=Garamond" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#010101;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif}
+a{color:inherit;text-decoration:none}
+.page{position:relative;min-height:100vh;min-height:100dvh;overflow:hidden;background:#010101;display:flex;flex-direction:column}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+nav{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px 16px}
+.brand{font-weight:300;text-transform:uppercase;letter-spacing:.25em;font-size:12px;color:#fff}
+.links{display:none}
+.links a{font-size:10px;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.8);transition:color .3s}
+.links a:hover{color:#fff}
+.burger{background:none;border:0;color:#fff;cursor:pointer;display:flex}
+.burger svg{width:22px;height:22px}
+.burger .x{display:none}
+.burger.open .x{display:block}.burger.open .m{display:none}
+.mobile-menu{position:fixed;top:64px;left:16px;right:16px;z-index:50;border-radius:16px;padding:32px 0;display:none;flex-direction:column;align-items:center;gap:20px;
+background:rgba(10,10,10,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);
+opacity:0;transform:translateY(-10px);transition:opacity .3s ease-out,transform .3s ease-out}
+.mobile-menu.show{display:flex}
+.mobile-menu.in{opacity:1;transform:none}
+.mobile-menu a{font-size:12px;font-weight:300;text-transform:uppercase;letter-spacing:.25em;color:rgba(255,255,255,.9);opacity:0;transform:translateY(-8px);transition:opacity .3s,transform .3s,color .3s}
+.mobile-menu.in a{opacity:1;transform:none}
+.mobile-menu a:hover{color:#fff}
+.hero{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:48px 20px 0}
+.font-garamond{font-family:'Garamond','EB Garamond','Times New Roman',serif}
+h1{font-weight:400;color:#fff;line-height:1.08;letter-spacing:-.025em;margin-bottom:24px;font-size:36px}
+h1 .line{display:block}
+h1 .ch{opacity:0;transition:opacity .6s ease-out}
+h1.go .ch{opacity:1}
+.sub{opacity:0;transform:translateY(20px);color:rgba(255,255,255,.7);font-weight:300;line-height:1.625;max-width:320px;margin-bottom:32px;font-size:14px;transition:opacity .8s ease-out 1.6s,transform .8s ease-out 1.6s}
+.sub br{display:none}
+.cta{opacity:0;transform:translateY(20px);transition:opacity .8s ease-out 2s,transform .8s ease-out 2s;display:inline-block}
+.go-all .sub,.go-all .cta{opacity:1;transform:none}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden;cursor:pointer;color:rgba(255,255,255,.9);font-family:inherit;text-transform:uppercase;font-size:11px;letter-spacing:.18em;padding:14px 28px;border-radius:9999px;font-weight:300}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.liquid-glass:hover{background:rgba(255,255,255,.04);box-shadow:inset 0 1px 2px rgba(255,255,255,.15)}
+.liquid-glass:active{transform:scale(.98)}
+@media(min-width:640px){
+ nav{padding:20px 32px}
+ .hero{padding:64px 32px 0}
+ h1{font-size:60px;margin-bottom:32px}
+ .sub{max-width:448px;font-size:16px;margin-bottom:40px}
+ .sub br{display:inline}
+ .liquid-glass{padding:16px 40px;letter-spacing:.2em}
+}
+@media(min-width:768px){
+ nav{justify-content:center;gap:48px;padding:20px 40px}
+ .brand{letter-spacing:.3em}
+ .links{display:flex;gap:40px}
+ .burger,.mobile-menu{display:none!important}
+ .hero{padding-top:96px}
+ h1{font-size:96px}
+ .sub{font-size:18px}
+}
+@media(min-width:1024px){h1{font-size:128px}}
+@media(max-width:767px){nav{padding:20px 16px}}
+</style>
+</head>
+<body>
+<div class="page" id="page">
+<video class="bg" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260619_191346_9d19d66e-86a4-47f7-8dc6-712c1788c3b2.mp4"></video>
+<nav>
+ <a class="brand" href="#">Organic Visions</a>
+ <div class="links"><a href="#">Wander</a><a href="#">Archive</a><a href="#">Story</a><a href="#">Connect</a></div>
+ <button class="burger" id="burger" aria-label="Menu">
+  <svg class="m" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+  <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+ </button>
+</nav>
+<div class="mobile-menu" id="mm"><a href="#">Wander</a><a href="#">Archive</a><a href="#">Story</a><a href="#">Connect</a></div>
+<main class="hero">
+ <h1 class="font-garamond" id="h1"><span class="line" data-t="WITNESS THE"></span><span class="line" data-t="HIDDEN REALM"></span></h1>
+ <p class="sub">An odyssey through delicate living forms,<br> revealed by lens and curiosity.</p>
+ <a class="cta liquid-glass" href="#">Begin the Experience</a>
+</main>
+</div>
+<script>
+(function(){
+ var h=document.getElementById('h1'),i=0;
+ h.querySelectorAll('.line').forEach(function(l){
+  l.setAttribute('aria-label',l.dataset.t);
+  l.dataset.t.split('').forEach(function(c){
+   var s=document.createElement('span');s.className='ch';s.setAttribute('aria-hidden','true');
+   s.textContent=c===' '?' ':c;s.style.transitionDelay=(i*0.07)+'s';i++;l.appendChild(s);
+  });
+ });
+ requestAnimationFrame(function(){requestAnimationFrame(function(){h.classList.add('go');document.getElementById('page').classList.add('go-all');});});
+ var b=document.getElementById('burger'),m=document.getElementById('mm'),as=m.querySelectorAll('a');
+ as.forEach(function(a,k){a.style.transitionDelay=(0.05+k*0.06)+'s'});
+ b.addEventListener('click',function(){
+  var open=!b.classList.contains('open');b.classList.toggle('open',open);
+  if(open){m.classList.add('show');requestAnimationFrame(function(){requestAnimationFrame(function(){m.classList.add('in')})});}
+  else{m.classList.remove('in');as.forEach(function(a){a.style.transitionDelay='0s'});setTimeout(function(){m.classList.remove('show');as.forEach(function(a,k){a.style.transitionDelay=(0.05+k*0.06)+'s'})},300);}
+ });
+})();
+</script>
+</body>
+</html>

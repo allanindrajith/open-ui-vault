@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Experiences</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;color:#fff;font-family:'Barlow',sans-serif;overflow-x:hidden}
+.font-heading{font-family:'Instrument Serif',serif}
+.italic{font-style:italic}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block}
+
+.liquid-glass,.liquid-glass-strong{background:rgba(255,255,255,.01);background-blend-mode:luminosity;position:relative;overflow:hidden}
+.liquid-glass{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:inset 0 1px 1px rgba(255,255,255,.1);border:0}
+.liquid-glass-strong{-webkit-backdrop-filter:blur(50px);backdrop-filter:blur(50px);box-shadow:4px 4px 4px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.15);border:0}
+.liquid-glass::before,.liquid-glass-strong::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+ background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
+ -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+.liquid-glass-strong::before{background:linear-gradient(180deg,rgba(255,255,255,.5) 0%,rgba(255,255,255,.2) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.2) 80%,rgba(255,255,255,.5) 100%)}
+
+section{position:relative;overflow:hidden;background:#000}
+#hero{height:100vh;height:100svh;min-height:760px}
+video.bg{opacity:0;pointer-events:none}
+#hero video.bg{position:absolute;left:50%;top:0;transform:translateX(-50%);width:120%;height:120%;object-fit:cover;object-position:top;z-index:0}
+#cap video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+
+.hero-inner{position:relative;z-index:10;display:flex;flex-direction:column;height:100%}
+nav{position:fixed;top:16px;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.logo{height:48px;width:48px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:24px;line-height:1}
+.pill{display:none;border-radius:9999px;padding:6px;align-items:center}
+.pill a.l{padding:8px 12px;font-size:14px;font-weight:500;color:rgba(255,255,255,.9)}
+.cta-white{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#000;border-radius:9999px;padding:8px 14px;font-size:14px;font-weight:500;margin-left:4px}
+.spacer{height:48px;width:48px}
+.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:96px 16px 0;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;padding:4px 14px 4px 4px;font-size:13px;max-width:100%}
+.badge b{background:#fff;color:#000;border-radius:9999px;padding:2px 10px;font-size:12px;font-weight:500}
+.badge span{font-size:13px;font-weight:300}
+h1.blur{margin-top:24px;max-width:48rem;display:flex;flex-wrap:wrap;justify-content:center;row-gap:.1em;font-size:60px;line-height:.8;letter-spacing:-4px;font-weight:400}
+h1.blur .w{display:inline-block;margin-right:.28em;opacity:0;filter:blur(10px);transform:translateY(50px);transition:filter .7s ease-out,opacity .7s ease-out,transform .7s ease-out}
+h1.blur.in .w{opacity:1;filter:blur(0);transform:none}
+.mo{opacity:0;filter:blur(10px);transform:translateY(20px);transition:filter .8s ease-out,opacity .8s ease-out,transform .8s ease-out}
+.go .mo{opacity:1;filter:blur(0);transform:none}
+.sub{margin-top:16px;max-width:42rem;font-size:14px;font-weight:300;line-height:1.15}
+.btns{margin-top:24px;display:flex;gap:24px;align-items:center}
+.btn-strong{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;padding:10px 20px;font-size:14px;font-weight:500}
+.btn-plain{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
+.stats{margin-top:32px;display:flex;gap:16px}
+.stat{width:220px;padding:20px;border-radius:1.25rem;text-align:left}
+.stat .n{font-size:36px;font-style:italic;letter-spacing:-1px;line-height:1;margin-top:16px}
+.stat .d{font-size:12px;font-weight:300;margin-top:6px;color:rgba(255,255,255,.9);line-height:1.2}
+.trust{display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 16px 32px}
+.trust .p{border-radius:9999px;padding:6px 16px;font-size:12px;font-weight:300}
+.logos{display:flex;gap:48px;flex-wrap:wrap;justify-content:center}
+.logos span{font-size:24px;font-style:italic;letter-spacing:-.025em}
+
+#cap{min-height:100vh}
+.cap-inner{position:relative;z-index:10;padding:96px 32px 40px;display:flex;flex-direction:column;min-height:100vh}
+.cap-head{margin-bottom:auto}
+.lbl{font-size:14px;color:rgba(255,255,255,.8);margin-bottom:24px}
+h2{font-size:60px;font-style:italic;font-weight:400;line-height:.9;letter-spacing:-3px}
+.grid{margin-top:64px;display:grid;grid-template-columns:1fr;gap:24px}
+.card{border-radius:1.25rem;padding:24px;min-height:360px;display:flex;flex-direction:column}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.ico{height:44px;width:44px;border-radius:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.tag{border-radius:9999px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,.9);white-space:nowrap}
+.card .sp{flex:1;min-height:40px}
+.card h3{font-size:30px;font-style:italic;font-weight:400;letter-spacing:-1px;line-height:1}
+.card p{margin-top:12px;font-size:14px;font-weight:300;line-height:1.3;color:rgba(255,255,255,.9);max-width:32ch}
+
+@media(min-width:768px){
+ .pill{display:flex}
+ h1.blur{font-size:72px}
+ h2{font-size:72px}
+ .cap-inner{padding-left:64px;padding-right:64px}
+ .sub{font-size:16px}
+ .logos{gap:64px}.logos span{font-size:30px}
+ .grid{grid-template-columns:repeat(3,1fr)}
+ .card h3{font-size:36px}
+}
+@media(min-width:1024px){
+ nav{padding:0 64px}
+ h1.blur{font-size:5.5rem}
+ h2{font-size:6rem}
+ .cap-inner{padding-left:80px;padding-right:80px}
+}
+@media(max-width:767px){
+ #hero{height:auto;min-height:100svh}
+ .main{padding-top:110px}
+ .stats{flex-direction:column;align-items:center}
+ .stat{width:min(220px,100%)}
+ .trust{padding-top:32px}
+ .logos{gap:24px}
+ .btns{gap:16px}
+ h1.blur{letter-spacing:-3px}
+ .badge span{font-size:11px}
+ nav{padding:0 16px}
+}
+@media(prefers-reduced-motion:reduce){h1.blur .w,.mo{transition:none}}
+</style>
+</head>
+<body>
+
+<section id="hero">
+ <video class="bg" data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260619_191346_9d19d66e-86a4-47f7-8dc6-712c1788c3b2.mp4" muted playsinline preload="auto" autoplay></video>
+ <nav>
+  <div class="liquid-glass logo font-heading italic">a</div>
+  <div class="liquid-glass pill">
+   <a class="l" href="#">Work</a><a class="l" href="#">Studio</a><a class="l" href="#">Services</a><a class="l" href="#">Journal</a><a class="l" href="#">Contact</a>
+   <a class="cta-white" href="#">Start a Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+  </div>
+  <div class="spacer"></div>
+ </nav>
+ <div class="hero-inner" id="heroInner">
+  <div class="main">
+   <div class="mo liquid-glass badge" style="transition-delay:.4s"><b>New</b><span>Booking Q3 2026 engagements -- limited capacity</span></div>
+   <h1 class="blur font-heading italic" id="headline">Crafted Digital Experiences Built to Outlast Trends</h1>
+   <p class="mo sub" style="transition-delay:.8s">We are a small studio of designers and engineers shaping brand-defining websites for ambitious companies. Precise typography, cinematic motion, and code you can be proud of.</p>
+   <div class="mo btns" style="transition-delay:1.1s">
+    <a href="#" class="liquid-glass-strong btn-strong">Start a Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+    <a href="#" class="btn-plain">Watch Showreel <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg></a>
+   </div>
+   <div class="mo stats" style="transition-delay:1.3s">
+    <div class="liquid-glass stat">
+     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+     <div class="n font-heading">6 Weeks</div><div class="d">Average End-to-End Launch Time</div>
+    </div>
+    <div class="liquid-glass stat">
+     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9"/><path d="M12 3c-2.5 2.7-3.8 5.7-3.8 9s1.3 6.3 3.8 9"/></svg>
+     <div class="n font-heading">140+</div><div class="d">Brands Shipped Across Four Continents</div>
+    </div>
+   </div>
+  </div>
+  <div class="mo trust" style="transition-delay:1.4s">
+   <div class="liquid-glass p">Trusted by founders, operators, and creative directors worldwide</div>
+   <div class="logos font-heading"><span>Aeon</span><span>Vela</span><span>Apex</span><span>Orbit</span><span>Zeno</span></div>
+  </div>
+ </div>
+</section>
+
+<section id="cap">
+ <video class="bg" data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_093722_ccfc7ebf-182f-419f-8a62-2dc02db7dd9d.mp4" muted playsinline preload="auto" autoplay></video>
+ <div class="cap-inner">
+  <div class="cap-head">
+   <div class="lbl">// Capabilities</div>
+   <h2 class="font-heading">Studio craft,<br>end to end</h2>
+  </div>
+  <div class="grid">
+   <div class="liquid-glass card">
+    <div class="top">
+     <div class="liquid-glass ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>
+     <div class="tags"><span class="liquid-glass tag">Brand Systems</span><span class="liquid-glass tag">Art Direction</span><span class="liquid-glass tag">Visual Identity</span><span class="liquid-glass tag">Motion</span></div>
+    </div>
+    <div class="sp"></div>
+    <h3 class="font-heading">Design</h3>
+    <p>We shape identities and interfaces that feel unmistakably yours -- typographic systems, component libraries, and art-directed pages that scale without losing soul.</p>
+   </div>
+   <div class="liquid-glass card">
+    <div class="top">
+     <div class="liquid-glass ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg></div>
+     <div class="tags"><span class="liquid-glass tag">React</span><span class="liquid-glass tag">Next.js</span><span class="liquid-glass tag">Headless CMS</span><span class="liquid-glass tag">Edge-Ready</span></div>
+    </div>
+    <div class="sp"></div>
+    <h3 class="font-heading">Engineering</h3>
+    <p>Production-grade front-ends built on modern stacks. Performant, accessible, and instrumented -- with code your team will enjoy extending long after launch.</p>
+   </div>
+   <div class="liquid-glass card">
+    <div class="top">
+     <div class="liquid-glass ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div>
+     <div class="tags"><span class="liquid-glass tag">SEO</span><span class="liquid-glass tag">Analytics</span><span class="liquid-glass tag">A/B Testing</span><span class="liquid-glass tag">Retention</span></div>
+    </div>
+    <div class="sp"></div>
+    <h3 class="font-heading">Growth</h3>
+    <p>Launch is the starting line. We partner with your team on conversion, content, and iteration loops that turn a beautiful site into a compounding asset.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<script>
+(function(){
+ // BlurText
+ var h=document.getElementById('headline');
+ var words=h.textContent.trim().split(' ');
+ h.textContent='';
+ words.forEach(function(w,i){var s=document.createElement('span');s.className='w';s.textContent=w;s.style.transitionDelay=(i*0.1)+'s';h.appendChild(s);});
+ function fire(){h.classList.add('in');}
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){fire();io.disconnect();}},{threshold:.1});io.observe(h);
+ }else fire();
+ requestAnimationFrame(function(){requestAnimationFrame(function(){document.body.classList.add('go');document.getElementById('hero').classList.add('go');});});
+
+ // FadingVideo
+ function fade(v,to,ms){
+  var from=parseFloat(v.style.opacity||0),t0=performance.now();
+  v._tok=(v._tok||0)+1;var tok=v._tok;
+  (function step(t){
+   if(tok!==v._tok)return;
+   var p=Math.min(1,(t-t0)/ms);
+   v.style.opacity=from+(to-from)*p;
+   if(p<1)requestAnimationFrame(step);
+  })(t0);
+ }
+ document.querySelectorAll('video.bg').forEach(function(v){
+  var srcs=v.getAttribute('data-src').split(','),idx=0,fading=false;
+  v.style.opacity=0;
+  v.addEventListener('loadeddata',function(){fading=false;fade(v,1,500);v.play().catch(function(){});});
+  v.addEventListener('timeupdate',function(){
+   if(!v.duration||fading)return;
+   if(v.duration-v.currentTime<=0.55){fading=true;fade(v,0,550);}
+  });
+  v.addEventListener('ended',function(){
+   if(srcs.length>1){idx=(idx+1)%srcs.length;v.src=srcs[idx];v.load();}
+   else{v.currentTime=0;v.play().catch(function(){});fading=false;fade(v,1,500);}
+  });
+  v.src=srcs[0];
+  v.play().catch(function(){});
+ });
+})();
+</script>
+</body>
+</html>

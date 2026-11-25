@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkyElite - Private Jets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="min-h-screen bg-gray-50">
+    <!-- Hero Section with Video Background -->
+    <div class="relative h-screen overflow-hidden">
+      <!-- Background Video -->
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        class="absolute inset-0 w-full h-full object-cover"
+      >
+        <source
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_091828_e240eb17-6edc-4129-ad9d-98678e3fd238.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      <!-- Content -->
+      <div class="relative h-full flex flex-col">
+        <!-- Navigation -->
+        <nav class="px-8 py-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+          <div class="text-2xl font-semibold text-gray-900">SkyElite</div>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex items-center gap-8 text-gray-900">
+            <a href="#intro" class="hover:text-gray-700 transition-colors">Start</a>
+            <a href="#about" class="hover:text-gray-700 transition-colors">Story</a>
+            <a href="#cost" class="hover:text-gray-700 transition-colors">Rates</a>
+            <a href="#features" class="hover:text-gray-700 transition-colors">Benefits</a>
+            <a href="#faq" class="hover:text-gray-700 transition-colors">FAQ</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button
+            id="menuBtn"
+            class="md:hidden text-gray-900 hover:text-gray-700 transition-colors"
+            aria-label="Toggle menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="menuIcon">
+              <line x1="4" x2="20" y1="12" y2="12"></line>
+              <line x1="4" x2="20" y1="6" y2="6"></line>
+              <line x1="4" x2="20" y1="18" y2="18"></line>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="closeIcon" class="hidden">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-lg mx-4 rounded-lg overflow-hidden z-50 hidden">
+          <div class="flex flex-col py-4">
+            <a href="#intro" class="px-8 py-3 text-gray-900 hover:bg-gray-100 transition-colors">Start</a>
+            <a href="#about" class="px-8 py-3 text-gray-900 hover:bg-gray-100 transition-colors">Story</a>
+            <a href="#cost" class="px-8 py-3 text-gray-900 hover:bg-gray-100 transition-colors">Rates</a>
+            <a href="#features" class="px-8 py-3 text-gray-900 hover:bg-gray-100 transition-colors">Benefits</a>
+            <a href="#faq" class="px-8 py-3 text-gray-900 hover:bg-gray-100 transition-colors">FAQ</a>
+          </div>
+        </div>
+
+        <!-- Hero Content -->
+        <main class="flex-1 flex items-center justify-center px-8 -mt-80">
+          <div class="text-center max-w-5xl">
+            <p class="text-sm font-semibold text-gray-600 tracking-wider mb-4 uppercase">
+              Private Jets
+            </p>
+
+            <h1 class="mb-4" style="display: flex; flex-direction: column;">
+              <span class="text-6xl md:text-7xl lg:text-8xl font-normal text-gray-500 leading-none tracking-tighter">
+                Premium.
+              </span>
+              <span class="text-6xl md:text-7xl lg:text-8xl font-normal leading-none tracking-tighter" style="margin-top: -12px; color: #202A36;">
+                Accessible.
+              </span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
+              Your dedication deserves recognition.
+            </p>
+
+            <div class="flex items-center justify-center gap-4">
+              <button class="px-4 py-2 rounded-full bg-gray-300 text-gray-800 font-medium hover:bg-gray-400 transition-colors">
+                Discover
+              </button>
+              <button
+                class="px-4 py-2 rounded-full text-white font-medium transition-colors"
+                style="background-color: #202A36;"
+                onmouseenter="this.style.backgroundColor='#1a2229'"
+                onmouseleave="this.style.backgroundColor='#202A36'"
+              >
+                Book Now
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    const closeIcon = document.getElementById('closeIcon');
+    let isOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      isOpen = !isOpen;
+      mobileMenu.classList.toggle('hidden', !isOpen);
+      menuIcon.classList.toggle('hidden', isOpen);
+      closeIcon.classList.toggle('hidden', !isOpen);
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        isOpen = false;
+        mobileMenu.classList.add('hidden');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

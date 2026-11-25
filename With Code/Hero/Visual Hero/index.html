@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+@font-face{font-family:'Dirtyline';src:url('https://fonts.cdnfonts.com/s/15011/Dirtyline36DaysofType.woff') format('woff');font-weight:normal;font-style:normal;font-display:swap}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border-radius:9999px}
+html,body{background:#000}
+body{font-family:'Barlow',sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font:inherit;border:0;cursor:pointer;color:inherit;background:none}
+.root{min-height:100vh;background:#000;color:#fff;overflow-x:hidden;position:relative}
+
+.liquid-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.liquid-glass-strong{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(50px);-webkit-backdrop-filter:blur(50px);border:none;box-shadow:4px 4px 4px rgba(0,0,0,0.05),inset 0 1px 1px rgba(255,255,255,0.15);position:relative;overflow:hidden}
+.liquid-glass-strong::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.2) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.2) 80%,rgba(255,255,255,0.5) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+.hero-title{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(96px,18vw,280px);line-height:.92;letter-spacing:-0.02em;color:#fff;text-align:center;user-select:none;-webkit-user-select:none}
+
+#videoBg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;transform:scale(1.08);transform-origin:center;background:#000}
+#videoBg video,#videoBg canvas{width:100%;height:100%;object-fit:cover;display:block}
+#displayCanvas{display:none}
+
+#title{position:fixed;left:0;right:0;z-index:20;width:100%;padding:0 16px;top:126px;transition:all 1s;opacity:0;transform:translateY(24px)}
+#bottom{position:fixed;bottom:48px;left:0;right:0;padding:0 40px;display:flex;align-items:flex-end;justify-content:space-between;z-index:20;transition:all 1s .3s;opacity:0;transform:translateY(24px)}
+.mounted #title,.mounted #bottom{opacity:1;transform:none}
+
+nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:50;white-space:nowrap;max-width:calc(100vw - 24px)}
+.pill{display:flex;align-items:center;gap:24px;padding:10px 16px}
+.links{display:flex;align-items:center;gap:20px}
+.nl{font-size:14px;font-weight:300;color:rgba(255,255,255,.7);transition:color .2s}
+.nl:hover{color:#fff}
+.right{display:flex;align-items:center;gap:12px;margin-left:16px}
+.try{font-size:14px;font-weight:500;color:#fff;padding:6px 16px;transition:all .2s;display:inline-block}
+.try:hover{transform:scale(1.04);box-shadow:0 0 16px 2px rgba(255,255,255,.12)}
+.try:active{transform:scale(.97)}
+
+.blurb{font-size:14px;font-weight:300;color:rgba(255,255,255,.75);max-width:220px;line-height:1.625}
+.blurb.r{text-align:right}
+.cta{position:absolute;left:50%;transform:translateX(-50%);bottom:0;display:flex;align-items:center;gap:12px}
+.btn{font-size:14px;font-weight:500;padding:12px 24px;transition:all .2s;white-space:nowrap;display:inline-block}
+.btn:active{transform:scale(.97)}
+.primary{position:relative;background:#fff;color:#000;overflow:hidden;box-shadow:0 0 0 0 rgba(255,255,255,0)}
+.primary:hover{box-shadow:0 0 24px 4px rgba(255,255,255,.25);transform:scale(1.03)}
+.primary span{position:relative;z-index:1}
+.primary i{position:absolute;inset:0;background:linear-gradient(to bottom,#fff,rgba(255,255,255,.85));opacity:0;transition:opacity .2s}
+.primary:hover i{opacity:1}
+.secondary{color:#fff}
+.secondary:hover{transform:scale(1.03);box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 0 20px 2px rgba(255,255,255,.07)}
+
+@media (max-width:900px){
+  .links{display:none}
+  .right{margin-left:0}
+}
+@media (max-width:700px){
+  .hero-title{font-size:16vw}
+  #title{top:96px;padding:0 8px}
+  #bottom{padding:0 20px;bottom:24px;flex-direction:column;align-items:center;gap:20px}
+  .cta{position:static;transform:none;order:2}
+  .blurb{max-width:300px;text-align:center !important;font-size:13px}
+  .blurb{color:rgba(255,255,255,.92);text-shadow:0 1px 8px rgba(0,0,0,.9)}
+  .blurb.l{order:0}
+  .blurb.r{order:1}
+  .pill{gap:14px;padding:8px 14px}
+}
+</style>
+</head>
+<body>
+<div class="root" id="root">
+  <div id="videoBg">
+    <video id="video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260511_080827_a9e5ad52-b6ee-4e79-b393-d936f179cfd7.mp4" muted playsinline preload="auto" crossorigin="anonymous"></video>
+    <canvas id="displayCanvas"></canvas>
+  </div>
+
+  <div id="title"><h1 class="hero-title">MicroVisuals</h1></div>
+
+  <nav>
+    <div class="liquid-glass pill">
+      <svg width="44" height="26" viewBox="0 0 44 26" fill="none" aria-label="logo"><rect x="0" y="3" width="14" height="20" rx="3" fill="#fff"/><rect x="16" y="3" width="12" height="20" rx="3" fill="#fff"/><rect x="30" y="3" width="14" height="20" rx="3" fill="#fff"/></svg>
+      <div class="links">
+        <a class="nl" href="#">Gallery</a><a class="nl" href="#">Styles</a><a class="nl" href="#">API</a><a class="nl" href="#">Pricing</a><a class="nl" href="#">Blog</a>
+      </div>
+      <div class="right">
+        <a class="nl" href="#">Sign in</a>
+        <a class="try liquid-glass-strong" href="#">Try it free</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="bottom">
+    <p class="blurb l">Forma's AI understands context, composition, and style like a creative director would.</p>
+    <div class="cta">
+      <button class="btn primary group"><span>Start generating</span><i></i></button>
+      <button class="btn secondary liquid-glass">See templates</button>
+    </div>
+    <p class="blurb r">Describe what you see in your head — get images that actually match.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('root');
+  requestAnimationFrame(function(){requestAnimationFrame(function(){root.classList.add('mounted');});});
+
+  var video=document.getElementById('video');
+  var canvas=document.getElementById('displayCanvas');
+  var frames=[],capturing=true,lastTime=-1,MAX_WIDTH=960,rafId=0,failed=false;
+
+  function captureFrame(){
+    if(!capturing)return;
+    if(video.readyState>=2&&video.currentTime!==lastTime){
+      lastTime=video.currentTime;
+      try{
+        var s=Math.min(1,MAX_WIDTH/video.videoWidth);
+        var c=document.createElement('canvas');
+        c.width=Math.round(video.videoWidth*s);c.height=Math.round(video.videoHeight*s);
+        var ctx=c.getContext('2d');ctx.drawImage(video,0,0,c.width,c.height);
+        // detect tainted canvas
+        if(frames.length===0)ctx.getImageData(0,0,1,1);
+        frames.push(c);
+      }catch(e){failed=true;capturing=false;video.loop=true;return;}
+    }
+    schedule();
+  }
+  function schedule(){
+    if(!capturing)return;
+    if('requestVideoFrameCallback' in video)video.requestVideoFrameCallback(captureFrame);
+    else rafId=requestAnimationFrame(captureFrame);
+  }
+  function start(){
+    var p=video.play();if(p&&p.catch)p.catch(function(){});
+    schedule();
+  }
+  video.addEventListener('loadedmetadata',start);
+  video.addEventListener('ended',function(){
+    capturing=false;
+    if(failed||!frames.length){video.currentTime=0;video.play().catch(function(){});return;}
+    startBoomerang();
+  });
+  video.addEventListener('error',function(){capturing=false;});
+  if(video.readyState>=1)start();
+
+  function startBoomerang(){
+    canvas.width=frames[0].width;canvas.height=frames[0].height;
+    canvas.style.display='block';video.style.display='none';
+    var ctx=canvas.getContext('2d');
+    var index=0,dir=1,last=performance.now(),interval=1000/30;
+    ctx.drawImage(frames[0],0,0);
+    function render(now){
+      requestAnimationFrame(render);
+      if(now-last>=interval){
+        last=now;
+        ctx.drawImage(frames[index],0,0);
+        index+=dir;
+        if(index>=frames.length-1){index=frames.length-1;dir=-1;}
+        else if(index<=0){index=0;dir=1;}
+      }
+    }
+    requestAnimationFrame(render);
+  }
+
+  // parallax
+  var bg=document.getElementById('videoBg');
+  var strength=20,tx=0,ty=0,cx=0,cy=0;
+  window.addEventListener('mousemove',function(e){
+    var hx=window.innerWidth/2,hy=window.innerHeight/2;
+    tx=((e.clientX-hx)/hx)*strength;ty=((e.clientY-hy)/hy)*strength;
+  });
+  function tick(){
+    cx+=(tx-cx)*0.06;cy+=(ty-cy)*0.06;
+    if(window.gsap)gsap.set(bg,{x:cx,y:cy,scale:1.08});
+    else bg.style.transform='translate('+cx+'px,'+cy+'px) scale(1.08)';
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

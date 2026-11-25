@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Velorah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --background:201 100% 13%;
+  --foreground:0 0% 100%;
+  --muted-foreground:240 4% 66%;
+  --primary:0 0% 100%;--primary-foreground:0 0% 4%;
+  --secondary:0 0% 10%;--muted:0 0% 10%;--accent:0 0% 10%;
+  --border:0 0% 18%;--input:0 0% 18%;
+  --font-display:'Instrument Serif',serif;
+  --font-body:'Inter',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border:0 solid hsl(var(--border))}
+html,body{overflow-x:hidden}
+body{background:hsl(var(--background));color:hsl(var(--foreground));font-family:var(--font-body);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;cursor:pointer}
+.root{position:relative;min-height:100vh;overflow:hidden}
+video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+nav{position:relative;z-index:10;display:flex;flex-direction:row;justify-content:space-between;align-items:center;padding:1.5rem 2rem;max-width:80rem;margin:0 auto}
+.logo{font-family:'Instrument Serif',serif;font-size:1.875rem;line-height:2.25rem;letter-spacing:-0.025em;color:hsl(var(--foreground))}
+.logo sup{font-size:.75rem;line-height:1rem}
+.links{display:none;gap:2rem;align-items:center}
+.links a{font-size:.875rem;line-height:1.25rem;color:hsl(var(--muted-foreground));transition:color .15s}
+.links a:hover,.links a.active{color:hsl(var(--foreground))}
+@media(min-width:768px){.links{display:flex}}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.btn{border-radius:9999px;color:hsl(var(--foreground));transition:transform .15s}
+.btn:hover{transform:scale(1.03)}
+.btn-sm{padding:.625rem 1.5rem;font-size:.875rem;line-height:1.25rem}
+.btn-lg{padding:1.25rem 3.5rem;font-size:1rem;line-height:1.5rem;margin-top:3rem}
+.hero{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 1.5rem 10rem}
+h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:3rem;line-height:.95;letter-spacing:-2.46px;max-width:80rem}
+h1 em{font-style:normal;color:hsl(var(--muted-foreground))}
+@media(min-width:640px){h1{font-size:4.5rem}}
+@media(min-width:768px){h1{font-size:6rem}}
+.sub{color:hsl(var(--muted-foreground));font-size:1rem;max-width:42rem;margin-top:2rem;line-height:1.625}
+@media(min-width:640px){.sub{font-size:1.125rem;line-height:1.75rem}}
+@keyframes fade-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.animate-fade-rise{animation:fade-rise .8s ease-out both}
+.animate-fade-rise-delay{animation:fade-rise .8s ease-out .2s both}
+.animate-fade-rise-delay-2{animation:fade-rise .8s ease-out .4s both}
+</style>
+</head>
+<body>
+<div class="root">
+  <video class="bg" autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"></video>
+  <nav>
+    <div class="logo">Velorah<sup>®</sup></div>
+    <div class="links">
+      <a href="#" class="active">Home</a><a href="#">Studio</a><a href="#">About</a><a href="#">Journal</a><a href="#">Reach Us</a>
+    </div>
+    <button class="liquid-glass btn btn-sm">Begin Journey</button>
+  </nav>
+  <section class="hero">
+    <h1 class="animate-fade-rise">Where <em>dreams</em> rise <em>through the silence.</em></h1>
+    <p class="sub animate-fade-rise-delay">We're designing tools for deep thinkers, bold creators, and quiet rebels. Amid the chaos, we build digital spaces for sharp focus and inspired work.</p>
+    <button class="liquid-glass btn btn-lg animate-fade-rise-delay-2">Begin Journey</button>
+  </section>
+</div>
+</body>
+</html>

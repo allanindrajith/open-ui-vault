@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#111118;--text:#f0f0f5;--text-muted:#8888a8;--accent:#c8a0e0;--accent-pink:#b04090;--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg)}
+body{display:flex;flex-direction:column;align-items:center;padding:14px;font-family:'Inter',sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+nav,.hero-card,.brands{width:100%;max-width:1600px}
+nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 24px;margin-bottom:14px}
+.nav-logo{font-size:1.05rem;font-weight:700;letter-spacing:-0.01em}
+.nav-menu{display:contents}
+.nav-links{display:flex;gap:32px}
+.nav-links a{color:var(--text-muted);font-size:.85rem;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:10px;justify-content:flex-end}
+.btn-login,.btn-signup{padding:7px 18px;border-radius:999px;font-size:.82rem;font-family:inherit;cursor:pointer;transition:background .2s,opacity .2s;text-align:center}
+.btn-login{background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-weight:500}
+.btn-login:hover{background:rgba(255,255,255,.12)}
+.btn-signup{background:#fff;color:var(--bg);border:1px solid #fff;font-weight:600}
+.btn-signup:hover{opacity:.88}
+.menu-toggle{display:none;width:24px;height:14px;background:none;border:0;cursor:pointer;position:relative;z-index:1001}
+.menu-toggle span{position:absolute;left:0;width:100%;height:2px;background:#fff;transition:transform .3s,top .3s}
+.menu-toggle span:nth-child(1){top:0}
+.menu-toggle span:nth-child(2){top:12px}
+.menu-toggle.active span:nth-child(1){top:0;transform:translateY(6px) rotate(45deg)}
+.menu-toggle.active span:nth-child(2){top:0;transform:translateY(-6px) rotate(-45deg)}
+
+.hero-card{border-radius:20px;border:1px solid rgba(255,255,255,.07);overflow:hidden;position:relative;background:#0d0b12;padding:80px 40px 70px;min-height:640px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero-card::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+background:
+radial-gradient(circle at 50% -70%,transparent 60%,rgba(176,48,136,.03) 63%,rgba(176,48,136,.08) 65%,rgba(176,48,136,.16) 67%,rgba(176,48,136,.28) 69%,rgba(176,48,136,.40) 71%,rgba(176,48,136,.52) 73%,rgba(176,48,136,.64) 75%,rgba(176,48,136,.74) 77%,rgba(176,48,136,.82) 79%,rgba(210,70,175,.92) 85%,rgba(240,110,210,.88) 87%,rgba(255,205,250,.92) 91%,rgba(255,240,255,.98) 93%,#fff 95%),
+radial-gradient(circle at 50% 35%,rgba(120,40,180,.08) 0%,transparent 50%)}
+.hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;
+background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
+background-size:40px 40px;
+-webkit-mask-image:radial-gradient(circle at 50% -70%,transparent 60%,#000 78%);mask-image:radial-gradient(circle at 50% -70%,transparent 60%,#000 78%)}
+
+.icon-pipeline{position:relative;display:flex;align-items:center;justify-content:center;max-width:700px;margin-bottom:52px;z-index:1}
+.beam-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2;pointer-events:none}
+.icon-node{position:relative;width:46px;height:46px;border-radius:50%;background:#1a1a24;cursor:pointer;z-index:3;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+box-shadow:6px 6px 12px rgba(0,0,0,.4),-4px -4px 10px rgba(255,255,255,.03),inset 1px 1px 1px rgba(255,255,255,.05),inset 4px 4px 8px rgba(0,0,0,.4);transition:transform .2s,box-shadow .2s}
+.icon-node::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px dotted #1a1a24;pointer-events:none}
+.icon-node:hover{transform:translateY(-1px);box-shadow:8px 8px 16px rgba(0,0,0,.5),-5px -5px 12px rgba(255,255,255,.04),inset 1px 1px 1px rgba(255,255,255,.07),inset 4px 4px 8px rgba(0,0,0,.45)}
+.icon-node:active{transform:none;box-shadow:inset 1px 1px 1px rgba(255,255,255,.05),inset 4px 4px 8px rgba(0,0,0,.5)}
+.icon-node svg{width:20px;height:20px;stroke:rgba(255,255,255,.7);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1}
+.icon-node::before{content:"";position:absolute;top:0;bottom:0;width:50%;opacity:0;transition:opacity .3s;z-index:4;pointer-events:none}
+.node-light-right::before{right:0;border-radius:0 50% 50% 0;background:radial-gradient(circle at right,rgba(200,200,200,.45) 0%,transparent 70%)}
+.node-light-left::before{left:0;border-radius:50% 0 0 50%;background:radial-gradient(circle at left,rgba(200,100,255,.5) 0%,transparent 70%)}
+.icon-node.active::before{opacity:1}
+.pipeline-line{width:160px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(255,255,255,.07))}
+.pipeline-line.right{background:linear-gradient(90deg,rgba(255,255,255,.07),rgba(255,255,255,.15))}
+.center-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.splash{position:absolute;width:100px;height:100px;left:50%;top:50%;margin:-50px 0 0 -50px;border-radius:50%;background:radial-gradient(circle,rgba(255,77,200,.6) 0%,transparent 70%);opacity:0;transform:scale(.4);z-index:2;pointer-events:none}
+.splash.animate{animation:splash-anim .8s ease-out forwards}
+@keyframes splash-anim{0%{transform:scale(.4);opacity:.8}40%{opacity:.6}100%{transform:scale(1.4);opacity:0}}
+.icon-node-center{position:relative;width:64px;height:64px;border-radius:50%;background:#1e1e2c;z-index:3;display:flex;align-items:center;justify-content:center;
+box-shadow:8px 8px 16px rgba(0,0,0,.5),-6px -6px 14px rgba(255,255,255,.04),inset 1px 1px 2px rgba(255,255,255,.06),inset 6px 6px 12px rgba(0,0,0,.5)}
+.icon-node-center svg{width:28px;height:28px;fill:#fff}
+
+.hero-content{max-width:620px;z-index:1;position:relative}
+.hero-heading{font-size:clamp(2.4rem,5.5vw,4rem);font-weight:300;line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+.hero-heading strong{display:block;font-weight:400;margin-top:4px;background:linear-gradient(to right,#fff,#a98597);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.4);max-width:440px;margin:0 auto 36px}
+.btn-cta{display:inline-block;background:#fff;color:var(--bg);padding:12px 32px;border-radius:999px;font-weight:600;font-size:.95rem;transition:opacity .2s,transform .2s}
+.btn-cta:hover{opacity:.9;transform:translateY(-1px)}
+
+.brands{display:flex;gap:64px;padding:32px 24px 10px;flex-wrap:wrap;justify-content:center}
+.brand-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.35);font-size:1.1rem;font-weight:500;white-space:nowrap}
+.brand-item svg{width:22px;height:22px}
+.hubspot-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;vertical-align:super;margin:0 1px}
+
+@media(max-width:860px){.icon-pipeline{gap:0;margin-bottom:40px}.pipeline-line{width:80px}}
+@media(max-width:768px){
+nav{display:flex;justify-content:space-between;padding:12px 10px}
+.menu-toggle{display:block}
+.nav-menu{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;position:fixed;top:0;right:-100%;width:100%;height:100%;background:var(--bg);z-index:1000;transition:right .4s cubic-bezier(.4,0,.2,1);padding:24px}
+.nav-menu.active{right:0}
+.nav-links{flex-direction:column;align-items:center;gap:24px}
+.nav-links a{font-size:1.2rem}
+.nav-actions{flex-direction:column;width:100%;max-width:320px}
+.nav-actions a,.nav-actions button{width:100%;padding:12px 18px;font-size:.95rem}
+.icon-node{width:38px;height:38px}
+.icon-node-center{width:52px;height:52px}
+.hero-card{padding:60px 20px 60px;min-height:auto}
+.brands{gap:32px}}
+@media(max-width:480px){.hero-sub br{display:none}.hero-card{border-radius:16px}.brands{gap:24px}}
+</style>
+</head>
+<body>
+<nav>
+  <span class="nav-logo">Xero</span>
+  <div class="nav-menu" id="navMenu">
+    <ul class="nav-links"><li><a href="#">Method</a></li><li><a href="#">Pricing</a></li><li><a href="#">Docs</a></li></ul>
+    <div class="nav-actions"><button class="btn-login">Log in</button><button class="btn-signup">Sign up</button></div>
+  </div>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span></button>
+</nav>
+
+<section class="hero-card">
+  <div class="hero-grid"></div>
+  <div class="icon-pipeline" id="pipeline">
+    <svg class="beam-svg" id="beamSvg">
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+        <linearGradient id="beam-gradient" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#b04090" stop-opacity="0"/>
+          <stop offset="20%" stop-color="#b04090" stop-opacity="0.8"/>
+          <stop offset="50%" stop-color="#fff" stop-opacity="1"/>
+          <stop offset="80%" stop-color="#c8a0e0" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#c8a0e0" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path id="beamGlow" fill="none" stroke="url(#beam-gradient)" stroke-width="2" filter="url(#glow)" style="opacity:.6"/>
+      <path id="beamCore" fill="none" stroke="url(#beam-gradient)" stroke-width="0.8"/>
+    </svg>
+    <div class="icon-node node-light-right" id="node-stack">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
+    <div class="pipeline-line"></div>
+    <div class="center-wrap">
+      <div class="splash" id="splash"></div>
+      <div class="icon-node-center" id="node-x">
+        <svg viewBox="0 0 40 40"><path fill-rule="evenodd" d="M6 4h8.2l5.8 8.6L25.8 4H34L24.2 18.4 34.4 36h-8.2L20 25.6 13.8 36H5.6l10-17.6L6 4zm14 12.4l-1.9 2.8 1.9 3.2 1.9-3.2-1.9-2.8z"/></svg>
+      </div>
+    </div>
+    <div class="pipeline-line right"></div>
+    <div class="icon-node node-light-left" id="node-shield">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <h1 class="hero-heading">
+      The simple way
+      <strong>encryption your data</strong>
+    </h1>
+    <p class="hero-sub">
+      Fully managed data encrypting service and annotation<br>
+      platform for teams of all industries.
+    </p>
+    <a href="#" class="btn-cta">Get Started</a>
+  </div>
+</section>
+
+<div class="brands">
+  <div class="brand-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path fill="#0a0a0f" d="M8 9h8v2H8zm0 4h6v2H8z"/></svg>Expedia</div>
+  <div class="brand-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7" r="4"/><circle cx="5" cy="16" r="3.5"/><circle cx="19" cy="16" r="3.5"/></svg>asana</div>
+  <div class="brand-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 8 20 8"/><polyline points="4 12 12 12"/><polyline points="4 16 20 16"/></svg>zenefits</div>
+  <div class="brand-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="15.5" cy="8.5" r="2.5" fill="currentColor"/><circle cx="8.5" cy="8.5" r="2"/><path d="M15.5 11v5.5M8.5 10.5v6M8.5 16.5h7"/></svg><span>HubSp<span class="hubspot-dot"></span>t</span></div>
+  <div class="brand-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>loom</div>
+</div>
+
+<script>
+(function(){
+  var toggle=document.getElementById('menuToggle'),menu=document.getElementById('navMenu');
+  toggle.addEventListener('click',function(){
+    var on=toggle.classList.toggle('active');menu.classList.toggle('active',on);
+    document.body.style.overflow=on?'hidden':'';
+  });
+  var pipeline=document.getElementById('pipeline'),nodeStack=document.getElementById('node-stack'),
+      nodeX=document.getElementById('node-x'),nodeShield=document.getElementById('node-shield'),
+      glow=document.getElementById('beamGlow'),core=document.getElementById('beamCore'),
+      grad=document.getElementById('beam-gradient'),splash=document.getElementById('splash');
+  function layout(){
+    var p=pipeline.getBoundingClientRect(),s=nodeStack.getBoundingClientRect(),x=nodeX.getBoundingClientRect(),h=nodeShield.getBoundingClientRect();
+    var sx=s.left+s.width/2-p.left,sy=s.top+s.height/2-p.top,
+        mx=x.left+x.width/2-p.left,my=x.top+x.height/2-p.top,
+        ex=h.left+h.width/2-p.left,ey=h.top+h.height/2-p.top;
+    var d='M '+sx+','+sy+' L '+mx+','+my+' L '+ex+','+ey;
+    glow.setAttribute('d',d);core.setAttribute('d',d);
+    grad.setAttribute('x1',sx);grad.setAttribute('x2',ex);
+    grad.setAttribute('y1',sy);grad.setAttribute('y2',sy);
+    lx=sx;lw=ex-sx;
+  }
+  var lx=0,lw=1;
+  function setGrad(pct){
+    var c=pct*100;
+    // userSpaceOnUse: map percentage window across beam span
+    grad.setAttribute('x1',lx+lw*(c-5)/100);
+    grad.setAttribute('x2',lx+lw*(c+5)/100);
+    grad.setAttribute('y1',0);grad.setAttribute('y2',0);
+  }
+  var state='p1',last=performance.now(),raf;
+  function loop(now){
+    var el=now-last;
+    if(state==='p1'){
+      var t=Math.min(el/800,1),pc=t*0.5;setGrad(pc);
+      nodeStack.classList.toggle('active',pc<0.4);
+      if(t>=1){state='splash';last=now;glow.style.opacity=0;core.style.opacity=0;splash.classList.add('animate');}
+    }else if(state==='splash'){
+      if(el>=800){state='p2';last=now;splash.classList.remove('animate');glow.style.opacity=.6;core.style.opacity=1;}
+    }else if(state==='p2'){
+      var t2=Math.min(el/800,1),pc2=0.5+t2*0.5;setGrad(pc2);
+      nodeShield.classList.toggle('active',pc2>0.6);
+      if(t2>=1){nodeShield.classList.remove('active');state='idle';last=now;}
+    }else if(el>=1000){state='p1';last=now;}
+    raf=requestAnimationFrame(loop);
+  }
+  layout();setGrad(0);
+  window.addEventListener('resize',layout);
+  window.addEventListener('load',layout);
+  raf=requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

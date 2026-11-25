@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LaunchEx About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:#F0F5F7;overflow-x:hidden}
+.font-firs{font-family:'TT Firs Neue','Inter',system-ui,sans-serif}
+#about{background:#F0F5F7;min-height:100vh;position:relative;padding:80px 24px;display:flex;flex-direction:column;justify-content:center;color:#154359;overflow:hidden}
+.wrap{max-width:80rem;margin:0 auto;width:100%}
+.top{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:40px}
+h2{margin:0;font-size:36px;font-weight:600;text-transform:uppercase;letter-spacing:-0.025em;line-height:.95;color:#154359}
+.desc{display:flex;flex-direction:column;max-width:36rem}
+.txt{font-size:17px;line-height:1.5;color:#154359}
+.txt p{margin:0}.txt p+p{margin-top:16px}
+.link{display:inline-flex;align-items:center;gap:16px;margin-top:24px;font-size:14px;font-weight:500;color:#154359;text-decoration:none}
+.btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid #154359;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);transition:transform .15s}
+.link:hover .btn{transform:translateY(-2px)}
+.btn svg{width:14px;height:14px}
+.grid{margin-top:56px;display:grid;grid-template-columns:1fr;gap:20px}
+.card{position:relative;width:100%;height:280px;background:rgba(255,255,255,.8);padding:1.5px}
+.img{position:relative;width:100%;height:100%;overflow:hidden;background-size:cover;background-position:center;background-color:#cfe3ec}
+.c1,.c1 .img{clip-path:polygon(64px 0,calc(100% - 14px) 0,calc(100% - 4px) 4px,100% 14px,100% calc(100% - 14px),calc(100% - 4px) calc(100% - 4px),calc(100% - 14px) 100%,14px 100%,4px calc(100% - 4px),0 calc(100% - 14px),0 64px)}
+.c2,.c2 .img{clip-path:polygon(0 14px,4px 4px,14px 0,calc(100% - 64px) 0,100% 64px,100% calc(100% - 14px),calc(100% - 4px) calc(100% - 4px),calc(100% - 14px) 100%,64px 100%,0 calc(100% - 64px))}
+.c3,.c3 .img{clip-path:polygon(0 14px,4px 4px,14px 0,calc(100% - 64px) 0,100% 64px,100% calc(100% - 64px),calc(100% - 64px) 100%,14px 100%,4px calc(100% - 4px),0 calc(100% - 14px))}
+.ov{position:absolute;max-width:66%}
+.p1{left:24px;right:24px;bottom:24px}
+.p2{left:24px;bottom:80px}
+.p3{left:24px;right:112px;bottom:24px}
+.val{font-weight:600;text-transform:uppercase;line-height:1;font-size:36px;background:linear-gradient(294deg,#185B7B 20%,#4BBDF0);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.d{margin:12px 0 0;font-size:14px;line-height:1.4;color:#154359}
+.fade{pointer-events:none;position:absolute;left:0;right:0;bottom:0;height:160px;z-index:10;background:linear-gradient(to bottom,rgba(240,245,247,0) 0%,rgba(240,245,247,.7) 60%,#F0F5F7 100%)}
+@media(min-width:640px){
+#about{padding:112px 40px}
+h2{font-size:48px}.txt{font-size:18px}
+.card{height:340px}.val{font-size:52px}.fade{height:224px}
+}
+@media(min-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){
+h2{font-size:54px}
+.top{flex-direction:row;gap:80px}
+.grid{grid-template-columns:repeat(3,1fr)}
+.c2{margin-top:96px}
+}
+</style>
+</head>
+<body>
+<section id="about">
+  <div class="wrap">
+    <div class="top">
+      <h2 class="font-firs">About<br>the founders</h2>
+      <div class="desc">
+        <div class="txt">
+          <p>Launchex.Hub is a platform that is part of a portfolio of companies Launchex, for sourcing and showcasing groundbreaking innovations.</p>
+          <p>Launchex.Hub's mission is to offer every local-language innovator the chance to reshape our world with their pioneering creation.</p>
+        </div>
+        <a class="link group" href="https://base.launchex.vc/" target="_blank" rel="noreferrer">
+          Launchex.Hub website
+          <span class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="#154359" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        </a>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card c1"><div class="img" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260514_154203_6c6f94dc-a07e-4ba5-8688-106f01ccd2c8.png&w=1280&q=85')"></div>
+        <div class="ov p1"><div class="val font-firs">7+ years</div><p class="d">Launchex has served the market, guiding ventures and their journeys</p></div></div>
+      <div class="card c2"><div class="img" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260514_154151_45c62c60-3bcc-4f21-8f9d-03722ebb5df8.png&w=1280&q=85')"></div>
+        <div class="ov p2"><div class="val font-firs">15000+</div><p class="d">innovation ventures moved through the Launchex pipeline</p></div></div>
+      <div class="card c3"><div class="img" style="background-image:url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260514_152238_24ec8db4-d728-4739-bb30-e985533e9637.png&w=1280&q=85')"></div>
+        <div class="ov p3"><div class="val font-firs">120+</div><p class="d">accelerator sessions delivered by Launchex across Eastern Europe</p></div></div>
+    </div>
+  </div>
+  <div class="fade"></div>
+</section>
+</body>
+</html>

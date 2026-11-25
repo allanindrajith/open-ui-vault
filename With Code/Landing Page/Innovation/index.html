@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Innovation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;color:#fff;font-family:'Inter',system-ui,sans-serif;overflow-x:hidden}
+button,input{font:inherit;color:inherit;background:none;border:none;outline:none;cursor:pointer}
+input{cursor:text}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex:none}
+.serif{font-family:'Instrument Serif',serif;font-weight:400}
+.serif em,em.serif{font-style:italic}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.pill{border-radius:9999px}
+.btn{color:#fff;font-size:14px;font-weight:500;transition:background .2s}
+.btn:hover{background:rgba(255,255,255,.05)}
+
+/* hero */
+.hero{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:bottom;opacity:0}
+nav{position:relative;z-index:20;padding:24px}
+.nav{max-width:1024px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.nav .l,.nav .r{display:flex;align-items:center}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:18px}
+.links{display:none;gap:32px;margin-left:32px}
+.links a{color:rgba(255,255,255,.8);font-size:14px;font-weight:500;transition:color .2s}
+.links a:hover{color:#fff}
+.nav .r{gap:16px}
+.nav .r .su{font-size:14px;font-weight:500}
+.nav .r .lg{padding:8px 24px}
+.hero-c{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;text-align:center;transform:translateY(-20%)}
+h1{font-size:min(72px,12.6vw);letter-spacing:-.025em;white-space:nowrap;line-height:1;font-weight:400;margin-bottom:32px}
+.email{max-width:576px;width:100%;padding:8px 8px 8px 24px;display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.email input{flex:1;min-width:0;font-size:16px;color:#fff}
+.email input::placeholder{color:rgba(255,255,255,.4)}
+.email button{background:#fff;color:#000;border-radius:9999px;padding:12px;display:flex}
+.sub{font-size:14px;line-height:1.625;padding:0 16px;max-width:576px;margin-bottom:24px}
+.mani{padding:12px 32px}
+.social{position:relative;z-index:10;display:flex;justify-content:center;gap:16px;padding-bottom:48px}
+.social a{padding:16px;color:rgba(255,255,255,.8);transition:all .2s;display:flex}
+.social a:hover{color:#fff;background:rgba(255,255,255,.05)}
+
+section{background:#000;padding-left:24px;padding-right:24px;overflow:hidden;position:relative}
+.wrap{max-width:1152px;margin:0 auto;position:relative}
+.rv{opacity:0;transition:opacity var(--d,.8s) ease-out var(--dl,0s),transform var(--d,.8s) ease-out var(--dl,0s)}
+.rv.y{transform:translateY(var(--o,40px))}
+.rv.xl{transform:translateX(-40px)}
+.rv.xr{transform:translateX(40px)}
+.rv.in{opacity:1;transform:none}
+.lbl{text-transform:uppercase;letter-spacing:.1em}
+
+/* about */
+.about{padding-top:128px;padding-bottom:40px;background:radial-gradient(ellipse at top,rgba(255,255,255,.03) 0%,transparent 70%),#000}
+.about .wrap{text-align:center;max-width:1152px}
+.about .lbl{color:rgba(255,255,255,.4);font-size:14px;margin-bottom:24px}
+.about h2{font-size:36px;line-height:1.1;letter-spacing:-.025em;font-weight:400}
+.about h2 em{color:rgba(255,255,255,.6)}
+.about br{display:none}
+
+/* featured */
+.feat{padding-top:24px;padding-bottom:80px}
+.vbox{border-radius:24px;overflow:hidden;position:relative;aspect-ratio:16/9;background:#050505}
+.vbox video{width:100%;height:100%;object-fit:cover;display:block}
+.vbox .grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent 60%)}
+.ov{position:absolute;left:0;right:0;bottom:0;padding:24px;display:flex;flex-direction:column;gap:16px;align-items:flex-start;justify-content:space-between}
+.card{border-radius:16px;padding:24px;max-width:448px}
+.card .lbl{color:rgba(255,255,255,.5);font-size:12px;margin-bottom:12px}
+.card p{font-size:14px;line-height:1.625}
+.explore{padding:12px 32px;transition:transform .2s,background .2s;flex:none}
+.explore:hover{transform:scale(1.05)}
+.explore:active{transform:scale(.95)}
+
+/* philosophy */
+.phil{padding-top:112px;padding-bottom:112px}
+.phil h2{font-size:48px;letter-spacing:-.025em;margin-bottom:64px;font-weight:400;line-height:1}
+.phil h2 em{color:rgba(255,255,255,.4)}
+.grid2{display:grid;grid-template-columns:1fr;gap:32px}
+.phil .vbox{aspect-ratio:4/3}
+.txt{display:flex;flex-direction:column;justify-content:center;gap:32px}
+.txt .lbl{color:rgba(255,255,255,.4);font-size:12px;margin-bottom:16px}
+.txt p{color:rgba(255,255,255,.7);font-size:16px;line-height:1.625}
+.div{width:100%;height:1px;background:rgba(255,255,255,.1)}
+
+/* services */
+.serv{padding-top:112px;padding-bottom:112px;background:radial-gradient(ellipse at center,rgba(255,255,255,.02) 0%,transparent 60%),#000}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:64px}
+.sh h2{font-size:30px;letter-spacing:-.025em;font-weight:400}
+.sh span{display:none;color:rgba(255,255,255,.4);font-size:14px}
+.grid3{display:grid;grid-template-columns:1fr;gap:24px}
+.scard{border-radius:24px}
+.scard .vm{position:relative;aspect-ratio:16/9;overflow:hidden;background:#050505}
+.scard video{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.scard:hover video{transform:scale(1.05)}
+.scard .vm::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4),transparent)}
+.sb{padding:24px}
+.sb .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.sb .lbl{color:rgba(255,255,255,.4);font-size:12px}
+.sb .ar{padding:8px;border-radius:9999px;display:flex}
+.sb h3{font-size:20px;font-weight:400;letter-spacing:-.025em;margin-bottom:12px}
+.sb p{color:rgba(255,255,255,.5);font-size:14px;line-height:1.625}
+
+@media(min-width:768px){
+ .links{display:flex}
+ h1{font-size:96px}
+ .about{padding-top:176px;padding-bottom:56px}
+ .about h2{font-size:60px}
+ .about br{display:inline}
+ .feat{padding-top:40px;padding-bottom:128px}
+ .ov{padding:40px;flex-direction:row;align-items:flex-end}
+ .card{padding:32px}
+ .card p{font-size:16px}
+ .phil{padding-top:160px;padding-bottom:160px}
+ .phil h2{font-size:72px;margin-bottom:96px}
+ .grid2{grid-template-columns:1fr 1fr;gap:48px}
+ .txt p{font-size:18px}
+ .serv{padding-top:160px;padding-bottom:160px}
+ .sh h2{font-size:48px}
+ .sh span{display:block}
+ .grid3{grid-template-columns:1fr 1fr;gap:32px}
+ .sb{padding:32px}
+ .sb h3{font-size:24px}
+}
+@media(min-width:1024px){
+ h1{font-size:128px}
+ .about h2{font-size:72px}
+ .phil h2{font-size:96px}
+}
+@media(prefers-reduced-motion:reduce){.rv{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <video id="hv" muted autoplay playsinline preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4"></video>
+  <nav>
+    <div class="nav liquid-glass pill">
+      <div class="l">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span>Asme</span>
+        </div>
+        <div class="links"><a href="#">Features</a><a href="#">Pricing</a><a href="#">About</a></div>
+      </div>
+      <div class="r">
+        <button class="su">Sign Up</button>
+        <button class="lg btn liquid-glass pill">Login</button>
+      </div>
+    </div>
+  </nav>
+  <div class="hero-c">
+    <h1 class="serif">Know it then <em class="italic">all</em>.</h1>
+    <form class="email liquid-glass pill" onsubmit="return false">
+      <input type="email" placeholder="Enter your email" aria-label="Email">
+      <button type="submit" aria-label="Submit"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+    </form>
+    <p class="sub">Stay updated with the latest news and insights. Subscribe to our newsletter today and never miss out on exciting updates.</p>
+    <button class="mani btn liquid-glass pill">Manifesto</button>
+  </div>
+  <div class="social">
+    <a href="#" class="liquid-glass pill" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+    <a href="#" class="liquid-glass pill" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+    <a href="#" class="liquid-glass pill" aria-label="Website"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></a>
+  </div>
+</div>
+
+<section class="about">
+  <div class="wrap">
+    <p class="lbl rv y" style="--o:20px;--d:.6s">About Us</p>
+    <h2 class="serif rv y" style="--dl:.1s">Pioneering <em>ideas</em> for<br> <em>minds that create, build, and inspire.</em></h2>
+  </div>
+</section>
+
+<section class="feat">
+  <div class="wrap">
+    <div class="vbox rv y" style="--o:60px;--d:.9s">
+      <video muted autoplay loop playsinline preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4"></video>
+      <div class="grad"></div>
+      <div class="ov">
+        <div class="card liquid-glass">
+          <p class="lbl">Our Approach</p>
+          <p>We believe in the power of curiosity-driven exploration. Every project starts with a question, and every answer opens a new door to innovation.</p>
+        </div>
+        <button class="explore btn liquid-glass pill">Explore more</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="phil">
+  <div class="wrap">
+    <h2 class="serif rv y">Innovation <em>x</em> Vision</h2>
+    <div class="grid2">
+      <div class="vbox rv xl"><video muted autoplay loop playsinline preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4"></video></div>
+      <div class="txt rv xr">
+        <div>
+          <p class="lbl">Choose your space</p>
+          <p>Every meaningful breakthrough begins at the intersection of disciplined strategy and remarkable creative vision. We operate at that crossroads, turning bold thinking into tangible outcomes that move people and reshape industries.</p>
+        </div>
+        <div class="div"></div>
+        <div>
+          <p class="lbl">Shape the future</p>
+          <p>We believe that the best work emerges when curiosity meets conviction. Our process is designed to uncover hidden opportunities and translate them into experiences that resonate long after the first impression.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="serv">
+  <div class="wrap">
+    <div class="sh rv y" style="--o:30px;--d:.7s"><h2 class="serif">What we do</h2><span>Our services</span></div>
+    <div class="grid3">
+      <div class="scard liquid-glass rv y" style="--o:50px">
+        <div class="vm"><video muted autoplay loop playsinline preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4"></video></div>
+        <div class="sb">
+          <div class="top"><span class="lbl">Strategy</span><span class="ar liquid-glass"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <h3 class="serif">Research &amp; Insight</h3>
+          <p>We dig deep into data, culture, and human behavior to surface the insights that drive meaningful, lasting change.</p>
+        </div>
+      </div>
+      <div class="scard liquid-glass rv y" style="--o:50px;--dl:.15s">
+        <div class="vm"><video muted autoplay loop playsinline preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4"></video></div>
+        <div class="sb">
+          <div class="top"><span class="lbl">Craft</span><span class="ar liquid-glass"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span></div>
+          <h3 class="serif">Design &amp; Execution</h3>
+          <p>From concept to launch, we obsess over every detail to deliver experiences that feel effortless and look extraordinary.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // scroll reveal
+  var els=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -100px 0px'});
+    els.forEach(function(e){io.observe(e)});
+  } else els.forEach(function(e){e.classList.add('in')});
+
+  // hero video fade loop
+  var v=document.getElementById('hv'),raf=null;
+  function fade(to,ms){
+    cancelAnimationFrame(raf);
+    var from=parseFloat(v.style.opacity||0),t0=performance.now();
+    (function step(t){
+      var p=Math.min((t-t0)/ms,1);
+      v.style.opacity=from+(to-from)*p;
+      if(p<1)raf=requestAnimationFrame(step);
+    })(t0);
+  }
+  var fadingOut=false;
+  v.addEventListener('canplay',function(){var p=v.play();if(p&&p.catch)p.catch(function(){});fadingOut=false;fade(1,500)});
+  v.addEventListener('timeupdate',function(){
+    if(v.duration&&v.duration-v.currentTime<=0.55&&!fadingOut){fadingOut=true;fade(0,500)}
+  });
+  v.addEventListener('ended',function(){
+    v.style.opacity=0;
+    setTimeout(function(){v.currentTime=0;var p=v.play();if(p&&p.catch)p.catch(function(){});fadingOut=false;fade(1,500)},100);
+  });
+})();
+</script>
+</body>
+</html>

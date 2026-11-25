@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redline — Book your seat to Mars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+</script>
+<style>
+  :root{--red:#e8283c;--deep:#2a0d04}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;background:var(--deep);color:#fff;font-family:Montserrat,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .hero{position:fixed;inset:0;overflow:hidden;background:radial-gradient(58% 72% at 50% 47%,#d0591f 0%,#a23f12 32%,#6b2409 62%,#3b1405 100%)}
+  .hero>*{position:absolute}
+
+  #word0{left:50%;top:50%;font-weight:900;font-size:min(27vw,50vh);line-height:.8;letter-spacing:-.035em;white-space:nowrap;z-index:2;will-change:transform,clip-path}
+  #eyebrow{left:50%;top:50%;z-index:3;font-weight:300;font-size:clamp(14px,1.45vw,23px);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+  #gl{inset:0;width:100%;height:100%;z-index:4;cursor:grab;touch-action:none}
+  #gl.drag{cursor:grabbing}
+  #dust{inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
+  #flare{z-index:1;width:44vmin;height:44vmin;margin:-22vmin;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(255,236,205,.95),rgba(255,176,96,.42) 26%,rgba(255,140,60,.1) 58%,transparent)}
+
+  #pin{z-index:6;left:0;top:0;display:flex;align-items:center;gap:9px;font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;white-space:nowrap}
+  #pin i{width:12px;height:12px;border-radius:50%;background:#fff;position:relative;box-shadow:0 0 0 4px rgba(232,40,60,.75)}
+  #pin i::after{content:"";position:absolute;inset:-13px;border-radius:50%;border:1px solid #fff;animation:pulse 2s ease-out infinite}
+  @keyframes pulse{from{transform:scale(.4);opacity:1}to{transform:scale(1.4);opacity:0}}
+
+  #word1{left:50%;top:0;z-index:6;font-weight:800;font-size:min(9.4vw,19vh);letter-spacing:-.02em;line-height:1;color:rgba(255,255,255,.74);pointer-events:none;white-space:nowrap}
+
+  #sites{right:6.2%;top:50%;z-index:7;list-style:none;display:grid;gap:clamp(30px,6.6vh,62px);transform:translateY(-50%)}
+  #sites::before{content:"";position:absolute;right:5px;top:6px;bottom:6px;width:1px;background:rgba(255,255,255,.5)}
+  #sites li{position:relative;text-align:right;padding-right:30px;cursor:pointer;font-weight:500;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;transition:font-size .3s}
+  #sites li::after{content:"";position:absolute;right:1px;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;background:#fff;transition:transform .3s,box-shadow .3s}
+  #sites li.on{font-size:15px}
+  #sites li.on::after{transform:scale(1.5);box-shadow:0 0 0 7px rgba(255,255,255,.28)}
+  #card{right:calc(6.2% + 196px);top:0;z-index:7;width:clamp(170px,15.5vw,250px);aspect-ratio:1.42;background-repeat:no-repeat;border-radius:3px;box-shadow:0 22px 44px rgba(20,4,0,.45);overflow:visible}
+  #card a{position:absolute;left:-26px;bottom:18%;background:var(--red);font-weight:600;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;padding:9px 15px;border-radius:2px;box-shadow:0 8px 18px rgba(120,10,20,.45)}
+
+  #region{left:50%;top:50%;z-index:7;transform:translate(-50%,-50%);font-weight:500;font-size:clamp(26px,3.4vw,54px);letter-spacing:.04em;pointer-events:none}
+
+  #land,#fore{inset:0;background-size:cover;background-repeat:no-repeat}
+  #land{z-index:8;background-position:50% 60%;will-change:transform}
+  #dest{left:0;right:0;top:0;z-index:9;text-align:center;pointer-events:none}
+  #dest small{display:block;font-weight:300;font-size:min(5.2vw,11vh);line-height:1;letter-spacing:.04em;text-transform:uppercase;opacity:.92}
+  #dest b{display:block;margin-top:.04em;font-weight:900;font-size:min(9.2vw,19vh);line-height:1;letter-spacing:-.03em;text-transform:uppercase;white-space:nowrap;color:#fff4e6}
+  #fore{z-index:10;background-position:50% 100%;will-change:transform}
+  #fog{inset:0;z-index:11;pointer-events:none;background:radial-gradient(70% 64% at 50% 46%,#fbe6cd 0%,#f6d3ae 52%,#b36a37 100%)}
+
+  #scrim{left:0;right:0;top:0;height:150px;z-index:13;pointer-events:none;background:linear-gradient(rgba(44,14,3,.62),rgba(44,14,3,0))}
+  #bar{left:50%;bottom:7.5vh;z-index:12;width:min(86vw,920px);display:grid;grid-template-columns:1fr 1fr 1fr 68px;background:#fff;color:#2b1a12;border-radius:3px;box-shadow:0 24px 60px rgba(30,6,0,.5)}
+  #bar div{padding:15px 22px;border-right:1px solid #eadfd6}
+  #bar label{display:block;font-weight:500;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#9a877b}
+  #bar input{width:100%;margin-top:5px;border:0;outline:0;font:600 15px Montserrat,sans-serif;color:#2b1a12;background:none}
+  #bar button{background:var(--red);color:#fff;border-radius:0 3px 3px 0;font-size:22px;transition:background .25s}
+  #bar button:hover{background:#c41426}
+
+  /* chrome */
+  header{left:0;right:0;top:0;z-index:20;display:flex;align-items:center;padding:clamp(18px,3.2vh,30px) clamp(20px,2.6vw,42px);font-size:11.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;pointer-events:none}
+  header>*{pointer-events:auto}
+  .logo{display:flex;align-items:center;gap:12px;margin-right:auto;font-weight:800;font-size:19px;letter-spacing:-.01em;text-transform:none}
+  .logo svg{width:34px;height:30px}
+  header a{margin-left:clamp(16px,2.6vw,38px);opacity:.92;transition:opacity .2s}
+  header a:hover{opacity:1}
+  .ico{width:42px;height:42px;margin-left:clamp(14px,2.4vw,36px);border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.2);transition:background .25s}
+  .ico:hover{background:rgba(255,255,255,.34)}
+  .ico svg,.srch svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+  .srch{margin-left:clamp(16px,2.6vw,38px)}
+  #rail{left:clamp(20px,2.6vw,42px);top:50%;z-index:20;display:grid;gap:15px;transform:translateY(-50%)}
+  #rail button{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45);transition:background .3s,transform .3s}
+  #rail button.on{background:#fff;transform:scale(1.35)}
+  #hint{left:50%;bottom:4.4vh;transform:translateX(-50%);z-index:7;font-weight:400;font-size:11px;letter-spacing:.17em;text-transform:uppercase;opacity:.8;white-space:nowrap}
+
+  @media (max-width:760px){
+    header a{display:none}
+    #word0{font-size:29vw}
+    #eyebrow{font-size:12px}
+    #word1{font-size:15vw}
+    #sites{right:18px;top:auto;bottom:11vh;transform:none;gap:22px}
+    #card{right:auto;left:18px;top:auto!important;bottom:11vh;width:42vw}
+    #card a{left:8px;bottom:8px}
+    #dest b{font-size:11vw}#dest small{font-size:7vw}
+    #bar{grid-template-columns:1fr 1fr;width:calc(100vw - 32px);bottom:4vh}
+    #bar div:nth-child(2){border-right:0}
+    #bar div{padding:11px 14px;border-bottom:1px solid #eadfd6}
+    #bar button{height:46px;border-radius:0 0 3px 0}
+    #hint,#rail{display:none}
+    #fore{background-size:210% auto}
+  }
+</style>
+</head>
+<body>
+<main class="hero" id="hero">
+  <div id="word0">MARS</div>
+  <div id="eyebrow">Book your seat to</div>
+  <div id="flare"></div>
+  <canvas id="gl"></canvas>
+  <canvas id="dust"></canvas>
+  <div id="pin"><i></i><span>Tharsis</span></div>
+  <div id="word1">THARSIS</div>
+  <ul id="sites"></ul>
+  <div id="card"><a href="#" id="explore">Explore</a></div>
+  <div id="region">THARSIS</div>
+
+  <div id="land"></div>
+  <div id="dest"><small>Tharsis</small><b id="destName">Olympus Mons</b></div>
+  <div id="fore"></div>
+  <div id="fog"></div>
+  <div id="scrim"></div>
+  <form id="bar" onsubmit="return false">
+    <div><label for="d1">Depart Earth</label><input id="d1" value="12 Mar 2041"></div>
+    <div><label for="d2">Return</label><input id="d2" value="30 Sep 2042"></div>
+    <div><label for="d3">Passengers</label><input id="d3" value="2 adults"></div>
+    <button aria-label="Search seats">→</button>
+  </form>
+
+  <header>
+    <a class="logo" href="#" id="home" style="margin-left:0;opacity:1"><svg viewBox="0 0 34 30" fill="none" stroke="#fff" stroke-linecap="round"><path stroke-width="3.2" d="M3 27C5 13 15 4 31 3"/><path stroke-width="2" d="M11 27c1.500-8 8-14 18-15"/><circle cx="30" cy="20" r="3.500" fill="#fff" stroke="none"/></svg>Redline</a>
+    <a href="#">Login</a><a href="#">Sign up</a>
+    <span class="srch"><svg viewBox="0 0 24 24"><circle cx="10.500" cy="10.500" r="6.500"/><path d="m15.500 15.500 5 5"/></svg></span>
+    <button class="ico" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M5 8h14M7 12h10M5 16h14"/></svg></button>
+  </header>
+  <div id="rail"><button aria-label="Mars"></button><button aria-label="Tharsis"></button><button aria-label="Destination"></button></div>
+  <div id="hint">Drag to spin · click the planet to land</div>
+</main>
+
+<script type="module">
+import * as THREE from 'three';
+
+const P = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_';
+const MAP = P + '20261031_030432_a1948696-c1d5-4468-845e-7d1291f80943.png&w=2688&q=92';
+const LAND = P + '20261031_030420_da39d0cf-af67-4e33-a487-6469549cfbff.png&w=2400&q=88';
+const FORE = P + '20261031_030420_fe406b69-3e6f-4b7c-a17e-ef09db0d270b.png&w=2400&q=88';
+const CARDS = P + '20261031_030420_e222aa05-c121-4f31-a466-0321badc0e28.png&w=1400&q=85';
+const SHEET = {w: 2336, h: 1744};
+// map position u,v (0..1 from top-left), card crop x,y,w,h on the 2336x1744 sheet
+const SITES = [
+  {name: 'Olympus Mons', u: .121, v: .31, box: [0, 0, 1150, 810]},
+  {name: 'Valles Marineris', u: .45, v: .56, box: [1186, 0, 1150, 810]},
+  {name: 'Gale Crater', u: .85, v: .75, box: [0, 900, 1150, 810]},
+  {name: 'Jezero Delta', u: .61, v: .35, box: [1186, 900, 1150, 810]}
+];
+const THARSIS = {u: .15, v: .41};
+
+const $ = id => document.getElementById(id);
+const hero = $('hero'), gl = $('gl');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const mix = (a, b, k) => a + (b - a) * k;
+const seg = (p, a, b) => clamp((p - a) / (b - a));
+const io = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const out = k => 1 - Math.pow(1 - k, 3);
+const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
+const dirOf = ({u, v}) => { const ph = 2 * Math.PI * u, th = Math.PI * v; return new THREE.Vector3(-Math.cos(ph) * Math.sin(th), Math.cos(th), Math.sin(ph) * Math.sin(th)); };
+const faceYaw = d => Math.atan2(-d.x, d.z);
+const faceLat = d => Math.asin(d.y);
+
+$('land').style.backgroundImage = `url("${LAND}")`;
+$('fore').style.backgroundImage = `url("${FORE}")`;
+$('card').style.backgroundImage = `url("${CARDS}")`;
+
+/* ------------------------------------------------------------- site list */
+$('sites').innerHTML = SITES.map((s, i) => `<li data-i="${i}">${s.name}</li>`).join('');
+const lis = [...document.querySelectorAll('#sites li')];
+let site = 0;
+function pick(i) {
+  site = i;
+  lis.forEach((l, n) => l.classList.toggle('on', n === i));
+  const [x, y, w, h] = SITES[i].box, c = $('card');
+  c.style.backgroundSize = `${SHEET.w / w * 100}% ${SHEET.h / h * 100}%`;
+  c.style.backgroundPosition = `${x / (SHEET.w - w) * 100}% ${y / (SHEET.h - h) * 100}%`;
+  const r = lis[i].getBoundingClientRect();
+  c.style.top = r.top + r.height / 2 - c.offsetHeight / 2 + 'px';
+  $('destName').textContent = SITES[i].name;
+}
+lis.forEach((l, i) => {
+  l.addEventListener('pointerenter', () => pick(i));
+  l.addEventListener('click', () => { pick(i); go(2); });
+});
+$('explore').addEventListener('click', e => { e.preventDefault(); go(2); });
+$('home').addEventListener('click', e => { e.preventDefault(); go(0); });
+[...$('rail').children].forEach((b, i) => b.addEventListener('click', () => go(i)));
+
+/* ----------------------------------------------------------------- scene */
+const renderer = new THREE.WebGLRenderer({canvas: gl, alpha: true, antialias: true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -2e5, 2e5);
+const tilt = new THREE.Group(), spin = new THREE.Group(), planet = new THREE.Group();
+tilt.add(spin); planet.add(tilt); scene.add(planet);
+
+const uni = {
+  map: {value: null}, ready: {value: 0}, texel: {value: new THREE.Vector2(1 / 2688, 1 / 1344)},
+  sun: {value: new THREE.Vector3(.62, .5, .6).normalize()},
+  hiDir: {value: dirOf(THARSIS)}, hi: {value: 0}, hiR: {value: .62}
+};
+const vert = `
+  varying vec2 vUv; varying vec3 vObj; varying vec3 vN;
+  void main(){ vUv = uv; vObj = normalize(position); vN = normalize(mat3(modelMatrix) * normal);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`;
+const mars = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), new THREE.ShaderMaterial({
+  uniforms: uni, vertexShader: vert,
+  fragmentShader: `
+    uniform sampler2D map; uniform vec2 texel; uniform vec3 sun, hiDir; uniform float hi, hiR, ready;
+    varying vec2 vUv; varying vec3 vObj; varying vec3 vN;
+    float luma(vec2 u){ return dot(texture2D(map, u).rgb, vec3(.3,.6,.1)); }
+    void main(){
+      vec3 col = texture2D(map, vUv).rgb; col = pow(col, vec3(2.6)) * vec3(1.18,.74,.56);
+      // relief from the map's own brightness
+      vec3 n = normalize(vN);
+      vec3 t = normalize(cross(vec3(0.,1.,0.), n)), b = cross(n, t);
+      float dx = luma(vUv + vec2(texel.x*2.,0.)) - luma(vUv - vec2(texel.x*2.,0.));
+      float dy = luma(vUv + vec2(0.,texel.y*2.)) - luma(vUv - vec2(0.,texel.y*2.));
+      n = normalize(n - (t*dx + b*dy) * 1.9);
+      float diff = max(dot(n, sun), 0.);
+      vec3 lit = col * (vec3(1.5,1.32,1.18) * pow(diff, .85) + vec3(.2,.09,.06));
+      // highlighted region with a rough edge, like a territory on a map
+      float d = acos(clamp(dot(normalize(vObj), hiDir), -1., 1.)) + (luma(vUv) - .45) * .22;
+      float m = smoothstep(hiR, hiR - .03, d), edge = smoothstep(.03, .0, abs(d - hiR + .01));
+      lit = mix(lit, mix(lit, vec3(.62,.012,.07) * (.25 + diff * 1.05) * (.5 + luma(vUv) * 1.1), .9), m * hi) + vec3(1.,.42,.4) * edge * hi * .22;
+      float fres = pow(1. - max(vN.z, 0.), 3.2);
+      lit += vec3(1.,.5,.26) * fres * (.05 + diff * .5);
+      lit = lit / (lit * .3 + 1.) * 1.3;
+      gl_FragColor = vec4(pow(lit, vec3(1./2.2)), 1.) * ready;
+    }`
+}));
+spin.add(mars);
+const halo = new THREE.Mesh(new THREE.SphereGeometry(1.14, 64, 48), new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, side: THREE.BackSide, blending: THREE.AdditiveBlending, uniforms: {sun: uni.sun, ready: uni.ready},
+  vertexShader: 'varying vec3 vN; void main(){ vN = normalize(mat3(modelMatrix)*normal); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+  fragmentShader: `uniform vec3 sun; uniform float ready; varying vec3 vN;
+    void main(){ float z = clamp(-vN.z, 0., 1.), a = smoothstep(.0, .55, z);
+      float s = .55 + .6 * max(dot(-vN * vec3(1.,1.,0.), normalize(sun * vec3(1.,1.,0.))), 0.);
+      a = pow(a, 2.6) * s * .7; gl_FragColor = vec4(vec3(1.,.64,.36), a * ready); }`
+}));
+planet.add(halo);
+
+/* the generated map is not seamless, so feather its edges once on load */
+const img = new Image(); img.crossOrigin = 'anonymous';
+img.onload = () => {
+  const W = 2688, H = 1344, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'); g.drawImage(img, 0, 0, W, H);
+  const fw = W * .07, t = document.createElement('canvas'); t.width = fw; t.height = H;
+  const h = t.getContext('2d'); h.drawImage(c, 0, 0, fw, H, 0, 0, fw, H);
+  h.globalCompositeOperation = 'destination-in';
+  const gr = h.createLinearGradient(0, 0, fw, 0); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, '#000');
+  h.fillStyle = gr; h.fillRect(0, 0, fw, H);
+  g.drawImage(t, W - fw, 0);
+  for (const [y0, y1] of [[0, H * .035], [H, H * .965]]) {
+    const p = g.createLinearGradient(0, y0, 0, y1); p.addColorStop(0, '#e9dfd2'); p.addColorStop(1, 'rgba(233,223,210,0)');
+    g.fillStyle = p; g.fillRect(0, Math.min(y0, y1), W, Math.abs(y1 - y0));
+  }
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.NoColorSpace;
+  tex.wrapS = THREE.RepeatWrapping; tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  uni.map.value = tex; uni.ready.value = 1; bootT = performance.now(); pick(0);
+};
+img.src = MAP;
+
+/* ---------------------------------------------------------------- dust */
+const dc = $('dust').getContext('2d');
+const spot = document.createElement('canvas'); spot.width = spot.height = 64;
+{ const g = spot.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,214,170,.95)'); r.addColorStop(.4, 'rgba(255,180,120,.42)'); r.addColorStop(1, 'rgba(255,160,90,0)'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); }
+const motes = Array.from({length: 34}, (_, i) => { const h = n => { const s = Math.sin(i * 12.9898 + n * 78.233) * 43758.5453; return s - Math.floor(s); }; return {x: h(1), y: h(2), r: 3 + h(3) * h(3) * 34, s: .004 + h(4) * .012, p: h(5) * 6.28}; });
+
+/* ---------------------------------------------------------------- layout */
+let W = 1, H = 1, R0 = 200, portrait = false;
+function resize() {
+  W = hero.clientWidth; H = hero.clientHeight; portrait = H > W * 1.05;
+  R0 = portrait ? W * .36 : Math.min(H * .3, W * .19);
+  renderer.setSize(W, H, false);
+  camera.left = -W / 2; camera.right = W / 2; camera.top = H / 2; camera.bottom = -H / 2; camera.updateProjectionMatrix();
+  const d = $('dust'), r = Math.min(devicePixelRatio, 1.5); d.width = W * r; d.height = H * r; dc.setTransform(r, 0, 0, r, 0, 0);
+  if (uni.ready.value) pick(site);
+}
+addEventListener('resize', resize); resize();
+
+/* ------------------------------------------------------------ state flow */
+const DUR01 = 1300, DUR12 = 2500;
+let st = 0, from = 0, to = 0, t0tw = -1e9, dur = 1;
+function go(n) {
+  if (n === to) return;
+  from = st; to = n; t0tw = performance.now();
+  const lo = Math.min(from, to), hi = Math.max(from, to);
+  dur = reduced ? 1 : (Math.max(0, Math.min(hi, 1) - lo) * DUR01 + Math.max(0, hi - Math.max(lo, 1)) * DUR12);
+}
+let wheelLock = 0;
+addEventListener('wheel', e => { const n = performance.now(); if (n < wheelLock || Math.abs(e.deltaY) < 8 || !uni.ready.value) return; wheelLock = n + 1400; go(clamp(to + Math.sign(e.deltaY), 0, 2)); }, {passive: true});
+addEventListener('keydown', e => { if (e.key === 'Escape') go(Math.max(0, to - 1)); });
+
+/* drag to spin, click on the planet to continue */
+let yaw = faceYaw(dirOf({u: .4, v: .5})), pitch = .16, vy = 0, drag = null, moved = 0, hand = -1e9;
+gl.addEventListener('pointerdown', e => { gl.setPointerCapture(e.pointerId); drag = {x: e.clientX, y: e.clientY}; moved = 0; vy = 0; gl.classList.add('drag'); });
+gl.addEventListener('pointermove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+  moved += Math.abs(dx) + Math.abs(dy); const k = 1.1 / R0;
+  yaw += dx * k; vy = dx * k; pitch = clamp(pitch + dy * k, -1, 1); hand = performance.now();
+});
+const up = e => {
+  if (!drag) return; drag = null; gl.classList.remove('drag');
+  const c = planetAt(), inside = Math.hypot(e.clientX - c.x, e.clientY - c.y) < c.r;
+  if (moved < 6 && inside && to < 2) go(to + 1);
+};
+gl.addEventListener('pointerup', up); gl.addEventListener('pointercancel', () => { drag = null; gl.classList.remove('drag'); });
+
+let pos = {x: 0, y: 0, r: 1};
+const planetAt = () => pos;
+
+/* ------------------------------------------------------------------ loop */
+let bootT = 1e12, last = performance.now(), mouseX = 0, mouseY = 0;
+addEventListener('pointermove', e => { mouseX = e.clientX / W - .5; mouseY = e.clientY / H - .5; });
+const v3 = new THREE.Vector3();
+
+function render(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  const t = now / 1000, f = r => 1 - Math.exp(-dt * r);
+  st = mix(from, to, io(seg(now, t0tw, t0tw + dur)));
+  const a = clamp(st), b = clamp(st - 1);
+
+  // intro: the planet swells from a speck while spinning fast, the word opens from behind it
+  const age = (now - bootT) / 1000, grow = reduced ? 1 : out(seg(age, 0, 1.5));
+  const iw = reduced ? 1 : out(seg(age, .75, 1.7));
+
+  // planet placement
+  const bz = io(seg(b, 0, .62));
+  const px = portrait ? W * .5 : mix(W * .5, W * .36, a);
+  const py = portrait ? mix(H * .4, H * .33, a) : H * .5;
+  const R = R0 * mix(.03, 1, grow) * (1 + (a - 0) * .04) * Math.exp(bz * 2.5);
+  const cx = mix(px, W * .5, bz), cy = mix(py, H * .5, bz);
+  pos = {x: cx, y: cy, r: R};
+  planet.position.set(cx - W / 2, H / 2 - cy, 0); planet.scale.setScalar(R);
+
+  // rotation: free when idle, steered to the region and then the site
+  const auto = !drag && now - hand > 1500 && st < .02;
+  if (auto) yaw += dt * (.08 + (1 - grow) * 2.4);
+  if (!drag) { yaw += vy; vy *= Math.exp(-dt * 4); }
+  if (st > .02) {
+    const goal = b > 0 ? dirOf(SITES[site]) : dirOf(THARSIS);
+    const ty = yaw + wrap(faceYaw(goal) - yaw); yaw += (ty - yaw) * f(3.6);
+    pitch += (faceLat(goal) - pitch) * f(3.6);
+  } else if (!drag) pitch += (.16 - pitch) * f(1.2);
+  spin.rotation.y = yaw; tilt.rotation.x = pitch;
+  uni.hiDir.value.copy(dirOf(b > .02 ? SITES[site] : THARSIS));
+  uni.hiR.value = b > .02 ? mix(.62, .3, seg(b, 0, .1)) : .62;
+  uni.hi.value = clamp(seg(a, .15, .6) + (b > 0 ? 1 : 0));
+
+  // word behind the planet
+  const w0 = $('word0'), wr = w0.offsetWidth, wh = w0.offsetHeight;
+  const wy = portrait ? H * -.1 + R * 1.08 + wh * .5 : mouseY * -6;
+  w0.style.transform = `translate(calc(-50% + ${(portrait ? 0 : -a * W * .08).toFixed(1)}px),calc(-50% + ${wy.toFixed(1)}px))`;
+  const inset = (1 - iw) * 50;
+  w0.style.clipPath = `inset(-10% ${inset}% -10% ${inset}%)`;
+  w0.style.opacity = 1 - seg(a, .1, .5);
+  const eb = $('eyebrow');
+  eb.style.transform = portrait ? `translate(-50%,${(wy + wh / 2 + 14).toFixed(1)}px)` : `translate(${(-wr / 2 + wr * .02 - a * W * .08).toFixed(1)}px,${(-wh / 2 - 34).toFixed(1)}px)`;
+  eb.style.opacity = iw * (1 - seg(a, .05, .35));
+  const fl = $('flare');
+  fl.style.left = cx + R * .74 + 'px'; fl.style.top = cy - R * .62 + 'px';
+  fl.style.opacity = grow * (.88 + .12 * Math.sin(t * 1.3)) * (1 - seg(bz, 0, .35));
+  $('hint').style.opacity = iw * .8 * (1 - seg(a, 0, .25));
+  $('hint').style.pointerEvents = 'none';
+
+  // pin follows Tharsis while it faces us
+  v3.copy(dirOf(THARSIS)).applyEuler(spin.rotation).applyEuler(tilt.rotation);
+  const pin = $('pin'), pz = seg(v3.z, .22, .42);
+  pin.style.transform = `translate(${(cx + v3.x * R - 6).toFixed(1)}px,${(cy - v3.y * R - 8).toFixed(1)}px)`;
+  pin.style.opacity = pz * seg(age, 1.6, 2.1) * (1 - seg(a, 0, .3));
+
+  // chapter two: region word and the list of sites
+  const w1 = $('word1'), ka = seg(a, .45, 1);
+  w1.style.opacity = ka * (1 - seg(b, .02, .16));
+  w1.style.transform = `translate(calc(-50% + ${portrait ? 0 : (W * .02 + (1 - out(ka)) * 40).toFixed(1)}px),${(portrait ? H * .46 : H * .56).toFixed(1)}px)`;
+  const sOp = seg(a, .55, 1) * (1 - seg(b, 0, .14));
+  for (const id of ['sites', 'card']) { const e = $(id); e.style.opacity = sOp; e.style.pointerEvents = sOp > .6 ? '' : 'none'; e.style.visibility = sOp > .01 ? '' : 'hidden'; }
+  $('card').style.transform = `translateX(${(1 - out(seg(a, .6, 1))) * 26}px)`;
+  gl.style.pointerEvents = st < 1.02 ? '' : 'none';
+  const rg = $('region'); rg.textContent = SITES[site].name.toUpperCase();
+  rg.style.opacity = seg(b, .14, .26) * (1 - seg(b, .42, .52));
+
+  // dive: dust white-out, the landscape rises out of it
+  const fog = $('fog'), fi = seg(b, .36, .54), fo = seg(b, .62, .96);
+  fog.style.opacity = fi * (1 - fo); fog.style.visibility = fi > 0 && fo < 1 ? '' : 'hidden';
+  const showD = b > .5, lk = out(seg(b, .5, 1)), fk = out(seg(b, .58, 1));
+  const land = $('land'), fore = $('fore'), dest = $('dest');
+  for (const e of [land, fore, dest]) e.style.visibility = showD ? '' : 'hidden';
+  const drift = 1 + .02 * Math.sin(t * .18);
+  land.style.transform = `translate(${(mouseX * -14).toFixed(1)}px,${mix(H * .2, mouseY * -8, lk).toFixed(1)}px) scale(${(mix(1.3, 1.05, lk) * drift).toFixed(4)})`;
+  fore.style.transform = `translate(${(mouseX * -46).toFixed(1)}px,${mix(H * .42, 0, fk).toFixed(1)}px) scale(1.06)`;
+  const dk = out(seg(b, .66, .98));
+  dest.style.transform = `translate(${(mouseX * -26).toFixed(1)}px,${mix(H * .62, H * (portrait ? .3 : .27), dk).toFixed(1)}px)`;
+  dest.querySelector('small').style.opacity = seg(b, .8, 1) * .92;
+  const bar = $('bar'), bk = seg(b, .86, 1);
+  bar.style.opacity = bk; bar.style.transform = `translate(-50%,${(1 - out(bk)) * 34}px)`;
+  bar.style.visibility = bk > 0 ? '' : 'hidden';
+
+  $('scrim').style.opacity = seg(b, .6, .9);
+  [...$('rail').children].forEach((d, i) => d.classList.toggle('on', Math.round(st) === i));
+
+  // dust motes
+  dc.clearRect(0, 0, W, H);
+  for (const m of motes) {
+    const x = ((m.x + t * m.s + 2) % 1.1 - .05) * W, y = (m.y + Math.sin(t * .3 + m.p) * .02) * H;
+    dc.globalAlpha = (.3 + .35 * Math.sin(t * .7 + m.p) ** 2) * (showD ? .7 : 1);
+    dc.drawImage(spot, x - m.r, y - m.r, m.r * 2, m.r * 2);
+  }
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

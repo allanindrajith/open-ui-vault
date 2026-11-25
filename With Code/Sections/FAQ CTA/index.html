@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ CTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{background:#fff;color:#171717;font-family:'Inter',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h2,h4,p,ul{margin:0;padding:0}
+ul{list-style:none}
+.wrap{max-width:1100px;width:100%;margin:0 auto;padding:0 20px}
+main.sec{padding:80px 0}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:30px;align-items:stretch}
+
+@property --c5-x1{syntax:'<percentage>';inherits:false;initial-value:10%}
+@property --c5-y1{syntax:'<percentage>';inherits:false;initial-value:10%}
+@property --c5-x2{syntax:'<percentage>';inherits:false;initial-value:90%}
+@property --c5-y2{syntax:'<percentage>';inherits:false;initial-value:10%}
+@property --c5-x3{syntax:'<percentage>';inherits:false;initial-value:10%}
+@property --c5-y3{syntax:'<percentage>';inherits:false;initial-value:90%}
+@property --c5-x4{syntax:'<percentage>';inherits:false;initial-value:90%}
+@property --c5-y4{syntax:'<percentage>';inherits:false;initial-value:90%}
+@property --c5-x5{syntax:'<percentage>';inherits:false;initial-value:50%}
+@property --c5-y5{syntax:'<percentage>';inherits:false;initial-value:50%}
+@property --c5-s1{syntax:'<percentage>';inherits:false;initial-value:55%}
+@property --c5-s2{syntax:'<percentage>';inherits:false;initial-value:55%}
+@property --c5-s3{syntax:'<percentage>';inherits:false;initial-value:55%}
+@property --c5-s4{syntax:'<percentage>';inherits:false;initial-value:55%}
+@property --c5-s5{syntax:'<percentage>';inherits:false;initial-value:65%}
+
+.c5-animated-gradient{
+  background-color:#ff8e53;
+  background-image:
+    radial-gradient(circle at var(--c5-x1) var(--c5-y1), #fff1aa 0px, transparent var(--c5-s1)),
+    radial-gradient(circle at var(--c5-x2) var(--c5-y2), #ff4b2b 0px, transparent var(--c5-s2)),
+    radial-gradient(circle at var(--c5-x3) var(--c5-y3), #8aff8a 0px, transparent var(--c5-s3)),
+    radial-gradient(circle at var(--c5-x4) var(--c5-y4), #ffd000 0px, transparent var(--c5-s4)),
+    radial-gradient(circle at var(--c5-x5) var(--c5-y5), #ff1493 0px, transparent var(--c5-s5));
+  animation:
+    c5-blob1 5s ease-in-out infinite,
+    c5-blob2 6s ease-in-out infinite,
+    c5-blob3 5.5s ease-in-out infinite,
+    c5-blob4 6.5s ease-in-out infinite,
+    c5-blob5 4s ease-in-out infinite,
+    c5-size1 3.5s ease-in-out infinite,
+    c5-size2 4.2s ease-in-out infinite,
+    c5-size3 3.8s ease-in-out infinite,
+    c5-size4 4.6s ease-in-out infinite,
+    c5-size5 3s ease-in-out infinite;
+}
+@keyframes c5-blob1{0%,100%{--c5-x1:5%;--c5-y1:5%}25%{--c5-x1:45%;--c5-y1:20%}50%{--c5-x1:30%;--c5-y1:55%}75%{--c5-x1:0%;--c5-y1:30%}}
+@keyframes c5-blob2{0%,100%{--c5-x2:95%;--c5-y2:5%}33%{--c5-x2:55%;--c5-y2:35%}66%{--c5-x2:80%;--c5-y2:65%}}
+@keyframes c5-blob3{0%,100%{--c5-x3:5%;--c5-y3:95%}40%{--c5-x3:45%;--c5-y3:65%}70%{--c5-x3:25%;--c5-y3:100%}}
+@keyframes c5-blob4{0%,100%{--c5-x4:95%;--c5-y4:95%}30%{--c5-x4:60%;--c5-y4:70%}60%{--c5-x4:100%;--c5-y4:50%}}
+@keyframes c5-blob5{0%,100%{--c5-x5:50%;--c5-y5:50%}25%{--c5-x5:70%;--c5-y5:30%}50%{--c5-x5:40%;--c5-y5:70%}75%{--c5-x5:30%;--c5-y5:40%}}
+@keyframes c5-size1{0%,100%{--c5-s1:45%}50%{--c5-s1:80%}}
+@keyframes c5-size2{0%,100%{--c5-s2:45%}50%{--c5-s2:85%}}
+@keyframes c5-size3{0%,100%{--c5-s3:45%}50%{--c5-s3:78%}}
+@keyframes c5-size4{0%,100%{--c5-s4:45%}50%{--c5-s4:82%}}
+@keyframes c5-size5{0%,100%{--c5-s5:50%}50%{--c5-s5:85%}}
+@media (prefers-reduced-motion:reduce){.c5-animated-gradient{animation:none}}
+
+.cta{border-radius:24px;padding:80px 40px;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.05)}
+.cta h2{font-weight:400;line-height:1.1;margin-bottom:15px;font-size:3.5rem;letter-spacing:-.03em}
+.cta p{font-size:.9rem;margin-bottom:30px;font-weight:400;opacity:.85}
+.cta button{background:#171717;color:#fff;font:600 .95rem 'Inter',sans-serif;cursor:pointer;border:none;transition:all .2s;padding:14px 32px;border-radius:12px;box-shadow:0 10px 20px rgba(0,0,0,.3)}
+.cta button:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.4)}
+
+.faq{display:flex;flex-direction:column;justify-content:center;gap:12px}
+.item{background:#fff;border:1px solid #f0f0f0;border-radius:10px;padding:18px 20px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.02)}
+.item:hover{border-color:#eaeaea}
+.item.active{border-color:#eaeaea;box-shadow:0 4px 12px rgba(0,0,0,.04)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.9rem;color:#171717}
+.row svg{flex:none}
+.item .up{display:none}
+.item.active .up{display:block}
+.item.active .down{display:none}
+.ans{display:none;margin-top:12px;font-size:.9rem;color:#666;line-height:1.6}
+.item.active .ans{display:block}
+
+footer{background:#fafafa;padding:80px 0 20px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 2fr;gap:40px;margin-bottom:50px}
+.logo{height:24px;margin-bottom:15px;filter:brightness(0);display:block}
+.desc{font-size:.85rem;color:#888;line-height:1.6;max-width:220px}
+footer h4{font-weight:600;margin-bottom:20px;font-size:.95rem;color:#171717}
+footer li{margin-bottom:12px}
+footer a{color:#888;text-decoration:none;font-size:.85rem;transition:color .2s}
+footer a:hover{color:#171717}
+.news p{font-size:.85rem;color:#888;margin-bottom:15px}
+.form{display:flex;gap:10px}
+.form input{flex-grow:1;min-width:0;border:1px solid #f0f0f0;background:#fff;outline:none;transition:border-color .2s;font:400 .9rem 'Inter',sans-serif;padding:12px 16px;border-radius:10px;box-shadow:inset 0 1px 3px rgba(0,0,0,.02)}
+.form input:focus{border-color:#ccc}
+.form button{background:#171717;color:#fff;border:none;font:600 .9rem 'Inter',sans-serif;cursor:pointer;transition:all .2s;padding:12px 28px;border-radius:10px;box-shadow:0 12px 24px rgba(0,0,0,.4)}
+.form button:hover{transform:translateY(-2px)}
+.bottom{border-top:1px solid #f0f0f0;padding:25px 0 10px;display:flex;justify-content:space-between;font-size:.85rem;color:#888}
+
+@media (max-width:900px){
+  main.sec{padding:60px 0}
+  .grid{grid-template-columns:1fr;gap:60px}
+  footer{padding-top:60px}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .cta{padding:60px 20px}
+  .cta h2{font-size:2.4rem}
+}
+@media (max-width:480px){
+  .fgrid{grid-template-columns:1fr}
+  .bottom{flex-direction:column;gap:15px;align-items:center}
+  .form button{padding:12px 20px}
+}
+</style>
+</head>
+<body>
+<main class="sec">
+  <div class="wrap">
+    <div class="grid">
+      <div class="cta c5-animated-gradient">
+        <h2>Ready to Transfer<br>Without Borders?</h2>
+        <p>Send Money Worldwide at the Best Rates</p>
+        <button>Get Started Today</button>
+      </div>
+      <div class="faq" id="faq"></div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <img class="logo" src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/Tests/logoipsum-415.svg" alt="Logo">
+        <p class="desc">Reliable transfers that always reach their destination on time.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul><li><a href="#">Features</a></li><li><a href="#">Benefits</a></li><li><a href="#">Testimonials</a></li><li><a href="#">Pricing</a></li></ul>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul><li><a href="#">Home</a></li><li><a href="#">Contact</a></li><li><a href="#">404</a></li></ul>
+      </div>
+      <div class="news">
+        <h4>Newsletter</h4>
+        <p>Join our newsletter and get notified.</p>
+        <div class="form"><input type="email" placeholder="Enter your email..."><button>Subscribe</button></div>
+      </div>
+    </div>
+    <div class="bottom"><span>All rights reserved. © 2025</span><span>Designed by Peter Design</span></div>
+  </div>
+</footer>
+<script>
+const data=[
+["What is the maximum amount I can send?","Transfer limits depend on your verification level and country. You can check your limits inside your account settings."],
+["Does my recipient need an account?","No, your recipient doesn't need an account. Funds can be sent directly to their bank account or mobile wallet."],
+["Is there a mobile app available?","Yes, our mobile app is available on both iOS and Android for easy transfers on the go."],
+["Can I cancel a transfer?","Transfers can be cancelled if they have not yet been processed by the receiving bank. Check your transfer status for options."],
+["What currencies are supported?","We support over 50 currencies worldwide. You can view the full list of supported currencies in our app or website."]];
+const chev=(d)=>'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg>';
+const root=document.getElementById('faq');
+let active=0;
+data.forEach((d,i)=>{
+  const el=document.createElement('div');el.className='item';
+  el.innerHTML='<div class="row"><span></span><span class="down">'+chev('m6 9 6 6 6-6')+'</span><span class="up">'+chev('m18 15-6-6-6 6')+'</span></div><div class="ans"></div>';
+  el.querySelector('span').textContent=d[0];el.querySelector('.ans').textContent=d[1];
+  el.addEventListener('click',()=>{active=active===i?null:i;render()});
+  root.appendChild(el);
+});
+function render(){[...root.children].forEach((e,i)=>e.classList.toggle('active',i===active))}
+render();
+</script>
+</body>
+</html>

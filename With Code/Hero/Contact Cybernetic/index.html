@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mainframe - Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:#171717;overflow-x:hidden}
+::selection{background:#EAECE9;color:#1C2E1E}
+button{font:inherit;cursor:pointer;border:0;background:none}
+a{color:inherit}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.animate-blink{animation:blink 1s step-end infinite}
+#app{position:relative;display:flex;flex-direction:column;overflow-x:hidden}
+.bgv{order:1;position:relative;overflow:hidden;pointer-events:none;width:100%;aspect-ratio:1/1;background:#fafafa}
+.bgv video{width:100%;height:100%;object-fit:cover;object-position:right;display:block}
+.content{order:0;position:relative;z-index:10;display:flex;flex-direction:column;width:100%;background:#fff;padding-bottom:32px}
+main{width:100%;max-width:80rem;margin:0 auto;padding:96px 24px 48px;flex:1;display:flex;flex-direction:column;justify-content:center}
+header{position:fixed;top:0;left:0;right:0;z-index:11;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;background:transparent}
+.logo{display:flex;gap:12px;align-items:center}
+.logo .t{font-size:21px;letter-spacing:-.025em;font-weight:500;color:#000;user-select:none}
+.logo .a{font-size:25px;font-weight:500;line-height:1;margin-bottom:4px;color:#000;letter-spacing:-.02em;user-select:none}
+nav{display:none;font-size:23px;color:#000}
+nav a{text-decoration:none;transition:opacity .15s}
+nav a:hover,.cta:hover{opacity:.6}
+nav .d{opacity:.4}
+.cta{display:none;font-size:23px;color:#000;text-decoration:underline;text-underline-offset:2px;transition:opacity .15s}
+.burger{display:flex;flex-direction:column;gap:5px;padding:6px;position:relative;z-index:20}
+.burger span{display:block;width:24px;height:2px;background:#000;transition:all .3s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.overlay{position:fixed;inset:0;z-index:9;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 32px;gap:18px;font-size:34px}
+.overlay.open{opacity:1;pointer-events:auto}
+.overlay a{text-decoration:none;color:#000}
+h1{font-size:48px;font-weight:400;letter-spacing:-.025em;color:#000;line-height:1.08;margin-bottom:32px;user-select:none;width:100%;white-space:pre-wrap;min-height:2.16em}
+.cur{display:inline-block;width:2px;height:1.1em;background:#000;vertical-align:middle;margin-left:2px}
+.desc{font-size:18px;color:#5A635A;line-height:1.625;margin-bottom:56px;max-width:42rem}
+h2{font-size:24px;font-weight:500;letter-spacing:-.025em;margin-bottom:8px}
+.sub{opacity:.85;color:#738273;margin-bottom:32px}
+.pills{display:flex;flex-wrap:wrap;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:500;background:#fff;color:#1C2E1E;border:1px solid #F1F3F1;transition:background .2s,transform .15s}
+.pill:hover{background:rgba(241,243,241,.55)}
+.pill:active{transform:scale(.96)}
+.pill.on{background:#1C2E1E;color:#fff;border-color:#1C2E1E;box-shadow:0 4px 6px -1px rgba(2,44,34,.05)}
+.pill svg{width:14px;height:14px;display:none}
+.pill.on svg{display:block;animation:pop .4s cubic-bezier(.34,1.8,.5,1)}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.status{margin-top:24px;min-height:20px}
+.ph{opacity:.5;font-style:italic;font-size:12px}
+.banner{display:inline-flex;flex-wrap:wrap;align-items:center;gap:12px;background:#FAFBF9;border:1px solid #F1F3F1;border-radius:16px;padding:14px 18px;font-size:14px;animation:grow .35s ease-out;overflow:hidden}
+@keyframes grow{from{opacity:0;max-height:0}to{opacity:1;max-height:120px}}
+.banner button{color:#4D6D47;text-transform:uppercase;font-size:12px;font-weight:500;letter-spacing:.04em}
+.fade{opacity:0;transform:translateY(20px);animation:in .6s ease-out forwards}
+@keyframes in{to{opacity:1;transform:none}}
+@media(min-width:640px){header{padding:20px 32px}.logo .t{font-size:26px}.logo .a{font-size:30px}}
+@media(min-width:768px){
+ .bgv{aspect-ratio:16/9}
+ h1{font-size:60px}.desc{font-size:20px}
+ nav{display:flex}.cta{display:block}.burger,.overlay{display:none}
+}
+@media(min-width:1024px){
+ #app{display:block;min-height:100vh}
+ .bgv{order:0;position:absolute;inset:0;z-index:0;aspect-ratio:auto;height:100%;background:#eeeef8}
+ .bgv video{object-position:right bottom}
+ .content{order:0;background:transparent;padding-bottom:0;min-height:100vh}
+ h1{font-size:76px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+ <div class="bgv"><video id="v" muted playsinline preload="auto" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260601_110537_3a579fa0-7bbc-4d94-9d25-0e816c7840f5.mp4"></video></div>
+ <header>
+  <div class="logo"><span class="t">Mainframe&reg;</span><span class="a">&#10033;</span></div>
+  <nav><a href="#">Labs</a><span class="d">,&nbsp;</span><a href="#">Studio</a><span class="d">,&nbsp;</span><a href="#">Openings</a><span class="d">,&nbsp;</span><a href="#">Shop</a></nav>
+  <a class="cta" href="#">Get in touch</a>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+ </header>
+ <div class="overlay" id="ov"><a href="#">Labs</a><a href="#">Studio</a><a href="#">Openings</a><a href="#">Shop</a><a href="#" style="text-decoration:underline">Get in touch</a></div>
+ <div class="content">
+  <main id="spade-hero">
+   <div class="fade"><h1 id="h"></h1></div>
+   <div class="fade" style="animation-delay:.1s"><p class="desc">Whether you have questions, feedback, <br>drop us a message and we'll get back to you as soon as possible.</p></div>
+   <div class="fade" style="animation-delay:.2s">
+    <h2>What sort of service?</h2>
+    <p class="sub">Select all that apply</p>
+    <div class="pills" id="pills"></div>
+    <div class="status" id="st"></div>
+   </div>
+  </main>
+ </div>
+</div>
+<script>
+// typewriter
+(function(){
+ var text="we'd love to\nhear from you!",h=document.getElementById('h'),i=0;
+ function render(done){h.textContent=text.slice(0,i);if(!done){var c=document.createElement('span');c.className='cur animate-blink';h.appendChild(c);}}
+ render(false);
+ setTimeout(function(){var t=setInterval(function(){i++;if(i>=text.length){clearInterval(t);render(true);}else render(false);},38);},600);
+})();
+// menu
+var b=document.getElementById('burger'),ov=document.getElementById('ov');
+b.onclick=function(){b.classList.toggle('open');ov.classList.toggle('open')};
+// pills
+(function(){
+ var opts=["Brand","Digital","Campaign","Other"],sel=[],box=document.getElementById('pills'),st=document.getElementById('st');
+ var chk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+ opts.forEach(function(o){
+  var p=document.createElement('button');p.className='pill';p.innerHTML=chk+'<span>'+o+'</span>';
+  p.onclick=function(){var k=sel.indexOf(o);if(k<0)sel.push(o);else sel.splice(k,1);p.classList.toggle('on',k<0);upd();};
+  box.appendChild(p);
+ });
+ function upd(){
+  var ordered=opts.filter(function(x){return sel.indexOf(x)>-1});
+  if(!ordered.length){st.innerHTML='<p class="ph">Please click to select services above.</p>';return;}
+  var el=st.querySelector('.banner');
+  if(!el){st.innerHTML='<div class="banner"><span class="msg"></span><button>Let\'s Go &rarr;</button></div>';el=st.querySelector('.banner');}
+  el.querySelector('.msg').textContent='Ready to inquire about: '+ordered.join(', ');
+ }
+ upd();
+})();
+// video
+(function(){
+ var v=document.getElementById('v'),prev=null,target=0;
+ window.addEventListener('mousemove',function(e){
+  if(window.innerWidth<1024||!v.duration)return;
+  if(prev===null){prev=e.clientX;return;}
+  var d=e.clientX-prev;prev=e.clientX;
+  target=Math.max(0,Math.min(v.duration,target+(d/window.innerWidth)*0.8*v.duration));
+  if(!v.seeking)v.currentTime=target;
+ });
+ v.addEventListener('seeked',function(){if(Math.abs(v.currentTime-target)>0.01&&window.innerWidth>=1024)v.currentTime=target;});
+ if(window.innerWidth<1024){v.autoplay=true;v.loop=true;var p=v.play();if(p&&p.catch)p.catch(function(){});}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daisy Wild</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;color:#000;background:#BDE84F;line-height:1.5}
+p{margin:0}
+section{position:relative;width:100%}
+.wrap{display:flex;flex-direction:column-reverse}
+.vid{position:relative;overflow:hidden;background:#111}
+.vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid.desk{display:none}
+.vid.mob{height:75vw}
+.panel{position:relative;display:flex;flex-direction:column;padding:24px 24px 32px;background:#BDE84F;min-height:100%}
+.a{opacity:0;transition-timing-function:cubic-bezier(0.22,1,0.36,1)}
+.vis .a{opacity:1;transform:translate(0,0)!important}
+.top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:auto;transform:translateY(12px);transition:opacity 1400ms cubic-bezier(0.22,1,0.36,1) 0ms,transform 1400ms cubic-bezier(0.22,1,0.36,1) 0ms}
+.top span,.notes p,.cap .s{font-size:12px;line-height:16px;font-weight:400}
+.imgblk{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 0;transform:translateY(40px);transition:opacity 1800ms cubic-bezier(0.22,1,0.36,1) 300ms,transform 1800ms cubic-bezier(0.22,1,0.36,1) 300ms}
+.imgbox{width:clamp(140px,40%,220px);aspect-ratio:220/340;background:#D9D9D9;border-radius:2px;overflow:hidden;flex-shrink:0}
+.imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+.cap{text-align:center;margin-top:16px;transform:translateY(10px);transition:opacity 1400ms cubic-bezier(0.22,1,0.36,1) 600ms,transform 1400ms cubic-bezier(0.22,1,0.36,1) 600ms}
+.cap .n{font-size:14px;line-height:20px}
+.cap .s{margin-top:4px}
+.bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.notes{display:flex;flex-direction:column;gap:2px;transform:translateY(16px);transition:opacity 1400ms cubic-bezier(0.22,1,0.36,1) 900ms,transform 1400ms cubic-bezier(0.22,1,0.36,1) 900ms}
+.notes p{line-height:1.375}
+.notes .l{font-weight:700}
+.notes .i{font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.btn{font:inherit;font-size:12px;line-height:16px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#000;border:1px solid #000;background:transparent;padding:12px 24px;position:relative;flex-shrink:0;cursor:pointer;transform:translateY(16px);transition:opacity 1400ms cubic-bezier(0.22,1,0.36,1) 1150ms,transform 1400ms cubic-bezier(0.22,1,0.36,1) 1150ms}
+.btn span.t{position:relative;z-index:10;transition:color 500ms}
+.btn span.f{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0);transition:transform 500ms ease-out}
+.btn:hover span.f{transform:scaleX(1)}
+@media(min-width:768px){
+.wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.vid.desk{display:block;min-height:100%}
+.vid.mob{display:none}
+.panel{padding:32px 32px 40px}
+}
+</style>
+</head>
+<body>
+<section id="s">
+<div class="wrap">
+  <div class="vid desk"><video autoplay muted loop playsinline><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260511_151818_65bb22c5-33ae-4e23-85ea-0a3dd89957c2.mp4" type="video/mp4"></video></div>
+  <div class="vid mob"><video autoplay muted loop playsinline><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260511_151818_65bb22c5-33ae-4e23-85ea-0a3dd89957c2.mp4" type="video/mp4"></video></div>
+  <div class="panel">
+    <div class="top a"><span>Daisy wild</span><span>Playful</span></div>
+    <div class="imgblk a">
+      <div class="imgbox"><img src="https://images.higgs.ai/?default=1&amp;output=webp&amp;url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260511_151621_4fba6892-ed21-4c2e-8cb3-0bd2ec2abefa.png&amp;w=1280&amp;q=85" alt="Eau So Extra"></div>
+      <div class="cap a"><p class="n">Eau So Extra</p><p class="s">100 ml / 3.3 oz</p></div>
+    </div>
+    <div class="bottom">
+      <div class="notes a">
+        <div><p class="l">Top</p><p class="i">BANANA BLOSSOM ACCORD</p></div>
+        <div><p class="l">Heart</p><p class="i">CHOCOLATE DAISY ACCORD</p></div>
+        <div><p class="l">Base</p><p class="i">VETIVER OIL</p></div>
+      </div>
+      <button class="btn a"><span class="t">SHOP NOW</span><span class="f"></span></button>
+    </div>
+  </div>
+</div>
+</section>
+<script>
+(function(){
+  var s=document.getElementById('s');
+  function show(){s.classList.add('vis')}
+  if('IntersectionObserver' in window){
+    var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){show();o.disconnect()}},{threshold:0.15});
+    o.observe(s);
+  } else show();
+})();
+</script>
+</body>
+</html>

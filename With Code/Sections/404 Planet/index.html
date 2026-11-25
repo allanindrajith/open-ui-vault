@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXOVA - 404</title>
+<link href="https://db.onlinewebfonts.com/c/e66905e07608167a84e6ad52f638c3c6?family=Helvetica+Now+Var" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#020617;overflow-x:hidden}
+body{font-family:"Helvetica Now Var",Helvetica,Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+svg{display:block}
+.root{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;font-family:"Helvetica Now Var",Helvetica,Arial,sans-serif}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wrap{position:relative;z-index:10;display:flex;flex-direction:column;min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 24px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo svg{width:32px;height:32px;fill:#fff}
+.logo span{color:#fff;font-size:20px;font-weight:700;letter-spacing:.05em}
+.links{display:none;gap:32px}
+.links a{color:rgba(255,255,255,.8);font-size:14px;letter-spacing:.025em;transition:color .2s}
+.links a:hover{color:#fff}
+.login{display:none;align-items:center;gap:8px;background:linear-gradient(to right,#34d399,#06b6d4);color:#fff;font-size:14px;font-weight:600;padding:10px 24px;border-radius:9999px}
+.login svg{width:16px;height:16px}
+.burger{position:relative;z-index:60;width:40px;height:40px;background:none;border:0;color:#fff;cursor:pointer}
+.burger svg{position:absolute;inset:8px;width:24px;height:24px;transition:all .3s}
+.burger .ic-menu{opacity:1;transform:rotate(0) scale(1)}
+.burger .ic-x{opacity:0;transform:rotate(90deg) scale(.75)}
+.burger.open .ic-menu{opacity:0;transform:rotate(-90deg) scale(.75)}
+.burger.open .ic-x{opacity:1;transform:rotate(0) scale(1)}
+.backdrop{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;transition:opacity .4s}
+.mpanel{position:absolute;left:0;right:0;top:68px;z-index:50}
+.mblur{position:absolute;inset:0;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:0 0 16px 16px}
+.mcontent{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:20px;padding:24px 24px 32px}
+.mcontent a.ml{text-align:center;font-size:18px;font-weight:300;letter-spacing:.08em;color:rgba(255,255,255,.8);transition:color .2s,opacity .4s ease-out,transform .4s ease-out;opacity:0;transform:translateY(12px)}
+.mcontent a.ml:hover{color:#fff}
+.mcontent .login{display:inline-flex;opacity:0;transform:translateY(12px);transition:opacity .4s ease-out,transform .4s ease-out}
+.show .backdrop{opacity:1}
+.show .ml,.show .login{opacity:1 !important;transform:none !important}
+.hidden{display:none !important}
+.hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 16px}
+.hero h1{color:rgba(255,255,255,.8);font-size:18px;font-weight:300;line-height:1.375;letter-spacing:-.025em}
+.hero h1.a{margin-bottom:4px}
+.hero h1.b{margin-bottom:32px}
+.f404{width:100%;display:flex;justify-content:center;margin-bottom:32px}
+.four-oh-four{font-size:80px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.05em;user-select:none;text-shadow:0 0 80px rgba(255,255,255,.3),0 0 160px rgba(255,255,255,.1)}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.ret{display:inline-block;color:#fff;font-size:10px;letter-spacing:.15em;font-weight:500;padding:12px 24px;border-radius:9999px;text-transform:uppercase}
+footer{position:relative;z-index:10;padding:40px 16px 32px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.ft{color:#fff;font-size:10px;font-weight:700;letter-spacing:.15em;margin-bottom:12px}
+.col li{margin-bottom:8px}
+.col a{color:rgba(255,255,255,.5);font-size:10px;transition:color .2s}
+.col a:hover{color:rgba(255,255,255,.8)}
+.news{grid-column:span 2}
+.form{display:flex;max-width:384px}
+.form input{flex:1;min-width:0;background:#fff;border:0;border-radius:6px 0 0 6px;padding:10px 12px;font-size:12px;font-family:inherit;color:#111;outline:0}
+.form button{background:linear-gradient(to right,#34d399,#06b6d4);color:#fff;border:0;border-radius:0 6px 6px 0;font-weight:700;letter-spacing:.05em;font-size:12px;padding:0 16px;cursor:pointer;font-family:inherit}
+.news .ft.c{margin:20px 0 12px}
+.soc{display:flex;gap:12px}
+.soc a{color:rgba(255,255,255,.5);transition:color .2s}
+.soc a:hover{color:#fff}
+.soc svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(min-width:480px){
+ .hero h1{font-size:24px}
+ .four-oh-four{font-size:100px}
+ .ret{font-size:12px}
+}
+@media(min-width:640px){
+ .hero{padding:64px 24px}
+ .hero h1{font-size:30px}
+ .hero h1.a{margin-bottom:8px}
+ .hero h1.b{margin-bottom:48px}
+ .f404{margin-bottom:48px}
+ .four-oh-four{font-size:140px}
+ .ret{font-size:14px;letter-spacing:.2em;padding:14px 32px}
+ footer{padding:64px 24px 40px}
+ .grid{gap:32px}
+ .ft{font-size:12px;margin-bottom:16px}
+ .col li{margin-bottom:10px}
+ .col a{font-size:12px}
+ .news .ft.c{margin:24px 0 12px}
+ .mcontent a.ml{font-size:20px}
+}
+@media(min-width:768px){
+ nav{padding:20px 48px}
+ .hero{padding-top:0;padding-bottom:0}
+ .hero h1{font-size:48px}
+ .four-oh-four{font-size:200px}
+ footer{padding-left:48px;padding-right:48px}
+ .grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:1024px){
+ nav{padding:20px 64px}
+ .links{display:flex}
+ .login.d{display:inline-flex}
+ .burger{display:none}
+ .four-oh-four{font-size:260px}
+ footer{padding-left:64px;padding-right:64px}
+ .grid{grid-template-columns:repeat(6,1fr);gap:24px}
+ .news{grid-column:span 2}
+}
+@media(min-width:1024px){.mobile-only{display:none !important}}
+</style>
+</head>
+<body>
+<div class="root">
+ <video class="bg" autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4"></video>
+ <div class="wrap">
+  <nav>
+   <a class="logo" href="#">
+    <svg viewBox="0 0 480 480"><path d="M480 240a240 240 0 0 0-240 240 240 240 0 0 0 240-240Z"/><path d="M240 0A240 240 0 0 0 0 240 240 240 0 0 0 240 0Z"/><path d="M480 240A240 240 0 0 0 240 0a240 240 0 0 0 240 240Z"/><path d="M240 480A240 240 0 0 0 0 240a240 240 0 0 0 240 240Z"/></svg>
+    <span>NEXOVA</span>
+   </a>
+   <div class="links"><a href="#">Domain</a><a href="#">Servers</a><a href="#">Cloud</a><a href="#">Managed</a><a href="#">Email</a><a href="#">Privacy</a></div>
+   <a class="login d" href="#">LOG IN <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+   <button class="burger mobile-only" id="burger" aria-label="Menu">
+    <svg class="ic-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <svg class="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+   </button>
+  </nav>
+  <div id="menu" class="hidden mobile-only">
+   <div class="backdrop" id="backdrop"></div>
+   <div class="mpanel"><div class="mblur"></div><div class="mcontent" id="mc"></div></div>
+  </div>
+
+  <section class="hero">
+   <h1 class="a">This page seems to have</h1>
+   <h1 class="b">slipped beyond our reach :/</h1>
+   <div class="f404"><span class="four-oh-four">404</span></div>
+   <a href="#" class="liquid-glass ret">Return to Main Page</a>
+  </section>
+
+  <footer>
+   <div class="grid" id="fg"></div>
+  </footer>
+ </div>
+</div>
+<script>
+var links=["Domain","Servers","Cloud","Managed","Email","Privacy"];
+var cols=[["SERVERS",["Web Servers","VPS Servers","Cloud Servers","Managed Instances","Bare Metal"]],["DOMAINS",["Find Domain","Move Domains","DNS Manager","Domain Costs"]],["HELP US",["Open a Ticket","FAQs","Docs","Tutorials","Forum"]],["ABOUT",["Our Story","Leadership Team","Press Room","We Hire","Alliance","Blog"]]];
+var icons=[
+'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+'<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>',
+'<circle cx="12" cy="12" r="10"/><path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32M8.56 2.75c4.37 6 6 9.42 8 17.72"/>',
+'<path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>',
+'<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/>',
+'<rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/>'];
+var h='';
+cols.forEach(function(c){h+='<div class="col"><h3 class="ft">'+c[0]+'</h3><ul>'+c[1].map(function(l){return '<li><a href="#">'+l+'</a></li>'}).join('')+'</ul></div>'});
+h+='<div class="news"><h3 class="ft">JOIN FOR EXCLUSIVE DEALS</h3><form class="form" onsubmit="return false"><input type="email" placeholder="Type your email to sign up"><button type="submit">SEND IT</button></form><h3 class="ft c">CONNECT</h3><div class="soc">'+icons.map(function(p){return '<a href="#"><svg viewBox="0 0 24 24">'+p+'</svg></a>'}).join('')+'</div></div>';
+document.getElementById('fg').innerHTML=h;
+
+var arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+var mc=document.getElementById('mc');
+mc.innerHTML=links.map(function(l,i){return '<a class="ml" href="#" style="transition-delay:0ms">'+l+'</a>'}).join('')+'<a class="login" href="#" style="transition-delay:0ms">LOG IN '+arrow+'</a>';
+var menu=document.getElementById('menu'),burger=document.getElementById('burger'),open=false,t;
+function delays(on){var els=mc.children;for(var i=0;i<els.length;i++){els[i].style.transitionDelay=on?(350+i*50)+'ms':'0ms'}}
+function toggle(){
+ clearTimeout(t);
+ if(!open){open=true;burger.classList.add('open');menu.classList.remove('hidden');delays(true);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){menu.classList.add('show')})});}
+ else{open=false;burger.classList.remove('open');delays(false);menu.classList.remove('show');
+  t=setTimeout(function(){menu.classList.add('hidden')},500);}
+}
+burger.addEventListener('click',toggle);
+document.getElementById('backdrop').addEventListener('click',function(){if(open)toggle()});
+window.addEventListener('resize',function(){if(open&&innerWidth>=1024)toggle()});
+</script>
+</body>
+</html>

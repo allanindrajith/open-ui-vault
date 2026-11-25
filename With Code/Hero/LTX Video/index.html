@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>LTX — The world model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --retake-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --retake-slow-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  *,*::before,*::after{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:#000; color:#fff;
+    font-family:'Manrope', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
+  ::selection{ background: rgba(255,255,255,0.2); }
+  button{ font-family:inherit; }
+  :focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+
+  /* ---------- stage ---------- */
+  .stage{
+    position:relative; isolation:isolate;
+    width:100%; height:100vh; height:100dvh;
+    overflow:hidden; background:#000;
+  }
+
+  /* ---------- media layer (z 0) ---------- */
+  .media{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0; pointer-events:none; }
+  video.media{ visibility:hidden; }
+  video.media.is-visible{ visibility:visible; }
+
+  /* ---------- hero copy (z 10) ---------- */
+  .hero{ position:absolute; inset:0; z-index:10; pointer-events:none; }
+  .hero h1{
+    position:absolute; top:35.9%; left:50%; transform:translateX(-50%);
+    margin:0; width:min(901px, calc(100vw - 48px));
+    text-align:center; font-weight:500;
+    font-size:clamp(62px, 6.8vw, 100px); line-height:0.8; letter-spacing:-0.04em;
+    text-shadow:0 2px 12px rgb(0 0 0 / 0.14);
+    white-space:nowrap;
+  }
+  .hero h1 span{ display:inline-block; transition:opacity 900ms var(--retake-ease), filter 900ms var(--retake-ease), transform 900ms var(--retake-ease); }
+  .hero h1 span:nth-child(1){ transition-delay:0ms; }
+  .hero h1 span:nth-child(2){ transition-delay:90ms; }
+  .hero h1 span:nth-child(3){ transition-delay:180ms; }
+  .stage.title-hidden .hero h1 span{ opacity:0; filter:blur(12px); transform:translateY(-10px); }
+  .hero p{
+    position:absolute; top:calc(46.78% + 94px); left:50%; transform:translateX(-50%);
+    margin:0; width:min(734px, calc(100vw - 48px));
+    text-align:center; font-weight:400;
+    font-size:clamp(14px, 1.25vw, 18px); line-height:1.2; letter-spacing:-0.04em;
+    text-shadow:0 1px 8px rgb(0 0 0 / 0.16);
+  }
+
+  /* ---------- header (z 30) ---------- */
+  .site-header{
+    position:absolute; top:0; left:0; right:0; z-index:30;
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center;
+    padding: calc(58px + env(safe-area-inset-top)) 40px 40px;
+    text-shadow:0 1px 6px rgb(0 0 0 / 0.18);
+  }
+  .brand{ display:flex; align-items:center; }
+  .brand svg{ height:24px; width:auto; display:block; }
+  .meta{
+    display:flex; align-items:center; gap:clamp(28px, 3vw, 44px);
+    margin-left:clamp(48px, 5vw, 70px);
+    font-size:18px; line-height:1.2; letter-spacing:-0.04em;
+  }
+  .try-now{
+    justify-self:end; display:inline-flex; align-items:center; justify-content:center;
+    width:152px; height:38px; border-radius:999px;
+    border:1px solid rgb(255 255 255 / 0.75); background:transparent; color:#fff;
+    font-size:18px; letter-spacing:-0.04em; text-decoration:none; position:relative;
+    transition:color 300ms var(--retake-ease), background-color 300ms var(--retake-ease), border-color 300ms var(--retake-ease);
+  }
+  .try-now:hover,.try-now:focus-visible{ background:#fff; border-color:#fff; color:#0b1a26; }
+
+  /* ---------- controller (z 20) ---------- */
+  .controller{
+    position:absolute; top:46.78%; left:50%; transform:translateX(-50%);
+    width:min(880px, calc(100vw - 48px)); height:72px; z-index:20;
+  }
+  .glass{ position:relative; border-radius:999px; }
+  .glass::before{
+    content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+    background:
+      radial-gradient(120% 150% at var(--glass-x, 24%) var(--glass-y, 8%), rgb(255 255 255 / 0.25), rgb(255 255 255 / 0) 53%),
+      linear-gradient(115deg, rgb(255 255 255 / 0.10), rgb(255 255 255 / 0) 42%);
+  }
+  .glass::after{
+    content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; padding:1px;
+    background:conic-gradient(from 225deg, #7fe3ff, rgb(255 255 255 / 0.35), #ffffff, #ffd7e6, rgb(255 255 255 / 0.35), #7fe3ff);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+  }
+
+  .track{
+    position:absolute; top:4px; left:0; width:100%; height:64px; border-radius:999px;
+    background:rgb(24 55 82 / 0.31);
+    border:1px solid rgb(255 255 255 / 0.2);
+    -webkit-backdrop-filter:blur(9px) saturate(126%) contrast(108%) brightness(103%);
+            backdrop-filter:blur(9px) saturate(126%) contrast(108%) brightness(103%);
+    box-shadow:
+      0 14px 38px rgb(4 24 43 / 0.16),
+      0 2px 7px rgb(4 24 43 / 0.1),
+      inset 1px 1px 0 rgb(255 255 255 / 0.48),
+      inset -1px -1px 0 rgb(21 49 73 / 0.14),
+      inset 0 0 0 0.5px rgb(255 255 255 / 0.16);
+    transition:left 980ms var(--retake-slow-ease), width 980ms var(--retake-slow-ease), opacity 400ms linear;
+  }
+  .track::after{ opacity:0.27; }
+
+  /* Position comes from custom properties so the collapsed rule can still win
+     the cascade; inline left/width would outrank it. */
+  /* -5px relative to the track, and the track sits at 4px, so the overhang is
+     even (5px above / 3px below) instead of hanging off the top. */
+  .capsule{
+    position:absolute; top:-1px; height:72px; border-radius:999px;
+    left:var(--cap-left, -5px); width:var(--cap-width, calc(20% + 5px));
+    background:rgb(246 251 255 / 0.24);
+    border:1px solid rgb(255 255 255 / 0.28);
+    -webkit-backdrop-filter:blur(13px) saturate(128%) contrast(107%) brightness(105%);
+            backdrop-filter:blur(13px) saturate(128%) contrast(107%) brightness(105%);
+    box-shadow:
+      0 11px 28px rgb(4 24 43 / 0.17),
+      0 2px 6px rgb(4 24 43 / 0.1),
+      inset 1px 1px 0 rgb(255 255 255 / 0.62),
+      inset -1px -1px 0 rgb(20 49 73 / 0.18),
+      inset 0 0 12px rgb(255 255 255 / 0.055);
+    transition:left 620ms var(--retake-ease), width 620ms var(--retake-ease),
+               background-color 380ms var(--retake-ease), opacity 380ms var(--retake-ease);
+  }
+  .capsule::after{ opacity:0.30; }
+
+  .cells{
+    position:absolute; inset:0; display:grid; grid-template-columns:repeat(5, 1fr);
+    align-items:center;
+  }
+  .cell{
+    display:flex; align-items:center; justify-content:center; height:100%;
+    padding:0 14px; font-size:23px; font-weight:400; line-height:1.2; letter-spacing:-0.04em;
+    color:#fff; text-align:center; white-space:nowrap;
+    transition:opacity 420ms var(--retake-ease), filter 420ms var(--retake-ease), transform 980ms var(--retake-slow-ease);
+  }
+  .cell-label{ transition:opacity 300ms var(--retake-ease), filter 420ms var(--retake-ease); }
+  .controller.highlighting .cell-label{ opacity:0.5; }
+  button.cell{ background:transparent; border:0; cursor:pointer; border-radius:999px; }
+  button.cell:disabled{ cursor:default; }
+  .cell.is-out{ opacity:0; filter:blur(10px); transform:scale(0.94); pointer-events:none; }
+  .cell.is-reset{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .cell.reveal-reset{ animation:resetIn 520ms var(--retake-ease) both; }
+  @keyframes resetIn{ from{ opacity:0; filter:blur(10px); } to{ opacity:1; filter:blur(0); } }
+
+  /* collapsed / selected geometry */
+  .controller.collapsed .capsule{
+    left:calc(50% - 100px); width:200px;
+    background:rgb(246 251 255 / 0.14);
+    transition:left 980ms var(--retake-slow-ease), width 980ms var(--retake-slow-ease), background-color 420ms var(--retake-ease);
+  }
+  .controller.collapsed .track{ left:calc(50% - 96px); width:192px; }
+  .controller.track-hidden .track{
+    opacity:0;
+    transition:opacity 400ms linear 650ms, left 980ms var(--retake-slow-ease), width 980ms var(--retake-slow-ease);
+  }
+
+  /* ---------- status / error (z 40) ---------- */
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  .notice{
+    position:absolute; z-index:40; left:50%; transform:translateX(-50%);
+    bottom:calc(28px + env(safe-area-inset-bottom));
+    display:none; align-items:center; gap:14px;
+    padding:10px 14px 10px 18px; border-radius:999px;
+    background:rgb(24 55 82 / 0.42); border:1px solid rgb(255 255 255 / 0.22);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    font-size:15px; letter-spacing:-0.02em; max-width:calc(100vw - 32px);
+  }
+  .notice.is-on{ display:flex; }
+  .notice button{
+    border:1px solid rgb(255 255 255 / 0.7); background:transparent; color:#fff;
+    border-radius:999px; padding:6px 16px; font-size:14px; cursor:pointer; white-space:nowrap;
+    transition:background-color 300ms var(--retake-ease), color 300ms var(--retake-ease);
+  }
+  .notice button:hover,.notice button:focus-visible{ background:#fff; color:#0b1a26; }
+
+  /* ---------- responsive: 900 ---------- */
+  @media (max-width:900px){
+    .site-header{ padding:calc(24px + env(safe-area-inset-top)) 24px 24px; }
+    .meta{ font-size:14px; gap:22px; margin-left:34px; }
+    .try-now{ width:116px; height:36px; font-size:14px; }
+    .cell{ font-size:clamp(17px, 2.5vw, 24px); }
+  }
+
+  /* ---------- responsive: 700 ---------- */
+  @media (max-width:700px){
+    .site-header{ padding-left:18px; padding-right:18px; }
+    .brand svg{ height:21px; }
+    .meta{ font-size:12px; }
+    .meta .meta-2{ display:none; }
+    .try-now{ width:92px; height:34px; font-size:13px; }
+    .try-now::after{ content:''; position:absolute; inset:-6px -10px; }
+
+    .hero h1{ top:34%; width:calc(100vw - 40px); font-size:clamp(48px, 14vw, 64px); line-height:0.88; white-space:normal; }
+    .hero p{ top:77%; width:calc(100vw - 44px); font-size:14px; }
+
+    .controller{ top:53%; width:calc(100vw - 40px); height:156px; }
+    .track{ top:0; height:156px; border-radius:28px; }
+    .cells{ grid-template-columns:repeat(2, 1fr); grid-template-rows:48px 54px 54px; }
+    .cell{ font-size:17px; }
+    .cell-label{ grid-column:1 / -1; border-bottom:1px solid rgb(255 255 255 / 0.12); }
+    .cells > *:nth-child(2){ border-right:1px solid rgb(255 255 255 / 0.12); border-bottom:1px solid rgb(255 255 255 / 0.12); }
+    .cells > *:nth-child(3){ border-bottom:1px solid rgb(255 255 255 / 0.12); }
+    .cells > *:nth-child(4){ border-right:1px solid rgb(255 255 255 / 0.12); }
+    button.cell{ border-radius:0; }
+    button.cell:active{ background:rgb(255 255 255 / 0.10); }
+    button.cell:focus-visible{ outline-offset:-3px; }
+
+    /* the sliding hover capsule is disabled inside the expanded mobile grid */
+    .capsule{ opacity:0; pointer-events:none; transition:opacity 380ms var(--retake-ease); }
+    /* The controller is transformed, so it is the containing block here: the
+       offset is measured from its own top (53dvh) to land the centre at 57dvh. */
+    .controller.collapsed .capsule{
+      opacity:1; left:50%; top:4vh; top:4dvh; transform:translate(-50%,-50%);
+      width:196px; height:64px; border-radius:999px;
+      background:rgb(246 251 255 / 0.18);
+      transition:opacity 520ms var(--retake-ease), background-color 420ms var(--retake-ease);
+    }
+    .controller.collapsed .track{ left:0; width:100%; }
+    .controller.track-hidden .track{ transition:opacity 400ms linear 650ms; }
+  }
+
+  /* Short phones: the anchor percentages would collide, so the controller
+     moves up and the description follows it instead of overlapping. */
+  @media (max-width:700px) and (max-height:700px){
+    .controller{ top:50%; }
+    .hero p{ top:calc(50% + 168px); width:calc(100vw - 32px); font-size:13px; }
+  }
+
+  @media (max-height:520px) and (orientation:landscape){
+    .hero h1{ top:20%; font-size:clamp(34px, 8vh, 56px); }
+    .controller{ top:50%; }
+    .hero p{ top:auto; bottom:8px; font-size:13px; }
+  }
+
+  /* Narrow AND short: the mobile grid has to shrink or it meets the copy. */
+  @media (max-width:700px) and (max-height:520px) and (orientation:landscape){
+    .hero h1{ top:12%; font-size:clamp(28px, 7vh, 44px); }
+    .controller{ top:46%; height:118px; }
+    .track{ height:118px; }
+    .cells{ grid-template-rows:36px 41px 41px; }
+    .cell{ font-size:15px; }
+    .hero p{ bottom:6px; font-size:12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .capsule,.track,.cell,.hero h1 span,.try-now{ transition-duration:1ms !important; transition-delay:0ms !important; }
+    .cell.reveal-reset{ animation-duration:1ms; }
+    .cell.is-out{ filter:none; }
+    .stage.title-hidden .hero h1 span{ filter:none; transform:none; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <!-- media (z 0) — every source is remote; the base scene is video-1's frame 0 -->
+  <video class="media" id="v-colorway-f" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-1.mp4"         muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-colorway-r" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-1-reverse.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-scene-f"    src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-2.mp4"         muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-scene-r"    src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-2-reverse.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-light-f"    src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-3.mp4"         muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-light-r"    src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-3-reverse.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-fullLook-f" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-4.mp4"         muted playsinline preload="auto" aria-hidden="true"></video>
+  <video class="media" id="v-fullLook-r" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-4-reverse.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+
+  <!-- hero copy (z 10) -->
+  <div class="hero">
+    <h1><span>The</span> <span>world</span> <span>model</span></h1>
+    <p>LTX builds open world models that give you full control, from production-grade video to systems that understand and operate in the physical world.</p>
+  </div>
+
+  <!-- controller (z 20) -->
+  <div class="controller" id="controller" role="group" aria-label="Scene state controller">
+    <div class="track glass" id="track" aria-hidden="true"></div>
+    <div class="capsule glass" id="capsule" aria-hidden="true"></div>
+    <div class="cells" id="cells">
+      <div class="cell cell-label" id="cellLabel" aria-hidden="true">Select state&nbsp;&rarr;</div>
+      <button class="cell" type="button" data-branch="scene">Scene</button>
+      <button class="cell" type="button" data-branch="light">Lighting</button>
+      <button class="cell" type="button" data-branch="colorway">Clothing</button>
+      <button class="cell" type="button" data-branch="fullLook">Cast</button>
+    </div>
+  </div>
+
+  <!-- header (z 30) -->
+  <header class="site-header">
+    <a class="brand" href="#stage" aria-label="LTX home">
+      <svg viewBox="0 0 75 32" xmlns="http://www.w3.org/2000/svg" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+        <path d="M0 30.0087V7.50057C0 7.09765 0.154254 6.69973 0.460162 6.43869C0.708822 6.22729 0.987356 6.12029 1.29316 6.12029H8.2339C8.63671 6.12029 9.03463 6.26205 9.31316 6.55308C9.53944 6.79174 9.65133 7.07777 9.65133 7.41345V23.198C9.65133 23.6108 9.98462 23.944 10.3974 23.944H21.4638C21.8666 23.944 22.267 24.0858 22.5431 24.3767C22.7668 24.6155 22.8812 24.9015 22.8812 25.2372V30.5856C22.8812 31.0457 22.6823 31.4982 22.3018 31.7569C22.078 31.9086 21.8244 31.9832 21.5383 31.9832L1.99199 31.9956C0.890348 31.9981 0 31.1078 0 30.0087Z" fill="#FFFFFF"/>
+        <path d="M36.5888 31.9926C34.4062 31.9876 32.492 31.6543 30.8413 30.9878C29.1906 30.3214 27.9104 29.2346 26.9981 27.7227C26.0856 26.2132 25.6333 24.2137 25.6382 21.7269L25.6532 13.7194L21.7016 13.7119C21.3486 13.7119 21.0528 13.5876 20.8116 13.3365C20.5705 13.0853 20.4512 12.7819 20.4537 12.4164L20.4636 7.39299C20.4636 7.02744 20.5854 6.72154 20.8265 6.47288C21.0677 6.22422 21.3635 6.09983 21.7165 6.10233L25.6681 6.10983L25.6779 1.29066C25.6779 0.925114 25.7998 0.619208 26.041 0.370548C26.2821 0.121887 26.5779 0 26.9309 0L33.9065 0.0124913C34.2595 0.0124913 34.5554 0.136772 34.7965 0.387931C35.0376 0.639089 35.1569 0.944995 35.1545 1.30805L35.1445 6.12721L41.2078 6.13959C41.5608 6.13959 41.8566 6.26398 42.0977 6.51514C42.3389 6.76629 42.4582 7.0722 42.4557 7.43525L42.4458 12.4586C42.4458 12.8242 42.3239 13.1301 42.0829 13.3787C41.8417 13.6274 41.5434 13.7518 41.1928 13.7493L35.1296 13.7368L35.1171 20.8988C35.1171 21.8613 35.3061 22.6148 35.6914 23.1618C36.0767 23.7089 36.6833 23.985 37.5186 23.985L41.5608 23.9925C41.9138 23.9925 42.2096 24.1168 42.4507 24.368C42.6919 24.6192 42.8113 24.9251 42.8088 25.2881L42.7988 30.7093C42.7988 31.075 42.677 31.3808 42.4358 31.6294C42.1947 31.8782 41.8963 32.0025 41.5459 32L36.5913 31.9901L36.5888 31.9926Z" fill="#FFFFFF"/>
+        <path d="M47.5486 31.9851C47.2282 31.9851 46.965 31.8682 46.7589 31.6369C46.5503 31.4056 46.4485 31.1395 46.4485 30.841C46.4485 30.7416 46.4634 30.6248 46.4957 30.4929C46.5279 30.3611 46.5926 30.2268 46.6869 30.0951L54.3506 18.9342C54.4648 18.7675 54.4673 18.5463 54.3556 18.3771L47.4543 8.01457C47.3896 7.91517 47.335 7.79827 47.2854 7.6664C47.2382 7.53463 47.2133 7.40036 47.2133 7.26859C47.2133 6.97017 47.3251 6.70403 47.5486 6.47275C47.7722 6.24147 48.0279 6.12458 48.316 6.12458H55.6444C56.0914 6.12458 56.4267 6.23158 56.6501 6.44787C56.8737 6.66426 57.0327 6.85328 57.1295 7.01993L60.3082 11.8169C60.5043 12.1128 60.939 12.1128 61.1352 11.8169L64.3139 7.01993C64.4405 6.85328 64.6094 6.66426 64.8156 6.44787C65.0216 6.23158 65.3494 6.12458 65.7964 6.12458H72.7896C73.0778 6.12458 73.331 6.24147 73.557 6.47275C73.7805 6.70403 73.8922 6.95268 73.8922 7.21883C73.8922 7.38547 73.8748 7.53463 73.8451 7.6664C73.8128 7.79827 73.7482 7.91517 73.6539 8.01457L66.6159 18.3747C66.4992 18.5463 66.5017 18.77 66.6209 18.9392L74.4212 30.0975C74.5181 30.2293 74.5801 30.3636 74.6124 30.4954C74.6448 30.6273 74.6596 30.744 74.6596 30.8435C74.6596 31.142 74.5479 31.4081 74.3244 31.6394C74.1008 31.8707 73.8451 31.9874 73.557 31.9874H65.8934C65.4786 31.9874 65.1756 31.888 64.9844 31.689C64.7932 31.4901 64.6317 31.3086 64.5051 31.142L60.9886 25.9544C60.7924 25.671 60.3753 25.6685 60.1766 25.9471L56.4118 31.1395C56.3149 31.3061 56.1634 31.4876 55.9573 31.6865C55.7488 31.8855 55.4383 31.9851 55.0236 31.9851H47.5486Z" fill="#FFFFFF"/>
+      </svg>
+    </a>
+    <div class="meta">
+      <span class="meta-1">LTX-2.5 is here</span>
+      <span class="meta-2">Smarter. Faster</span>
+    </div>
+    <a class="try-now" href="https://app.ltx.io/" target="_blank" rel="noopener noreferrer">Try now</a>
+  </header>
+
+  <!-- status + error (z 40) -->
+  <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+  <div class="notice" id="notice">
+    <span id="noticeText"></span>
+    <button type="button" id="retryBtn">Retry</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------
+     One prepared forward clip and one paired reverse per branch.
+     Hold guards are the asset pack's empirical defaults (PROMPT.md 9).
+  ------------------------------------------------------------------ */
+  var BRANCHES = {
+    scene:    { label: 'Scene',    fwdGuard: 0.08, revGuard: 0.18 },
+    light:    { label: 'Lighting', fwdGuard: 0.08, revGuard: 0.08 },
+    colorway: { label: 'Clothing', fwdGuard: 0.08, revGuard: 0.08 },
+    fullLook: { label: 'Cast',     fwdGuard: 0.08, revGuard: 0.08 }
+  };
+  var FIRST_FRAME_TIMEOUT = 12000;
+
+  var stage      = document.getElementById('stage');
+  var controller = document.getElementById('controller');
+  var capsule    = document.getElementById('capsule');
+  var cellLabel  = document.getElementById('cellLabel');
+  var statusEl   = document.getElementById('status');
+  var notice     = document.getElementById('notice');
+  var noticeText = document.getElementById('noticeText');
+  var retryBtn   = document.getElementById('retryBtn');
+  var buttons    = Array.prototype.slice.call(controller.querySelectorAll('button.cell'));
+
+  var video = {};
+  Object.keys(BRANCHES).forEach(function (key) {
+    video[key] = {
+      forward: document.getElementById('v-' + key + '-f'),
+      reverse: document.getElementById('v-' + key + '-r')
+    };
+  });
+
+  /* ---------------- state kept in refs, not re-rendered per frame -------- */
+  var scene = 'base';       // 'base' | branch key
+  var locked = false;       // synchronous input lock
+  var token = 0;            // transition token; stale callbacks are ignored
+  var visibleEl = null;     // the video whose decoded frame is on screen
+  var hoverIndex = 0;
+  var focusIndex = -1;
+  var lastAttempt = null;   // for Retry
+  var cleanups = [];
+
+  function isMobile() { return window.matchMedia('(max-width: 700px)').matches; }
+  function say(msg) { statusEl.textContent = msg; }
+  function addCleanup(fn) { cleanups.push(fn); }
+  function runCleanups() { cleanups.splice(0).forEach(function (fn) { try { fn(); } catch (e) {} }); }
+
+  /* ---------------- readiness for all eight clips ---------------- */
+  var readyCount = 0;
+  function markReady(v) {
+    if (v.dataset.ready === '1') return;
+    v.dataset.ready = '1';
+    readyCount++;
+    refreshEnabled();
+    if (readyCount === 8) say('All scene transitions are ready.');
+  }
+  Object.keys(video).forEach(function (key) {
+    ['forward', 'reverse'].forEach(function (dir) {
+      var v = video[key][dir];
+      // Already-cached media may never fire loadeddata again.
+      if (v.readyState >= 2) markReady(v);
+      v.addEventListener('loadeddata', function () { markReady(v); });
+      v.addEventListener('error', function () { v.dataset.failed = '1'; refreshEnabled(); });
+    });
+  });
+  say('Loading scene transitions.');
+
+  function branchReady(key) {
+    return video[key].forward.dataset.ready === '1' && video[key].reverse.dataset.ready === '1';
+  }
+  function refreshEnabled() {
+    if (locked || scene !== 'base') return;
+    buttons.forEach(function (b) { b.disabled = !branchReady(b.dataset.branch); });
+  }
+
+  /* ---------------- glass highlight origin: CSS custom props only -------- */
+  controller.addEventListener('pointermove', function (e) {
+    var r = controller.getBoundingClientRect();
+    controller.style.setProperty('--glass-x', (((e.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+    controller.style.setProperty('--glass-y', (((e.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
+  });
+
+  /* ---------------- capsule travel on hover / keyboard focus ------------- */
+  var POS = [
+    { left: '-5px', width: 'calc(20% + 5px)' },
+    { left: '20%',  width: '20%' },
+    { left: '40%',  width: '20%' },
+    { left: '60%',  width: '20%' },
+    { left: '80%',  width: 'calc(20% + 5px)' }
+  ];
+  function moveCapsule(index) {
+    if (controller.classList.contains('collapsed') || isMobile()) return;
+    var p = POS[index] || POS[0];
+    capsule.style.setProperty('--cap-left', p.left);
+    capsule.style.setProperty('--cap-width', p.width);
+    controller.classList.toggle('highlighting', index > 0);
+  }
+  function activeIndex() { return focusIndex >= 0 ? focusIndex : hoverIndex; }
+
+  buttons.forEach(function (btn, i) {
+    var index = i + 1;
+    btn.addEventListener('pointerenter', function () {
+      if (btn.disabled) return;
+      hoverIndex = index;
+      moveCapsule(activeIndex());
+    });
+    btn.addEventListener('focus', function () {
+      if (!btn.matches(':focus-visible')) return;
+      focusIndex = index;
+      moveCapsule(activeIndex());
+    });
+    btn.addEventListener('blur', function () {
+      if (focusIndex === index) focusIndex = -1;
+      moveCapsule(activeIndex());
+    });
+    btn.addEventListener('click', function () { onActivate(btn); });
+  });
+  controller.addEventListener('pointerleave', function () {
+    hoverIndex = 0;
+    moveCapsule(activeIndex());
+  });
+
+  /* ---------------- seam-safe player primitives ---------------- */
+  function waitDecodable(v) {
+    return new Promise(function (resolve, reject) {
+      if (v.dataset.failed === '1') { reject(new Error('media')); return; }
+      if (v.readyState >= 2) { resolve(); return; }
+      function ok()  { off(); resolve(); }
+      function bad() { off(); reject(new Error('media')); }
+      function off() { v.removeEventListener('loadeddata', ok); v.removeEventListener('error', bad); }
+      v.addEventListener('loadeddata', ok);
+      v.addEventListener('error', bad);
+      addCleanup(off);
+    });
+  }
+
+  function rewind(v) {
+    return new Promise(function (resolve) {
+      if (v.currentTime < 0.001) { resolve(); return; }
+      var settled = false;
+      function done() {
+        if (settled) return;
+        settled = true;
+        v.removeEventListener('seeked', done);
+        resolve();
+      }
+      v.addEventListener('seeked', done);
+      addCleanup(done);
+      try { v.currentTime = 0; } catch (e) { done(); }
+    });
+  }
+
+  // Resolves only once a frame from THIS clip's opening has decoded.
+  function firstOpeningFrame(v, myToken) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      var timer = null;
+
+      // Frame callbacks freeze while the tab is hidden, so the deadline only
+      // runs while the page is actually being presented.
+      function startTimer() {
+        if (settled || timer !== null || document.hidden) return;
+        timer = window.setTimeout(function () { finish(new Error('timeout')); }, FIRST_FRAME_TIMEOUT);
+      }
+      function stopTimer() {
+        if (timer !== null) { window.clearTimeout(timer); timer = null; }
+      }
+      function onVisibility() {
+        if (settled || myToken !== token) return;
+        if (document.hidden) {
+          // Hold the clip at its start rather than letting it run past the
+          // opening unseen; the layer is still hidden, so nothing shows.
+          stopTimer();
+          v.pause();
+          try { v.currentTime = 0; } catch (e) {}
+        } else {
+          startTimer();
+          var again = v.play();
+          if (again && typeof again.catch === 'function') again.catch(function () {});
+        }
+      }
+      document.addEventListener('visibilitychange', onVisibility);
+      startTimer();
+
+      function finish(err) {
+        if (settled) return;
+        settled = true;
+        stopTimer();
+        document.removeEventListener('visibilitychange', onVisibility);
+        v.removeEventListener('error', onErr);
+        if (err) reject(err); else resolve();
+      }
+      function onErr() { finish(new Error('media')); }
+      v.addEventListener('error', onErr);
+      addCleanup(function () { finish(new Error('cancelled')); });
+
+      if (typeof v.requestVideoFrameCallback === 'function') {
+        v.requestVideoFrameCallback(function step(now, meta) {
+          if (myToken !== token || settled) return;
+          // A stale endpoint frame carries a large mediaTime: keep waiting.
+          if (meta.mediaTime <= 0.5 && v.readyState >= 2) finish(null);
+          else v.requestVideoFrameCallback(step);
+        });
+      } else {
+        // Best-effort fallback: checked readiness plus a rendered tick. A
+        // timeout alone never counts as success; it falls into the error path.
+        var tick = function () {
+          if (myToken !== token || settled) return;
+          if (v.readyState >= 2 && v.currentTime > 0 && !v.paused) finish(null);
+          else requestAnimationFrame(tick);
+        };
+        v.addEventListener('playing', function () {
+          requestAnimationFrame(function () { requestAnimationFrame(tick); });
+        }, { once: true });
+        requestAnimationFrame(tick);
+      }
+    });
+  }
+
+  function reveal(v) {
+    if (visibleEl === v) return;
+    v.classList.add('is-visible');
+    if (visibleEl) visibleEl.classList.remove('is-visible');
+    visibleEl = v;
+  }
+
+  // The base scene is this clip's opening frame, held paused at 0 until the
+  // first transition — no separate still asset is loaded.
+  var BASE_CLIP = 'colorway';
+  function showBaseFrame() {
+    if (visibleEl) return;
+    var v = video[BASE_CLIP].forward;
+    if (v.readyState < 2) return;
+    v.classList.add('is-visible');
+    visibleEl = v;
+  }
+
+  // Watches only the active clip and pauses it on a valid terminal hold.
+  function holdAtEnd(v, guard, myToken, onProgress) {
+    return new Promise(function (resolve) {
+      var done = false;
+      function settle() {
+        if (done || myToken !== token) return;
+        done = true;
+        v.pause();
+        v.removeEventListener('ended', settle);
+        resolve();
+      }
+      function check() {
+        if (done || myToken !== token) return;
+        if (onProgress) onProgress(v);
+        var d = v.duration;
+        if (v.ended || (isFinite(d) && d > 0 && v.currentTime >= d - guard)) { settle(); return; }
+        next();
+      }
+      var next = (typeof v.requestVideoFrameCallback === 'function')
+        ? function () { v.requestVideoFrameCallback(function () { check(); }); }
+        : function () { requestAnimationFrame(check); };
+      v.addEventListener('ended', settle);   // a fallback, not the sole signal
+      addCleanup(function () { done = true; v.removeEventListener('ended', settle); });
+      next();
+    });
+  }
+
+  /* ---------------- controller choreography ---------------- */
+  // Measured on mobile, where the collapsed capsule has no positional
+  // transition, so its rect is already final and short-screen tweaks stay honest.
+  function capsuleTargetCenter() {
+    if (isMobile()) {
+      var already = controller.classList.contains('collapsed');
+      if (!already) controller.classList.add('collapsed');
+      var cr = capsule.getBoundingClientRect();
+      if (!already) controller.classList.remove('collapsed');
+      return { x: cr.left + cr.width / 2, y: cr.top + cr.height / 2 };
+    }
+    var c = controller.getBoundingClientRect();
+    return { x: c.left + c.width / 2, y: c.top + 35 }; // capsule top -1px, height 72px
+  }
+
+  function centreLabel(btn, animate) {
+    if (!animate) btn.style.transition = 'none';
+    btn.style.transform = '';
+    var r = btn.getBoundingClientRect();
+    var t = capsuleTargetCenter();
+    btn.style.transform = 'translate(' +
+      (t.x - (r.left + r.width / 2)).toFixed(1) + 'px,' +
+      (t.y - (r.top + r.height / 2)).toFixed(1) + 'px)';
+    if (!animate) {
+      void btn.offsetWidth;
+      btn.style.transition = '';
+    }
+  }
+
+  function collapseTo(btn) {
+    controller.classList.remove('highlighting');
+    controller.classList.add('collapsed');   // before measuring the target
+    centreLabel(btn, true);
+    buttons.forEach(function (b) { if (b !== btn) b.classList.add('is-out'); });
+    cellLabel.classList.add('is-out');
+    // Applied in the same recalc: the rule's own 650ms delay does the waiting,
+    // so an early failure cannot re-hide a bar that has just been reopened.
+    controller.classList.add('track-hidden');
+  }
+
+  function expandFrom(btn) {
+    controller.classList.remove('track-hidden');
+    controller.classList.remove('collapsed');
+    btn.style.transform = '';
+    cellLabel.classList.remove('is-out');
+    window.setTimeout(function () {
+      buttons.forEach(function (b) { b.classList.remove('is-out'); });
+    }, 60);
+    moveCapsule(0);
+  }
+
+  function toReset(btn) {
+    btn.textContent = 'Reset';
+    btn.classList.add('is-reset', 'reveal-reset');
+    btn.setAttribute('aria-label', 'Reset to the initial scene');
+    window.setTimeout(function () { btn.classList.remove('reveal-reset'); }, 560);
+  }
+  function toOption(btn) {
+    btn.textContent = BRANCHES[btn.dataset.branch].label;
+    btn.classList.remove('is-reset');
+    btn.removeAttribute('aria-label');
+  }
+
+  // Invisible controls must not stay in the tab order.
+  function setOthersInteractive(chosen, on) {
+    buttons.forEach(function (b) {
+      if (b === chosen) return;
+      b.disabled = !on;
+      if (on) { b.removeAttribute('aria-hidden'); b.removeAttribute('tabindex'); }
+      else { b.setAttribute('aria-hidden', 'true'); b.setAttribute('tabindex', '-1'); }
+    });
+  }
+
+  function hideTitle() { stage.classList.add('title-hidden'); }
+  function showTitle() { stage.classList.remove('title-hidden'); }
+
+  /* ---------------- error surface ---------------- */
+  function showError(message) {
+    noticeText.textContent = message;
+    notice.classList.add('is-on');
+    say(message);
+  }
+  function clearError() { notice.classList.remove('is-on'); }
+  retryBtn.addEventListener('click', function () {
+    if (!lastAttempt || locked) return;
+    clearError();
+    run(lastAttempt.btn, lastAttempt.dir);
+  });
+
+  /* ---------------- the single transition routine ---------------- */
+  function onActivate(btn) {
+    if (locked || btn.disabled) return;
+    var key = btn.dataset.branch;
+    if (scene === 'base') { run(btn, 'forward'); return; }
+    if (scene === key) { run(btn, 'reverse'); }
+    // No direct branch-to-branch playback: the pack holds no such clip.
+  }
+
+  function run(btn, dir) {
+    locked = true;               // acquired synchronously, before any await
+    var myToken = ++token;
+    runCleanups();
+    clearError();
+
+    var key = btn.dataset.branch;
+    var conf = BRANCHES[key];
+    var v = video[key][dir];
+    var guard = dir === 'forward' ? conf.fwdGuard : conf.revGuard;
+    lastAttempt = { btn: btn, dir: dir };
+
+    // Disabling the focused control drops focus to <body>, so remember it and
+    // hand it back to the same element once it becomes Reset (and back again).
+    var hadFocus = (document.activeElement === btn);
+    buttons.forEach(function (b) { b.disabled = true; });
+
+    if (dir === 'forward') {
+      collapseTo(btn);
+      say(conf.label + ' transition starting.');
+    } else {
+      // Reverse playback and the bar reopening run in parallel.
+      expandFrom(btn);
+      toOption(btn);
+      say('Returning to the initial scene.');
+    }
+
+    var titleDone = (dir === 'reverse');
+    function onProgress(el) {
+      if (titleDone) return;
+      var d = el.duration;
+      if (!isFinite(d) || d <= 0) return;
+      // About 12% of progress, clamped earlier for unusually short clips.
+      if (el.currentTime >= Math.min(d * 0.12, 0.9)) { titleDone = true; hideTitle(); }
+    }
+
+    waitDecodable(v)
+      .then(function () { return rewind(v); })
+      .then(function () {
+        if (myToken !== token) throw new Error('cancelled');
+        var frame = firstOpeningFrame(v, myToken);   // registered before play()
+        var started = Promise.resolve(v.play()).catch(function () {
+          throw new Error('blocked');
+        });
+        // Both must succeed: play() may reject, or the frame may never decode.
+        return Promise.all([started, frame]);
+      })
+      .then(function () {
+        if (myToken !== token) throw new Error('cancelled');
+        reveal(v);                                   // atomic layer switch
+        return holdAtEnd(v, guard, myToken, onProgress);
+      })
+      .then(function () {
+        if (myToken !== token) return;
+        if (dir === 'forward') {
+          scene = key;
+          hideTitle();
+          toReset(btn);
+          setOthersInteractive(btn, false);
+          btn.disabled = false;                      // Reset is now actionable
+          say(conf.label + ' selected. Reset returns to the initial scene.');
+        } else {
+          scene = 'base';
+          showTitle();
+          setOthersInteractive(btn, true);
+          say('Initial scene restored.');
+        }
+        locked = false;
+        refreshEnabled();
+        if (hadFocus) {
+          try { btn.focus({ preventScroll: true }); } catch (e) { btn.focus(); }
+        }
+      })
+      .catch(function (err) {
+        if (myToken !== token || err.message === 'cancelled') return;
+        // Keep the last valid frame; never claim the scene completed.
+        locked = false;
+        if (dir === 'forward') { expandFrom(btn); toOption(btn); }
+        setOthersInteractive(btn, true);
+        refreshEnabled();
+        if (hadFocus && !btn.disabled) {
+          try { btn.focus({ preventScroll: true }); } catch (e) { btn.focus(); }
+        }
+        showError(
+          err.message === 'blocked'
+            ? 'Playback was blocked by the browser.'
+            : err.message === 'timeout'
+              ? 'The ' + conf.label + ' clip did not decode in time.'
+              : 'The ' + conf.label + ' clip could not be played.'
+        );
+      });
+  }
+
+  /* ---------------- resize keeps the collapsed label centred ------------- */
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(function () {
+      if (scene === 'base') { moveCapsule(activeIndex()); return; }
+      buttons.forEach(function (b) {
+        if (b.dataset.branch === scene) centreLabel(b, false);
+      });
+    }, 120);
+  });
+
+  moveCapsule(0);
+  refreshEnabled();
+  showBaseFrame();
+  video[BASE_CLIP].forward.addEventListener('loadeddata', showBaseFrame);
+})();
+</script>
+</body>
+</html>

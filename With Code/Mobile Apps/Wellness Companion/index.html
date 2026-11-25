@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wellness Companion</title>
+<style>
+@font-face{font-family:"Helvetica Now Var";src:url("https://db.onlinewebfonts.com/c/e66905e07608167a84e6ad52f638c3c6?family=Helvetica+Now+Var");font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;overflow-x:hidden}
+body{font-family:"Helvetica Now Var","Helvetica Neue",Helvetica,Arial,sans-serif;background:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:36px 0;position:relative;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.page-bg{position:fixed;inset:0;background:#fff url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260704_143500_a76b8e64-2c69-4683-80e7-2bb060a921d6.png&w=1280&q=85") center/cover no-repeat;z-index:0}
+.phone{position:relative;z-index:1;width:min(375px,calc(100vw - 48px));height:780px;max-height:calc(100vh - 40px);min-height:700px;border-radius:52px;background:#8a9aaa;overflow:hidden;
+box-shadow:inset 0 0 0 2px rgba(255,255,255,.08),0 0 0 1px rgba(0,0,0,.6),0 0 0 10px #1a1a1e,0 0 0 11px rgba(255,255,255,.06),0 0 60px rgba(0,0,0,.5)}
+.bg{position:absolute;inset:0;background:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260704_143500_a76b8e64-2c69-4683-80e7-2bb060a921d6.png&w=1280&q=85") center/cover no-repeat;filter:blur(12px);transform:scale(1.1)}
+.overlay{position:absolute;inset:0;background:#8a9aaa;opacity:.3}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:32px;border-radius:999px;background:#000;z-index:50}
+.content{position:relative;z-index:10;height:100%;display:flex;flex-direction:column;padding:56px 24px 24px;color:#fff}
+.fade{opacity:0;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.liquid-glass,.liquid-glass-selected{position:relative;background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:inset 0 1px 1px rgba(255,255,255,.1);overflow:hidden}
+.liquid-glass::before,.liquid-glass-selected::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;pointer-events:none;
+background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
+-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.liquid-glass-selected{background:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 1px 2px rgba(255,255,255,.2)}
+.liquid-glass-selected::before{background:linear-gradient(180deg,rgba(255,255,255,.6) 0%,rgba(255,255,255,.25) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.25) 80%,rgba(255,255,255,.6) 100%)}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:10px 12px;border-radius:999px;margin-bottom:40px;font-size:12px;font-weight:500;color:rgba(255,255,255,.9);line-height:1}
+.badge svg{color:rgba(255,255,255,.8)}
+.title{margin-bottom:32px}
+.title p{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:8px}
+.title h1{font-size:28px;font-weight:400;line-height:1.1;letter-spacing:-.03em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;flex:1}
+.card{height:100px;border-radius:32px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;transition:background .25s}
+.card .n{font-size:11px;font-weight:500;color:rgba(255,255,255,.5)}
+.card .t{font-size:16px;font-weight:500;color:#fff}
+.voice{position:relative;margin:24px 0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.glow{position:absolute;top:50%;left:50%;width:200px;height:160px;transform:translate(-50%,-62%);background:radial-gradient(ellipse at center,rgba(220,200,80,.5) 0%,rgba(180,160,40,.2) 40%,transparent 70%);pointer-events:none}
+.vbtn{position:relative;width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.voice span{position:relative;font-size:12px;color:rgba(255,255,255,.7)}
+.slider{position:relative;height:56px;border-radius:999px;flex-shrink:0;touch-action:none;user-select:none}
+.slider .label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:rgba(255,255,255,.6);pointer-events:none;transition:opacity .2s}
+.chev{position:absolute;right:16px;top:0;bottom:0;display:flex;align-items:center;pointer-events:none}
+.thumb{position:absolute;top:6px;left:6px;width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#1f2937;cursor:grab;z-index:2;touch-action:none}
+.thumb.snap{transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.thumb:active{cursor:grabbing}
+@media (max-width:430px){body{padding:24px 0}}
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+<div class="phone">
+  <div class="bg"></div><div class="overlay"></div>
+  <div class="island"></div>
+  <div class="content">
+    <div class="badge liquid-glass fade" style="animation-delay:.1s">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>
+      Vitaforge Daily
+    </div>
+    <div class="title fade" style="animation-delay:.25s">
+      <p>Choose all that apply</p>
+      <h1>What aspects of your wellness would you like to boost?</h1>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="voice fade" style="animation-delay:.7s">
+      <div class="glow"></div>
+      <button class="vbtn liquid-glass" aria-label="Voice input">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="4" y1="10" x2="4" y2="14"/><line x1="8" y1="6" x2="8" y2="18"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="16" y1="7" x2="16" y2="17"/><line x1="20" y1="10" x2="20" y2="14"/></svg>
+      </button>
+      <span>voice</span>
+    </div>
+    <div class="slider liquid-glass fade" id="slider" style="animation-delay:.85s">
+      <div class="label" id="label">Done</div>
+      <div class="chev">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:-4px"><path d="m9 18 6-6-6-6"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:-4px"><path d="m9 18 6-6-6-6"/></svg>
+      </div>
+      <div class="thumb snap" id="thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var opts=[{id:1,t:"Sleep quality"},{id:2,t:"Stress"},{id:3,t:"Weight"},{id:4,t:"Skin"}];
+  var sel={2:true,4:true};
+  var grid=document.getElementById("grid");
+  var delays=[.4,.48,.56,.64];
+  opts.forEach(function(o,i){
+    var b=document.createElement("button");
+    b.className="card fade "+(sel[o.id]?"liquid-glass-selected":"liquid-glass");
+    b.style.animationDelay=delays[i]+"s";
+    b.innerHTML='<span class="n">0'+o.id+'</span><span class="t">'+o.t+'</span>';
+    b.onclick=function(){sel[o.id]=!sel[o.id];b.className="card fade "+(sel[o.id]?"liquid-glass-selected":"liquid-glass");b.style.opacity=1};
+    grid.appendChild(b);
+  });
+  var slider=document.getElementById("slider"),thumb=document.getElementById("thumb"),label=document.getElementById("label");
+  var drag=false,startX=0,x=0,max=0;
+  function calc(){max=slider.clientWidth-44-12}
+  thumb.addEventListener("pointerdown",function(e){calc();drag=true;startX=e.clientX-x;thumb.classList.remove("snap");thumb.setPointerCapture(e.pointerId)});
+  thumb.addEventListener("pointermove",function(e){if(!drag)return;x=Math.max(0,Math.min(max,e.clientX-startX));thumb.style.transform="translateX("+x+"px)";label.style.opacity=1-x/max});
+  function end(){if(!drag)return;drag=false;thumb.classList.add("snap");
+    if(x>max*.85){x=max;label.textContent="Confirmed";label.style.opacity=1}else{x=0;label.style.opacity=1}
+    thumb.style.transform="translateX("+x+"px)"}
+  thumb.addEventListener("pointerup",end);thumb.addEventListener("pointercancel",end);
+})();
+</script>
+</body>
+</html>

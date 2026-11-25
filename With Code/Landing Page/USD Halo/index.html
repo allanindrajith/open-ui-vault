@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halo - USD Halo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:inherit}
+html,body{font-family:'Figtree','TT Norms Pro',ui-sans-serif,system-ui,sans-serif;background:#F5F5F5;color:#000;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{border:0;cursor:pointer}
+.page{display:flex;flex-direction:column;background:#F5F5F5}
+.first{height:100vh;display:flex;flex-direction:column;overflow:hidden;position:relative}
+nav{position:absolute;top:0;left:0;right:0;z-index:20;padding:20px 24px}
+.nav-in{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px}
+.logo svg{width:28px;height:28px;color:#000}
+.logo span{font-size:24px;font-weight:500;letter-spacing:-.025em}
+.links{display:none;gap:32px;font-size:16px;font-weight:500;color:#374151}
+.links a{transition:color .2s}.links a:hover{color:#000}
+@media(min-width:768px){.links{display:flex}}
+.pill{background:#000;color:#fff;font-size:16px;font-weight:500;padding:10px 28px;border-radius:999px;transition:background-color .2s}
+.pill:hover{background:#1f2937}
+.hero{flex:1;padding:80px 24px 24px;display:flex;align-items:flex-end}
+.card{position:relative;width:100%;border-radius:16px;overflow:hidden;height:calc(100vh - 96px);background:#c9c3e6}
+.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ov{position:relative;z-index:10;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;height:100%;padding:144px 48px 48px}
+h1{font-size:48px;font-weight:500;line-height:1.25;max-width:36rem;margin-bottom:16px;letter-spacing:-.04em}
+.hero p{color:rgba(0,0,0,.7);font-size:16px;max-width:28rem;margin-bottom:32px;line-height:1.625;font-family:'Inter',ui-sans-serif,system-ui,sans-serif}
+.btn{display:inline-flex;align-items:center;gap:12px;background:#000;color:#fff;font-size:16px;font-weight:500;padding:8px 8px 8px 32px;border-radius:999px;transition:background-color .2s}
+.btn:hover{background:#1f2937}
+.btn .c{background:#fff;border-radius:999px;padding:8px;display:flex;transition:background-color .2s}
+.btn svg{width:20px;height:20px;color:#000}
+.mq{margin-top:96px;width:100%;max-width:28rem;overflow:hidden}
+.track{display:flex;width:max-content}
+.mq .track{animation:marquee 22s linear infinite}
+.bk .track{animation:backers-marquee 30s linear infinite}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes backers-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq span{margin:0 28px;flex-shrink:0;color:rgba(0,0,0,.6);white-space:nowrap}
+.bk span{margin:0 40px;flex-shrink:0;color:rgba(0,0,0,.5);white-space:nowrap}
+section.s{background:#F5F5F5;padding:96px 24px}
+.in{max-width:88rem;margin:0 auto}
+.row1{display:grid;grid-template-columns:1fr;gap:48px;margin-bottom:64px;align-items:start}
+h2.t{font-size:36px;font-weight:500;line-height:1.25;margin-bottom:32px;letter-spacing:-.03em}
+.row1 .r{color:rgba(0,0,0,.7);font-size:24px;line-height:1.625}
+.cards{display:grid;grid-template-columns:1fr;gap:16px}
+.c1,.c2{border-radius:16px;padding:28px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between}
+.c1{background:url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260423_164207_f243351d-ed59-48ec-83a0-a5e996bdbe3c.png&w=1280&q=85") center/cover,#c9c3e6}
+.c2{background:#2B2644;color:#fff}
+.cards h3{font-size:24px;font-weight:500;line-height:1.375;letter-spacing:-.02em}
+.c1 p{color:rgba(0,0,0,.7);font-size:16px;max-width:20rem}
+.c2 p{color:rgba(255,255,255,.6);font-size:16px}
+.bk{padding:0 24px}
+.bk .in{display:grid;grid-template-columns:1fr;gap:32px;align-items:center}
+.bk .l{color:rgba(0,0,0,.7);font-size:16px;line-height:1.625}
+.bk .m{overflow:hidden;min-width:0}
+.uc{display:grid;grid-template-columns:1fr;gap:32px;align-items:start}
+.eb{color:rgba(0,0,0,.6);font-size:14px;margin-bottom:8px}
+h2.u{font-size:48px;font-weight:500;line-height:1;margin-bottom:24px;letter-spacing:-.04em}
+.uc .lp{color:rgba(0,0,0,.6);font-size:16px;line-height:1.625;max-width:24rem}
+.big{position:relative;border-radius:24px;overflow:hidden;min-height:720px;background:#e6e2f3}
+.big video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.big .o{position:relative;z-index:10;padding:40px}
+.big h3{font-size:36px;font-weight:500;line-height:1.25;margin-bottom:20px;letter-spacing:-.03em}
+.big p{color:rgba(0,0,0,.7);font-size:16px;max-width:28rem;margin-bottom:32px}
+.kn{display:inline-flex;align-items:center;gap:12px;font-size:16px;font-weight:500}
+.kn i{width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:background-color .2s}
+.kn:hover i{background:#fff}
+.kn svg{width:16px;height:16px;color:#000}
+@media(min-width:640px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:768px){
+ h1{font-size:60px}.hero p{font-size:18px}.btn{font-size:18px}
+ .row1{grid-template-columns:1fr 1fr}h2.t{font-size:48px}.row1 .r{font-size:30px}
+ .bk .in{grid-template-columns:1fr 3fr}
+ .uc{grid-template-columns:1fr 1fr}.uc .lc{padding-right:48px;padding-top:8px}
+ h2.u{font-size:60px}.big .o{padding:48px}.big h3{font-size:48px}
+}
+@media(min-width:1024px){.cards{grid-template-columns:repeat(4,1fr)}.c1{grid-column:span 2}}
+@media(max-width:767px){.ov{padding:112px 24px 32px}.mq{margin-top:48px}section.s{padding:64px 24px}.bk{padding-bottom:0}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+</defs></svg>
+<div class="page">
+<div class="first">
+ <nav><div class="nav-in">
+  <div class="logo"><svg viewBox="0 0 256 256" fill="currentColor"><path d="M 128.005 191.173 C 128.448 156.208 156.93 128 192 128 L 192 64 L 128 64 C 128 99.346 99.346 128 64 128 L 64 192 L 128 192 Z M 192 256 L 64 256 C 28.654 256 0 227.346 0 192 L 0 64 L 64 64 L 64 0 L 192 0 C 227.346 0 256 28.654 256 64 L 256 192 L 192 192 Z"/></svg><span>Halo</span></div>
+  <div class="links"><a href="#">Network</a><a href="#">Ecosystem</a><a href="#">Rewards</a><a href="#">Help</a><a href="#">News</a></div>
+  <a class="pill" href="#">Open Wallet</a>
+ </div></nav>
+ <div class="hero"><div class="card">
+  <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_161253_c72b1869-400f-45ed-ac0c-52f68c2ed5bd.mp4"></video>
+  <div class="ov">
+   <h1>Your Wealth<br>Works</h1>
+   <p>An automated, reward-powered digital dollar built for native passive earnings and effortless connection into DeFi.</p>
+   <a class="btn" href="#">Join us <span class="c"><svg><use href="#arr"/></svg></span></a>
+   <div class="mq"><div class="track" id="t1"></div></div>
+  </div>
+ </div></div>
+</div>
+
+<section class="s"><div class="in">
+ <div class="row1">
+  <div><h2 class="t">Meet USD Halo.</h2><a class="btn" style="font-size:16px" href="#">Discover it <span class="c"><svg><use href="#arr"/></svg></span></a></div>
+  <p class="r">USD Halo is a reward-earning dollar coin that lets your savings grow while remaining tied to the U.S. dollar.</p>
+ </div>
+ <div class="cards">
+  <div class="c1"><h3>Savings that bloom</h3><p>Gain steady returns as your dollar tokens are routed into top-performing DeFi strategies.</p></div>
+  <div class="c2"><h3>Always fluid,<br>always pegged.</h3><p>Keep fully dollar-anchored with on-demand access to funds — no lockups or waits.</p></div>
+  <div class="c2"><h3>Fully<br>automated</h3><p>Skip the task of tuning positions yourself. USD Halo runs in the background for you.</p></div>
+ </div>
+</div></section>
+
+<section class="bk"><div class="in">
+ <p class="l">Funded by premier partners<br>and forward-thinking leaders.</p>
+ <div class="m"><div class="track" id="t2"></div></div>
+</div></section>
+
+<section class="s"><div class="in uc">
+ <div class="lc">
+  <p class="eb">USD Halo in Practice</p>
+  <h2 class="u">Use modes</h2>
+  <p class="lp">USD Halo powers a wide range of modes for builders, companies and treasuries wanting safe and rewarding stablecoin integrations plus more</p>
+ </div>
+ <div class="big">
+  <video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_183428_ab5e672a-f608-4dcb-b319-f3e040f02e2d.mp4"></video>
+  <div class="o">
+   <h3>Commerce</h3>
+   <p>Lift customer retention by offering USD Halo, a trusted dollar-backed stablecoin with strong yields, letting your patrons earn with zero effort on your platform.</p>
+   <a class="kn" href="#"><i><svg><use href="#arr"/></svg></i>Know more</a>
+  </div>
+ </div>
+</div></section>
+</div>
+<script>
+var b1=[["Stripe","font-family:Georgia,serif;font-weight:700;letter-spacing:-.02em;font-size:15px"],
+["Coinbase","font-family:Arial,sans-serif;font-weight:900;letter-spacing:.08em;font-size:13px;text-transform:uppercase"],
+["Uniswap","font-family:'Trebuchet MS',sans-serif;font-weight:600;letter-spacing:.01em;font-size:15px;font-style:italic"],
+["Aave","font-family:'Courier New',monospace;font-weight:700;letter-spacing:.12em;font-size:13px;text-transform:uppercase"],
+["Compound","font-family:Palatino,'Book Antiqua',serif;font-weight:400;letter-spacing:-.01em;font-size:16px"],
+["MakerDAO","font-family:Impact,'Arial Narrow',sans-serif;font-weight:400;letter-spacing:.04em;font-size:14px"],
+["Chainlink","font-family:Verdana,sans-serif;font-weight:700;letter-spacing:-.03em;font-size:13px"]];
+var b2=[["Fundamental Labs","font-family:'Times New Roman',serif;font-weight:400;letter-spacing:.02em;font-size:14px"],
+["KUCOIN","font-family:'Arial Black',Arial,sans-serif;font-weight:900;letter-spacing:.08em;font-size:16px"],
+["NGC","font-family:Impact,sans-serif;font-weight:700;letter-spacing:.05em;font-size:18px"],
+["NxGen","font-family:Georgia,serif;font-weight:600;letter-spacing:-.02em;font-size:17px"],
+["Matter Labs","font-family:Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:-.01em;font-size:15px"],
+["DEXTools","font-family:Verdana,sans-serif;font-weight:700;letter-spacing:.06em;font-size:14px;text-transform:uppercase"],
+["NGRAVE","font-family:'Courier New',monospace;font-weight:700;letter-spacing:.18em;font-size:14px"],
+["Polychain","font-family:Palatino,serif;font-weight:500;letter-spacing:.03em;font-size:15px"]];
+function fill(id,l){var h="";for(var i=0;i<2;i++)l.forEach(function(x){h+='<span style="'+x[1]+'">'+x[0]+'</span>'});document.getElementById(id).innerHTML=h}
+fill("t1",b1);fill("t2",b2);
+</script>
+</body>
+</html>

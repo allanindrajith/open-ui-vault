@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vize Footer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden}
+body{background:#F9F9FB;color:#141414;font-family:"Inter",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+button{font:inherit;cursor:pointer}
+.app{min-height:100vh;background:#F0F1F3;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;padding:32px 16px 16px}
+@media(min-width:768px){.app{height:100vh;justify-content:center;overflow:hidden;padding:16px}}
+footer{width:100%;display:flex;flex-direction:column;align-items:center;gap:0}
+.card-wrap{width:100%;max-width:72rem;margin:0 auto}
+.outer{background:#E9EBEE;border-radius:48px;border:1px solid #e2e8f0;box-shadow:0 1px 2px rgba(0,0,0,.05);overflow:hidden}
+.inner{background:#fff;border-radius:40px;margin:8px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.grid{padding:32px;display:grid;grid-template-columns:1fr;gap:48px}
+@media(min-width:768px){.grid{padding:40px;grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.grid{padding:48px;grid-template-columns:repeat(5,1fr)}.brand{grid-column:span 2}}
+.brand>*+*{margin-top:32px}
+.logo-row{display:flex;align-items:center;gap:10px}
+.logo{width:32px;height:32px;background:#31A8FF;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-name{font-size:26px;font-weight:700;letter-spacing:-.025em;color:#0F172A}
+.desc{color:#64748B;line-height:1.625;font-size:16px;font-weight:400;max-width:320px}
+.socials{display:flex;gap:12px}
+.soc{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid #f1f5f9;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05);transition:all .15s}
+.soc:hover{background:#f8fafc}
+.soc:active{transform:scale(.95)}
+.soc svg{width:20px;height:20px;color:#1e293b}
+.col>*+*{margin-top:24px}
+.col h4{font-size:14px;font-weight:500;color:#94A3B8}
+.col ul>li+li{margin-top:16px}
+.col a{font-size:15px;font-weight:500;color:#1E293B;transition:color .15s}
+.col a:hover{color:#31A8FF}
+.legal{padding:20px 24px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;gap:24px;font-size:15px}
+@media(min-width:640px){.legal{padding:20px 48px}}
+@media(min-width:768px){.legal{flex-direction:row;padding:20px 64px}}
+@media(min-width:1024px){.legal{padding:20px 80px}}
+.legal p{color:#64748B;font-weight:500}
+.legal .r{display:flex;gap:32px;color:#64748B;font-weight:500;align-items:center}
+.legal .r a{transition:color .15s}
+.legal .r a:hover{color:#1E293B}
+.sep{width:1px;height:16px;background:#cbd5e1}
+.glass{position:relative;width:100%;display:flex;align-items:center;justify-content:center;user-select:none}
+.glass svg.defs{position:absolute;width:0;height:0}
+.glass .m{position:relative;opacity:0;transform:scale(.98);transition:opacity 1.8s cubic-bezier(.16,1,.3,1),transform 1.8s cubic-bezier(.16,1,.3,1)}
+.glass .m.in{opacity:1;transform:scale(1)}
+.glass h1{font-size:min(25vw,400px);font-weight:700;letter-spacing:normal;line-height:1;color:#fff;padding:0 16px;filter:url(#glass-effect)}
+</style>
+</head>
+<body>
+<div class="app">
+<footer>
+  <div class="card-wrap">
+    <div class="outer">
+      <div class="inner">
+        <div class="grid">
+          <div class="brand">
+            <div class="logo-row">
+              <div class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20C4 20 4 14 10 10C16 6 20 4 20 4C20 4 18 8 14 14C10 20 4 20 4 20Z" fill="white"/><path d="M4 20L10 14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
+              <span class="logo-name">vize</span>
+            </div>
+            <p class="desc">Premium strategic solutions designed to elevate your brand presence through advanced marketing.</p>
+            <div class="socials">
+              <button class="soc" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></button>
+              <button class="soc" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></button>
+              <button class="soc" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></button>
+            </div>
+          </div>
+          <div class="col"><h4>Product</h4><ul><li><a href="#">Features</a></li><li><a href="#">Solutions</a></li><li><a href="#">Pricing</a></li><li><a href="#">Updates</a></li></ul></div>
+          <div class="col"><h4>Science</h4><ul><li><a href="#">Approach</a></li><li><a href="#">Identity</a></li><li><a href="#">Research</a></li><li><a href="#">Metrics</a></li></ul></div>
+          <div class="col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Partners</a></li><li><a href="#">Careers</a></li></ul></div>
+        </div>
+      </div>
+      <div class="legal">
+        <p>© 2025 Vize. All rights reserved.</p>
+        <div class="r"><a href="#">Legal Center</a><div class="sep"></div><a href="#">User Agreement</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="glass">
+    <svg class="defs" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="glass-effect" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.25" result="outer-shadow"/>
+          <feComponentTransfer in="SourceAlpha" result="alpha"><feFuncA type="linear" slope="1"/></feComponentTransfer>
+          <feOffset in="alpha" dx="0" dy="4" result="offset-white"/>
+          <feGaussianBlur in="offset-white" stdDeviation="4" result="blur-white"/>
+          <feComposite in="alpha" in2="blur-white" operator="out" result="inner-white-mask"/>
+          <feFlood flood-color="#ffffff" flood-opacity="0.25" result="white-fill"/>
+          <feComposite in="white-fill" in2="inner-white-mask" operator="in" result="inner-white-final"/>
+          <feGaussianBlur in="alpha" stdDeviation="6" result="blur-black"/>
+          <feComposite in="alpha" in2="blur-black" operator="out" result="inner-black-mask"/>
+          <feFlood flood-color="#000000" flood-opacity="0.25" result="black-fill"/>
+          <feComposite in="black-fill" in2="inner-black-mask" operator="in" result="inner-black-final"/>
+          <feMerge>
+            <feMergeNode in="outer-shadow"/>
+            <feMergeNode in="SourceGraphic"/>
+            <feMergeNode in="inner-white-final"/>
+            <feMergeNode in="inner-black-final"/>
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+    <div class="m" id="m"><h1>vize</h1></div>
+  </div>
+</footer>
+</div>
+<script>
+(function(){var m=document.getElementById('m');
+if('IntersectionObserver' in window){var o=new IntersectionObserver(function(e){if(e[0].isIntersecting){m.classList.add('in');o.disconnect()}});o.observe(m)}else m.classList.add('in');
+setTimeout(function(){m.classList.add('in')},600)})();
+</script>
+</body>
+</html>

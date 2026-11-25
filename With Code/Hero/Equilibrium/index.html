@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Equilibrium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*{font-family:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+html,body{height:100%;background:#000;overflow-x:hidden}
+button{border:none;background:none;cursor:pointer;color:inherit;font:inherit}
+.liquid-glass{background:rgba(255,255,255,0.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,0.45) 0%,rgba(255,255,255,0.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,0.15) 80%,rgba(255,255,255,0.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box exclude,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+.root{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden;background:radial-gradient(ellipse at 70% 30%,#2a3b3a 0%,#0c1414 70%)}
+.root video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+nav{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px}
+.logo{display:flex;align-items:center;gap:8px;color:#fff;font-weight:500;font-size:16px}
+.pill{display:none;align-items:center;gap:4px;border-radius:12px;padding:8px}
+.pill button,.mm button.l{display:flex;align-items:center;gap:2px;padding:6px 12px;border-radius:6px;font-size:14px;color:rgba(255,255,255,.7);transition:color .15s,background-color .15s}
+.pill button:hover{color:#fff}
+.pill button.active,.mm button.active{background:rgba(255,255,255,.15);color:#fff}
+.ctas{display:none;align-items:center;gap:12px}
+.btn-g{color:#fff;font-size:14px;font-weight:500;padding:10px 16px;border-radius:9999px;transition:background-color .15s}
+.btn-g:hover{background:rgba(255,255,255,.05)}
+.btn-w{background:#fff;color:#000;font-size:14px;font-weight:500;padding:10px 16px;border-radius:9999px;transition:background-color .15s}
+.btn-w:hover{background:rgba(255,255,255,.9)}
+.tog{color:#fff;padding:8px;border-radius:8px;display:flex}
+.mm{display:none;position:absolute;top:72px;left:16px;right:16px;z-index:30;border-radius:16px;padding:16px;flex-direction:column;gap:4px}
+.mm.open{display:flex}
+.mm button.l{justify-content:space-between;width:100%;padding:12px 16px;border-radius:8px}
+.mm .row{display:flex;gap:8px;margin-top:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
+.mm .row button{flex:1}
+.hero{position:absolute;bottom:0;left:0;z-index:20;padding:0 24px 40px;max-width:672px}
+h1{color:#fff;font-size:36px;font-weight:500;line-height:1.25;letter-spacing:-0.025em;margin-bottom:16px}
+.hero p{color:rgba(255,255,255,.6);font-size:14px;line-height:1.625;margin-bottom:28px;max-width:448px}
+.btns{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.btns .btn-w,.btns .btn-g{font-size:14px;padding:12px 24px}
+@media(min-width:640px){
+ nav{padding:20px 32px}
+ .hero{padding:0 48px 64px}
+ h1{font-size:48px;line-height:1.1}
+ .btns .btn-w,.btns .btn-g{font-size:16px;padding:12px 28px}
+}
+@media(min-width:768px){.pill{display:flex}.ctas{display:flex}.tog,.mm,.mm.open{display:none}}
+@media(min-width:1024px){h1{font-size:60px}}
+</style>
+</head>
+<body>
+<div class="root">
+<video autoplay muted loop playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260511_230229_7c9bc431-46cf-489a-948d-e8144d8eb5d4.mp4"></video>
+<nav>
+ <div class="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/></svg><span>Equilibrium</span></div>
+ <div class="pill liquid-glass" id="pill"></div>
+ <div class="ctas"><button class="liquid-glass btn-g">Log in</button><button class="btn-w">Begin Now</button></div>
+ <button class="tog liquid-glass" id="tog" aria-label="Menu"></button>
+</nav>
+<div class="mm liquid-glass" id="mm"></div>
+<div class="hero">
+ <h1>Live Better, Feel Whole Every Day</h1>
+ <p>Take charge of how you feel with a companion built for your journey—build routines, follow your growth, and unlock tailored insights for a steadier, more vibrant life each day.</p>
+ <div class="btns"><button class="btn-w">Start Today</button><button class="liquid-glass btn-g">Discover How</button></div>
+</div>
+</div>
+<script>
+var links=[{label:'Home',active:true},{label:'Wellness',dropdown:true},{label:'Routine'},{label:'Our Team'}];
+var chev='<svg width="13" height="13" style="margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+var menu='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+var x='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+function item(l,cls){return '<button class="'+cls+(l.active?' active':'')+'">'+l.label+(l.dropdown?chev:'')+'</button>'}
+document.getElementById('pill').innerHTML=links.map(function(l){return item(l,'')}).join('');
+var mm=document.getElementById('mm');
+mm.innerHTML=links.map(function(l){return item(l,'l')}).join('')+'<div class="row"><button class="liquid-glass btn-g">Log in</button><button class="btn-w">Begin Now</button></div>';
+var tog=document.getElementById('tog'),open=false;
+function r(){tog.innerHTML=open?x:menu;mm.classList.toggle('open',open)}
+tog.onclick=function(){open=!open;r()};r();
+</script>
+</body>
+</html>

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peculiar Atelier — Unusual by intent</title>
+<meta name="description" content="Peculiar Atelier. Unusual by intent. Tug the cloth, I dare you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #e3e4e9;
+    --paper-edge: #cfd1d9;
+    --ink: #000000;
+    --ink-soft: rgba(0, 0, 0, 0.5);
+    --violet: #5b07fb;
+    --violet-deep: #4a00d6;
+    --white: #ffffff;
+    --gutter: clamp(20px, 3.2vw, 46px);
+    --display: clamp(44px, min(7.65vw, 13.6vh), 168px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { height: 100%; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .hero {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 480px;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 95% at 58% 38%, #e8e9ed 0%, var(--paper) 46%, var(--paper-edge) 100%);
+  }
+
+  /* The cloth: one canvas the size of the hero, under the type. */
+  .hero__cloth {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+  .hero__cloth.is-over { cursor: grab; }
+  .hero__cloth.is-held { cursor: grabbing; }
+  .hero__cloth:focus-visible { outline: 2px solid var(--violet); outline-offset: -6px; }
+
+  /* Shown only when the cloth cannot be drawn (no WebGL, or the image is blocked). */
+  .hero__still {
+    position: absolute;
+    left: 40%;
+    top: 48.5%;
+    width: min(64vw, 84vh);
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    transform: translate(-50%, -50%) rotate(5deg);
+    box-shadow: -18px 40px 70px rgba(20, 20, 40, 0.22);
+    z-index: 0;
+    display: none;
+  }
+  .no-cloth .hero__still { display: block; }
+  .no-cloth .hero__cloth { display: none; }
+
+  .nav {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px var(--gutter) 0;
+    pointer-events: none;
+  }
+  .nav > * { pointer-events: auto; }
+  .nav__logo {
+    font-size: 19px;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 36px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav__actions { display: flex; gap: 12px; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    height: 36px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s;
+  }
+  .pill:hover { transform: translateY(-1px); }
+  .pill:active { transform: translateY(0) scale(0.98); }
+  .pill--menu { background: var(--ink); padding-left: 16px; }
+  .pill--menu:hover { background: #1b1b1f; }
+  .pill--start { background: var(--violet); }
+  .pill--start:hover { background: var(--violet-deep); }
+  .burger { display: grid; gap: 4px; width: 24px; }
+  .burger i { display: block; height: 1.5px; border-radius: 1px; background: var(--white); transition: transform 0.25s; }
+  .pill--menu:hover .burger i:first-child { transform: translateX(-2px); }
+  .pill--menu:hover .burger i:last-child { transform: translateX(2px); }
+
+  .nav__logo:focus-visible,
+  .pill:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+  .pill--start:focus-visible { outline-color: var(--ink); }
+
+  .hero__title {
+    position: absolute;
+    z-index: 1;
+    left: 66.9%;
+    top: 48.4%;
+    transform: translateY(-50%);
+    margin: 0;
+    font-size: var(--display);
+    font-weight: 500;
+    line-height: 0.99;
+    letter-spacing: -0.06em;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero__title span { display: block; }
+  .hero__title .soft { color: var(--ink-soft); }
+
+  /* Tablet: the type drops under the cloth, bottom left. */
+  @media (max-width: 1099px), (max-aspect-ratio: 5/4) {
+    :root { --display: clamp(44px, min(12.4vw, 11vh), 120px); }
+    .hero__title { left: var(--gutter); top: auto; bottom: clamp(20px, 4vh, 44px); transform: none; }
+    .hero__still { left: 50%; top: 44%; width: min(78vw, 60vh); }
+  }
+  @media (max-width: 520px) {
+    .pill--start { display: none; }
+    .nav__logo { font-size: 18px; }
+  }
+
+  .hero__title span, .nav { animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .hero__title span:nth-child(2) { animation-delay: 0.08s; }
+  @keyframes rise { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__title span, .nav { animation: none; }
+    .pill, .burger i { transition: none; }
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero" aria-label="Peculiar Atelier">
+  <canvas class="hero__cloth" id="cloth" role="img" tabindex="-1"
+          aria-label="A violet holographic cloth showing a chrome octopus beneath the words Strange by design. Grab it then tug it around."></canvas>
+  <img class="hero__still" id="still" alt="" decoding="async"
+       src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/9212999e-7a4a-4f70-bc34-e4e1c4533b81.jpg">
+
+  <header class="nav">
+    <a class="nav__logo" href="#hero">Peculiar Atelier</a>
+    <div class="nav__actions">
+      <button class="pill pill--menu" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>More
+      </button>
+      <a class="pill pill--start" href="#start">Start a brief</a>
+    </div>
+  </header>
+
+  <h1 class="hero__title">
+    <span>Grab me</span>
+    <span class="soft">I dare you</span>
+  </h1>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  // The print, hosted on Higgsfield. The only image this page loads.
+  var IMAGE = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/9212999e-7a4a-4f70-bc34-e4e1c4533b81.jpg";
+
+  var hero = document.getElementById("hero");
+  var canvas = document.getElementById("cloth");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function giveUp() { hero.classList.add("no-cloth"); }
+
+  var gl = canvas.getContext("webgl", { alpha: true, antialias: true, premultipliedAlpha: true, powerPreference: "high-performance" });
+  if (!gl) { giveUp(); return; }
+
+  /* ------------------------------------------------------------------ */
+  /* Settings                                                            */
+  /* ------------------------------------------------------------------ */
+  var S = {
+    size: 0.90,        // cloth height, as a share of the hero's height
+    aspect: 1.12,      // width / height
+    spread: 0.98,      // how far apart the two pins sit, against the cloth's width
+    pinRoll: 5.5,      // degrees the pin line leans (left pin higher)
+    flutter: 0.35,
+    damping: 0.30,
+    stiffness: 0.60,
+    crumple: 0.55,
+    grabRadius: 0.12,  // how near the pointer has to be, in hero heights
+    carryRadius: 0.20, // how much cloth comes along, against the cloth's height
+    gravity: 2.6,
+    tilt: -10, turn: -12, perspective: 0.45,
+    maxSpeed: 12,
+    steps: 8
+  };
+  var NX = 46, NY = 42, N = NX * NY;
+  var CH = S.size, CW = S.size * S.aspect;
+
+  /* ------------------------------------------------------------------ */
+  /* Camera                                                              */
+  /* ------------------------------------------------------------------ */
+  var t = S.tilt * Math.PI / 180, r = S.turn * Math.PI / 180;
+  var ct = Math.cos(t), st = Math.sin(t), cr = Math.cos(r), sr = Math.sin(r);
+  var R = [cr, 0, sr, st * sr, ct, -st * cr, -ct * sr, st, ct * cr]; // rows: world -> view
+  var CAM = Math.exp(Math.log(18) * (1 - S.perspective) + Math.log(1.7) * S.perspective);
+  var view = { cx: 0.40, cy: 0.485, zoom: 1, aspect: 1, w: 1, h: 1 };
+
+  function layout() {
+    var rect = hero.getBoundingClientRect();
+    var w = Math.max(1, rect.width), h = Math.max(1, rect.height);
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    view.w = w; view.h = h; view.aspect = w / h;
+    var stacked = w < 1100 || view.aspect < 1.25;
+    if (stacked) {
+      view.cx = 0.5;
+      view.cy = view.aspect < 0.75 ? 0.41 : 0.43;
+      // Leave room for the nav above and the two lines of type below.
+      var room = Math.min(0.92 * view.aspect / (CW * 1.12), (view.aspect < 0.75 ? 0.60 : 0.66) / CH);
+      view.zoom = Math.min(1, room);
+    } else {
+      view.cx = 0.402; view.cy = 0.485;
+      // Never let the cloth reach under the heading on short, wide windows.
+      view.zoom = Math.min(1, 0.58 * view.aspect / (CW * 1.12));
+    }
+    var pw = Math.round(w * dpr), ph = Math.round(h * dpr);
+    if (canvas.width !== pw || canvas.height !== ph) { canvas.width = pw; canvas.height = ph; resizeShadow(); }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Cloth: positions, rest shape, constraints                           */
+  /* ------------------------------------------------------------------ */
+  var pos = new Float32Array(N * 3), prev = new Float32Array(N * 3), nor = new Float32Array(N * 3);
+  var flat = new Float32Array(N * 2), carry = new Float32Array(N), invMass = new Float32Array(N);
+  var scr = new Float32Array(N * 3);
+
+  function ridge(x) { var v = Math.sin(x); return Math.sqrt(v * v + 0.03) - 0.64; }
+  // Creases the cloth keeps at rest, so it never hangs like a sheet of card.
+  function crease(u, v) {
+    var h = ridge(2.7 * u + 2.9 * v + 0.7) + 0.8 * ridge(-2.6 * u + 3.3 * v + 2.1)
+          + 0.5 * Math.sin(4.9 * u - 1.4 * v + 2.2) + 0.55 * ridge(1.1 * u + 6.4 * v + 1.3)
+          + 0.4 * ridge(8.3 * u + 3.9 * v + 0.2) + 0.3 * ridge(-5.7 * u + 9.1 * v + 1.6);
+    return S.crumple * 0.045 * CH * h;
+  }
+
+  var rest = new Float32Array(N * 3);
+  for (var j = 0; j < NY; j++) for (var i = 0; i < NX; i++) {
+    var k = j * NX + i, u = i / (NX - 1), v = j / (NY - 1); // v = 0 at the bottom edge
+    flat[k * 2] = (u - 0.5) * CW; flat[k * 2 + 1] = (v - 0.5) * CH;
+    rest[k * 3] = flat[k * 2]; rest[k * 3 + 1] = flat[k * 2 + 1]; rest[k * 3 + 2] = crease(u, v);
+    invMass[k] = 1;
+  }
+
+  // The two pins: the top corners, drawn in a little and leaning.
+  var PIN_L = (NY - 1) * NX, PIN_R = N - 1;
+  var roll = S.pinRoll * Math.PI / 180;
+  var half = 0.5 * CW * S.spread, top = 0.5 * CH;
+  var pins = [
+    { k: PIN_L, x: -half * Math.cos(roll), y: top + half * Math.sin(roll), z: 0 },
+    { k: PIN_R, x:  half * Math.cos(roll), y: top - half * Math.sin(roll), z: 0 }
+  ];
+  invMass[PIN_L] = 0; invMass[PIN_R] = 0;
+
+  var cA = [], cB = [], cL = [], cK = [];
+  function link(a, b, stiff) {
+    var dx = rest[a * 3] - rest[b * 3], dy = rest[a * 3 + 1] - rest[b * 3 + 1], dz = rest[a * 3 + 2] - rest[b * 3 + 2];
+    cA.push(a); cB.push(b); cL.push(Math.sqrt(dx * dx + dy * dy + dz * dz)); cK.push(stiff);
+  }
+  var bend = 0.02 + (0.60 - 0.02) * S.stiffness;
+  for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) {
+    k = j * NX + i;
+    if (i + 1 < NX) link(k, k + 1, 1);
+    if (j + 1 < NY) link(k, k + NX, 1);
+    if (i + 1 < NX && j + 1 < NY) { link(k, k + NX + 1, 0.5); link(k + 1, k + NX, 0.5); }
+    if (i + 2 < NX) link(k, k + 2, bend);
+    if (j + 2 < NY) link(k, k + 2 * NX, bend);
+    if (i + 5 < NX) link(k, k + 5, bend * 0.5);
+    if (j + 5 < NY) link(k, k + 5 * NX, bend * 0.5);
+  }
+  var CN = cA.length;
+  cA = Int32Array.from(cA); cB = Int32Array.from(cB); cL = Float32Array.from(cL); cK = Float32Array.from(cK);
+
+  // No point may get further from a pin than the flat cloth allows: keeps the weave from stretching.
+  var reachL = new Float32Array(N), reachR = new Float32Array(N);
+  for (k = 0; k < N; k++) {
+    reachL[k] = 1.02 * Math.hypot(flat[k * 2] - flat[PIN_L * 2], flat[k * 2 + 1] - flat[PIN_L * 2 + 1]);
+    reachR[k] = 1.02 * Math.hypot(flat[k * 2] - flat[PIN_R * 2], flat[k * 2 + 1] - flat[PIN_R * 2 + 1]);
+  }
+
+  function reset() {
+    for (var k = 0; k < N; k++) {
+      var v = (k / NX | 0) / (NY - 1);
+      var draw = S.spread + (1 - S.spread) * (1 - v) * (1 - v);
+      // Start already leaning with the pins, turned about the middle of the top edge.
+      var x = rest[k * 3] * draw, y = rest[k * 3 + 1] - top;
+      pos[k * 3] = x * Math.cos(roll) + y * Math.sin(roll); pos[k * 3 + 1] = top - x * Math.sin(roll) + y * Math.cos(roll); pos[k * 3 + 2] = rest[k * 3 + 2];
+    }
+    for (var p = 0; p < 2; p++) { var q = pins[p]; pos[q.k * 3] = q.x; pos[q.k * 3 + 1] = q.y; pos[q.k * 3 + 2] = q.z; }
+    prev.set(pos);
+  }
+  reset();
+
+  function tether(k, pin, reach) {
+    var dx = pos[k * 3] - pin.x, dy = pos[k * 3 + 1] - pin.y, dz = pos[k * 3 + 2] - pin.z;
+    var l = Math.sqrt(dx * dx + dy * dy + dz * dz);
+    if (l > reach) { var s = reach / l; pos[k * 3] = pin.x + dx * s; pos[k * 3 + 1] = pin.y + dy * s; pos[k * 3 + 2] = pin.z + dz * s; }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Pointer: find the cloth under it, then carry that spot              */
+  /* ------------------------------------------------------------------ */
+  var pointer = { x: 0, y: 0, down: false, id: -1 };
+  var grab = { on: false, k: -1, depth: 0, ox: 0, oy: 0 };
+  var target = [0, 0, 0];
+
+  function toScreen(clientX, clientY) {
+    var rect = canvas.getBoundingClientRect();
+    pointer.x = ((clientX - rect.left) / rect.width - view.cx) * view.aspect / view.zoom;
+    pointer.y = (view.cy - (clientY - rect.top) / rect.height) / view.zoom;
+  }
+  function project() {
+    for (var k = 0; k < N; k++) {
+      var x = pos[k * 3], y = pos[k * 3 + 1], z = pos[k * 3 + 2];
+      var qz = R[6] * x + R[7] * y + R[8] * z, p = CAM / Math.max(CAM - qz, 1e-3);
+      scr[k * 3] = (R[0] * x + R[1] * y + R[2] * z) * p;
+      scr[k * 3 + 1] = (R[3] * x + R[4] * y + R[5] * z) * p;
+      scr[k * 3 + 2] = qz;
+    }
+  }
+  function pick() {
+    project();
+    var best = 1e9, found = -1, radius = S.grabRadius / view.zoom;
+    for (var k = 0; k < N; k++) {
+      var d = Math.hypot(scr[k * 3] - pointer.x, scr[k * 3 + 1] - pointer.y);
+      var score = d - 0.08 * scr[k * 3 + 2]; // nearer folds win
+      if (d < radius && score < best) { best = score; found = k; }
+    }
+    return found;
+  }
+  function startGrab() {
+    var k = pick();
+    if (k < 0) return false;
+    grab.on = true; grab.k = k; grab.depth = scr[k * 3 + 2];
+    var back = (CAM - grab.depth) / CAM;
+    grab.ox = scr[k * 3] * back - pointer.x * back;
+    grab.oy = scr[k * 3 + 1] * back - pointer.y * back;
+    var gx = flat[k * 2], gy = flat[k * 2 + 1], reach = S.carryRadius * CH;
+    for (var n = 0; n < N; n++) {
+      var d = Math.hypot(flat[n * 2] - gx, flat[n * 2 + 1] - gy) / reach;
+      carry[n] = d >= 1 || invMass[n] === 0 ? 0 : (1 - d * d) * (1 - d * d);
+    }
+    carry[k] = 1;
+    canvas.classList.add("is-held");
+    return true;
+  }
+  function endGrab() {
+    grab.on = false; pointer.down = false;
+    canvas.classList.remove("is-held");
+  }
+  function aim() {
+    // The pointer, at the depth the cloth was caught at, back in the cloth's own space.
+    var back = (CAM - grab.depth) / CAM;
+    var vx = pointer.x * back + grab.ox, vy = pointer.y * back + grab.oy, vz = grab.depth;
+    target[0] = R[0] * vx + R[3] * vy + R[6] * vz;
+    target[1] = R[1] * vx + R[4] * vy + R[7] * vz;
+    target[2] = R[2] * vx + R[5] * vy + R[8] * vz;
+    // The pins hold: the caught spot can only go as far as the cloth reaches.
+    for (var p = 0; p < 2; p++) {
+      var pin = pins[p], reach = (p ? reachR : reachL)[grab.k];
+      var dx = target[0] - pin.x, dy = target[1] - pin.y, dz = target[2] - pin.z, l = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      if (l > reach) { var s = reach / l; target[0] = pin.x + dx * s; target[1] = pin.y + dy * s; target[2] = pin.z + dz * s; }
+    }
+  }
+
+  canvas.addEventListener("pointerdown", function (e) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    toScreen(e.clientX, e.clientY);
+    pointer.down = true; pointer.id = e.pointerId;
+    if (startGrab()) {
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      e.preventDefault();
+      wake();
+    }
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    toScreen(e.clientX, e.clientY);
+    if (grab.on) { if (e.pointerId === pointer.id) wake(); return; }
+    if (e.pointerType === "mouse") canvas.classList.toggle("is-over", pick() >= 0);
+  });
+  ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (type) {
+    canvas.addEventListener(type, function (e) { if (e.pointerId === pointer.id || !grab.on) endGrab(); });
+  });
+  canvas.addEventListener("pointerleave", function () { if (!grab.on) canvas.classList.remove("is-over"); });
+  // A finger on the cloth drags the cloth; a finger anywhere else still scrolls the page.
+  canvas.addEventListener("touchstart", function (e) {
+    var touch = e.changedTouches[0];
+    toScreen(touch.clientX, touch.clientY);
+    if (pick() >= 0 && e.cancelable) e.preventDefault();
+  }, { passive: false });
+  canvas.addEventListener("touchmove", function (e) { if (grab.on && e.cancelable) e.preventDefault(); }, { passive: false });
+  canvas.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+  /* ------------------------------------------------------------------ */
+  /* Simulation                                                          */
+  /* ------------------------------------------------------------------ */
+  var clock = 0, sweep = false;
+  function step(h) {
+    clock += h;
+    var T = clock, k, n;
+    var damp = Math.exp(-(0.15 + (6 - 0.15) * S.damping) * h);
+    var gust = 0.6 + 0.4 * Math.sin(0.37 * T) * Math.sin(0.23 * T + 1.0);
+    var wind = (reduced.matches ? 0 : S.flutter) * 2.4 * gust * (S.gravity / 2.6);
+    var hh = h * h, maxMove = S.maxSpeed * h;
+
+    if (grab.on) {
+      aim();
+      var gk = grab.k;
+      var ddx = target[0] - pos[gk * 3], ddy = target[1] - pos[gk * 3 + 1], ddz = target[2] - pos[gk * 3 + 2];
+    }
+
+    for (k = 0; k < N; k++) {
+      if (invMass[k] === 0) continue;
+      var a = k * 3, x = pos[a], y = pos[a + 1], z = pos[a + 2];
+      var w = grab.on ? carry[k] : 0;
+      if (w >= 0.98) { // held: goes where the pointer goes
+        prev[a] = x; prev[a + 1] = y; prev[a + 2] = z;
+        pos[a] = x + ddx; pos[a + 1] = y + ddy; pos[a + 2] = z + ddz;
+        continue;
+      }
+      var u = (k % NX) / (NX - 1), v = (k / NX | 0) / (NY - 1);
+      var s1 = Math.sin(9.1 * u - 3.7 * v + 3.1 * T), s2 = Math.sin(6.3 * u + 7.9 * v - 2.3 * T + 1.3);
+      var s3 = Math.sin(2.9 * u + 1.7 * T + 0.8 * Math.sin(0.5 * T)) * Math.cos(2.3 * v - 0.9 * T);
+      var ax = wind * 0.25 * Math.sin(3.3 * v + 1.1 * T + u);
+      var ay = wind * 0.1 * s2 - S.gravity;
+      var az = wind * (0.45 * s1 + 0.35 * s2 + 0.3 * s3);
+      if (w > 0) { x += w * ddx; y += w * ddy; z += w * ddz; }
+      var vx = (x - prev[a]) * damp + ax * hh, vy = (y - prev[a + 1]) * damp + ay * hh, vz = (z - prev[a + 2]) * damp + az * hh;
+      if (w > 0) { vx -= w * ddx * damp; vy -= w * ddy * damp; vz -= w * ddz * damp; } // carried, not flung
+      var sp = Math.sqrt(vx * vx + vy * vy + vz * vz);
+      if (sp > maxMove) { sp = maxMove / sp; vx *= sp; vy *= sp; vz *= sp; }
+      prev[a] = x; prev[a + 1] = y; prev[a + 2] = z;
+      pos[a] = x + vx; pos[a + 1] = y + vy; pos[a + 2] = z + vz;
+    }
+
+    // Pull every link back towards its length, forwards one step and backwards the next so no corner is favoured.
+    sweep = !sweep;
+    for (var pass = sweep ? 1 : 0, once = 0; once < 1; once++) {
+      for (var c = 0; c < CN; c++) {
+        n = pass ? CN - 1 - c : c;
+        var i0 = cA[n], i1 = cB[n], w0 = invMass[i0], w1 = invMass[i1];
+        if (grab.on) { if (carry[i0] >= 0.98) w0 = 0; if (carry[i1] >= 0.98) w1 = 0; }
+        var ws = w0 + w1; if (ws === 0) continue;
+        var p0 = i0 * 3, p1 = i1 * 3;
+        var dx = pos[p0] - pos[p1], dy = pos[p0 + 1] - pos[p1 + 1], dz = pos[p0 + 2] - pos[p1 + 2];
+        var len = Math.sqrt(dx * dx + dy * dy + dz * dz); if (len < 1e-9) continue;
+        var f = cK[n] * (len - cL[n]) / (len * ws);
+        pos[p0] -= dx * f * w0; pos[p0 + 1] -= dy * f * w0; pos[p0 + 2] -= dz * f * w0;
+        pos[p1] += dx * f * w1; pos[p1 + 1] += dy * f * w1; pos[p1 + 2] += dz * f * w1;
+      }
+    }
+    for (k = 0; k < N; k++) {
+      if (invMass[k] === 0) continue;
+      tether(k, pins[0], reachL[k]); tether(k, pins[1], reachR[k]);
+    }
+  }
+
+  function normals() {
+    for (var j = 0; j < NY; j++) for (var i = 0; i < NX; i++) {
+      var k = j * NX + i;
+      var l = (i > 0 ? k - 1 : k) * 3, rr = (i < NX - 1 ? k + 1 : k) * 3, d = (j > 0 ? k - NX : k) * 3, u = (j < NY - 1 ? k + NX : k) * 3;
+      var ax = pos[rr] - pos[l], ay = pos[rr + 1] - pos[l + 1], az = pos[rr + 2] - pos[l + 2];
+      var bx = pos[u] - pos[d], by = pos[u + 1] - pos[d + 1], bz = pos[u + 2] - pos[d + 2];
+      var nx = ay * bz - az * by, ny = az * bx - ax * bz, nz = ax * by - ay * bx;
+      var m = 1 / (Math.sqrt(nx * nx + ny * ny + nz * nz) || 1);
+      nor[k * 3] = nx * m; nor[k * 3 + 1] = ny * m; nor[k * 3 + 2] = nz * m;
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Drawing                                                             */
+  /* ------------------------------------------------------------------ */
+  function shader(type, source) {
+    var s = gl.createShader(type); gl.shaderSource(s, source); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  function program(vs, fs, attribs) {
+    var p = gl.createProgram();
+    gl.attachShader(p, shader(gl.VERTEX_SHADER, vs)); gl.attachShader(p, shader(gl.FRAGMENT_SHADER, fs));
+    attribs.forEach(function (name, at) { gl.bindAttribLocation(p, at, name); });
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    return p;
+  }
+  function uniforms(p, names) { var o = {}; names.forEach(function (n) { o[n] = gl.getUniformLocation(p, n); }); return o; }
+
+  var CLOTH_VS = [
+    "attribute vec3 aPos; attribute vec3 aNor; attribute vec2 aUv;",
+    "uniform mat3 uR; uniform float uCam; uniform vec4 uView; uniform float uAspect;", // uView: centre x, centre y, zoom, depth scale
+    "varying vec3 vNor; varying vec2 vUv; varying vec3 vPos;",
+    "void main(){",
+    "  vec3 q = uR * aPos; float p = uCam / max(uCam - q.z, 1e-3);",
+    "  vec2 s = q.xy * p * uView.z;",
+    "  vNor = uR * aNor; vUv = aUv; vPos = q;",
+    "  gl_Position = vec4(2.0 * (uView.x + s.x / uAspect) - 1.0, 1.0 - 2.0 * (uView.y - s.y), -q.z * uView.w, 1.0);",
+    "}"
+  ].join("\n");
+
+  var CLOTH_FS = [
+    "precision highp float;",
+    "uniform sampler2D uPrint; uniform float uCam; uniform float uReady;",
+    "varying vec3 vNor; varying vec2 vUv; varying vec3 vPos;",
+    "vec3 rainbow(float p){ return clamp(vec3(0.74, 0.58, 0.96) + vec3(0.26, 0.24, 0.10) * cos(6.2831853 * (p + vec3(0.0, 0.28, 0.62))), 0.0, 1.0); }",
+    "float box(vec3 d, vec3 c, vec2 halfSize, float soft){",       // a soft rectangular studio light, seen in the reflection
+    "  float cz = dot(d, c); if (cz <= 0.02) return 0.0;",
+    "  vec3 up = abs(c.y) > 0.9 ? vec3(0.0, 0.0, 1.0) : vec3(0.0, 1.0, 0.0);",
+    "  vec3 tx = normalize(cross(up, c)); vec3 ty = cross(c, tx);",
+    "  vec2 e = (abs(vec2(dot(d, tx), dot(d, ty)) / cz) - halfSize) / soft;",
+    "  vec2 w = 1.0 - smoothstep(-0.5, 0.5, e); return w.x * w.y;",
+    "}",
+    "void main(){",
+    "  vec3 n = normalize(vNor); bool back = n.z < 0.0; if (back) n = -n;",
+    "  vec3 V = normalize(vec3(0.0, 0.0, uCam) - vPos);",
+    "  vec3 Rf = reflect(-V, n);",
+    "  vec3 KEY = normalize(vec3(-0.42, 0.45, 0.79));",
+    "  float nv = clamp(dot(n, V), 0.0, 1.0);",
+    "  float nl = max(dot(n, KEY), 0.0);",
+    "  vec3 print = pow(texture2D(uPrint, vUv).rgb, vec3(2.2));",
+    "  print = mix(vec3(0.10, 0.02, 0.32), print, uReady);",
+    // The print already carries its own sheen, so the light here only has to answer the folds.
+    "  float shade = 0.46 + 0.68 * nl + 0.08 * n.y;",
+    "  float key = pow(max(dot(Rf, KEY), 0.0), 26.0);",
+    "  float strip = box(Rf, normalize(vec3(0.08, 0.93, 0.36)), vec2(1.1, 0.07), 0.22);",
+    "  float side = box(Rf, normalize(vec3(0.86, 0.12, 0.50)), vec2(0.06, 0.85), 0.20);",
+    "  float fill = box(Rf, KEY, vec2(0.42, 0.30), 0.35);",
+    "  float phase = 3.0 * (0.85 * dot(n.xy, vec2(0.6, 0.8)) + 0.75 * (1.0 - nv) + 0.3 * dot(Rf.xy, vec2(-0.8, 0.6))) + 0.4 * sin(5.0 * vUv.x + 7.0 * vUv.y);",
+    "  vec3 holo = mix(vec3(1.0), pow(rainbow(phase), vec3(2.2)), 0.8);",
+    "  float lum = dot(print, vec3(0.2126, 0.7152, 0.0722));",
+    "  float gloss = mix(1.0, 0.45, smoothstep(0.55, 0.9, lum));",   // the white type is ink, not foil
+    "  vec3 spec = holo * gloss * mix(vec3(1.0), print * 2.4 + 0.08, 0.65) * (0.34 * key + 0.11 * strip + 0.07 * side + 0.02 * fill);",
+    "  vec3 colour = print * shade + spec + holo * print * 0.6 * pow(1.0 - nv, 3.0);",
+    "  if (back) {",
+    "    vec3 foil = vec3(0.30, 0.22, 0.52) * (0.35 + 0.9 * nl) + spec * 1.3;",
+    "    colour = mix(foil, print * shade, 0.38);",
+    "  }",
+    "  vec3 over = max(colour - 0.8, 0.0); colour = min(colour, 0.8) + 0.2 * (1.0 - exp(-over / 0.2));",
+    "  gl_FragColor = vec4(pow(clamp(colour, 0.0, 1.0), vec3(1.0 / 2.2)), 1.0);",
+    "}"
+  ].join("\n");
+
+  var MASK_FS = "precision mediump float; void main(){ gl_FragColor = vec4(1.0); }";
+  var QUAD_VS = "attribute vec2 aPos; varying vec2 vUv; void main(){ vUv = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }";
+  var SHADOW_FS = [
+    "precision mediump float; uniform sampler2D uMask; uniform vec2 uTexel; uniform vec2 uShift; uniform float uBlur; uniform float uDark;",
+    "varying vec2 vUv;",
+    "void main(){",
+    "  vec2 uv = vUv - uShift; float a = 0.0; float total = 0.0;",
+    "  for (int j = -3; j <= 3; j++) for (int i = -3; i <= 3; i++) {",
+    "    vec2 o = vec2(float(i), float(j)); float w = exp(-dot(o, o) / 6.0);",
+    "    a += w * texture2D(uMask, uv + o * uTexel * uBlur).r; total += w;",
+    "  }",
+    "  a = uDark * a / total; gl_FragColor = vec4(vec3(0.07, 0.07, 0.16) * a, a);",
+    "}"
+  ].join("\n");
+
+  var clothProg, maskProg, shadowProg, U, UM, US;
+  try {
+    clothProg = program(CLOTH_VS, CLOTH_FS, ["aPos", "aNor", "aUv"]);
+    maskProg = program(CLOTH_VS, MASK_FS, ["aPos", "aNor", "aUv"]);
+    shadowProg = program(QUAD_VS, SHADOW_FS, ["aPos"]);
+  } catch (error) { console.warn("[cloth] Could not build the shaders.", error); giveUp(); return; }
+  U = uniforms(clothProg, ["uR", "uCam", "uView", "uAspect", "uPrint", "uReady"]);
+  UM = uniforms(maskProg, ["uR", "uCam", "uView", "uAspect"]);
+  US = uniforms(shadowProg, ["uMask", "uTexel", "uShift", "uBlur", "uDark"]);
+
+  var uvs = new Float32Array(N * 2);
+  for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) { uvs[(j * NX + i) * 2] = i / (NX - 1); uvs[(j * NX + i) * 2 + 1] = 1 - j / (NY - 1); }
+  var index = new Uint16Array((NX - 1) * (NY - 1) * 6), at = 0;
+  for (j = 0; j < NY - 1; j++) for (i = 0; i < NX - 1; i++) {
+    k = j * NX + i;
+    index[at++] = k; index[at++] = k + 1; index[at++] = k + NX;
+    index[at++] = k + 1; index[at++] = k + NX + 1; index[at++] = k + NX;
+  }
+  var posBuf = gl.createBuffer(), norBuf = gl.createBuffer(), uvBuf = gl.createBuffer(), idxBuf = gl.createBuffer(), quadBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf); gl.bufferData(gl.ARRAY_BUFFER, uvs, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+
+  // The print: a dark stand-in until the image arrives.
+  var printTex = gl.createTexture(), ready = 0;
+  gl.bindTexture(gl.TEXTURE_2D, printTex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([40, 10, 120, 255]));
+  var image = new Image();
+  image.crossOrigin = "anonymous";
+  image.onload = function () {
+    try {
+      gl.bindTexture(gl.TEXTURE_2D, printTex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      var pow2 = (image.width & (image.width - 1)) === 0 && (image.height & (image.height - 1)) === 0;
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      if (pow2) { gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); }
+      else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      var aniso = gl.getExtension("EXT_texture_filter_anisotropic");
+      if (aniso) gl.texParameterf(gl.TEXTURE_2D, aniso.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+      ready = 1; draw(); wake();
+    } catch (error) { console.warn("[cloth] Could not use the image.", error); giveUp(); }
+  };
+  image.onerror = function () { console.warn("[cloth] Could not load the image."); giveUp(); };
+  image.src = IMAGE;
+
+  // The shadow: the cloth's outline, drawn small, then blurred onto the wall behind it.
+  var shadowTex = gl.createTexture(), shadowFbo = gl.createFramebuffer(), SW = 2, SH = 2;
+  function resizeShadow() {
+    SW = Math.max(2, Math.round(canvas.width / 8)); SH = Math.max(2, Math.round(canvas.height / 8));
+    gl.bindTexture(gl.TEXTURE_2D, shadowTex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, SW, SH, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, shadowFbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, shadowTex, 0);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+
+  function bindCloth(u) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, norBuf); gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf); gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 2, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
+    gl.uniformMatrix3fv(u.uR, false, [R[0], R[3], R[6], R[1], R[4], R[7], R[2], R[5], R[8]]);
+    gl.uniform1f(u.uCam, CAM); gl.uniform1f(u.uAspect, view.aspect);
+    gl.uniform4f(u.uView, view.cx, view.cy, view.zoom, 0.5);
+  }
+
+  function draw() {
+    normals();
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.bufferData(gl.ARRAY_BUFFER, pos, gl.DYNAMIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, norBuf); gl.bufferData(gl.ARRAY_BUFFER, nor, gl.DYNAMIC_DRAW);
+
+    gl.disable(gl.DEPTH_TEST); gl.disable(gl.BLEND);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, shadowFbo); gl.viewport(0, 0, SW, SH);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(maskProg); bindCloth(UM);
+    gl.drawElements(gl.TRIANGLES, index.length, gl.UNSIGNED_SHORT, 0);
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.useProgram(shadowProg);
+    gl.disableVertexAttribArray(1); gl.disableVertexAttribArray(2);
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, shadowTex);
+    gl.uniform1i(US.uMask, 0); gl.uniform2f(US.uTexel, 1 / SW, 1 / SH);
+    gl.uniform2f(US.uShift, -0.012 * view.zoom / view.aspect, -0.045 * view.zoom);
+    gl.uniform1f(US.uBlur, 0.9 + 1.5 * view.zoom * view.h / 724); gl.uniform1f(US.uDark, 0.30);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    gl.disable(gl.BLEND); gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
+    gl.useProgram(clothProg); bindCloth(U);
+    gl.bindTexture(gl.TEXTURE_2D, printTex); gl.uniform1i(U.uPrint, 0);
+    gl.uniform1f(U.uReady, ready);
+    gl.drawElements(gl.TRIANGLES, index.length, gl.UNSIGNED_SHORT, 0);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Loop: runs while the hero is on screen and the tab is in front      */
+  /* ------------------------------------------------------------------ */
+  var raf = 0, last = 0, onScreen = true, lost = false;
+  function frame(now) {
+    raf = 0;
+    if (lost) return;
+    var dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    if (dt > 0) { var h = dt / S.steps; for (var s = 0; s < S.steps; s++) step(h); }
+    draw();
+    wake();
+  }
+  function wake() {
+    if (raf || lost || !onScreen || document.hidden) return;
+    raf = requestAnimationFrame(function (now) { if (!last || now - last > 250) last = now - 16; frame(now); });
+  }
+
+  canvas.addEventListener("webglcontextlost", function (e) { e.preventDefault(); lost = true; giveUp(); });
+  document.addEventListener("visibilitychange", wake);
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) { onScreen = entries[0].isIntersecting; wake(); }).observe(hero);
+  }
+  if ("ResizeObserver" in window) new ResizeObserver(function () { layout(); wake(); }).observe(hero);
+  window.addEventListener("resize", function () { layout(); wake(); });
+
+  layout();
+  // Let the cloth fall into its hang before the first frame, so it never loads as a flat sheet.
+  var settle = S.damping; S.damping = 1;
+  for (var warm = 0; warm < 360; warm++) step(1 / 240);
+  S.damping = settle;
+  wake();
+})();
+</script>
+</body>
+</html>

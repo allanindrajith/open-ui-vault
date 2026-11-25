@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vibrant Wellness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:linear-gradient(160deg,#e3c9ec,#8f9de0 60%,#6fa6e8);color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+.hero{position:relative;height:100vh;min-height:560px;width:100%;overflow:hidden;display:flex;flex-direction:column}
+.hero>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+nav{position:relative;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:24px 20px 0}
+.logo{width:32px;height:32px;fill:#fff}
+.pill{display:none;border-radius:9999px;padding:12px 32px;gap:32px;font-size:14px;font-weight:500}
+.pill a{color:rgba(255,255,255,.7);transition:opacity .2s}
+.pill a:first-child{color:#fff}
+.circle{height:40px;width:40px;border-radius:9999px;display:flex;align-items:center;justify-content:center}
+.desk{display:none}
+.mob{position:relative;z-index:50}
+.mob svg{position:absolute;transition:all .3s}
+.ic-x{transform:rotate(90deg) scale(0);opacity:0}
+.open .ic-x{transform:none;opacity:1}
+.open .ic-m{transform:rotate(90deg) scale(0);opacity:0}
+.overlay{position:fixed;inset:0;z-index:10;background:rgba(0,0,0,.8);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);opacity:0;pointer-events:none;transition:opacity .5s ease-out;display:flex;align-items:center;justify-content:center}
+.overlay.open{opacity:1;pointer-events:auto}
+.overlay div.in{display:flex;flex-direction:column;align-items:center;gap:32px;transform:translateY(-32px);transition:transform .5s ease-out}
+.overlay.open .in{transform:none}
+.overlay a.l{font-size:24px;font-weight:500}
+.acct{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:300;color:rgba(255,255,255,.6)}
+main{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:0 20px 32px;transition:opacity .3s}
+body.menu main{opacity:0;pointer-events:none}
+.top{margin-top:56px;max-width:672px}
+.badge{display:inline-flex;align-items:center;gap:10px;border-radius:9999px;padding:6px 12px;margin-bottom:20px}
+.avs{display:flex}
+.avs img{height:20px;width:20px;border-radius:50%;border:2px solid rgba(255,255,255,.2);object-fit:cover;margin-left:-8px}
+.avs img:first-child{margin-left:0}
+.badge span{font-size:12px;font-weight:300;color:rgba(255,255,255,.8)}
+h1{font-size:36px;font-weight:400;line-height:1.05;letter-spacing:-.05em}
+.sub{margin-top:16px;font-size:14px;font-weight:300;color:rgba(255,255,255,.7)}
+.cta{display:inline-block;border-radius:9999px;padding:12px 24px;margin-top:24px;font-size:14px;font-weight:500;transition:background .3s}
+.cta:hover{background:rgba(255,255,255,.1)}
+.stats{display:flex;align-items:flex-end;gap:24px}
+.v{font-size:20px;font-weight:400}
+.lb{font-size:12px;font-weight:300;color:rgba(255,255,255,.6)}
+.dots{position:relative;width:20px;height:20px;margin-bottom:8px}
+.dots i{position:absolute;width:2.5px;height:2.5px;background:rgba(255,255,255,.6)}
+.grid3{display:grid;grid-template-columns:repeat(3,4px);gap:2px;margin-bottom:8px;width:max-content}
+.grid3 i{width:4px;height:4px;border-radius:1px;background:rgba(255,255,255,.6)}
+.grid3 i:nth-child(even){background:rgba(255,255,255,0)}
+@media(min-width:640px){
+nav{padding:32px 32px 0}main{padding:0 32px 40px}
+.top{margin-top:80px}.badge{gap:12px;padding:8px 16px;margin-bottom:24px}
+.avs img{height:24px;width:24px}.badge span{font-size:14px}
+h1{font-size:48px}.sub{margin-top:20px;font-size:16px}
+.cta{padding:14px 28px;margin-top:32px}
+.stats{gap:40px}.v{font-size:24px}.lb{font-size:14px}}
+@media(min-width:768px){
+nav{padding-left:64px;padding-right:64px}main{padding-left:64px;padding-right:64px}
+.logo{width:36px;height:36px}
+.pill{display:flex}.desk{display:flex}.mob{display:none}.overlay{display:none}
+.top{margin-top:112px}h1{font-size:60px}.sub{font-size:18px}
+.stats{gap:64px}.v{font-size:30px}}
+@media(min-width:1024px){nav,main{padding-left:80px;padding-right:80px}h1{font-size:72px}}
+</style>
+</head>
+<body>
+<section class="hero">
+<video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260715_082433_69699cf8-444b-4484-93cc-053e57896dfd.mp4"></video>
+<nav>
+<svg class="logo" viewBox="0 0 256 256"><path d="M 128 128 C 198.692 128 256 185.308 256 256 L 151.883 256 C 149.812 220.307 120.213 192 84 192 C 47.787 192 18.188 220.307 16.117 256 L 0 256 C 0 185.308 57.308 128 128 128 Z M 104.117 0 C 106.188 35.694 135.787 64 172 64 C 208.213 64 237.812 35.694 239.883 0 L 256 0 C 256 70.692 198.692 128 128 128 C 57.308 128 0 70.692 0 0 Z"/></svg>
+<div class="pill liquid-glass"><a href="#">Home</a><a href="#">Our Approach</a><a href="#">Healing Methods</a></div>
+<div class="circle liquid-glass desk"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg></div>
+<button class="circle liquid-glass mob" id="mb" aria-label="Menu">
+<svg class="ic-m" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+<svg class="ic-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+</button>
+</nav>
+<div class="overlay" id="ov"><div class="in">
+<a class="l" href="#">Home</a><a class="l" href="#">Our Approach</a><a class="l" href="#">Healing Methods</a>
+<div class="acct"><div class="circle liquid-glass"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg></div>Account</div>
+</div></div>
+<main>
+<div class="top">
+<div class="badge liquid-glass"><div class="avs">
+<img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100" alt="">
+<img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100" alt="">
+<img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100" alt="">
+<img src="https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&w=100" alt="">
+</div><span>our path to natural wellness</span></div>
+<h1>Heal Your Body<br/>Naturally</h1>
+<p class="sub">Holistic wellness. Transformative results.</p>
+<a href="#" class="cta liquid-glass">Begin Your Journey</a>
+</div>
+<div class="stats">
+<div><div class="dots"><i style="left:17px;top:2px"></i><i style="left:12px;top:7px"></i><i style="left:17px;top:7px"></i><i style="left:7px;top:12px"></i><i style="left:12px;top:12px"></i><i style="left:17px;top:12px"></i><i style="left:2px;top:17px"></i><i style="left:7px;top:17px"></i><i style="left:12px;top:17px"></i></div><div class="v">48 Hours</div><div class="lb">Initial Consultation</div></div>
+<div><div class="grid3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="v">Initial Consultation</div><div class="lb">Healing Sessions</div></div>
+</div>
+</main>
+</section>
+<script>
+var mb=document.getElementById('mb'),ov=document.getElementById('ov');
+function t(o){mb.classList.toggle('open',o);ov.classList.toggle('open',o);document.body.classList.toggle('menu',o)}
+mb.onclick=function(){t(!ov.classList.contains('open'))};
+ov.querySelectorAll('a').forEach(function(a){a.onclick=function(){t(false)}});
+</script>
+</body>
+</html>

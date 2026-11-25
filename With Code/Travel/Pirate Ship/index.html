@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saltwake — Tales of the Open Sea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&family=Sorts+Mill+Goudy&family=Josefin+Sans:wght@600&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#e6e0cf;--ink:#201c15;--line:#16130e;--band:#d7d2c2;--band2:#dcd7c7}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--paper);overflow:hidden;color:var(--ink);-webkit-font-smoothing:antialiased}
+  html.fine,html.fine *{cursor:none}
+  a{color:inherit;text-decoration:none}
+
+  .frame{position:fixed;inset:14px;border-radius:34px;overflow:hidden;background:var(--paper);isolation:isolate}
+  .frame::after{content:"";position:absolute;inset:0;border:6px solid var(--line);border-radius:34px;pointer-events:none;z-index:30}
+  #shade{position:absolute;left:-12%;top:-12%;width:124%;height:124%;mix-blend-mode:multiply;opacity:.4;pointer-events:none;z-index:25;will-change:transform}
+
+  #scene{position:absolute;left:0;top:0;transform-origin:0 0}
+  #scene>*{position:absolute}
+  svg.w{left:0;top:0;overflow:visible;pointer-events:none}
+  svg.w path{vector-effect:none}
+
+  .spr{background-repeat:no-repeat;will-change:transform}
+  #ship{background-size:100% 100%;transform-origin:50% 100%}
+  #capt{transform-origin:45% 100%}
+  #palm{transform-origin:22% 100%;clip-path:polygon(0 0,100% 0,100% 61%,46% 61%,46% 100%,0 100%)}
+
+  /* copy */
+  .t1{left:150px;top:292px;width:640px;white-space:nowrap}
+  .t1 .eb{font:400 27px/1 "Sorts Mill Goudy",serif;letter-spacing:.2em;text-transform:uppercase}
+  h1,h2{font-family:"Goudy Bookletter 1911","Sorts Mill Goudy",serif;font-weight:400;text-transform:uppercase;letter-spacing:-.045em}
+  h1{font-size:88px;line-height:.92;margin-top:26px}
+  .pill{display:inline-block;position:relative;font:600 19px/1 "Josefin Sans",sans-serif;text-transform:uppercase;letter-spacing:.01em;
+    border:3px solid var(--line);border-radius:999px;background:#ece7d8;box-shadow:0 7px 0 -1px var(--paper),0 7px 0 2px var(--line);transition:transform .25s,box-shadow .25s}
+  .pill:hover{transform:translateY(3px);box-shadow:0 4px 0 -1px var(--paper),0 4px 0 2px var(--line)}
+  .t1 .pill{margin-top:40px;padding:21px 62px 17px}
+  .t2{left:1000px;top:462px;width:520px}
+  h2{font-size:72px;line-height:.98}
+  .t2 p{margin-top:22px;font:700 14.5px/1.72 "Open Sans",sans-serif;letter-spacing:.13em;text-transform:uppercase}
+  .btnw{display:inline-block;position:relative;margin-top:30px}
+  .t2 .pill{font-size:16px;padding:15px 38px 12px}
+  .tick{position:absolute;top:-15px;width:22px;height:4px;border-radius:2px;background:var(--line)}
+  .tick.a{left:-30px;transform:rotate(24deg)}.tick.b{left:-16px;top:-23px;width:13px;transform:rotate(58deg)}.tick.c{right:-30px;transform:rotate(-30deg)}
+
+  /* chrome */
+  .logo{position:absolute;left:6.6%;top:58px;z-index:20;display:flex;align-items:center;gap:9px;font:400 30px/1 "Goudy Bookletter 1911",serif;letter-spacing:-.03em}
+  .logo svg{width:26px;height:30px}
+  nav{position:absolute;right:5.4%;top:62px;z-index:20;display:flex;gap:clamp(34px,6.6vw,104px)}
+  nav a{position:relative;font:700 12.5px/1 "Open Sans",sans-serif;letter-spacing:.17em;text-transform:uppercase;padding:6px 0}
+  nav a svg{position:absolute;left:100%;top:-4px;margin-left:7px;width:17px;height:21px;opacity:0;transform:translateY(-10px) rotate(-30deg);transform-origin:50% 0;transition:opacity .2s,transform .55s cubic-bezier(.3,1.9,.5,1)}
+  nav a:hover svg{opacity:1;transform:none}
+
+  /* cursor */
+  #cur,#ping{position:fixed;left:0;top:0;z-index:50;pointer-events:none;border-radius:50%;display:none}
+  html.fine #cur,html.fine #ping{display:block}
+  #cur{width:var(--ring,40px);height:var(--ring,40px);margin:calc(var(--ring,40px)/-2);border:5px solid var(--line)}
+  #ping{width:var(--ring,40px);height:var(--ring,40px);margin:calc(var(--ring,40px)/-2);border:1.5px solid var(--line);opacity:0}
+
+  .portrait .t1{left:60px;top:190px;width:680px}
+  .portrait #shade{opacity:.26}
+  .portrait h1{font-size:98px}
+  .portrait .t1 .eb{font-size:32px}
+  .portrait .t1 .pill{font-size:26px;padding:27px 74px 22px}
+  .portrait .t2{left:64px;top:1036px;width:680px}
+  .portrait h2{font-size:96px}
+  .portrait .t2 p{font-size:21px}
+  .portrait .t2 .pill{font-size:24px;padding:22px 52px 18px}
+  @media (max-width:760px){
+    .frame,.frame::after{border-radius:22px}
+    .frame{inset:8px}
+    .logo{top:26px;font-size:22px}.logo svg{width:20px;height:23px}
+    nav{top:30px;gap:16px}
+    nav a{font-size:9.5px;letter-spacing:.1em}
+    nav a:nth-child(n+3){display:none}
+  }
+</style>
+</head>
+<body>
+<main class="frame" id="frame">
+  <div class="logo"><svg viewBox="0 0 26 30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="13" cy="4.5" r="2.8"/><path d="M13 7.5V28M7 12h12M2.5 19c.6 5.500 5.500 9 10.500 9s9.900-3.500 10.500-9"/><path d="m1 21 1.500-2.500L5 20.500M25 21l-1.500-2.500-2.500 2"/></svg>Saltwake</div>
+  <nav>
+    <a href="#" data-go="0">Voyages<svg viewBox="0 0 26 30" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><circle cx="13" cy="4.500" r="2.800"/><path d="M13 7.500V28M7 12h12M2.500 19c.6 5.500 5.500 9 10.500 9s9.900-3.500 10.500-9"/></svg></a>
+    <a href="#" data-go="1">Crew<svg viewBox="0 0 26 30" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><circle cx="13" cy="4.500" r="2.800"/><path d="M13 7.500V28M7 12h12M2.500 19c.6 5.500 5.500 9 10.500 9s9.900-3.500 10.500-9"/></svg></a>
+    <a href="#">Charts<svg viewBox="0 0 26 30" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><circle cx="13" cy="4.500" r="2.800"/><path d="M13 7.500V28M7 12h12M2.500 19c.6 5.500 5.500 9 10.500 9s9.900-3.500 10.500-9"/></svg></a>
+    <a href="#">Contact<svg viewBox="0 0 26 30" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><circle cx="13" cy="4.500" r="2.800"/><path d="M13 7.500V28M7 12h12M2.500 19c.6 5.500 5.500 9 10.500 9s9.900-3.500 10.500-9"/></svg></a>
+  </nav>
+
+  <div id="scene">
+    <div class="spr" id="cloudA"></div>
+    <svg class="w" id="wBack"></svg>
+    <div class="t1" id="t1">
+      <div class="eb">Port Royal</div>
+      <h1>Tales of<br>the open sea</h1>
+      <a href="#" class="pill" data-go="1">Set sail</a>
+    </div>
+    <div class="spr" id="ship"></div>
+    <svg class="w" id="wFront"></svg>
+    <div class="spr" id="palm"></div>
+    <div class="spr" id="capt"></div>
+    <div class="spr" id="chest"></div>
+    <div class="spr" id="bushL"></div>
+    <div class="spr" id="bushR"></div>
+    <div class="t2" id="t2">
+      <h2 id="h2">Rules of<br>the crew</h2>
+      <p id="p2">Every sailor signed the articles<br>before the anchor came up</p>
+      <span class="btnw" id="btn2"><i class="tick a"></i><i class="tick b"></i><i class="tick c"></i><a href="#" class="pill">Read more</a></span>
+    </div>
+  </div>
+
+  <canvas id="shade" width="64" height="36"></canvas>
+</main>
+<div id="ping"></div><div id="cur"></div>
+
+<script>
+(() => {
+  const P = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_';
+  const SHIP = P + '20261031_024714_39df675e-5060-4528-87dc-9d0c274815aa.png&w=1600&q=90';
+  const CAPT = P + '20261031_024703_a0298b6a-0117-47f1-8462-4be671d0407e.png&w=2048&q=90';
+  const PLANTS = P + '20261031_024704_3ccf1ac2-bec7-4fdb-bfce-ac19eca8db28.png&w=2048&q=90';
+  const SHEET = {w: 2048, h: 1360};
+  // sprite boxes on the 2048x1360 sheets: x, y, w, h
+  const BOX = {
+    capt:  [CAPT, 34, 153, 1246, 1074],
+    chest: [CAPT, 1475, 830, 446, 392],
+    palm:  [PLANTS, 19, 32, 910, 1284],
+    bushL: [PLANTS, 515, 820, 860, 496],
+    bushR: [PLANTS, 1528, 908, 499, 405]
+  };
+
+  const LAY = {
+    land: {
+      w: 1600, h: 900,
+      wave: {y0: 748, y1: 272, gap0: 1, gap1: .6},
+      ship: {x0: 1130, w0: 710, x1: 1345, w1: 176},
+      palm: {x: -92, y: -112, w: 620}, capt: {x: 120, y: 318, w: 540}, chest: {x: 640, y: 628, w: 200},
+      bushL: {x: 96, y: 716, w: 700}, bushR: {x: 1370, y: 740, w: 300}
+    },
+    port: {
+      w: 800, h: 1500,
+      wave: {y0: 1300, y1: 430, gap0: 1, gap1: .7},
+      ship: {x0: 420, w0: 620, x1: 640, w1: 150},
+      palm: {x: -150, y: -60, w: 560}, capt: {x: 20, y: 440, w: 600}, chest: {x: 560, y: 830, w: 190},
+      bushL: {x: -40, y: 1330, w: 520}, bushR: {x: 570, y: 1340, w: 260}
+    }
+  };
+  let L = LAY.land;
+
+  // wave layers, back to front. dy = offset from the main swell, fill optional, span = open line drawn over part of the width
+  const BACK = [
+    {dy: -100, a: 20, k: 1.5, v: .9, ph: 0, fill: 'var(--band)'},
+    {dy: -52, a: 23, k: 1.9, v: 1.15, ph: 1.7, fill: 'var(--paper)'}
+  ];
+  const FRONT = [
+    {dy: 0, a: 25, k: 1.7, v: 1.3, ph: 3.1, fill: 'var(--band2)'},
+    {dy: 26, a: 18, k: 2.4, v: 1, ph: 4.4, span: [.06, .44]},
+    {dy: 48, a: 22, k: 1.45, v: 1.4, ph: .6, fill: 'var(--paper)'},
+    {dy: 76, a: 15, k: 2.1, v: 1.2, ph: 5.1, span: [.52, .97]},
+    {dy: 104, a: 24, k: 1.8, v: 1.25, ph: 2.2, fill: 'var(--paper)'},
+    {dy: 130, a: 14, k: 2.7, v: 1, ph: 1.1, span: [.0, .62]},
+    {dy: 158, a: 20, k: 1.6, v: 1.1, ph: 3.8}
+  ];
+
+  const $ = id => document.getElementById(id);
+  const scene = $('scene'), frame = $('frame');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const mix = (a, b, k) => a + (b - a) * k;
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const io = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+  const out = k => 1 - Math.pow(1 - k, 3);
+  const back = k => 1 + 2.4 * Math.pow(k - 1, 3) + 1.4 * Math.pow(k - 1, 2);
+
+  // layout
+  let DW = 1600, DX = 0, DY = 0, S = 1;
+  const sprites = [];
+  function sprite(id) {
+    const [url, x, y, w, h] = BOX[id], el = $(id);
+    el.style.backgroundImage = `url("${url}")`;
+    el.style.backgroundSize = `${SHEET.w / w * 100}% ${SHEET.h / h * 100}%`;
+    el.style.backgroundPosition = `${x / (SHEET.w - w) * 100}% ${y / (SHEET.h - h) * 100}%`;
+    el.__a = h / w;
+    sprites.push(id);
+  }
+  Object.keys(BOX).forEach(sprite);
+  $('ship').style.backgroundImage = `url("${SHIP}")`;
+  $('cloudA').innerHTML = '<svg viewBox="0 0 300 80" width="300" height="80"><path fill="#d3cebe" d="M0 79c14-3 26-3 38-10-4-16 10-30 30-26 6-22 42-34 62-16 16-12 42-6 50 14 10-2 18 2 22 8 24 22 66 26 98 30z"/></svg>';
+
+  function resize() {
+    const W = frame.clientWidth, H = frame.clientHeight, pt = H > W;
+    L = pt ? LAY.port : LAY.land;
+    document.documentElement.classList.toggle('portrait', pt);
+    S = Math.min(W / L.w, H / L.h);
+    DW = W / S; const DH = H / S;
+    DX = (DW - L.w) / 2; DY = (DH - L.h) / 2;
+    scene.style.width = L.w + 'px'; scene.style.height = L.h + 'px';
+    scene.style.transform = `translate(${DX * S}px,${DY * S}px) scale(${S})`;
+    for (const id of ['wBack', 'wFront']) { const s = $(id); s.setAttribute('width', L.w); s.setAttribute('height', L.h); }
+    for (const id of sprites) { const c = L[id], el = $(id); if (!c) continue; el.style.width = c.w + 'px'; el.style.height = c.w * el.__a + 'px'; el.style.left = c.x + 'px'; el.style.top = c.y + 'px'; }
+  }
+
+  // waves
+  const yAt = (l, x, t, p) => {
+    const W = L.wave, base = mix(W.y0, W.y1, p) + l.dy * mix(W.gap0, W.gap1, p);
+    const a = l.a * mix(1, .72, p), f = 2 * Math.PI / 1100 * l.k * (1 - .35 * p);
+    return base + a * Math.sin(f * x + t * l.v + l.ph) + a * .45 * Math.sin(f * 2.3 * x - t * l.v * .7 + l.ph * 1.7);
+  };
+  const paths = {};
+  function build(id, layers) {
+    const NS = 'http://www.w3.org/2000/svg', svg = $(id);
+    paths[id] = layers.map(l => {
+      const a = document.createElementNS(NS, 'path');
+      a.setAttribute('stroke', 'var(--line)'); a.setAttribute('stroke-width', 3.2); a.setAttribute('stroke-linecap', 'round');
+      a.setAttribute('fill', l.fill || 'none'); svg.appendChild(a); return a;
+    });
+  }
+  build('wBack', BACK); build('wFront', FRONT);
+  function drawWaves(id, layers, t, p) {
+    const x0 = -DX - 20, x1 = L.w + DX + 20, H = L.h + DY + 40;
+    layers.forEach((l, n) => {
+      const a = l.span ? x0 + (x1 - x0) * l.span[0] : x0, b = l.span ? x0 + (x1 - x0) * l.span[1] : x1;
+      let d = '';
+      for (let x = a, first = 1; ; x += 22) {
+        const q = Math.min(x, b);
+        d += (first ? 'M' : 'L') + q.toFixed(1) + ' ' + yAt(l, q, t, p).toFixed(1); first = 0;
+        if (q >= b) break;
+      }
+      if (l.fill) d += `L${x1} ${H}L${x0} ${H}Z`;
+      paths[id][n].setAttribute('d', d);
+    });
+  }
+
+  // transition: p is a pure function of (from, to, start)
+  const DUR = reduced ? 1 : 2100;
+  let pFrom = 0, pTo = 0, pT0 = -1e9, p = 0;
+  function go(to) {
+    if (to === pTo) return;
+    pFrom = p; pTo = to; pT0 = performance.now();
+  }
+  document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(+a.dataset.go); }));
+  document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+  let wheelLock = 0;
+  addEventListener('wheel', e => { const n = performance.now(); if (n < wheelLock || Math.abs(e.deltaY) < 8) return; wheelLock = n + 1200; go(e.deltaY > 0 ? 1 : 0); }, {passive: true});
+
+  // cursor
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  document.documentElement.classList.toggle('fine', fine);
+  const cur = $('cur'), ping = $('ping');
+  let mx = innerWidth * .6, my = innerHeight * 1.1, cx = mx, cy = my, down = 0, hot = 0, pingT = -1e9, px = 0, py = 0;
+  addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; hot = e.target.closest && e.target.closest('a') ? 1 : 0; });
+  addEventListener('pointerdown', e => { down = 1; pingT = performance.now(); px = e.clientX; py = e.clientY; });
+  addEventListener('pointerup', () => { down = 0; });
+
+  // soft palm-frond shade falling across the page
+  (function shade() {
+    const c = $('shade').getContext('2d'), W = 128, H = 72;
+    c.scale(.5, .5);
+    c.fillStyle = '#fff'; c.fillRect(0, 0, W, H);
+    c.strokeStyle = 'rgba(120,114,96,.9)'; c.lineCap = 'round';
+    for (const [x0, y0, x1, y1, w] of [[-10, 26, 38, -8, 8], [-8, 46, 58, -2, 5], [-10, 62, 74, 6, 4], [14, 78, 96, 16, 4], [40, 82, 118, 22, 3], [78, 80, 140, 34, 5], [-12, 74, 22, 56, 6]]) {
+      c.lineWidth = w; c.beginPath(); c.moveTo(x0, y0); c.quadraticCurveTo((x0 + x1) / 2 + 6, (y0 + y1) / 2 + 8, x1, y1); c.stroke();
+    }
+  })();
+
+  function tf(el, x, y, s = 1, r = 0) { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; }
+
+  const t0 = performance.now();
+  let last = t0;
+  function render(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const t = reduced ? 0 : (now - t0) / 1000;
+    const k = seg(now, pT0, pT0 + DUR); p = mix(pFrom, pTo, io(k));
+    drawWaves('wBack', BACK, t, p); drawWaves('wFront', FRONT, t, p);
+
+    // ship rides the main swell, shrinking to the horizon
+    const c = L.ship, sw = mix(c.w0, c.w1, p), sx = mix(c.x0, c.x1, p), sh = sw * 2002 / 1961;
+    const ship = $('ship'), wy = yAt(FRONT[0], sx, t, p);
+    const slope = (yAt(FRONT[0], sx + 90, t, p) - yAt(FRONT[0], sx - 90, t, p)) / 180;
+    ship.style.width = sw + 'px'; ship.style.height = sh + 'px';
+    ship.style.left = sx - sw / 2 + 'px'; ship.style.top = wy + sw * .05 - sh + 'px';
+    ship.style.transform = `rotate(${(Math.atan(slope) * 57.3 * .75).toFixed(2)}deg)`;
+
+    const cl = $('cloudA');
+    cl.style.left = ((L.w * .72 - t * 16) % (L.w + 700) + L.w + 700) % (L.w + 700) - 400 + 'px';
+    cl.style.top = (L === LAY.land ? 150 : 110) + 'px';
+    cl.style.opacity = 1 - seg(p, .3, .7);
+
+    // copy of scene one sinks behind the rising water
+    const intro = out(seg(now, t0 + 200, t0 + 1100));
+    const t1 = $('t1');
+    t1.style.opacity = intro * (1 - seg(p, .62, .7));
+    tf(t1, 0, (1 - intro) * 26 - p * 40);
+    t1.style.pointerEvents = p > .1 ? 'none' : '';
+    document.querySelector('.logo').style.opacity = 1 - seg(p, .12, .3);
+
+    // the island slides in from the left, foreground rises last
+    const e = io(seg(p, .04, .92)), sway = Math.sin(t * .8);
+    tf($('palm'), mix(-L.palm.w - 80, 0, e), mix(-170, 0, e), 1, sway * .7);
+    tf($('capt'), mix(-L.capt.w - 160, 0, e), 0, 1, Math.sin(t * 1.1) * .5 * p);
+    tf($('chest'), mix(-L.chest.w - 720, 0, e), mix(120, 0, e));
+    const b = out(seg(p, .5, 1));
+    tf($('bushL'), 0, mix(340, 0, b), 1); tf($('bushR'), 0, mix(300, 0, b), 1);
+
+    const h = $('h2'), hk = seg(p, .42, .82);
+    h.style.opacity = mix(0, 1, hk * hk); tf(h, 0, mix(70, 0, out(hk)));
+    const pk = seg(p, .76, .92), pe = $('p2');
+    pe.style.opacity = pk; tf(pe, 0, mix(16, 0, pk));
+    const bk = seg(p, .86, 1), be = $('btn2');
+    be.style.opacity = bk; be.style.transform = `scale(${mix(.7, 1, back(bk))})`;
+    $('t2').style.pointerEvents = p > .9 ? '' : 'none';
+
+    // shade drifts like fronds in a light wind
+    $('shade').style.transform = `translate(${(Math.sin(t * .35) * 2.2).toFixed(2)}%,${(Math.cos(t * .27) * 1.6).toFixed(2)}%) rotate(${(Math.sin(t * .22) * .8).toFixed(2)}deg)`;
+
+    if (fine) {
+      const f = 1 - Math.exp(-dt * 22);
+      cx += (mx - cx) * f; cy += (my - cy) * f;
+      cur.style.transform = `translate(${cx}px,${cy}px) scale(${down ? .7 : hot ? 1.35 : 1})`;
+      const pk2 = seg(now, pingT, pingT + 650);
+      ping.style.opacity = pk2 < 1 ? 1 - pk2 : 0;
+      ping.style.transform = `translate(${px}px,${py}px) scale(${1 + out(pk2) * 1.9})`;
+    }
+  }
+
+  resize(); addEventListener('resize', resize);
+  (function loop(n) { render(n); requestAnimationFrame(loop); })(t0);
+})();
+</script>
+</body>
+</html>

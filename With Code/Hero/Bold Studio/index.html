@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VANGUARD</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            podium: ['"FSP DEMO - PODIUM Sharp 4.11"', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    .font-podium { font-family: 'FSP DEMO - PODIUM Sharp 4.11', sans-serif; }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
+    .animate-fade-up-delay-1 { animation: fade-up 0.8s ease-out 0.2s forwards; opacity: 0; }
+    .animate-fade-up-delay-2 { animation: fade-up 0.8s ease-out 0.4s forwards; opacity: 0; }
+    .animate-fade-up-delay-3 { animation: fade-up 0.8s ease-out 0.6s forwards; opacity: 0; }
+    .animate-fade-up-delay-4 { animation: fade-up 0.8s ease-out 0.8s forwards; opacity: 0; }
+
+    .mobile-overlay { transition: all 0.5s ease; }
+    .mobile-overlay.closed { opacity: 0; visibility: hidden; }
+    .mobile-overlay.open { opacity: 1; visibility: visible; }
+    .mobile-overlay .nav-link { transition: all 0.3s ease; }
+  </style>
+</head>
+<body>
+  <div class="relative h-screen w-full overflow-hidden bg-black">
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260606_154941_df1a96e1-a06f-450c-bd02-d863414cc1a0.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu" class="mobile-overlay closed fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex-col md:hidden flex">
+      <div class="flex items-center justify-between px-6 py-5">
+        <div class="font-podium text-white text-2xl font-bold tracking-wider uppercase">VANGUARD</div>
+        <button onclick="closeMenu()" class="text-white p-1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div class="flex-1 flex flex-col items-start justify-center px-8 gap-6">
+        <a href="#" onclick="closeMenu()" class="nav-link font-podium text-white text-4xl sm:text-5xl uppercase tracking-wide hover:opacity-70" style="transition-delay:100ms">Projects</a>
+        <a href="#" onclick="closeMenu()" class="nav-link font-podium text-white text-4xl sm:text-5xl uppercase tracking-wide hover:opacity-70" style="transition-delay:180ms">Studio</a>
+        <a href="#" onclick="closeMenu()" class="nav-link font-podium text-white text-4xl sm:text-5xl uppercase tracking-wide hover:opacity-70" style="transition-delay:260ms">Offerings</a>
+        <a href="#" onclick="closeMenu()" class="nav-link font-podium text-white text-4xl sm:text-5xl uppercase tracking-wide hover:opacity-70" style="transition-delay:340ms">Inquire</a>
+        <a href="#" onclick="closeMenu()" class="nav-link mt-6 flex items-center gap-3 border border-white/30 px-6 py-3 text-white text-xs font-inter tracking-widest uppercase" style="transition-delay:420ms">
+          GET IN TOUCH
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Content Layer -->
+    <div class="relative z-10 flex flex-col h-full">
+      <!-- Navigation -->
+      <nav class="flex items-center justify-between px-6 sm:px-10 lg:px-16 py-5 lg:py-7">
+        <div class="font-podium text-white text-2xl sm:text-3xl font-bold tracking-wider uppercase">VANGUARD</div>
+
+        <div class="hidden md:flex items-center gap-10 lg:gap-14">
+          <a href="#" class="text-white/80 hover:text-white text-sm font-inter tracking-widest uppercase transition-colors duration-300">Projects</a>
+          <a href="#" class="text-white/80 hover:text-white text-sm font-inter tracking-widest uppercase transition-colors duration-300">Studio</a>
+          <a href="#" class="text-white/80 hover:text-white text-sm font-inter tracking-widest uppercase transition-colors duration-300">Offerings</a>
+          <a href="#" class="text-white/80 hover:text-white text-sm font-inter tracking-widest uppercase transition-colors duration-300">Inquire</a>
+        </div>
+
+        <a href="#" class="hidden md:flex items-center gap-3 border border-white/30 hover:border-white/60 px-6 py-3 text-white text-xs font-inter tracking-widest uppercase transition-all duration-300 hover:bg-white/10">
+          GET IN TOUCH
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+        </a>
+
+        <!-- Mobile menu button -->
+        <button onclick="openMenu()" class="md:hidden text-white">
+          <div class="space-y-1.5">
+            <div class="w-6 h-0.5 bg-white"></div>
+            <div class="w-6 h-0.5 bg-white"></div>
+            <div class="w-4 h-0.5 bg-white"></div>
+          </div>
+        </button>
+      </nav>
+
+      <!-- Hero Content -->
+      <div class="flex-1 flex flex-col justify-center px-5 sm:px-10 lg:px-16 pb-6 sm:pb-8">
+        <!-- Tagline -->
+        <div class="animate-fade-up flex items-center gap-3 mb-6 lg:mb-8">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/70"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 .635.517l5.985 1.588a.5.5 0 0 1 .271.852l-4.392 4.102a1 1 0 0 0-.308.655l-.143 6.2a.5.5 0 0 1-.724.442l-5.477-2.71a1 1 0 0 0-.884 0l-5.477 2.71a.5.5 0 0 1-.724-.442l-.143-6.2a1 1 0 0 0-.308-.655L.309 11.827a.5.5 0 0 1 .271-.852l5.985-1.588a1 1 0 0 0 .635-.517z"/></svg>
+          <span class="text-white/70 text-xs sm:text-sm font-inter tracking-[0.3em] uppercase">World-Class Digital Collective</span>
+        </div>
+
+        <!-- Main Heading -->
+        <div class="animate-fade-up-delay-1">
+          <h1 class="font-podium text-white uppercase leading-[0.92] tracking-tight">
+            <span class="block" style="font-size: clamp(2.8rem, 8vw, 7rem);">Design.</span>
+            <span class="block" style="font-size: clamp(2.8rem, 8vw, 7rem);">Disrupt.</span>
+            <span class="block" style="font-size: clamp(2.8rem, 8vw, 7rem);">Conquer.</span>
+          </h1>
+        </div>
+
+        <!-- Subtext -->
+        <p class="animate-fade-up-delay-2 mt-6 lg:mt-8 text-white/70 text-sm sm:text-base font-inter leading-relaxed max-w-md">
+          We build fierce brand identities<br>
+          that don't just turn heads &mdash; <span class="text-white font-semibold">they lead.</span>
+        </p>
+
+        <!-- CTA Row -->
+        <div class="animate-fade-up-delay-3 mt-8 lg:mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
+          <a href="#" class="group flex items-center gap-3 bg-black hover:bg-neutral-900 px-5 sm:px-7 py-3 sm:py-4 text-white text-[11px] sm:text-xs font-inter tracking-widest uppercase transition-all duration-300">
+            SEE OUR WORK
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+          <div class="hidden sm:flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/50"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            <div class="text-white/60 text-xs font-inter tracking-wider uppercase leading-tight">
+              Top-Rated<br>Brand Studio
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="animate-fade-up-delay-4 mt-8 sm:mt-10 lg:mt-14 flex flex-wrap gap-6 sm:gap-12 lg:gap-16">
+          <div>
+            <div class="font-inter text-white text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight">250+</div>
+            <div class="text-white/50 text-[9px] sm:text-xs font-inter tracking-widest uppercase mt-1">Brands Transformed</div>
+          </div>
+          <div>
+            <div class="font-inter text-white text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight">95%</div>
+            <div class="text-white/50 text-[9px] sm:text-xs font-inter tracking-widest uppercase mt-1">Client Retention</div>
+          </div>
+          <div>
+            <div class="font-inter text-white text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight">10+</div>
+            <div class="text-white/50 text-[9px] sm:text-xs font-inter tracking-widest uppercase mt-1">Years in the Game</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.remove('closed');
+      menu.classList.add('open');
+      const links = menu.querySelectorAll('.nav-link');
+      links.forEach((link, i) => {
+        link.style.opacity = '1';
+        link.style.transform = 'translateY(0)';
+      });
+    }
+    function closeMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const links = menu.querySelectorAll('.nav-link');
+      links.forEach((link) => {
+        link.style.opacity = '0';
+        link.style.transform = 'translateY(20px)';
+      });
+      setTimeout(() => {
+        menu.classList.remove('open');
+        menu.classList.add('closed');
+      }, 300);
+    }
+    // Initialize nav links as hidden
+    document.addEventListener('DOMContentLoaded', () => {
+      const links = document.querySelectorAll('#mobileMenu .nav-link');
+      links.forEach(link => {
+        link.style.opacity = '0';
+        link.style.transform = 'translateY(20px)';
+      });
+    });
+  </script>
+</body>
+</html>

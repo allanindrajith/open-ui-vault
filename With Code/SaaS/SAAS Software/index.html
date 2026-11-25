@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convix Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;background:#ededed;color:#171717;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg{display:block}
+.page{min-height:100vh;width:100%;padding:12px}
+.hero{position:relative;width:100%;height:calc(100vh - 24px);overflow:hidden;background:#d9d9d9;border-radius:16px}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.hero .ov{position:absolute;inset:0;background:rgba(255,255,255,.1)}
+.fg{position:relative;z-index:10}
+.nav-wrap{display:flex;justify-content:center;padding:16px 12px 0}
+.pill{background:#fff;border-radius:999px;box-shadow:0 1px 2px rgba(0,0,0,.05);border:1px solid #e5e5e5;padding:8px;width:100%;max-width:760px;position:relative;display:flex;align-items:center}
+.logo{width:28px;height:28px;flex-shrink:0}
+.links{display:none;gap:24px;font-size:14px;margin-left:32px;align-items:center}
+.links a{display:flex;align-items:center;gap:6px;color:#171717;text-decoration:none}
+.links .dot{width:1.5px;height:1.5px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #000}
+.links .pages{color:#ef4d23;gap:4px}
+.right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.cart{display:none;color:#404040}
+.ea{background:#ef4d23;color:#fff;border-radius:999px;font-size:13px;font-weight:600;padding:6px 6px 6px 14px;display:inline-flex;align-items:center;gap:8px}
+.ea .l-d{display:none}
+.ea .c{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center}
+.burger{padding:6px;color:#171717}
+.menu{display:none;position:absolute;top:100%;left:8px;right:8px;margin-top:8px;background:#fff;border-radius:16px;box-shadow:0 10px 15px rgba(0,0,0,.1);border:1px solid #e5e5e5;padding:12px;z-index:20;flex-direction:column;gap:4px;text-align:left}
+.menu.open{display:flex}
+.menu a{padding:10px 12px;font-size:14px;color:#171717;text-decoration:none;border-radius:10px;display:flex;align-items:center;gap:6px}
+.menu a:hover{background:#f5f5f5}
+.menu a.pages{color:#ef4d23}
+.content{display:flex;flex-direction:column;align-items:center;padding:40px 16px 32px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:6px 16px;box-shadow:0 1px 2px rgba(0,0,0,.05);font-size:13px}
+.badge i{width:6px;height:6px;border-radius:50%;background:#ef4d23}
+h1{margin-top:20px;max-width:56rem;font-size:clamp(36px,8vw,72px);line-height:1.05;font-weight:500;letter-spacing:-.02em}
+h1 span{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.sub{margin-top:16px;color:#404040;padding:0 8px;font-size:clamp(13px,3.5vw,16px)}
+.cta{margin-top:24px;display:inline-flex;align-items:center;gap:12px;background:#0b0f1a;color:#fff;border-radius:999px;padding:8px 8px 8px 24px;font-size:14px}
+.cta .c{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}
+.dwrap{padding:0 12px}
+.tray{background:#f5f2ee;border-radius:24px;padding:16px;width:100%;max-width:880px;margin:0 auto}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+.card{background:#fff;border-radius:16px;padding:20px;text-align:left}
+.hd{display:flex;gap:8px;font-size:13px;align-items:baseline}
+.hd b{color:#ef4d23;font-weight:500}
+.hd span{color:#525252}
+.big{display:flex;align-items:center;gap:8px;margin-top:10px}
+.big strong{font-size:28px;font-weight:600}
+.pl{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-size:11px}
+.pl.red{background:#fef2f2;color:#dc2626}
+.pl.n{background:#f5f5f5;color:#525252}
+.cap{font-size:12px;color:#737373;margin-top:6px}
+.tgt{text-align:center;font-size:12px;color:#404040;margin-top:18px}
+.gauge{max-width:260px;margin:4px auto 0}
+.gl{display:flex;justify-content:space-between;font-size:11px;color:#737373;max-width:260px;margin:0 auto;padding:0 12px}
+.tog{display:flex;background:#f5f5f5;border-radius:999px;padding:4px;margin-top:12px}
+.tog button{flex:1;padding:6px 8px;border-radius:999px;font-size:12px;color:#737373}
+.tog button.on{background:#fff;color:#171717;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.form{display:flex;flex-direction:column;gap:12px}
+.form label{display:block;font-size:12px;color:#404040;margin-bottom:6px}
+.dd{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid #e5e5e5;border-radius:8px;padding:8px 12px;font-size:13px}
+.inp{display:flex;align-items:center;gap:6px;border:1px solid #e5e5e5;border-radius:8px;padding:8px 12px;font-size:13px;color:#737373}
+.inp span{color:#171717}
+.foot{display:flex;align-items:center;gap:14px;margin-top:2px}
+.save{background:#ef4d23;color:#fff;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:500}
+.cancel{font-size:13px;text-decoration:underline;color:#404040}
+.foot svg{margin-left:auto;color:#737373}
+@media(min-width:640px){
+.page{padding:16px}
+.hero{height:calc(100vh - 32px);border-radius:24px}
+.nav-wrap{padding:24px 16px 0}
+.logo{width:32px;height:32px}
+.content{padding:64px 16px 48px}
+h1{margin-top:24px}
+.sub{margin-top:24px}
+.cta{margin-top:32px;padding:10px 8px 10px 28px}
+.cta .c{width:28px;height:28px}
+.dwrap{padding:0 16px}
+.tray{padding:24px}
+.grid{grid-template-columns:1fr 1fr;gap:16px}
+}
+@media(min-width:768px){
+.links{display:flex}
+.cart{display:block}
+.burger{display:none}
+.menu{display:none!important}
+.ea .l-m{display:none}.ea .l-d{display:inline}
+}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="hero">
+<video autoplay loop muted playsinline preload="auto" disableremoteplayback webkit-playsinline="true" x5-playsinline="true" poster="https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&q=60">
+<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260424_064411_9e9d7f84-9277-41f4-ab10-59172d89e6be.mp4" type="video/mp4"></video>
+<div class="ov"></div>
+<div class="fg">
+<div class="nav-wrap"><div class="pill">
+<svg class="logo" viewBox="0 0 32 32" fill="#ef4d23" id="logo"></svg>
+<nav class="links">
+<a href="#"><span class="dot"></span>Home</a><a href="#">Features</a><a href="#">About</a>
+<a href="#" class="pages">Pages <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a>
+</nav>
+<div class="right">
+<svg class="cart" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+<button class="ea"><span class="l-d">Get early access</span><span class="l-m">Early access</span><span class="c"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
+<button class="burger" id="burger" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+</div>
+<div class="menu" id="menu"><a href="#">Home</a><a href="#">Features</a><a href="#">About</a><a href="#" class="pages">Pages</a></div>
+</div></div>
+
+<div class="content">
+<div class="badge"><i></i>Convix Software</div>
+<h1>Shaping <span>Agencies</span><br>of tomorrow</h1>
+<p class="sub">The All-In-One Software Powering the Future of PR Agencies</p>
+<button class="cta">Get Started <span class="c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button>
+</div>
+
+<div class="dwrap"><div class="tray"><div class="grid">
+<div class="card">
+<div class="hd"><b>Clicks</b><span>This Month</span></div>
+<div class="big"><strong>6,896</strong><span class="pl red"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17l-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/></svg>-3,382 (33%)</span></div>
+<div class="cap">Compared to yesterday</div>
+<div class="tgt">Month Target achieved</div>
+<div class="gauge" data-v="92" data-c="#ef4d23"></div>
+<div class="gl"><span>389K</span><span>425K</span></div>
+<div class="tog"><button class="on">Impressions</button><button>Clicks</button></div>
+</div>
+<div class="card form">
+<div><label>Show figures for</label><div class="dd">This month <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div></div>
+<div><label>Compare period by</label><div class="dd">Month-to-date (MTD) <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div></div>
+<div><label>Ste targets (This month)</label><div class="inp">#<span>10</span></div></div>
+<div><label>Ste targets (This year)</label><div class="inp">#<span>100</span></div></div>
+<div class="foot"><button class="save">Save</button><button class="cancel">Cancel</button><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+</div>
+<div class="card">
+<div class="hd"><b>Video Starts</b><span>today</span></div>
+<div class="big"><strong>0</strong><span class="pl n"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>0</span></div>
+<div class="cap">Compared to yesterday</div>
+<div class="gauge" style="margin-top:46px" data-v="68" data-c="#9ca3af"></div>
+<div class="tog"><button class="on">Video Clicks</button><button>Video Starts</button></div>
+</div>
+</div></div></div>
+</div>
+</div>
+</div>
+<script>
+var NS='http://www.w3.org/2000/svg';
+(function(){var s='';for(var i=0;i<8;i++){var a=i*Math.PI/4;s+='<circle cx="'+(16+10*Math.cos(a)).toFixed(3)+'" cy="'+(16+10*Math.sin(a)).toFixed(3)+'" r="3.5"/>'}
+s+='<circle cx="16" cy="16" r="3.5"/>';document.getElementById('logo').innerHTML=s})();
+document.querySelectorAll('.gauge').forEach(function(el){
+var v=+el.dataset.v,c=el.dataset.c,n=40,act=Math.round(v/100*n),r=80,ri=r-10,h='';
+for(var i=0;i<n;i++){var a=Math.PI+(i/(n-1))*Math.PI,co=Math.cos(a),si=Math.sin(a);
+h+='<line x1="'+(100+ri*co).toFixed(2)+'" y1="'+(100+ri*si).toFixed(2)+'" x2="'+(100+r*co).toFixed(2)+'" y2="'+(100+r*si).toFixed(2)+'" stroke="'+(i<act?c:'#d4d4d8')+'" stroke-width="2.5" stroke-linecap="round"/>'}
+h+='<text x="100" y="105" text-anchor="middle" font-size="22" font-weight="600" fill="#171717" font-family="Inter,sans-serif">'+v+'%</text>';
+el.innerHTML='<svg viewBox="0 0 200 120" width="100%">'+h+'</svg>'});
+document.getElementById('burger').addEventListener('click',function(){document.getElementById('menu').classList.toggle('open')});
+document.querySelectorAll('.tog').forEach(function(t){t.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;t.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});b.classList.add('on')})});
+</script>
+</body>
+</html>
